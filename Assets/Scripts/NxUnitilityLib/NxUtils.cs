@@ -13,7 +13,7 @@ namespace Nx
 
 		public static void ForEach<T>(this T[] array, Action<T> action)
 		{
-			Array.ForEach(array, action);
+			array.IfIsNotNullThen(a => Array.ForEach(a, action));
 		}
 
 		public static void ForEach<T>(this IEnumerable<T> list, Action<T> action)

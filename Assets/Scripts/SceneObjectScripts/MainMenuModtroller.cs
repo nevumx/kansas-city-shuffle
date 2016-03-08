@@ -30,9 +30,6 @@ public class MainMenuModtroller : MonoBehaviour
 	[SerializeField] private GameObject _helpScreenCanvas;
 	[SerializeField] private GameObject _aboutScreenCanvas;
 
-	[SerializeField]
-	private NetworkController _networkController;
-
 	private GameSettings _gameSettings;
 	public GameSettings GameSettings { get { return _gameSettings; } }
 
@@ -63,14 +60,6 @@ public class MainMenuModtroller : MonoBehaviour
 	[SerializeField]
 	private CustomPlayer[] _customPlayers;
 
-	[SerializeField]
-	private Transform _mainCameraRotator;
-
-	[SerializeField]
-	private float _cameraRotationSpeed = 5.0f;
-
-	private bool _rotateCamera;
-
 	private Menu _currentMenu = Menu.MAIN_MENU;
 	public Menu CurrentMenu
 	{
@@ -85,33 +74,24 @@ public class MainMenuModtroller : MonoBehaviour
 			{
 			case Menu.MAIN_MENU:
 				_currentMenuCanvas = _mainMenuCanvas;
-				_rotateCamera = true;
 				break;
 			case Menu.SETTINGS:
 				_currentMenuCanvas = _settingsCanvas;
-				_rotateCamera = true;
 				break;
 			case Menu.CUSTOM_GAME:
 				_currentMenuCanvas = _customGameCanvas;
-				_rotateCamera = false;
-				_mainCameraRotator.gameObject.AddLocalQuaternionRotationTween(Quaternion.identity)
-					.SetDuration(0.5f);
 				break;
 			case Menu.SERVER_SCREEN:
 				_currentMenuCanvas = _serverScreenCanvas;
-				_rotateCamera = true;
 				break;
 			case Menu.CLIENT_SCREEN:
 				_currentMenuCanvas = _clientScreenCanvas;
-				_rotateCamera = true;
 				break;
 			case Menu.HELP_SCREEN:
 				_currentMenuCanvas = _helpScreenCanvas;
-				_rotateCamera = true;
 				break;
 			case Menu.ABOUT_SCREEN:
 				_currentMenuCanvas = _aboutScreenCanvas;
-				_rotateCamera = true;
 				break;
 			default:
 				break;
@@ -128,15 +108,6 @@ public class MainMenuModtroller : MonoBehaviour
 		ReadSettings();
 		Screen.sleepTimeout = SleepTimeout.SystemSetting;
 	}
-
-	private void Update()
-	{
-		if (_rotateCamera)
-		{
-			_mainCameraRotator.IfIsNotNullThen(r => r.localEulerAngles -= Vector3.up * _cameraRotationSpeed * Time.deltaTime);
-		}
-	}
-	
 	public void On1PlayerGamePressed()
 	{
 		_gameSettings.SetupFor1PlayerGame();
@@ -256,6 +227,7 @@ public class MainMenuModtroller : MonoBehaviour
 		string settingsFilePath = Application.persistentDataPath + SAVED_SETTINGS_FILE_NAME;
 		FileStream stream = null;
 		var formatter = new BinaryFormatter();
+
 		try
 		{
 			stream = new FileStream(settingsFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
@@ -270,10 +242,12 @@ public class MainMenuModtroller : MonoBehaviour
 			formatter.Serialize(stream, _gameSettings);
 			stream.Close();
 		}
+
 		for (int i = 0, iMax = _customPlayers.Length; i < iMax; ++i)
 		{
 			_customPlayers[i].Type = _gameSettings.Players[i];
 		}
+
 		_wildCardRuleToggle.isOn = _gameSettings.WildCardRule;
 		_eliminationRuleToggle.isOn = _gameSettings.EliminationRule;
 		_optionalPlayToggle.isOn = _gameSettings.OptionalPlayRule;
@@ -295,10 +269,12 @@ public class MainMenuModtroller : MonoBehaviour
 		{
 			return;
 		}
+
 		for (int i = 0, iMax = _customPlayers.Length; i < iMax; ++i)
 		{
 			_gameSettings.Players[i] = _customPlayers[i].Type;
 		}
+
 		string settingsFilePath = Application.persistentDataPath + SAVED_SETTINGS_FILE_NAME;
 		var formatter = new BinaryFormatter();
 		var stream = new FileStream(settingsFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
