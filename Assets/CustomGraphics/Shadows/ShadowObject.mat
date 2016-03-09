@@ -93,24 +93,16 @@ Material:
         second: 0.5
       data:
         first:
-          name: _Max
-        second: 0.217
-      data:
-        first:
-          name: _Fade
-        second: 0.15
-      data:
-        first:
-          name: _Glossiness
-        second: 0.5
-      data:
-        first:
           name: _Parallax
         second: 0.02
       data:
         first:
           name: _ZWrite
         second: 1
+      data:
+        first:
+          name: _Glossiness
+        second: 0.5
       data:
         first:
           name: _BumpScale
@@ -135,6 +127,14 @@ Material:
         first:
           name: _Metallic
         second: 0
+      data:
+        first:
+          name: _Max
+        second: 0.4
+      data:
+        first:
+          name: _Fade
+        second: 0.06
     m_Colors:
       data:
         first:

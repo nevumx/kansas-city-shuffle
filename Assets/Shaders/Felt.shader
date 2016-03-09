@@ -13,7 +13,8 @@
 		
 		CGPROGRAM
 		// Physically based Standard lighting model, and enable shadows on all light types
-		#pragma surface surf StandardSpecular fullforwardshadows noambient
+		#pragma surface surf StandardSpecular fullforwardshadows 
+			//noambient
 
 		// Use shader model 3.0 target, to get nicer looking lighting
 		#pragma target 3.0
@@ -44,7 +45,7 @@
 			fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _FeltColor;
 			
 			o.Albedo = lerp(c.rgb, _PatternColor.rgb, pattern) * shadow;
-			o.Specular = _SpecularColor.rgb * shadow;
+			o.Specular = _SpecularColor.rgb;
 
 			o.Smoothness = _Glossiness;
 		}
