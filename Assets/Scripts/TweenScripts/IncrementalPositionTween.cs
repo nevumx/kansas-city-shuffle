@@ -2,11 +2,9 @@
 using System;
 using Nx;
 
-// Similar to PositionTween except its PositionTo can be changed without "jumping;"
-// The tween will simply change course towards the new position. Note that Duration won't change, though
 public class IncrementalPositionTween : Tween
 {
-	public Vector3 PositionTo = Vector3.zero;
+	public	Vector3	PositionTo	= Vector3.zero;
 
 	public IncrementalPositionTween() {}
 
@@ -24,9 +22,11 @@ public class IncrementalPositionTween : Tween
 			gameObj.transform.position = PositionTo;
 			return;
 		}
+
 		Vector3 destOffset = PositionTo - gameObj.transform.position;
 		float speed = destOffset.magnitude / timeRemaining;
 		Vector3 nextDest = gameObj.transform.position + destOffset.normalized * speed * Time.deltaTime;
+
 		if (Vector3.Distance(gameObj.transform.position, nextDest)
 			> Vector3.Distance(gameObj.transform.position, PositionTo))
 		{

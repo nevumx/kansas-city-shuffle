@@ -30,15 +30,12 @@ public class CardModViewtroller : MonoBehaviour
 		_cardText.text = _card.FormattedForCardText();
 		return this;
 	}
-	
+
 	private void Awake()
 	{
 		_viewFSM = new CardViewFSM(this, CardViewFSM.AnimState.VISIBLE);
 	}
-	
-#if NX_DEBUG
-	[Serializable]
-#endif
+
 	public class CardViewFSM
 	{
 		public enum AnimState : byte
@@ -109,9 +106,7 @@ public class CardModViewtroller : MonoBehaviour
 						SelectedState(lastState, ref returnTween);
 						break;
 					default:
-#if NX_DEBUG
 						NxUtils.LogWarning("Invalid or Unimplemented CardViewState");
-#endif
 						break;
 					}
 					return returnTween;

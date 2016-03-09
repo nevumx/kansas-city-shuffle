@@ -110,7 +110,7 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 			_submitCardsButton.gameObject.SetActive(true);
 		}
 	}
-	
+
 	private void SetButtonActiveToAdd(CardModViewtroller card, Action updateOptionsLambda)
 	{
 		card.ViewFSM.SetAnimState(CardModViewtroller.CardViewFSM.AnimState.ABLE_TO_BE_SELECTED);
@@ -120,7 +120,7 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 			updateOptionsLambda();
 		});
 	}
-	
+
 	private void SetButtonActiveToRemove(CardModViewtroller card, Action updateOptionsLambda)
 	{
 		card.ViewFSM.SetAnimState(CardModViewtroller.CardViewFSM.AnimState.SELECTED);
@@ -130,7 +130,7 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 			updateOptionsLambda();
 		});
 	}
-	
+
 	private void SetButtonInactiveToReplace(CardModViewtroller card, Action updateOptionsLambda)
 	{
 		card.ViewFSM.SetAnimState(CardModViewtroller.CardViewFSM.AnimState.VISIBLE);
@@ -141,7 +141,7 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 			updateOptionsLambda();
 		});
 	}
-	
+
 	private void SetButtonInactive(CardModViewtroller card)
 	{
 		card.ViewFSM.SetAnimState(CardModViewtroller.CardViewFSM.AnimState.VISIBLE);

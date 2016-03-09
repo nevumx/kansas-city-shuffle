@@ -4,8 +4,8 @@ using Nx;
 
 public class LocalRotationTween : Tween
 {
-	public Vector3 EulerFrom = Vector3.zero;
-	public Vector3 EulerTo = Vector3.zero;
+	public	Vector3	EulerFrom	= Vector3.zero;
+	public	Vector3	EulerTo		= Vector3.zero;
 
 	public LocalRotationTween() {}
 
@@ -14,7 +14,7 @@ public class LocalRotationTween : Tween
 		EulerFrom = from;
 		EulerTo = to;
 	}
-	
+
 	public override Action<GameObject, float, float> GetUpdateDelegate() { return OnUpdate; }
 
 	private void OnUpdate(GameObject gameObj, float percentDone, float timeRemaining)
@@ -31,7 +31,7 @@ public static class LocalRotationTweenHelperFunctions
 		tweenHolder.IfIsNullThen(() => tweenHolder = gameObj.AddComponent<TweenHolder>());
 		return AddLocalRotationTweenInternal(tweenHolder, tweenHolder.gameObject.transform.localRotation.eulerAngles, to);
 	}
-	
+
 	public static TweenHolder AddLocalRotationTween(this GameObject gameObj, Vector3 from, Vector3 to)
 	{
 		TweenHolder tweenHolder = gameObj.GetComponent<TweenHolder>();
@@ -43,12 +43,12 @@ public static class LocalRotationTweenHelperFunctions
 	{
 		return AddLocalRotationTweenInternal(tweenHolder, tweenHolder.gameObject.transform.localRotation.eulerAngles, to);
 	}
-	
+
 	public static TweenHolder AddLocalRotationTween(this TweenHolder tweenHolder, Vector3 from, Vector3 to)
 	{
 		return AddLocalRotationTweenInternal(tweenHolder, from, to);
 	}
-	
+
 	private static TweenHolder AddLocalRotationTweenInternal(TweenHolder tweenHolder, Vector3 from, Vector3 to)
 	{
 		return tweenHolder.AddTween(new LocalRotationTween(from, to)).Play();

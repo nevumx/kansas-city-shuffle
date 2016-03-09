@@ -39,7 +39,7 @@ public class GameSettings
 		NumberOfPointsToWin		= 5;
 		MaxDeviationThreshold 	= 3;
 	}
-	
+
 	public void SetupFor1PlayerGame()
 	{
 		Players = new CustomPlayer.PlayerType[4]
@@ -50,7 +50,7 @@ public class GameSettings
 			CustomPlayer.PlayerType.NONE,
 		};
 	}
-	
+
 	public void SetupFor2PlayerGame()
 	{
 		Players = new CustomPlayer.PlayerType[4]

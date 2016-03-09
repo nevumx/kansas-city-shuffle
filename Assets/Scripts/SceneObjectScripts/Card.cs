@@ -2,16 +2,7 @@
 using System;
 using System.Collections;
 
-#if NX_DEBUG
-[Serializable]
-#endif
-public
-#if NX_DEBUG
-	class
-#else
-	struct
-#endif
-	Card
+public struct Card
 {
 	public enum CardValue : byte
 	{
@@ -38,45 +29,19 @@ public
 		DIAMONDS,
 	}
 
-	// Unused for now, possibly useful in the Future
-	//public const int ACE_LOW_HIGH_OFFSET = 10;
-
-#if NX_DEBUG
-	[SerializeField]	private				CardValue	_value;
-
-	[SerializeField]	private				CardSuit	_suit;
-
-						public				CardValue	Value	{ get { return _value; } }
-						public				CardSuit	Suit	{ get { return _suit; } }
-#else
-						public	readonly	CardValue	Value;
-
-						public	readonly	CardSuit	Suit;
-#endif
-
-#if NX_DEBUG
-	private Card() {}
-#endif
+	public	readonly	CardValue	Value;
+	public	readonly	CardSuit	Suit;
 
 	public Card(CardValue value, CardSuit suit)
 	{
-#if NX_DEBUG
-		_value = value;
-		_suit = suit;
-#else
 		Value = value;
 		Suit = suit;
-#endif
 	}
 
 	public override string ToString()
 	{
 		string cardValue = null;
-#if NX_DEBUG
-		switch (_value)
-#else
 		switch (Value)
-#endif
 		{
 		case Card.CardValue.ACE:
 			cardValue = "1";
@@ -121,11 +86,8 @@ public
 			cardValue = "?";
 			break;
 		}
-#if NX_DEBUG
-		switch (_suit)
-#else
+
 		switch (Suit)
-#endif
 		{
 		case Card.CardSuit.SPADES:
 			return cardValue + "\n\u2660";

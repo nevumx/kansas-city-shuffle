@@ -4,9 +4,9 @@ using Nx;
 
 public class PositionPingPongTween : Tween
 {
-	public Vector3 PositionFrom = Vector3.zero;
-	public Vector3 PositionTo = Vector3.zero;
-	public Vector3 PositionBackTo = Vector3.zero;
+	public	Vector3	PositionFrom	= Vector3.zero;
+	public	Vector3	PositionTo		= Vector3.zero;
+	public	Vector3	PositionBackTo	= Vector3.zero;
 
 	public PositionPingPongTween() {}
 

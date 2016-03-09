@@ -18,47 +18,45 @@ public class MainMenuModtroller : MonoBehaviour
 		ABOUT_SCREEN,
 	}
 
-	const string SAVED_SETTINGS_FILE_NAME = "/TakkuSumSettings.nxs";
+						const	string			SAVED_SETTINGS_FILE_NAME	= "/TakkuSumSettings.nxs";
 
-	private GameObject _currentMenuCanvas = null;
+						private	GameObject		_currentMenuCanvas			= null;
 
-	[SerializeField] private GameObject _mainMenuCanvas;
-	[SerializeField] private GameObject _settingsCanvas;
-	[SerializeField] private GameObject _customGameCanvas;
-	[SerializeField] private GameObject _serverScreenCanvas;
-	[SerializeField] private GameObject _clientScreenCanvas;
-	[SerializeField] private GameObject _helpScreenCanvas;
-	[SerializeField] private GameObject _aboutScreenCanvas;
+	[SerializeField]	private	GameObject		_mainMenuCanvas;
+	[SerializeField]	private	GameObject		_settingsCanvas;
+	[SerializeField]	private	GameObject		_customGameCanvas;
+	[SerializeField]	private	GameObject		_serverScreenCanvas;
+	[SerializeField]	private	GameObject		_clientScreenCanvas;
+	[SerializeField]	private	GameObject		_helpScreenCanvas;
+	[SerializeField]	private	GameObject		_aboutScreenCanvas;
 
-	private GameSettings _gameSettings;
-	public GameSettings GameSettings { get { return _gameSettings; } }
+						private	GameSettings	_gameSettings;
+						public	GameSettings	GameSettings					{ get { return _gameSettings; } }
 
-	[SerializeField]
-	private Button _customPlayButton;
+	[SerializeField]	private	Button			_customPlayButton;
 
-	[SerializeField] private Toggle _wildCardRuleToggle;
-	[SerializeField] private Toggle _eliminationRuleToggle;
-	[SerializeField] private Toggle _optionalPlayToggle;
-	[SerializeField] private Toggle _refillHandRuleToggle;
-	[SerializeField] private Toggle _allOrNothingRuleToggle;
-	[SerializeField] private Toggle _maxDeviationRuleToggle;
-	[SerializeField] private Toggle _dSwitchLHCRuleToggle;
-	[SerializeField] private Toggle _seeAICardsToggle;
+	[SerializeField]	private	Toggle			_wildCardRuleToggle;
+	[SerializeField]	private	Toggle			_eliminationRuleToggle;
+	[SerializeField]	private	Toggle			_optionalPlayToggle;
+	[SerializeField]	private	Toggle			_refillHandRuleToggle;
+	[SerializeField]	private	Toggle			_allOrNothingRuleToggle;
+	[SerializeField]	private	Toggle			_maxDeviationRuleToggle;
+	[SerializeField]	private	Toggle			_dSwitchLHCRuleToggle;
+	[SerializeField]	private	Toggle			_seeAICardsToggle;
 
-	[SerializeField] private Slider _numberOfDecksSlider;
-	[SerializeField] private Slider _numberOfValuesPerSuitSlider;
-	[SerializeField] private Slider _numberOfCardsPerPlayerSlider;
-	[SerializeField] private Slider _numberOfPointsToWinSlider;
-	[SerializeField] private Slider _maxDeviationThresholdSlider;
+	[SerializeField]	private	Slider			_numberOfDecksSlider;
+	[SerializeField]	private	Slider			_numberOfValuesPerSuitSlider;
+	[SerializeField]	private	Slider			_numberOfCardsPerPlayerSlider;
+	[SerializeField]	private	Slider			_numberOfPointsToWinSlider;
+	[SerializeField]	private	Slider			_maxDeviationThresholdSlider;
 
-	[SerializeField] private Text _numberOfDecksText;
-	[SerializeField] private Text _numberOfValuesPerSuitText;
-	[SerializeField] private Text _numberOfCardsPerPlayerText;
-	[SerializeField] private Text _numberOfPointsToWinText;
-	[SerializeField] private Text _maxDeviationThresholdText;
+	[SerializeField]	private	Text			_numberOfDecksText;
+	[SerializeField]	private	Text			_numberOfValuesPerSuitText;
+	[SerializeField]	private	Text			_numberOfCardsPerPlayerText;
+	[SerializeField]	private	Text			_numberOfPointsToWinText;
+	[SerializeField]	private	Text			_maxDeviationThresholdText;
 
-	[SerializeField]
-	private CustomPlayer[] _customPlayers;
+	[SerializeField]	private	CustomPlayer[]	_customPlayers;
 
 	private Menu _currentMenu = Menu.MAIN_MENU;
 	public Menu CurrentMenu
@@ -113,97 +111,97 @@ public class MainMenuModtroller : MonoBehaviour
 		_gameSettings.SetupFor1PlayerGame();
 		PlayGame();
 	}
-	
+
 	public void On2PlayerGamePressed()
 	{
 		_gameSettings.SetupFor2PlayerGame();
 		PlayGame();
 	}
-	
+
 	public void OnSettingsPressed()
 	{
 		CurrentMenu = Menu.SETTINGS;
 	}
-	
+
 	public void OnHelpPressed()
 	{
 		CurrentMenu = Menu.HELP_SCREEN;
 	}
-	
+
 	public void OnAboutPressed()
 	{
 		CurrentMenu = Menu.ABOUT_SCREEN;
 	}
-	
+
 	public void OnCustomGamePressed()
 	{
 		CurrentMenu = Menu.CUSTOM_GAME;
 	}
-	
+
 	public void OnWildCardRuleChanged(bool newRule)
 	{
 		_gameSettings.WildCardRule = newRule;
 	}
-	
+
 	public void OnEliminationRuleChanged(bool newRule)
 	{
 		_gameSettings.EliminationRule = newRule;
 	}
-	
+
 	public void OnOptionalPlayRuleChanged(bool newRule)
 	{
 		_gameSettings.OptionalPlayRule = newRule;
 	}
-	
+
 	public void OnRefillHandRuleChanged(bool newRule)
 	{
 		_gameSettings.RefillHandRule = newRule;
 	}
-	
+
 	public void OnAllOrNothingRuleChanged(bool newRule)
 	{
 		_gameSettings.AllOrNothingRule = newRule;
 	}
-	
+
 	public void OnMaxDeviationRuleChanged(bool newRule)
 	{
 		_gameSettings.MaxDeviationRule = newRule;
 	}
-	
+
 	public void OnDSwitchLHCRuleChanged(bool newRule)
 	{
 		_gameSettings.DSwitchLBCRule = newRule;
 	}
-	
+
 	public void OnSeeAICardsToggleChanged(bool newRule)
 	{
 		_gameSettings.SeeAICards = newRule;
 	}
-	
+
 	public void OnNumberOfDecksSliderChanged(float newValue)
 	{
 		_gameSettings.NumberOfDecks = Mathf.RoundToInt(newValue);
 		_numberOfDecksText.text = newValue.ToString();
 	}
-	
+
 	public void OnNumberOfCardsPerPlayerSliderChanged(float newValue)
 	{
 		_gameSettings.NumberOfCardsPerPlayer = Mathf.RoundToInt(newValue);
 		_numberOfCardsPerPlayerText.text = newValue.ToString();
 	}
-	
+
 	public void OnNumberOfPointsToWinSliderChanged(float newValue)
 	{
 		_gameSettings.NumberOfPointsToWin = Mathf.RoundToInt(newValue);
 		_numberOfPointsToWinText.text = newValue.ToString();
 	}
-	
+
 	public void OnMaxDeviationThresholdSliderChanged(float newValue)
 	{
 		_gameSettings.MaxDeviationThreshold = Mathf.RoundToInt(newValue);
 		_maxDeviationThresholdText.text = newValue.ToString();
 	}
-	
+
 	public void OnBackToMainMenuPressed()
 	{
 		if (!Network.isServer)
@@ -212,7 +210,7 @@ public class MainMenuModtroller : MonoBehaviour
 		}
 		CurrentMenu = Menu.MAIN_MENU;
 	}
-	
+
 	public void OnPlayGamePressed()
 	{
 		if (!Network.isServer)
@@ -221,7 +219,7 @@ public class MainMenuModtroller : MonoBehaviour
 		}
 		PlayGame();
 	}
-	
+
 	private void ReadSettings()
 	{
 		string settingsFilePath = Application.persistentDataPath + SAVED_SETTINGS_FILE_NAME;
@@ -262,7 +260,7 @@ public class MainMenuModtroller : MonoBehaviour
 		_maxDeviationThresholdSlider.value = _gameSettings.MaxDeviationThreshold;
 		ValidateSettings();
 	}
-	
+
 	private void WriteSettings()
 	{
 		if (Network.isServer)

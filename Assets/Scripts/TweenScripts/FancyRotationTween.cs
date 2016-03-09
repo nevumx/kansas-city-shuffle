@@ -4,9 +4,9 @@ using Nx;
 
 public class FancyRotationTween : Tween
 {
-	public Vector3 EulerFrom = Vector3.zero;
-	public Vector3 EulerTo = Vector3.zero;
-	
+	public	Vector3	EulerFrom	= Vector3.zero;
+	public	Vector3	EulerTo		= Vector3.zero;
+
 	public FancyRotationTween() {}
 
 	public FancyRotationTween(Vector3 from, Vector3 to)
@@ -43,7 +43,7 @@ public static class FancyRotationTweenHelperFunctions
 	{
 		return AddFancyRotationTweenInternal(tweenHolder);
 	}
-	
+
 	private static TweenHolder AddFancyRotationTweenInternal(TweenHolder tweenHolder)
 	{
 		return tweenHolder.AddTween(new FancyRotationTween()).Play();

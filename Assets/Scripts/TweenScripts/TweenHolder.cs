@@ -186,19 +186,13 @@ public class TweenHolder : MonoBehaviour, Finishable
 	{
 		return -2.0f * percentDone * percentDone * (percentDone - 1.5f);
 	}
-	
-//	public static float EaseInOutPingPongAnimationCurve(float percentDone)
-//	{
-//		float cachedValue = Mathf.Abs(2.0f * percentDone - 1.0f);
-//		return 2.0f * cachedValue * cachedValue * (cachedValue - 1.5f) + 1.0f;
-//	}
-	
+
 	public static float EaseInOutPingPongAnimationCurve(float percentDone)
 	{
 		float cachedValue = Mathf.Abs(2.0f * percentDone - 1.0f);
 		return (percentDone < 0.5f ? 1.0f : -1.0f) * cachedValue * cachedValue * (cachedValue - 1.5f) + 0.5f;
 	}
-	
+
 	public static float EaseInOutPingPongAnimationCurveFastOutro(float percentDone)
 	{
 		if (percentDone > 0.5f)

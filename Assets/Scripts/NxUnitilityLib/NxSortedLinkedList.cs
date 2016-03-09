@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 namespace Nx
 {
-	[Serializable]
 	public class NxSortedLinkedList<T> : ICollection<T>, IEnumerable<T>, ICollection, IEnumerable
 	{
 		private LinkedList<T> _list = new LinkedList<T>();

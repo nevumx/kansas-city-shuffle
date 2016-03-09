@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-using System;
-using System.Collections;
-using Nx;
 
 public class TimeQuickener : MonoBehaviour
 {

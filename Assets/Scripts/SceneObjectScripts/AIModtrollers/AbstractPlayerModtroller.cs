@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Nx;
@@ -77,7 +76,8 @@ public abstract class AbstractPlayerModtroller : MonoBehaviour
 		if (_mainGameModtroller.MaxDeviationRule && direction != MainGameModtroller.PlayDirection.UNDECIDED)
 		{
 			allowedCardIndexes.AddRange(handCards.AllIndexesSuchThat(
-			                            c => Mathf.Abs(c.CardValue - cardValue) < _mainGameModtroller.MaxDeviationThreshold));
+										c => Mathf.Abs(c.CardValue - cardValue) < _mainGameModtroller.MaxDeviationThreshold));
+
 			if (allowedCardIndexes.Count <= 0)
 			{
 				Func<CardModViewtroller, CardModViewtroller, bool> AIsCloserToCardValueThanB =

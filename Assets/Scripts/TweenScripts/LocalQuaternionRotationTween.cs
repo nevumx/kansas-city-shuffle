@@ -4,8 +4,8 @@ using Nx;
 
 public class LocalQuaternionRotationTween : Tween
 {
-	public Quaternion From = Quaternion.identity;
-	public Quaternion To = Quaternion.identity;
+	public	Quaternion	From	= Quaternion.identity;
+	public	Quaternion	To		= Quaternion.identity;
 
 	public LocalQuaternionRotationTween() {}
 
@@ -14,7 +14,7 @@ public class LocalQuaternionRotationTween : Tween
 		From = from;
 		To = to;
 	}
-	
+
 	public override Action<GameObject, float, float> GetUpdateDelegate() { return OnUpdate; }
 
 	private void OnUpdate(GameObject gameObj, float percentDone, float timeRemaining)
@@ -31,7 +31,7 @@ public static class LocalQuaternionRotationTweenHelperFunctions
 		tweenHolder.IfIsNullThen(() => tweenHolder = gameObj.AddComponent<TweenHolder>());
 		return AddLocalQuaternionRotationTweenInternal(tweenHolder, tweenHolder.gameObject.transform.localRotation, to);
 	}
-	
+
 	public static TweenHolder AddLocalQuaternionRotationTween(this GameObject gameObj, Quaternion from, Quaternion to)
 	{
 		TweenHolder tweenHolder = gameObj.GetComponent<TweenHolder>();
@@ -43,12 +43,12 @@ public static class LocalQuaternionRotationTweenHelperFunctions
 	{
 		return AddLocalQuaternionRotationTweenInternal(tweenHolder, tweenHolder.gameObject.transform.localRotation, to);
 	}
-	
+
 	public static TweenHolder AddLocalQuaternionRotationTween(this TweenHolder tweenHolder, Quaternion from, Quaternion to)
 	{
 		return AddLocalQuaternionRotationTweenInternal(tweenHolder, from, to);
 	}
-	
+
 	private static TweenHolder AddLocalQuaternionRotationTweenInternal(TweenHolder tweenHolder, Quaternion from, Quaternion to)
 	{
 		return tweenHolder.AddTween(new LocalQuaternionRotationTween(from, to)).Play();
