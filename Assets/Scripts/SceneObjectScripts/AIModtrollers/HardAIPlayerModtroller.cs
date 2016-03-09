@@ -1,6 +1,5 @@
 using UnityEngine;
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using Nx;
 
@@ -10,6 +9,7 @@ public class HardAIPlayerModtroller : AIPlayerModtroller
 	{
 		MainGameModtroller.PlayDirection direction = _mainGameModtroller.Direction;
 		List<int> allowedCardIndexes = GetAllowedCardIndexes();
+
 		if (direction == MainGameModtroller.PlayDirection.UNDECIDED || allowedCardIndexes.Count > 0)
 		{
 			var allOtherCards = new List<CardModViewtroller>();
@@ -26,6 +26,7 @@ public class HardAIPlayerModtroller : AIPlayerModtroller
 						}
 					}
 				}
+
 				for (int i = 0, iMax = allowedCardIndexes.Count; i < iMax; ++i)
 				{
 					if ((direction == MainGameModtroller.PlayDirection.UP

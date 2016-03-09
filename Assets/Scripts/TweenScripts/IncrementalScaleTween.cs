@@ -4,7 +4,7 @@ using Nx;
 
 public class IncrementalScaleTween : Tween
 {
-	public Vector3 ScaleTo = Vector3.zero;
+	public	Vector3	ScaleTo	= Vector3.zero;
 
 	public IncrementalScaleTween() {}
 
@@ -22,11 +22,13 @@ public class IncrementalScaleTween : Tween
 			gameObj.transform.localScale = ScaleTo;
 			return;
 		}
+
 		Vector3 destOffset = ScaleTo - gameObj.transform.localScale;
 		float speed = destOffset.magnitude / timeRemaining;
 		Vector3 nextDest = gameObj.transform.localScale + destOffset.normalized * speed * Time.deltaTime;
+
 		if (Vector3.Distance(gameObj.transform.localScale, nextDest)
-		    > Vector3.Distance(gameObj.transform.localScale, ScaleTo))
+			> Vector3.Distance(gameObj.transform.localScale, ScaleTo))
 		{
 			gameObj.transform.localScale = gameObj.transform.localScale = ScaleTo;
 		}
@@ -50,7 +52,7 @@ public static class IncrementalScaleTweenHelperFunctions
 	{
 		return AddIncrementalScaleTweenInternal(tweenHolder, to);
 	}
-	
+
 	private static TweenHolder AddIncrementalScaleTweenInternal(TweenHolder tweenHolder, Vector3 to)
 	{
 		return tweenHolder.AddTween(new IncrementalScaleTween(to)).Play();

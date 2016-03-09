@@ -4,8 +4,8 @@ using Nx;
 
 public class QuaternionRotationTween : Tween
 {
-	public Quaternion From = Quaternion.identity;
-	public Quaternion To = Quaternion.identity;
+	public	Quaternion	From	= Quaternion.identity;
+	public	Quaternion	To		= Quaternion.identity;
 
 	public QuaternionRotationTween() {}
 
@@ -31,7 +31,7 @@ public static class QuaternionRotationTweenHelperFunctions
 		tweenHolder.IfIsNullThen(() => tweenHolder = gameObj.AddComponent<TweenHolder>());
 		return AddQuaternionRotationTweenInternal(tweenHolder, tweenHolder.gameObject.transform.rotation, to);
 	}
-	
+
 	public static TweenHolder AddQuaternionRotationTween(this GameObject gameObj, Quaternion from, Quaternion to)
 	{
 		TweenHolder tweenHolder = gameObj.GetComponent<TweenHolder>();
@@ -48,7 +48,7 @@ public static class QuaternionRotationTweenHelperFunctions
 	{
 		return AddQuaternionRotationTweenInternal(tweenHolder, from, to);
 	}
-	
+
 	private static TweenHolder AddQuaternionRotationTweenInternal(TweenHolder tweenHolder, Quaternion from, Quaternion to)
 	{
 		return tweenHolder.AddTween(new QuaternionRotationTween(from, to)).Play();

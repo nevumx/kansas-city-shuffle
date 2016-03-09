@@ -11,6 +11,7 @@ public class Hand : DynamicCardHolder
 		Vector3 leftmostPosition = transform.position - transform.right * _handMaxSizeInUnits / 2.0f;
 		float distBetweenCards = _handMaxSizeInUnits / (Mathf.Max(1.0f, (float)CardCount) + 1.0f);
 		CardModViewtroller bestCardToMimic = _CardsInTransition.Best((a, b) => a.TweenHolder.TimeRemaining < b.TweenHolder.TimeRemaining);
+
 		for (int i = 0, iMax = ReadOnlyCards.Count; i < iMax; ++i)
 		{
 			if (ReadOnlyCards[i] != inOrOutCard && ReadOnlyCards[i].ViewFSM.State != CardModViewtroller.CardViewFSM.AnimState.SELECTED)

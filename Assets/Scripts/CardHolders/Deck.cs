@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Nx;
 
 public class Deck : CardPile

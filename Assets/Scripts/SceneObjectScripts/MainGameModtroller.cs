@@ -134,6 +134,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		_commander = new Commander(_cardAnimationData);
 		Direction = PlayDirection.UNDECIDED;
 		_cardWhenDirectionWasLastUpdated = null;
+
 		if (_demoMode)
 		{
 			var demoData = new GameSettings();
@@ -156,6 +157,7 @@ public partial class MainGameModtroller : MonoBehaviour
 			demoData.NumberOfCardsPerPlayer = 5;
 			demoData.NumberOfPointsToWin = 1;
 			demoData.MaxDeviationThreshold = 3;
+
 			SetupAndStartGame(demoData);
 		}
 		else
@@ -315,6 +317,7 @@ public partial class MainGameModtroller : MonoBehaviour
 			FillDeck(onFinished: () => isFilling = false);
 			yield return new WaitUntil(() => isFilling == false);
 		}
+
 		DealToCommand dealToCommand;
 		if (_gameSettings.WildCardRule)
 		{
@@ -323,6 +326,7 @@ public partial class MainGameModtroller : MonoBehaviour
 			dealToCommand.OutTween.AddLocalRotationTween(Vector3.one * 360.0f)
 								  .AddOffsetHeightTween(_cardAnimationData.GeneralCardMoveHeight / 2.0f);
 		}
+
 		dealToCommand = new DealToCommand(_deck, _discardPile);
 		_commander.ExecuteAndAddToCurrentTurnBundle(dealToCommand);
 		dealToCommand.OutTween.AddLocalRotationTween(Vector3.one * 720.0f)
@@ -338,6 +342,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		if (_indexOfLastPlayerToPlayACard == _currentPlayer)
 		{
 			ResetDirection();
+
 			_commander.ExecuteAndAddToCurrentTurnBundle(new SetPlayerScoreCommand(this, _currentPlayer,
 				_players[_currentPlayer].Points + (_gameSettings.AllOrNothingRule ? _discardPile.CardCount : 1)));
 
@@ -346,14 +351,17 @@ public partial class MainGameModtroller : MonoBehaviour
 				_gameEndObject.SetActive(true);
 				return false;
 			}
+
 			if (_gameSettings.EliminationRule)
 			{
 				_players.ForEach(p => p.IfIsNotNullThen(() => p.Eliminated = false));
 			}
+
 			bool playerHandRefillDone = false,
 				 wildcardPileRefillDone = false,
 				 discardPileRefillDone = false;
 			StartCoroutine(RefillDeckWithPlayerHands(_cardAnimationData.DeckRefillDelayPerCard, onFinished: () => playerHandRefillDone = true));
+
 			if (_gameSettings.WildCardRule)
 			{
 				StartCoroutine(RefillDeckWithWildcardPile(_wildcardPile.CardCount != 0 ? _cardAnimationData.DeckRefillDelayPerCard * (_gameSettings.NumberOfCardsPerPlayer - 1) / _wildcardPile.CardCount
@@ -363,9 +371,11 @@ public partial class MainGameModtroller : MonoBehaviour
 			{
 				wildcardPileRefillDone = true;
 			}
+
 			StartCoroutine(RefillDeckWithDiscardPile(_discardPile.CardCount != 0 ? _cardAnimationData.DeckRefillDelayPerCard * (_gameSettings.NumberOfCardsPerPlayer - 1) / _discardPile.CardCount
 																				   : 0.0f, onFinished: () => discardPileRefillDone = true));
 			yield return new WaitUntil(() => playerHandRefillDone && wildcardPileRefillDone && discardPileRefillDone);
+
 			var shuffleDeckCommand = new ShuffleCommand(_deck, onFinished: () => CycleCurrentPlayer(onFinished: () => StartCoroutine(_gameSettings.RefillHandRule ? DealCardsToPlayers() : BeginNewRound())));
 			_commander.ExecuteAndAddToCurrentTurnBundle(shuffleDeckCommand);
 		}
@@ -466,6 +476,7 @@ public partial class MainGameModtroller : MonoBehaviour
 				cardMoveTweenWaiter.AddFinishable(dealToCommand.OutTween);
 				yield return new WaitForSeconds(_cardAnimationData.ConsecutiveCardSubmitDelay);
 			}
+
 			bool directionDidHardChange;
 			UpdateDirection(out directionDidHardChange);
 			if (_gameSettings.DSwitchLBCRule && directionDidHardChange)
@@ -488,6 +499,7 @@ public partial class MainGameModtroller : MonoBehaviour
 					cardMoveTweenWaiter.AddFinishable(dealToCommand.OutTween);
 				}
 			}
+
 			if (_gameSettings.WildCardRule && DiscardPileLastValue == WildCardValue)
 			{
 				if (_deck.CardCount <= 0)
@@ -675,7 +687,7 @@ public partial class MainGameModtroller : MonoBehaviour
 	}
 
 	private void RedoTurn()
-		{
+	{
 		((HumanPlayerModtroller) _players[_currentPlayer]).CancelCardSelection(
 			onFinished: () => StartCoroutine(_commander.RedoPlayerTurn(
 			onFinished: () => UpdateCamera(

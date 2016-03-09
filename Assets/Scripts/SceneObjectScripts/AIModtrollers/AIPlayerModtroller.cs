@@ -55,6 +55,7 @@ public abstract class AIPlayerModtroller : AbstractPlayerModtroller
 		MainGameModtroller.PlayDirection direction = _mainGameModtroller.Direction;
 		float cardValueMidpoint = Enum.GetValues(typeof(Card.CardValue)).Length / 2.0f;
 		ExtremeAverageCardSplitter splitter = new ExtremeAverageCardSplitter(this, allowedCardIndexes);
+
 		if (splitter.AverageCardIndexes.Count > 0)
 		{
 			onTurnEnded(splitter.AverageCardIndexes.AllBest((a, b) => a.Length > b.Length, (a, b) => a.Length == b.Length)
@@ -91,12 +92,12 @@ public abstract class AIPlayerModtroller : AbstractPlayerModtroller
 			}
 		}
 	}
-	
+
 	protected bool CardIsLowExtreme(int cardValue)
 	{
 		return cardValue <= Mathf.RoundToInt(Enum.GetValues(typeof(Card.CardValue)).Length * 0.25f);
 	}
-	
+
 	protected bool CardIsHighExtreme(int cardValue)
 	{
 		return cardValue >= Mathf.RoundToInt(Enum.GetValues(typeof(Card.CardValue)).Length * 0.75f);

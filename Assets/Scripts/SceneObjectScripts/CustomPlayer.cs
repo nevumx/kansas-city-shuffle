@@ -12,7 +12,7 @@ public class CustomPlayer : MonoBehaviour
 		AI_HARD,
 		NONE,
 	}
-	
+
 	[SerializeField]	private	Toggle		HumanToggle;
 	[SerializeField]	private	Toggle		AIToggle;
 	[SerializeField]	private	Toggle		NoneToggle;
@@ -72,7 +72,7 @@ public class CustomPlayer : MonoBehaviour
 			break;
 		}
 	}
-	
+
 	public void HumanToggled(bool on)
 	{
 		if (on)
@@ -80,7 +80,7 @@ public class CustomPlayer : MonoBehaviour
 			Type = PlayerType.HUMAN;
 		}
 	}
-	
+
 	public void AIToggled(bool on)
 	{
 		if (on)
@@ -88,7 +88,7 @@ public class CustomPlayer : MonoBehaviour
 			Type = HardAIToggle.isOn ? PlayerType.AI_HARD : PlayerType.AI_EASY;
 		}
 	}
-	
+
 	public void EasyAIToggled(bool on)
 	{
 		if (on)
@@ -96,7 +96,7 @@ public class CustomPlayer : MonoBehaviour
 			Type = PlayerType.AI_EASY;
 		}
 	}
-	
+
 	public void HardAIToggled(bool on)
 	{
 		if (on)
@@ -104,7 +104,7 @@ public class CustomPlayer : MonoBehaviour
 			Type = PlayerType.AI_HARD;
 		}
 	}
-	
+
 	public void NoneToggled(bool on)
 	{
 		if (on)

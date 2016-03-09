@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Nx;
 
 public class FinishableGroupWaiter
@@ -39,9 +38,7 @@ public class FinishableGroupWaiter
 	{
 		if (Done)
 		{
-#if NX_DEBUG
 			NxUtils.LogWarning("Trying to add a tween to a TweenGroupWaiter that has already expired.");
-#endif
 			return;
 		}
 		if (finishable != null)
