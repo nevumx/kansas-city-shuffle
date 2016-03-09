@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: TableCenterWoodShadowed_Mat
+  m_Shader: {fileID: 4800000, guid: 0a7d24d4ac6a9e8489e05383bd575259, type: 3}
+  m_ShaderKeywords: _NORMALMAP
+  m_LightmapFlags: 5
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+      data:
+        first:
+          name: _MainTex
+        second:
+          m_Texture: {fileID: 2800000, guid: 084056c66d1347e49a9ae3340eeab917, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _BumpMap
+        second:
+          m_Texture: {fileID: 2800000, guid: 40c1deb2c4e99354b899f0515e177514, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _DetailAlbedoMap
+        second:
+          m_Texture: {fileID: 2800000, guid: 5fd983f93483de944af96837c1eba678, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _ShadowTex
+        second:
+          m_Texture: {fileID: 8400000, guid: c15a450edd971a444aa60c8caa9458ae, type: 2}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+    m_Floats:
+      data:
+        first:
+          name: _Glossiness
+        second: 0.897
+    m_Colors:
+      data:
+        first:
+          name: _Color
+        second: {r: 0.822, g: 0.6300055, b: 0.52583826, a: 1}
+      data:
+        first:
+          name: _SpecColor
+        second: {r: 0.203, g: 0.203, b: 0.203, a: 1}
+      data:
+        first:
+          name: _ShadowTransform
+        second: {r: 0.5, g: 0.5, b: -16, a: 16}

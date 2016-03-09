@@ -6,9 +6,9 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: TableWood_Mat
-  m_Shader: {fileID: 45, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _DETAIL_MULX2 _NORMALMAP
+  m_Name: TableLeatherShadowed_Mat
+  m_Shader: {fileID: 4800000, guid: 0a7d24d4ac6a9e8489e05383bd575259, type: 3}
+  m_ShaderKeywords: _NORMALMAP
   m_LightmapFlags: 5
   m_CustomRenderQueue: 2000
   stringTagMap: {}
@@ -19,26 +19,19 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: b2be69164b1177840a59e67cc5e08aba, type: 3}
-          m_Scale: {x: 3, y: 3}
+          m_Texture: {fileID: 2800000, guid: b4a6eefa3c1e86948ae3358edfecfded, type: 3}
+          m_Scale: {x: 6, y: 6}
           m_Offset: {x: 0, y: 0}
       data:
         first:
           name: _BumpMap
         second:
-          m_Texture: {fileID: 2800000, guid: 40c1deb2c4e99354b899f0515e177514, type: 3}
-          m_Scale: {x: 1, y: 1}
+          m_Texture: {fileID: 2800000, guid: 9cf16debcac322f49a4036cf32a4eae5, type: 3}
+          m_Scale: {x: 5, y: 5}
           m_Offset: {x: 0, y: 0}
       data:
         first:
           name: _DetailNormalMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _ShadowTex
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
@@ -62,7 +55,7 @@ Material:
           name: _EmissionMap
         second:
           m_Texture: {fileID: 0}
-          m_Scale: {x: 3, y: 3}
+          m_Scale: {x: 6, y: 6}
           m_Offset: {x: 0, y: 0}
       data:
         first:
@@ -75,8 +68,8 @@ Material:
         first:
           name: _DetailAlbedoMap
         second:
-          m_Texture: {fileID: 2800000, guid: 270fad8e133130a4bad4676297348a5a, type: 3}
-          m_Scale: {x: 1, y: 1}
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 5, y: 5}
           m_Offset: {x: 0, y: 0}
       data:
         first:
@@ -87,14 +80,14 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _SpecGlossMap
+          name: _ShadowTex
         second:
-          m_Texture: {fileID: 0}
+          m_Texture: {fileID: 8400000, guid: c15a450edd971a444aa60c8caa9458ae, type: 2}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _PatternTex
+          name: _SpecGlossMap
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
@@ -114,16 +107,16 @@ Material:
         second: 0.5
       data:
         first:
-          name: _Glossiness
-        second: 0.897
-      data:
-        first:
           name: _Parallax
         second: 0.02
       data:
         first:
           name: _ZWrite
         second: 1
+      data:
+        first:
+          name: _Glossiness
+        second: 0.49
       data:
         first:
           name: _BumpScale
@@ -139,7 +132,7 @@ Material:
       data:
         first:
           name: _UVSec
-        second: 1
+        second: 0
       data:
         first:
           name: _Mode
@@ -147,7 +140,7 @@ Material:
       data:
         first:
           name: _Metallic
-        second: 0.135
+        second: 0
     m_Colors:
       data:
         first:
@@ -156,16 +149,12 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: 0.741, g: 0.5679246, b: 0.47402206, a: 1}
+        second: {r: 0.072, g: 0.06096499, b: 0.049752, a: 0.39215687}
       data:
         first:
           name: _SpecColor
-        second: {r: 0.203, g: 0.203, b: 0.203, a: 1}
+        second: {r: 0.284, g: 0.284, b: 0.284, a: 1}
       data:
         first:
           name: _ShadowTransform
-        second: {r: 0, g: 0, b: 1, a: 1}
-      data:
-        first:
-          name: _PatternColor
-        second: {r: 1, g: 1, b: 1, a: 1}
+        second: {r: 0.5, g: 0.5, b: -16, a: 16}

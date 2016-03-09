@@ -1115,7 +1115,6 @@ Transform:
   - {fileID: 687199729}
   - {fileID: 700058731}
   - {fileID: 384433886}
-  - {fileID: 1151818132}
   m_Father: {fileID: 0}
   m_RootOrder: 1
 --- !u!1 &952255011
@@ -1204,7 +1203,7 @@ Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 930376669}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 452712, guid: d086bc14f12db4a74866df6c1b491778, type: 2}
       propertyPath: m_LocalPosition.x
@@ -1236,15 +1235,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 452712, guid: d086bc14f12db4a74866df6c1b491778, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2351158, guid: d086bc14f12db4a74866df6c1b491778, type: 2}
+      propertyPath: m_UseLightProbes
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2351158, guid: d086bc14f12db4a74866df6c1b491778, type: 2}
+      propertyPath: m_ReflectionProbeUsage
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d086bc14f12db4a74866df6c1b491778, type: 2}
   m_IsPrefabParent: 0
---- !u!4 &1151818132 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 452712, guid: d086bc14f12db4a74866df6c1b491778, type: 2}
-  m_PrefabInternal: {fileID: 1151818131}
 --- !u!1 &1260569814
 GameObject:
   m_ObjectHideFlags: 0
@@ -1512,66 +1515,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1296218890}
---- !u!1 &1389417980
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1389417982}
-  - 215: {fileID: 1389417981}
-  m_Layer: 0
-  m_Name: Reflection Probe
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
---- !u!215 &1389417981
-ReflectionProbe:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1389417980}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Type: 0
-  m_Mode: 0
-  m_RefreshMode: 0
-  m_TimeSlicingMode: 0
-  m_Resolution: 128
-  m_UpdateFrequency: 0
-  m_Importance: 1
-  m_BoxSize: {x: 10, y: 10, z: 10}
-  m_BoxOffset: {x: 0, y: 0, z: 0}
-  m_NearClip: 0.3
-  m_FarClip: 1000
-  m_ShadowDistance: 100
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 0
-  m_IntensityMultiplier: 1
-  m_BlendDistance: 1
-  m_HDR: 1
-  m_BoxProjection: 0
-  m_RenderDynamicObjects: 0
-  m_UseOcclusionCulling: 1
-  m_CustomBakedTexture: {fileID: 0}
---- !u!4 &1389417982
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1389417980}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
 --- !u!1001 &1429148943
 Prefab:
   m_ObjectHideFlags: 0
@@ -1610,6 +1553,26 @@ Prefab:
     - target: {fileID: 490728, guid: 70e143caa4d19db40ae6544bfb3417a3, type: 2}
       propertyPath: m_RootOrder
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 135688, guid: 70e143caa4d19db40ae6544bfb3417a3, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 165026, guid: 70e143caa4d19db40ae6544bfb3417a3, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 171874, guid: 70e143caa4d19db40ae6544bfb3417a3, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 158292, guid: 70e143caa4d19db40ae6544bfb3417a3, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 149474, guid: 70e143caa4d19db40ae6544bfb3417a3, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 70e143caa4d19db40ae6544bfb3417a3, type: 2}
