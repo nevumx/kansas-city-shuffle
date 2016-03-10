@@ -4,7 +4,7 @@ using Nx;
 
 public class Hand : DynamicCardHolder
 {
-	[SerializeField]	private	float	_handMaxSizeInUnits	= 5.0f;
+	[SerializeField]	private	float	_handMaxSizeInUnits	= 8.1f;
 
 	protected override void RepositionCards(CardModViewtroller inOrOutCard)
 	{

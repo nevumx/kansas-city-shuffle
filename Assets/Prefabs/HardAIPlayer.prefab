@@ -190,7 +190,7 @@ MonoBehaviour:
   _cardsTextVisibility: 0
   _shuffleAnimationCamera: {fileID: 0}
   _shuffleAnimationOriginPoint: {fileID: 0}
-  _handMaxSizeInUnits: 8
+  _handMaxSizeInUnits: 8.1
 --- !u!222 &22266938
 CanvasRenderer:
   m_ObjectHideFlags: 1
