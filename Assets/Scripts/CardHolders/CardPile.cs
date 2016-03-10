@@ -4,9 +4,9 @@ using Nx;
 
 public class CardPile : DynamicCardHolder
 {
-	[SerializeField]	private	float							_pileMaxHeightInUnits			= 0.4f;
-	[SerializeField]	private	float							_maxDistBetweenCardsInUnits		= 0.05f;
-	[SerializeField]	private	bool							_keepAllButTopCardTextInvisible	= false;
+	[SerializeField]	private	float	_pileMaxHeightInUnits			= 0.4f;
+	[SerializeField]	private	float	_maxDistBetweenCardsInUnits		= 0.05f;
+	[SerializeField]	private	bool	_keepAllButTopCardTextInvisible	= false;
 
 	protected override void RepositionCards(CardModViewtroller inOrOutCard)
 	{
@@ -55,7 +55,8 @@ public class CardPile : DynamicCardHolder
 		base.OnCardSent(sentCard);
 		if (_keepAllButTopCardTextInvisible)
 		{
-			RefreshCardVisibilities();
+			ReadOnlyCards.ForEach(r => r.ViewFSM.SetTextVisibility(false));
+			ReadOnlyCards.Last().IfIsNotNullThen(c => c.ViewFSM.SetTextVisibility(true));
 		}
 	}
 
@@ -63,18 +64,13 @@ public class CardPile : DynamicCardHolder
 	{
 		if (_keepAllButTopCardTextInvisible)
 		{
-			RefreshCardVisibilities();
+			ReadOnlyCards.ForEach(r => r.ViewFSM.SetTextVisibility(false));
+			card.ViewFSM.SetTextVisibility(true);
 		}
 		else
 		{
 			base.OnCardRecieveTweenFinished(card);
 		}
-	}
-
-	private void RefreshCardVisibilities()
-	{
-		ReadOnlyCards.ForEach(r => r.ViewFSM.SetTextVisibility(false));
-		ReadOnlyCards.Last().IfIsNotNullThen(c => c.ViewFSM.SetTextVisibility(_CardsTextVisibility));
 	}
 
 	protected override Vector3 GetCardPositionAtIndex(int index)
