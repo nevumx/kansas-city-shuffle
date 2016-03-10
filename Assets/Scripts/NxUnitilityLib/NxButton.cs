@@ -5,9 +5,6 @@ namespace Nx
 {
 	public class NxButton : MonoBehaviour
 	{
-		[SerializeField]
-		private KeyCode[] _hotKeys;
-
 		private Action _onClicked;
 
 		public void AddToOnClicked(Action toAdd)
@@ -30,15 +27,5 @@ namespace Nx
 		{
 			_onClicked = null;
 		}
-
-#if UNITY_STANDALONE
-		private void Update()
-		{
-			if (_hotKeys.Exists(k => Input.GetKeyDown(k)))
-			{
-				OnClick();
-			}
-		}
-#endif
 	}
 }
