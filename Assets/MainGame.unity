@@ -66,7 +66,7 @@ LightmapSettings:
     m_FinalGather: 0
     m_FinalGatherRayCount: 1024
     m_ReflectionCompression: 2
-  m_LightingDataAsset: {fileID: 112000006, guid: 0d6e17ff3a7694a3a9cab191647a5c43,
+  m_LightingDataAsset: {fileID: 112000001, guid: 0d6e17ff3a7694a3a9cab191647a5c43,
     type: 2}
   m_RuntimeCPUUsage: 25
 --- !u!196 &5
@@ -426,7 +426,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 870b965292e024eb1999f751e89ae127, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hotKeys: 
 --- !u!114 &252865739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1084,7 +1083,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 870b965292e024eb1999f751e89ae127, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hotKeys: 
 --- !u!1 &930376668
 GameObject:
   m_ObjectHideFlags: 0
@@ -1557,27 +1555,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 490728, guid: 70e143caa4d19db40ae6544bfb3417a3, type: 2}
       propertyPath: m_RootOrder
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 135688, guid: 70e143caa4d19db40ae6544bfb3417a3, type: 2}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 165026, guid: 70e143caa4d19db40ae6544bfb3417a3, type: 2}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 171874, guid: 70e143caa4d19db40ae6544bfb3417a3, type: 2}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 158292, guid: 70e143caa4d19db40ae6544bfb3417a3, type: 2}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 149474, guid: 70e143caa4d19db40ae6544bfb3417a3, type: 2}
-      propertyPath: m_StaticEditorFlags
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 70e143caa4d19db40ae6544bfb3417a3, type: 2}
@@ -1871,7 +1849,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 870b965292e024eb1999f751e89ae127, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hotKeys: 
 --- !u!20 &1709494920
 Camera:
   m_ObjectHideFlags: 0
@@ -2010,7 +1987,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 870b965292e024eb1999f751e89ae127, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hotKeys: 200000000d000000
 --- !u!114 &1825361815
 MonoBehaviour:
   m_ObjectHideFlags: 0
