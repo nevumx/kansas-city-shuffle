@@ -7,7 +7,7 @@ Shader "TakkuSum/Text Shader Culled" {
 	SubShader {
 
 		Tags {
-			"Queue"="Transparent"
+			"Queue"="Transparent+1"
 			"IgnoreProjector"="True"
 			"RenderType"="Transparent"
 			"PreviewType"="Plane"
@@ -50,7 +50,8 @@ Shader "TakkuSum/Text Shader Culled" {
 				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
 				half3 worldNormal = mul(_Object2World, half4(normalize(v.normal), 0));
 				half l = (worldNormal.y * 0.5 + 0.5);
-				o.color = lerp(_NadirColor, _ZenithColor, l) * v.color * _Color * 2.0;
+				o.color = v.color * _Color * 2.0;
+				o.color *= lerp(_NadirColor, _ZenithColor, l);
 				o.texcoord = TRANSFORM_TEX(v.texcoord,_MainTex);
 				return o;
 			}
