@@ -1079,6 +1079,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 930376669}
+  - 114: {fileID: 930376670}
   m_Layer: 0
   m_Name: RotatingMainCamera
   m_TagString: Untagged
@@ -1104,6 +1105,19 @@ Transform:
   - {fileID: 1151818132}
   m_Father: {fileID: 0}
   m_RootOrder: 1
+--- !u!114 &930376670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 930376668}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c085ac8f5ad774ea5afed34524d9336b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Duration: 1
+  Delay: 0
 --- !u!1 &952255011
 GameObject:
   m_ObjectHideFlags: 0
@@ -2302,7 +2316,7 @@ Prefab:
     - target: {fileID: 11423022, guid: dc4e7beb3e04749539cef63af21cb996, type: 2}
       propertyPath: _mainCameraAnchor
       value: 
-      objectReference: {fileID: 930376668}
+      objectReference: {fileID: 930376670}
     - target: {fileID: 11423022, guid: dc4e7beb3e04749539cef63af21cb996, type: 2}
       propertyPath: _playerReadyButton
       value: 

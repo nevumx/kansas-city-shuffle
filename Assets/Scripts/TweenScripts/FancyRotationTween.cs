@@ -32,19 +32,17 @@ public class FancyRotationTween : Tween
 
 public static class FancyRotationTweenHelperFunctions
 {
-	public static TweenHolder AddFancyRotationTween(this GameObject gameObj)
-	{
-		TweenHolder tweenHolder = gameObj.GetComponent<TweenHolder>();
-		tweenHolder.IfIsNullThen(() => tweenHolder = gameObj.AddComponent<TweenHolder>());
-		return AddFancyRotationTweenInternal(tweenHolder);
-	}
-
 	public static TweenHolder AddFancyRotationTween(this TweenHolder tweenHolder)
 	{
 		return AddFancyRotationTweenInternal(tweenHolder);
 	}
 
-	private static TweenHolder AddFancyRotationTweenInternal(TweenHolder tweenHolder)
+	public static TweenHolder AddFancyRotationTween(this ITweenable tweenable)
+	{
+		return AddFancyRotationTweenInternal(tweenable.TweenHolder);
+	}
+
+		private static TweenHolder AddFancyRotationTweenInternal(TweenHolder tweenHolder)
 	{
 		return tweenHolder.AddTween(new FancyRotationTween()).Play();
 	}

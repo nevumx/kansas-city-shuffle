@@ -39,27 +39,6 @@ public class PositionPingPongTween : Tween
 
 public static class PositionPingPongTweenHelperFunctions
 {
-	public static TweenHolder AddPositionPingPongTween(this GameObject gameObj, Vector3 to)
-	{
-		TweenHolder tweenHolder = gameObj.GetComponent<TweenHolder>();
-		tweenHolder.IfIsNullThen(() => tweenHolder = gameObj.AddComponent<TweenHolder>());
-		return AddPositionPingPongTweenInternal(tweenHolder, tweenHolder.transform.position, to, tweenHolder.transform.position);
-	}
-
-	public static TweenHolder AddPositionPingPongTween(this GameObject gameObj, Vector3 from, Vector3 to)
-	{
-		TweenHolder tweenHolder = gameObj.GetComponent<TweenHolder>();
-		tweenHolder.IfIsNullThen(() => tweenHolder = gameObj.AddComponent<TweenHolder>());
-		return AddPositionPingPongTweenInternal(tweenHolder, from, to, from);
-	}
-
-	public static TweenHolder AddPositionPingPongTween(this GameObject gameObj, Vector3 from, Vector3 to, Vector3 backTo)
-	{
-		TweenHolder tweenHolder = gameObj.GetComponent<TweenHolder>();
-		tweenHolder.IfIsNullThen(() => tweenHolder = gameObj.AddComponent<TweenHolder>());
-		return AddPositionPingPongTweenInternal(tweenHolder, from, to, backTo);
-	}
-
 	public static TweenHolder AddPositionPingPongTween(this TweenHolder tweenHolder, Vector3 to)
 	{
 		return AddPositionPingPongTweenInternal(tweenHolder, tweenHolder.transform.position, to, tweenHolder.transform.position);
@@ -73,6 +52,21 @@ public static class PositionPingPongTweenHelperFunctions
 	public static TweenHolder AddPositionPingPongTween(this TweenHolder tweenHolder, Vector3 from, Vector3 to, Vector3 backTo)
 	{
 		return AddPositionPingPongTweenInternal(tweenHolder, from, to, backTo);
+	}
+
+	public static TweenHolder AddPositionPingPongTween(this ITweenable tweenable, Vector3 to)
+	{
+		return AddPositionPingPongTweenInternal(tweenable.TweenHolder, tweenable.gameObject.transform.position, to, tweenable.gameObject.transform.position);
+	}
+
+	public static TweenHolder AddPositionPingPongTween(this ITweenable tweenable, Vector3 from, Vector3 to)
+	{
+		return AddPositionPingPongTweenInternal(tweenable.TweenHolder, from, to, from);
+	}
+
+	public static TweenHolder AddPositionPingPongTween(this ITweenable tweenable, Vector3 from, Vector3 to, Vector3 backTo)
+	{
+		return AddPositionPingPongTweenInternal(tweenable.TweenHolder, from, to, backTo);
 	}
 
 	private static TweenHolder AddPositionPingPongTweenInternal(TweenHolder tweenHolder, Vector3 from, Vector3 to, Vector3 backTo)

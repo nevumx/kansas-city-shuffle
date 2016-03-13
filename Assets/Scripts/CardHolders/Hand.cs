@@ -22,7 +22,7 @@ public class Hand : DynamicCardHolder
 				IncrementalPositionTween posTweenToShift;
 				if ((posTweenToShift = cardShiftTween.GetTweenOfType<IncrementalPositionTween>()) == null) // Careful (=)
 				{
-					ReadOnlyCards[i].TweenHolder.AddIncrementalPositionTween(targetPosition)
+					ReadOnlyCards[i].AddIncrementalPositionTween(targetPosition)
 						.SetAnimationCurveFunction(TweenHolder.LinearAnimationCurve);
 				}
 				else

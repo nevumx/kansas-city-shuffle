@@ -168,7 +168,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		}
 	}
 
-	private abstract class TweenedCommand : Command, Finishable
+	private abstract class TweenedCommand : Command, IFinishable
 	{
 		public abstract TweenHolder OutTween { get; }
 
@@ -262,7 +262,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		}
 	}
 
-	private class ShuffleCommand : Command, Finishable
+	private class ShuffleCommand : Command, IFinishable
 	{
 		private CardHolder _cardHolderToShuffle;
 		private int[] _unShuffleData;
@@ -300,7 +300,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		}
 	}
 
-	private class RefillDeckCommand : Command, Finishable
+	private class RefillDeckCommand : Command, IFinishable
 	{
 		private Deck _deckToRefill;
 		private CardHolder _cardHolderToRefillFrom;
@@ -420,7 +420,7 @@ public partial class MainGameModtroller : MonoBehaviour
 			var animationWaiter = new FinishableGroupWaiter(onFinished);
 			for (LinkedListNode<Command> node = bundle.Last; node != null; node = node.Previous)
 			{
-				if (node.Value is Finishable)
+				if (node.Value is IFinishable)
 				{
 					bool isTweenedCommand = node.Value is TweenedCommand;
 					if (isTweenedCommand)
@@ -431,7 +431,7 @@ public partial class MainGameModtroller : MonoBehaviour
 					{
 						yield return new WaitUntil(() => animationWaiter.NumFinishableToWaitFor <= 0);
 					}
-					animationWaiter.AddFinishable((Finishable) node.Value);
+					animationWaiter.AddFinishable((IFinishable) node.Value);
 					if (isTweenedCommand)
 					{
 						yield return new WaitForSeconds(_cardAnimationData.UndoTurnDelay);
@@ -439,7 +439,7 @@ public partial class MainGameModtroller : MonoBehaviour
 					else
 					{
 						bool finished = false;
-						((Finishable) node.Value).AddToOnFinished(() => finished = true);
+						((IFinishable) node.Value).AddToOnFinished(() => finished = true);
 						node.Value.Undo();
 						yield return new WaitUntil(() => finished == true);
 					}
@@ -466,7 +466,7 @@ public partial class MainGameModtroller : MonoBehaviour
 			var animationWaiter = new FinishableGroupWaiter(onFinished);
 			for (LinkedListNode<Command> node = bundle.First; node != null; node = node.Next)
 			{
-				if (node.Value is Finishable)
+				if (node.Value is IFinishable)
 				{
 					bool isTweenedCommand = node.Value is TweenedCommand;
 					if (isTweenedCommand)
@@ -477,7 +477,7 @@ public partial class MainGameModtroller : MonoBehaviour
 					{
 						yield return new WaitUntil(() => animationWaiter.NumFinishableToWaitFor <= 0);
 					}
-					animationWaiter.AddFinishable((Finishable) node.Value);
+					animationWaiter.AddFinishable((IFinishable) node.Value);
 					if (isTweenedCommand)
 					{
 						yield return new WaitForSeconds(_cardAnimationData.UndoTurnDelay);
@@ -485,7 +485,7 @@ public partial class MainGameModtroller : MonoBehaviour
 					else
 					{
 						bool finished = false;
-						((Finishable) node.Value).AddToOnFinished(() => finished = true);
+						((IFinishable) node.Value).AddToOnFinished(() => finished = true);
 						node.Value.Redo();
 						yield return new WaitUntil(() => finished == true);
 					}

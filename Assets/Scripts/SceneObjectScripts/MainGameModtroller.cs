@@ -32,7 +32,7 @@ public partial class MainGameModtroller : MonoBehaviour
 	[SerializeField]	private				CardPile					_wildcardPile;
 						public				int							WildCardValue			{ get { return _wildcardPile.ReadOnlyCards.Last().CardValue; } }
 
-	[SerializeField]	private				GameObject					_mainCameraAnchor;
+	[SerializeField]	private				TweenHolder					_mainCameraAnchor;
 
 	[SerializeField]	private				NxDynamicButton				_playerReadyButton;
 	[SerializeField]	private				GameObject					_submitCardsButton;

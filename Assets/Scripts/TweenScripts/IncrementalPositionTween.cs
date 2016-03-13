@@ -41,16 +41,14 @@ public class IncrementalPositionTween : Tween
 
 public static class IncrementalPositionTweenHelperFunctions
 {
-	public static TweenHolder AddIncrementalPositionTween(this GameObject gameObj, Vector3 to)
-	{
-		TweenHolder tweenHolder = gameObj.GetComponent<TweenHolder>();
-		tweenHolder.IfIsNullThen(() => tweenHolder = gameObj.AddComponent<TweenHolder>());
-		return AddIncrementalPositionTweenInternal(tweenHolder, to);
-	}
-
 	public static TweenHolder AddIncrementalPositionTween(this TweenHolder tweenHolder, Vector3 to)
 	{
 		return AddIncrementalPositionTweenInternal(tweenHolder, to);
+	}
+
+	public static TweenHolder AddIncrementalPositionTween(this ITweenable tweenable, Vector3 to)
+	{
+		return AddIncrementalPositionTweenInternal(tweenable.TweenHolder, to);
 	}
 
 	private static TweenHolder AddIncrementalPositionTweenInternal(TweenHolder tweenHolder, Vector3 to)

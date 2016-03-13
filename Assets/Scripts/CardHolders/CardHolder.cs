@@ -19,7 +19,7 @@ public class CardHolder : MonoBehaviour
 						public		CardModViewtroller.CardViewFSM.AnimState	CardsAnimState			{ get { return _cardsAnimState; } }
 	[SerializeField]	private		bool										_cardsTextVisibility;
 						protected	bool										_CardsTextVisibility	{ get { return _cardsTextVisibility; } }
-	[SerializeField]	private		GameObject									_shuffleAnimationCamera;
+	[SerializeField]	private		TweenHolder									_shuffleAnimationCamera;
 	[SerializeField]	private		Transform									_shuffleAnimationOriginPoint;
 
 	public ReadOnlyCollection<CardModViewtroller> ReadOnlyCards
@@ -86,7 +86,7 @@ public class CardHolder : MonoBehaviour
 						   bool fancyEntrance = false, float angleOffsetForFancyEntrance = 0.0f)
 	{
 		outTween = null;
-		CardModViewtroller card = ((CardModViewtroller)Instantiate(CardPrefab)).Init(cardValue, cardSuit);
+		var card = ((CardModViewtroller)Instantiate(CardPrefab)).Init(cardValue, cardSuit);
 		AddCard(card);
 		card.ViewFSM.SetAnimState(_cardsAnimState, performTweens: false);
 
@@ -99,11 +99,11 @@ public class CardHolder : MonoBehaviour
 			card.transform.position = transform.position
 					+ Vector3.right * rightDistance
 					+ Vector3.forward * upDistance;
-			outTween = card.TweenHolder.AddPositionTween(GetCardPositionAtIndex(_Cards.LastIndex()))
-									   .AddOffsetHeightTween(_cardAnimationData.DeckFillFancyIntroTweenHeight)
-									   .AddLocalRotationTween(360.0f * Vector3.one + card.ViewFSM.GetAnimRotationOffset())
-									   .SetDuration(_cardAnimationData.DeckFillDurationPerCard)
-									   .AddToOnFinishedOnce(() => OnCardRecieveTweenFinished(card));
+			outTween = card.AddPositionTween(GetCardPositionAtIndex(_Cards.LastIndex()))
+						   .AddOffsetHeightTween(_cardAnimationData.DeckFillFancyIntroTweenHeight)
+						   .AddLocalRotationTween(360.0f * Vector3.one + card.ViewFSM.GetAnimRotationOffset())
+						   .SetDuration(_cardAnimationData.DeckFillDurationPerCard)
+						   .AddToOnFinishedOnce(() => OnCardRecieveTweenFinished(card));
 			return;
 		}
 
@@ -123,14 +123,13 @@ public class CardHolder : MonoBehaviour
 		cardBeingMoved.ViewFSM.SetAnimState(other._cardsAnimState, performTweens: false);
 		cardBeingMoved.ViewFSM.SetTextVisibility(visibleDuringTween.HasValue ? visibleDuringTween.Value : other._cardsTextVisibility);
 
-		outTween = cardBeingMoved.gameObject
-				.AddIncrementalPositionTween(other.GetCardPositionAtIndex(indexToInsertAt) + cardBeingMoved.ViewFSM.GetAnimPositionOffset())
-				.AddOffsetHeightTween(_cardAnimationData.GeneralCardMoveHeight)
-				.AddLocalRotationTween(Vector3.one * 360.0f + cardBeingMoved.ViewFSM.GetAnimRotationOffset())
-				.AddIncrementalScaleTween(cardBeingMoved.ViewFSM.GetAnimScale())
-				.SetDuration(_cardAnimationData.GeneralCardMoveDuration)
-				.SetAnimationCurveFunction(TweenHolder.LinearAnimationCurve)
-				.AddToOnFinishedOnce(() => other.OnCardRecieveTweenFinished(cardBeingMoved));
+		outTween = cardBeingMoved.AddIncrementalPositionTween(other.GetCardPositionAtIndex(indexToInsertAt) + cardBeingMoved.ViewFSM.GetAnimPositionOffset())
+								 .AddOffsetHeightTween(_cardAnimationData.GeneralCardMoveHeight)
+								 .AddLocalRotationTween(Vector3.one * 360.0f + cardBeingMoved.ViewFSM.GetAnimRotationOffset())
+								 .AddIncrementalScaleTween(cardBeingMoved.ViewFSM.GetAnimScale())
+								 .SetDuration(_cardAnimationData.GeneralCardMoveDuration)
+								 .SetAnimationCurveFunction(TweenHolder.LinearAnimationCurve)
+								 .AddToOnFinishedOnce(() => other.OnCardRecieveTweenFinished(cardBeingMoved));
 
 		OnCardSent(cardBeingMoved);
 		other.OnCardRecieveTweenBegan(cardBeingMoved);
@@ -264,13 +263,13 @@ public class CardHolder : MonoBehaviour
 		float animationDuration = UnityEngine.Random.Range(2.0f, _cardAnimationData.DeckShuffleExplosionDuration / 2.0f);
 			Vector3 rotationVector = (Mathf.Round(UnityEngine.Random.Range(1.0f, _cardAnimationData.DeckShuffleExplosionMaxRotations / 2.0f)) * 2.0f + 1.0f) * 360.0f * Vector3.one;
 			rotationVector.z -= card.ViewFSM.GetAnimRotationOffset().z;
-			card.gameObject.AddPositionPingPongTween(GetCardPositionAtIndex(cardIndex), card.gameObject.transform.position + Vector3.up * _cardAnimationData.DeckShuffleExplosionSphereRadius
-								+ UnityEngine.Random.onUnitSphere * UnityEngine.Random.Range(0.1f, Mathf.Max(1.0f, _cardAnimationData.DeckShuffleExplosionSphereRadius)))
-							   .SetAnimationCurveFunction(TweenHolder.EaseInOutPingPongAnimationCurveFastOutro)
-							   .SetDuration(animationDuration)
-							   .SetDelay(UnityEngine.Random.Range(0.0f, _cardAnimationData.DeckShuffleExplosionDuration - animationDuration))
-							   .AddLocalRotationTween(rotationVector)
-							   .AddToOnFinishedOnce(() => OnCardRecieveTweenFinished(card));
+			card.AddPositionPingPongTween(GetCardPositionAtIndex(cardIndex), card.gameObject.transform.position + Vector3.up * _cardAnimationData.DeckShuffleExplosionSphereRadius
+					+ UnityEngine.Random.onUnitSphere * UnityEngine.Random.Range(0.1f, Mathf.Max(1.0f, _cardAnimationData.DeckShuffleExplosionSphereRadius)))
+				.SetAnimationCurveFunction(TweenHolder.EaseInOutPingPongAnimationCurveFastOutro)
+				.SetDuration(animationDuration)
+				.SetDelay(UnityEngine.Random.Range(0.0f, _cardAnimationData.DeckShuffleExplosionDuration - animationDuration))
+				.AddLocalRotationTween(rotationVector)
+				.AddToOnFinishedOnce(() => OnCardRecieveTweenFinished(card));
 	}
 
 	public void DestroyAllCards()

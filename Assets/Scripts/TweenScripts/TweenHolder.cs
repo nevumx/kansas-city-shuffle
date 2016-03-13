@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using Nx;
 
-public class TweenHolder : MonoBehaviour, Finishable
+public class TweenHolder : MonoBehaviour, IFinishable
 {
 	private	Action													_onFinishedOnce;
-	public	float													Duration;
-	public	float													Delay;
+	public	float													Duration				= 1.0f;
+	public	float													Delay					= 0.0f;
 	public	Func<float, float>										AnimationCurveFunction;
 	private	LinkedList<Tween>										_tweens					= new LinkedList<Tween>();
 	private	NxSortedLinkedList<Action<GameObject, float, float>>	_updateDelegates		= new NxSortedLinkedList<Action<GameObject, float, float>>

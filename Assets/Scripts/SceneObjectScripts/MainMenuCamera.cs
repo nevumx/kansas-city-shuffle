@@ -12,10 +12,12 @@ public struct TweenTransformPair
 						public	Transform	To		{ get { return _to; } }
 }
 
-public class MainMenuCamera : MonoBehaviour
+public class MainMenuCamera : MonoBehaviour, ITweenable
 {
 	[SerializeField]	private	TweenTransformPair[]	_tweenTransformPairs	= null;
 	[SerializeField]	private	float					_durationForEachTween	= 6.0f;
+	[SerializeField]	private	TweenHolder				_tweenHolder;
+						public	TweenHolder				TweenHolder				{ get { return _tweenHolder; } }
 						private	System.Random			_randomNumber			= new System.Random();
 						private	int						_lastTransformPairIndex	= -1;
 
@@ -30,7 +32,7 @@ public class MainMenuCamera : MonoBehaviour
 		while ((nextIndex = _randomNumber.Next(_tweenTransformPairs.Length)) == _lastTransformPairIndex);
 		_lastTransformPairIndex = nextIndex;
 		TweenTransformPair nextPair = _tweenTransformPairs[nextIndex];
-		gameObject.AddPositionTween(nextPair.From.position, nextPair.To.position)
+		this.AddPositionTween(nextPair.From.position, nextPair.To.position)
 			.AddQuaternionRotationTween(nextPair.From.rotation, nextPair.To.rotation)
 			.SetAnimationCurveFunction(TweenHolder.EaseInOutAnimationCurve)
 			.SetDuration(_durationForEachTween)

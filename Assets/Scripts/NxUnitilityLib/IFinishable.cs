@@ -1,6 +1,6 @@
 ﻿using System;
 
-public interface Finishable
+public interface IFinishable
 {
 	void AddToOnFinished(Action toAdd);
 }

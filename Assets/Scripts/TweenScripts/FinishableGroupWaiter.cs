@@ -34,7 +34,7 @@ public class FinishableGroupWaiter
 		AddToOnAllFinished(toAdd);
 	}
 
-	public void AddFinishable(Finishable finishable)
+	public void AddFinishable(IFinishable finishable)
 	{
 		if (Done)
 		{

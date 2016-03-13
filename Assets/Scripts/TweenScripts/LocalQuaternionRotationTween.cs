@@ -25,28 +25,24 @@ public class LocalQuaternionRotationTween : Tween
 
 public static class LocalQuaternionRotationTweenHelperFunctions
 {
-	public static TweenHolder AddLocalQuaternionRotationTween(this GameObject gameObj, Quaternion to)
-	{
-		TweenHolder tweenHolder = gameObj.GetComponent<TweenHolder>();
-		tweenHolder.IfIsNullThen(() => tweenHolder = gameObj.AddComponent<TweenHolder>());
-		return AddLocalQuaternionRotationTweenInternal(tweenHolder, tweenHolder.gameObject.transform.localRotation, to);
-	}
-
-	public static TweenHolder AddLocalQuaternionRotationTween(this GameObject gameObj, Quaternion from, Quaternion to)
-	{
-		TweenHolder tweenHolder = gameObj.GetComponent<TweenHolder>();
-		tweenHolder.IfIsNullThen(() => tweenHolder = gameObj.AddComponent<TweenHolder>());
-		return AddLocalQuaternionRotationTweenInternal(tweenHolder, from, to);
-	}
-
 	public static TweenHolder AddLocalQuaternionRotationTween(this TweenHolder tweenHolder, Quaternion to)
 	{
-		return AddLocalQuaternionRotationTweenInternal(tweenHolder, tweenHolder.gameObject.transform.localRotation, to);
+		return AddLocalQuaternionRotationTweenInternal(tweenHolder, tweenHolder.transform.localRotation, to);
 	}
 
 	public static TweenHolder AddLocalQuaternionRotationTween(this TweenHolder tweenHolder, Quaternion from, Quaternion to)
 	{
 		return AddLocalQuaternionRotationTweenInternal(tweenHolder, from, to);
+	}
+
+	public static TweenHolder AddLocalQuaternionRotationTween(this ITweenable tweenable, Quaternion to)
+	{
+		return AddLocalQuaternionRotationTweenInternal(tweenable.TweenHolder, tweenable.gameObject.transform.localRotation, to);
+	}
+
+	public static TweenHolder AddLocalQuaternionRotationTween(this ITweenable tweenable, Quaternion from, Quaternion to)
+	{
+		return AddLocalQuaternionRotationTweenInternal(tweenable.TweenHolder, from, to);
 	}
 
 	private static TweenHolder AddLocalQuaternionRotationTweenInternal(TweenHolder tweenHolder, Quaternion from, Quaternion to)

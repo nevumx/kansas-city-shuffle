@@ -41,16 +41,14 @@ public class IncrementalScaleTween : Tween
 
 public static class IncrementalScaleTweenHelperFunctions
 {
-	public static TweenHolder AddIncrementalScaleTween(this GameObject gameObj, Vector3 to)
-	{
-		TweenHolder tweenHolder = gameObj.GetComponent<TweenHolder>();
-		tweenHolder.IfIsNullThen(() => tweenHolder = gameObj.AddComponent<TweenHolder>());
-		return AddIncrementalScaleTweenInternal(tweenHolder, to);
-	}
-
 	public static TweenHolder AddIncrementalScaleTween(this TweenHolder tweenHolder, Vector3 to)
 	{
 		return AddIncrementalScaleTweenInternal(tweenHolder, to);
+	}
+
+	public static TweenHolder AddIncrementalScaleTween(this ITweenable tweenable, Vector3 to)
+	{
+		return AddIncrementalScaleTweenInternal(tweenable.TweenHolder, to);
 	}
 
 	private static TweenHolder AddIncrementalScaleTweenInternal(TweenHolder tweenHolder, Vector3 to)

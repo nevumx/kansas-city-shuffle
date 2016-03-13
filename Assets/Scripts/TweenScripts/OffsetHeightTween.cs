@@ -39,16 +39,14 @@ public class OffsetHeightTween : Tween
 
 public static class OffsetHeightTweenHelperFunctions
 {
-	public static TweenHolder AddOffsetHeightTween(this GameObject gameObj, float height)
-	{
-		TweenHolder tweenHolder = gameObj.GetComponent<TweenHolder>();
-		tweenHolder.IfIsNullThen(() => tweenHolder = gameObj.AddComponent<TweenHolder>());
-		return AddOffsetHeightTweenInternal(tweenHolder, height);
-	}
-
 	public static TweenHolder AddOffsetHeightTween(this TweenHolder tweenHolder, float height)
 	{
 		return AddOffsetHeightTweenInternal(tweenHolder, height);
+	}
+
+	public static TweenHolder AddOffsetHeightTween(this ITweenable tweenable, float height)
+	{
+		return AddOffsetHeightTweenInternal(tweenable.TweenHolder, height);
 	}
 
 	private static TweenHolder AddOffsetHeightTweenInternal(TweenHolder tweenHolder, float height)

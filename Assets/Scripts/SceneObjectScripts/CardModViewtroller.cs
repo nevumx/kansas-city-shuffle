@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System;
 using Nx;
 
-public class CardModViewtroller : MonoBehaviour
+public class CardModViewtroller : MonoBehaviour, ITweenable
 {
 	[SerializeField]	private	CardAnimationData	_cardAnimationData;
 
@@ -11,9 +11,9 @@ public class CardModViewtroller : MonoBehaviour
 
 	[NonSerialized]		public	CardHolder			ParentCardHolder	= null;
 
-	[SerializeField]	private	NxDynamicButton			_button;
+	[SerializeField]	private	NxDynamicButton		_button;
 						private	CardViewFSM			_viewFSM;
-						public	NxDynamicButton			Button				{ get { return _button; } }
+						public	NxDynamicButton		Button				{ get { return _button; } }
 						public	CardViewFSM			ViewFSM				{ get { return _viewFSM; } }
 
 						private	Card				_card;

@@ -25,28 +25,24 @@ public class PositionTween : Tween
 
 public static class PositionTweenHelperFunctions
 {
-	public static TweenHolder AddPositionTween(this GameObject gameObj, Vector3 to)
-	{
-		TweenHolder tweenHolder = gameObj.GetComponent<TweenHolder>();
-		tweenHolder.IfIsNullThen(() => tweenHolder = gameObj.AddComponent<TweenHolder>());
-		return AddPositionTweenInternal(tweenHolder, tweenHolder.gameObject.transform.position, to);
-	}
-
-	public static TweenHolder AddPositionTween(this GameObject gameObj, Vector3 from, Vector3 to)
-	{
-		TweenHolder tweenHolder = gameObj.GetComponent<TweenHolder>();
-		tweenHolder.IfIsNullThen(() => tweenHolder = gameObj.AddComponent<TweenHolder>());
-		return AddPositionTweenInternal(tweenHolder, from, to);
-	}
-
 	public static TweenHolder AddPositionTween(this TweenHolder tweenHolder, Vector3 to)
 	{
-		return AddPositionTweenInternal(tweenHolder, tweenHolder.gameObject.transform.position, to);
+		return AddPositionTweenInternal(tweenHolder, tweenHolder.transform.position, to);
 	}
 
 	public static TweenHolder AddPositionTween(this TweenHolder tweenHolder, Vector3 from, Vector3 to)
 	{
 		return AddPositionTweenInternal(tweenHolder, from, to);
+	}
+
+	public static TweenHolder AddPositionTween(this ITweenable tweenable, Vector3 to)
+	{
+		return AddPositionTweenInternal(tweenable.TweenHolder, tweenable.gameObject.transform.position, to);
+	}
+
+	public static TweenHolder AddPositionTween(this ITweenable tweenable, Vector3 from, Vector3 to)
+	{
+		return AddPositionTweenInternal(tweenable.TweenHolder, from, to);
 	}
 
 	private static TweenHolder AddPositionTweenInternal(TweenHolder tweenHolder, Vector3 from, Vector3 to)
