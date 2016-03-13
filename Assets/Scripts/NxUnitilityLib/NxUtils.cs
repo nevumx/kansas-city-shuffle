@@ -202,6 +202,11 @@ namespace Nx
 			action.IfIsNotNullThen(action);
 		}
 
+		public static void Raise<T>(this Action<T> action, T arg)
+		{
+			action.IfIsNotNullThen(a => a(arg));
+		}
+
 		public static T Last<T>(this List<T> list)
 		{
 			int lastIndex = list.LastIndex();

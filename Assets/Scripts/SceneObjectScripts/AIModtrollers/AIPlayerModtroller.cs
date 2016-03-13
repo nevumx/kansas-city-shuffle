@@ -49,16 +49,16 @@ public abstract class AIPlayerModtroller : AbstractPlayerModtroller
 
 	public override bool IsHuman { get { return false; } }
 
-	protected void MainCardSelectionAlgorithm(Action<int[]> onTurnEnded)
+	protected void MainCardSelectionAlgorithm()
 	{
 		List<int> allowedCardIndexes = GetAllowedCardIndexes();
-		MainGameModtroller.PlayDirection direction = _mainGameModtroller.Direction;
+		MainGameModtroller.PlayDirection direction = _MainGameModtroller.Direction;
 		float cardValueMidpoint = Enum.GetValues(typeof(Card.CardValue)).Length / 2.0f;
 		ExtremeAverageCardSplitter splitter = new ExtremeAverageCardSplitter(this, allowedCardIndexes);
 
 		if (splitter.AverageCardIndexes.Count > 0)
 		{
-			onTurnEnded(splitter.AverageCardIndexes.AllBest((a, b) => a.Length > b.Length, (a, b) => a.Length == b.Length)
+			_MainGameModtroller.EndPlayerTurn(splitter.AverageCardIndexes.AllBest((a, b) => a.Length > b.Length, (a, b) => a.Length == b.Length)
 						.Best((a, b) => Math.Abs(Hand.ReadOnlyCards[a[0]].CardValue - cardValueMidpoint) < Math.Abs(Hand.ReadOnlyCards[b[0]].CardValue - cardValueMidpoint)));
 		}
 		else
@@ -67,27 +67,27 @@ public abstract class AIPlayerModtroller : AbstractPlayerModtroller
 			{
 				if (splitter.ExtremeHighCardIndexes.Count > 0)
 				{
-					onTurnEnded(splitter.ExtremeHighCardIndexes.Best((a, b) => Hand.ReadOnlyCards[a[0]].CardValue < Hand.ReadOnlyCards[b[0]].CardValue));
+					_MainGameModtroller.EndPlayerTurn(splitter.ExtremeHighCardIndexes.Best((a, b) => Hand.ReadOnlyCards[a[0]].CardValue < Hand.ReadOnlyCards[b[0]].CardValue));
 				}
 				else
 				{
-					onTurnEnded(splitter.ExtremeLowCardsIndexes.Best((a, b) => Hand.ReadOnlyCards[a[0]].CardValue > Hand.ReadOnlyCards[b[0]].CardValue));
+					_MainGameModtroller.EndPlayerTurn(splitter.ExtremeLowCardsIndexes.Best((a, b) => Hand.ReadOnlyCards[a[0]].CardValue > Hand.ReadOnlyCards[b[0]].CardValue));
 				}
 			}
 			else if (direction == MainGameModtroller.PlayDirection.DOWN)
 			{
 				if (splitter.ExtremeLowCardsIndexes.Count > 0)
 				{
-					onTurnEnded(splitter.ExtremeLowCardsIndexes.Best((a, b) => Hand.ReadOnlyCards[a[0]].CardValue > Hand.ReadOnlyCards[b[0]].CardValue));
+					_MainGameModtroller.EndPlayerTurn(splitter.ExtremeLowCardsIndexes.Best((a, b) => Hand.ReadOnlyCards[a[0]].CardValue > Hand.ReadOnlyCards[b[0]].CardValue));
 				}
 				else
 				{
-					onTurnEnded(splitter.ExtremeHighCardIndexes.Best((a, b) => Hand.ReadOnlyCards[a[0]].CardValue < Hand.ReadOnlyCards[b[0]].CardValue));
+					_MainGameModtroller.EndPlayerTurn(splitter.ExtremeHighCardIndexes.Best((a, b) => Hand.ReadOnlyCards[a[0]].CardValue < Hand.ReadOnlyCards[b[0]].CardValue));
 				}
 			}
 			else // if (direction == MainGameModtroller.PlayDirection.UNDECIDED)
 			{
-				onTurnEnded(splitter.ExtremeLowCardsIndexes.Union(splitter.ExtremeHighCardIndexes, new NxUtils.FalseEqualityComparer<int[]>())
+				_MainGameModtroller.EndPlayerTurn(splitter.ExtremeLowCardsIndexes.Union(splitter.ExtremeHighCardIndexes, new NxUtils.FalseEqualityComparer<int[]>())
 							.Best((a, b) => Math.Abs(Hand.ReadOnlyCards[a[0]].CardValue - cardValueMidpoint) < Math.Abs(Hand.ReadOnlyCards[b[0]].CardValue - cardValueMidpoint)));
 			}
 		}

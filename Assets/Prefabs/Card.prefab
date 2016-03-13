@@ -25,7 +25,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 469218}
-  - 114: {fileID: 11469222}
   - 114: {fileID: 11469220}
   - 114: {fileID: 11496796}
   m_Layer: 0
@@ -44,8 +43,8 @@ GameObject:
   m_Component:
   - 224: {fileID: 22469218}
   - 114: {fileID: 11469224}
-  - 114: {fileID: 11469092}
   - 222: {fileID: 22269218}
+  - 114: {fileID: 11426710}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -256,7 +255,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 182398}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &11469092
+--- !u!114 &11426710
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -264,45 +263,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 169220}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1862395651, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Script: {fileID: 11500000, guid: 3ac21d8590a3b41cb8035351d00341e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Delegates:
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 11469222}
-          m_MethodName: OnClick
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  delegates:
-  - eventID: 4
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 11469222}
-          m_MethodName: OnClick
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
-        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &11469220
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -316,19 +279,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cardAnimationData: {fileID: 11400000, guid: dd461eca7ef8a4ec785591483437832b, type: 2}
   _cardText: {fileID: 11469224}
-  _button: {fileID: 11469222}
+  _button: {fileID: 11426710}
   _tweenHolder: {fileID: 11496796}
---- !u!114 &11469222
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 169218}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 870b965292e024eb1999f751e89ae127, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11469224
 MonoBehaviour:
   m_ObjectHideFlags: 1

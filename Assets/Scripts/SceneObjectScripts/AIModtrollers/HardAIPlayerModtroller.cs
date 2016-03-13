@@ -5,9 +5,9 @@ using Nx;
 
 public class HardAIPlayerModtroller : AIPlayerModtroller
 {
-	public override void BeginCardSelection(Action<int[]> onTurnEnded)
+	public override void BeginCardSelection()
 	{
-		MainGameModtroller.PlayDirection direction = _mainGameModtroller.Direction;
+		MainGameModtroller.PlayDirection direction = _MainGameModtroller.Direction;
 		List<int> allowedCardIndexes = GetAllowedCardIndexes();
 
 		if (direction == MainGameModtroller.PlayDirection.UNDECIDED || allowedCardIndexes.Count > 0)
@@ -15,7 +15,7 @@ public class HardAIPlayerModtroller : AIPlayerModtroller
 			var allOtherCards = new List<CardModViewtroller>();
 			if (direction != MainGameModtroller.PlayDirection.UNDECIDED)
 			{
-				AbstractPlayerModtroller[] allPlayers = _mainGameModtroller.Players;
+				AbstractPlayerModtroller[] allPlayers = _MainGameModtroller.Players;
 				for (int i = 0, iMax = allPlayers.Length; i < iMax; ++i)
 				{
 					if (!ReferenceEquals(allPlayers[i], this) && allPlayers[i] != null)
@@ -34,16 +34,16 @@ public class HardAIPlayerModtroller : AIPlayerModtroller
 						|| (direction == MainGameModtroller.PlayDirection.DOWN
 						&& !allOtherCards.Exists(c => c.CardValue <= Hand.ReadOnlyCards[allowedCardIndexes[i]].CardValue)))
 					{
-						onTurnEnded(new int[1] { allowedCardIndexes[i] });
+						_MainGameModtroller.EndPlayerTurn(new int[1] { allowedCardIndexes[i] });
 						return;
 					}
 				}
 			}
-			MainCardSelectionAlgorithm(onTurnEnded);
+			MainCardSelectionAlgorithm();
 		}
 		else
 		{
-			onTurnEnded(null);
+			_MainGameModtroller.EndPlayerTurn(null);
 		}
 	}
 }

@@ -423,7 +423,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 252865736}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 870b965292e024eb1999f751e89ae127, type: 3}
+  m_Script: {fileID: 11500000, guid: 3ac21d8590a3b41cb8035351d00341e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &252865739
@@ -466,7 +466,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 252865738}
-        m_MethodName: OnClick
+        m_MethodName: OnButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -961,7 +961,6 @@ GameObject:
   - 222: {fileID: 865240765}
   - 114: {fileID: 865240764}
   - 114: {fileID: 865240763}
-  - 114: {fileID: 865240766}
   m_Layer: 5
   m_Name: UndoButton
   m_TagString: Untagged
@@ -1026,8 +1025,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 865240766}
-        m_MethodName: OnClick
+      - m_Target: {fileID: 1476542375}
+        m_MethodName: OnUndoButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1072,17 +1071,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 865240761}
---- !u!114 &865240766
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 865240761}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 870b965292e024eb1999f751e89ae127, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &930376668
 GameObject:
   m_ObjectHideFlags: 0
@@ -1727,7 +1715,6 @@ GameObject:
   - 222: {fileID: 1620896790}
   - 114: {fileID: 1620896789}
   - 114: {fileID: 1620896788}
-  - 114: {fileID: 1620896791}
   m_Layer: 5
   m_Name: RedoButton
   m_TagString: Untagged
@@ -1792,8 +1779,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1620896791}
-        m_MethodName: OnClick
+      - m_Target: {fileID: 1476542375}
+        m_MethodName: OnRedoButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1838,17 +1825,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1620896786}
---- !u!114 &1620896791
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1620896786}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 870b965292e024eb1999f751e89ae127, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!20 &1709494920
 Camera:
   m_ObjectHideFlags: 0
@@ -1968,7 +1944,6 @@ GameObject:
   - 222: {fileID: 1825361817}
   - 114: {fileID: 1825361816}
   - 114: {fileID: 1825361815}
-  - 114: {fileID: 1825361814}
   m_Layer: 5
   m_Name: SubmitCardsButton
   m_TagString: Untagged
@@ -1976,17 +1951,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!114 &1825361814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1825361813}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 870b965292e024eb1999f751e89ae127, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1825361815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2026,8 +1990,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1825361814}
-        m_MethodName: OnClick
+      - m_Target: {fileID: 1476542375}
+        m_MethodName: OnSubmitCardsButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2346,7 +2310,7 @@ Prefab:
     - target: {fileID: 11423022, guid: dc4e7beb3e04749539cef63af21cb996, type: 2}
       propertyPath: _submitCardsButton
       value: 
-      objectReference: {fileID: 1825361814}
+      objectReference: {fileID: 1825361813}
     - target: {fileID: 11423022, guid: dc4e7beb3e04749539cef63af21cb996, type: 2}
       propertyPath: _gameEndObject
       value: 
@@ -2358,11 +2322,11 @@ Prefab:
     - target: {fileID: 11423022, guid: dc4e7beb3e04749539cef63af21cb996, type: 2}
       propertyPath: _undoButton
       value: 
-      objectReference: {fileID: 865240766}
+      objectReference: {fileID: 865240761}
     - target: {fileID: 11423022, guid: dc4e7beb3e04749539cef63af21cb996, type: 2}
       propertyPath: _redoButton
       value: 
-      objectReference: {fileID: 1620896791}
+      objectReference: {fileID: 1620896786}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dc4e7beb3e04749539cef63af21cb996, type: 2}
   m_IsPrefabParent: 0

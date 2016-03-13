@@ -11,32 +11,23 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 
 						private				LinkedList<int>	_selectedCardIndexes		= new LinkedList<int>();
 
-	[SerializeField]	private				NxButton		_submitCardsButton;
+	[SerializeField]	private				GameObject		_submitCardsButton;
 
 						public	override	bool			IsHuman	{ get { return true; } }
 
 	public override AbstractPlayerModtroller Init(MainGameModtroller mainGameModtroller)
 	{
 		AbstractPlayerModtroller toReturn = base.Init(mainGameModtroller);
-		_submitCardsButton = _mainGameModtroller.SubmitCardsButton;
+		_submitCardsButton = _MainGameModtroller.SubmitCardsButton;
 		return toReturn;
 	}
 
-	public override void BeginCardSelection(Action<int[]> onTurnEnded)
+	public override void BeginCardSelection()
 	{
 		List<int> allowedCardIndexes = GetAllowedCardIndexes();
 		if (allowedCardIndexes.Count > 0)
 		{
 			OnHumanTurnBegan.Raise();
-			_submitCardsButton.ClearOnClickedDelegates();
-			_submitCardsButton.AddToOnClicked(() => 
-			{
-				_submitCardsButton.ClearOnClickedDelegates();
-				Hand.ReadOnlyCards.ForEach(c => c.Button.ClearOnClickedDelegates());
-				_submitCardsButton.gameObject.SetActive(false);
-				onTurnEnded(_selectedCardIndexes.ToArray());
-				_selectedCardIndexes.Clear();
-			});
 			Hand.CardsTextVisibility = true;
 			if (allowedCardIndexes.Count == 1)
 			{
@@ -46,15 +37,22 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 		}
 		else
 		{
-			onTurnEnded(null);
+			_MainGameModtroller.EndPlayerTurn(null);
 		}
+	}
+
+	public void OnSubmitCardsButtonClicked()
+	{
+		Hand.ReadOnlyCards.ForEach(c => c.Button.ClearOnClickedDelegates());
+		_submitCardsButton.SetActive(false);
+		_MainGameModtroller.EndPlayerTurn(_selectedCardIndexes.ToArray());
+		_selectedCardIndexes.Clear();
 	}
 
 	public void CancelCardSelection(Action onFinished)
 	{
-		_submitCardsButton.ClearOnClickedDelegates();
 		_selectedCardIndexes.Clear();
-		_submitCardsButton.gameObject.SetActive(false);
+		_submitCardsButton.SetActive(false);
 		Hand.SetCardsAnimStates(CardModViewtroller.CardViewFSM.AnimState.OBSCURED, onFinished: () =>
 		{
 			Hand.CardsTextVisibility = false;
@@ -71,7 +69,7 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 		{
 			for (int i = 0, iMax = cards.Count; i < iMax; ++i)
 			{
-				if (_mainGameModtroller.Direction == MainGameModtroller.PlayDirection.UNDECIDED
+				if (_MainGameModtroller.Direction == MainGameModtroller.PlayDirection.UNDECIDED
 					|| allowedCardIndexes.Exists(n => n == i))
 				{
 					SetButtonActiveToAdd(cards[i], updateOptionsDelegate);
@@ -81,7 +79,7 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 					SetButtonInactive(cards[i]);
 				}
 			}
-			_submitCardsButton.gameObject.SetActive(_mainGameModtroller.OptionalPlayRule);
+			_submitCardsButton.SetActive(_MainGameModtroller.OptionalPlayRule);
 		}
 		else
 		{

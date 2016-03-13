@@ -7,23 +7,18 @@ using Nx;
 
 public abstract class AbstractPlayerModtroller : MonoBehaviour
 {
-	[SerializeField]
-	private Hand _hand;
+	[SerializeField]	private					Hand				_hand;
+						public					Hand				Hand						{ get { return _hand; } }
 
-	[SerializeField]
-	private Text _scoreText;
+	[SerializeField]	private					Text				_scoreText;
 
-	[SerializeField]
-	protected MainGameModtroller _mainGameModtroller;
+	[SerializeField]	private					MainGameModtroller	_mainGameModtroller;
+						protected				MainGameModtroller	_MainGameModtroller			{ get { return _mainGameModtroller; } }
 
-	public Hand Hand { get { return _hand; } }
+	[NonSerialized]		public					string				PlayerName					= "Player ";
+						private		readonly	string				PLAYER_ELIMINATED_TAG_LABEL = " - Out";
 
-	[NonSerialized]
-	public string PlayerName = "Player ";
-	private const string PLAYER_ELIMINATED_TAG_LABEL = " - Out";
-
-	[NonSerialized]
-	private bool _eliminated = false;
+	[NonSerialized]		private					bool				_eliminated					= false;
 	public bool Eliminated 
 	{
 		get
@@ -43,6 +38,7 @@ public abstract class AbstractPlayerModtroller : MonoBehaviour
 			_eliminated = value;
 		}
 	}
+
 	private int _points = 0;
 	public int Points
 	{
@@ -65,18 +61,18 @@ public abstract class AbstractPlayerModtroller : MonoBehaviour
 
 	public abstract bool IsHuman { get; }
 
-	public abstract void BeginCardSelection(Action<int[]> onTurnEnded);
+	public abstract void BeginCardSelection();
 
 	protected List<int> GetAllowedCardIndexes()
 	{
-		int cardValue = _mainGameModtroller.DiscardPileLastValue;
-		MainGameModtroller.PlayDirection direction = _mainGameModtroller.Direction;
+		int cardValue = _MainGameModtroller.DiscardPileLastValue;
+		MainGameModtroller.PlayDirection direction = _MainGameModtroller.Direction;
 		ReadOnlyCollection<CardModViewtroller> handCards = Hand.ReadOnlyCards;
 		List<int> allowedCardIndexes = new List<int>();
-		if (_mainGameModtroller.MaxDeviationRule && direction != MainGameModtroller.PlayDirection.UNDECIDED)
+		if (_MainGameModtroller.MaxDeviationRule && direction != MainGameModtroller.PlayDirection.UNDECIDED)
 		{
 			allowedCardIndexes.AddRange(handCards.AllIndexesSuchThat(
-										c => Mathf.Abs(c.CardValue - cardValue) < _mainGameModtroller.MaxDeviationThreshold));
+										c => Mathf.Abs(c.CardValue - cardValue) < _MainGameModtroller.MaxDeviationThreshold));
 
 			if (allowedCardIndexes.Count <= 0)
 			{
@@ -89,10 +85,10 @@ public abstract class AbstractPlayerModtroller : MonoBehaviour
 				allowedCardIndexes.AddRange(handCards.AllBestIndexes(AIsCloserToCardValueThanB, AIsSameDistanceToCardValueAsB));
 			}
 
-			if (_mainGameModtroller.WildcardRule)
+			if (_MainGameModtroller.WildcardRule)
 			{
 				allowedCardIndexes.AddRange(handCards.AllIndexesSuchThat(
-					(c, i) => c.CardValue == _mainGameModtroller.WildCardValue && !allowedCardIndexes.Contains(i)));
+					(c, i) => c.CardValue == _MainGameModtroller.WildCardValue && !allowedCardIndexes.Contains(i)));
 			}
 		}
 		else
@@ -105,7 +101,7 @@ public abstract class AbstractPlayerModtroller : MonoBehaviour
 		for (int i = allowedCardIndexes.LastIndex(); i >= 0; --i)
 		{
 			if (!((direction == MainGameModtroller.PlayDirection.UNDECIDED)
-			   || (_mainGameModtroller.WildcardRule && handCards[allowedCardIndexes[i]].CardValue == _mainGameModtroller.WildCardValue)
+			   || (_MainGameModtroller.WildcardRule && handCards[allowedCardIndexes[i]].CardValue == _MainGameModtroller.WildCardValue)
 			   || (direction == MainGameModtroller.PlayDirection.DOWN && handCards[allowedCardIndexes[i]].CardValue <= cardValue)
 			   || (direction == MainGameModtroller.PlayDirection.UP && handCards[allowedCardIndexes[i]].CardValue >= cardValue)))
 			{
@@ -117,7 +113,7 @@ public abstract class AbstractPlayerModtroller : MonoBehaviour
 
 	public int GetMostAdvantageousCardIndex()
 	{
-		return _hand.ReadOnlyCards.BestIndex((a, b) => _mainGameModtroller.Direction == MainGameModtroller.PlayDirection.DOWN ?
+		return _hand.ReadOnlyCards.BestIndex((a, b) => _MainGameModtroller.Direction == MainGameModtroller.PlayDirection.DOWN ?
 													   a.CardValue < b.CardValue : a.CardValue > b.CardValue);
 	}
 }

@@ -8,7 +8,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 440082}
-  - 114: {fileID: 11440082}
   - 114: {fileID: 11440084}
   m_Layer: 0
   m_Name: EasyAIPlayer
@@ -165,18 +164,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
---- !u!114 &11440082
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 140078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 870b965292e024eb1999f751e89ae127, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _hotKeys: 
 --- !u!114 &11440084
 MonoBehaviour:
   m_ObjectHideFlags: 1

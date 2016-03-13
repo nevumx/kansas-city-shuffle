@@ -5,16 +5,16 @@ using Nx;
 
 public class EasyAIPlayerModtroller : AIPlayerModtroller
 {
-	public override void BeginCardSelection(Action<int[]> onTurnEnded)
+	public override void BeginCardSelection()
 	{
 		List<int> allowedCardIndexes = GetAllowedCardIndexes();
-		if (_mainGameModtroller.Direction == MainGameModtroller.PlayDirection.UNDECIDED || allowedCardIndexes.Count > 0)
+		if (_MainGameModtroller.Direction == MainGameModtroller.PlayDirection.UNDECIDED || allowedCardIndexes.Count > 0)
 		{
-			MainCardSelectionAlgorithm(onTurnEnded);
+			MainCardSelectionAlgorithm();
 		}
 		else
 		{
-			onTurnEnded(null);
+			_MainGameModtroller.EndPlayerTurn(null);
 		}
 	}
 }

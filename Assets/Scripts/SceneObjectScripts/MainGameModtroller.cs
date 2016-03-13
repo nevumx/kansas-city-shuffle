@@ -34,11 +34,11 @@ public partial class MainGameModtroller : MonoBehaviour
 
 	[SerializeField]	private				GameObject					_mainCameraAnchor;
 
-	[SerializeField]	private				NxButton					_playerReadyButton;
-	[SerializeField]	private				NxButton					_submitCardsButton;
-						public				NxButton					SubmitCardsButton		{ get { return _submitCardsButton; } }
-	[SerializeField]	private				NxButton					_undoButton;
-	[SerializeField]	private				NxButton					_redoButton;
+	[SerializeField]	private				NxDynamicButton				_playerReadyButton;
+	[SerializeField]	private				GameObject					_submitCardsButton;
+						public				GameObject					SubmitCardsButton		{ get { return _submitCardsButton; } }
+	[SerializeField]	private				GameObject					_undoButton;
+	[SerializeField]	private				GameObject					_redoButton;
 	[SerializeField]	private				GameObject					_gameEndObject;
 
 	[SerializeField]	private				Text						_directionText;
@@ -72,7 +72,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		get
 		{
 			int numHumanPlayers = 0;
-			_players.ForEach(p => p.IfIsNotNullThen(() => numHumanPlayers += p is HumanPlayerModtroller ? 1 : 0));
+			_players.ForEach(p => p.IfIsNotNullThen(() => numHumanPlayers += p.IsHuman ? 1 : 0));
 			return numHumanPlayers;
 		}
 	}
@@ -230,16 +230,6 @@ public partial class MainGameModtroller : MonoBehaviour
 		if (!_demoMode)
 		{
 			_mainCameraAnchor.AddLocalQuaternionRotationTween(Quaternion.Euler(Vector3.up * (float) _currentPlayer / _players.Length * 360.0f));
-			_undoButton.AddToOnClicked(() =>
-			{
-				HideUndoAndRedoButtons();
-				UndoTurn();
-			});
-			_redoButton.AddToOnClicked(() =>
-			{
-				HideUndoAndRedoButtons();
-				RedoTurn();
-			});
 		}
 
 		StartCoroutine(PopulateDeck());
@@ -381,7 +371,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		}
 		else
 		{
-			_players[_currentPlayer].BeginCardSelection(onTurnEnded: indexes => StartCoroutine(EndPlayerTurn(indexes)));
+			_players[_currentPlayer].BeginCardSelection();
 		}
 	}
 
@@ -442,7 +432,12 @@ public partial class MainGameModtroller : MonoBehaviour
 		deckRefillTweenWaiter.Ready = true;
 	}
 
-	private IEnumerator EndPlayerTurn(int[] cardIndexes)
+	public void EndPlayerTurn(int[] cardIndexes)
+	{
+		StartCoroutine(EndPlayerTurnInternal(cardIndexes));
+	}
+
+	private IEnumerator EndPlayerTurnInternal(int[] cardIndexes)
 	{
 		HideUndoAndRedoButtons();
 		if (NxUtils.IsNullOrEmpty(cardIndexes))
@@ -665,33 +660,40 @@ public partial class MainGameModtroller : MonoBehaviour
 
 	private void UpdateUndoAndRedoButtons()
 	{
-		_undoButton.gameObject.SetActive(_commander.UndoIsPossible);
-		_redoButton.gameObject.SetActive(_commander.RedoIsPossible);
+		_undoButton.SetActive(_commander.UndoIsPossible);
+		_redoButton.SetActive(_commander.RedoIsPossible);
 	}
 
 	private void HideUndoAndRedoButtons()
 	{
 		if (!_demoMode)
 		{
-			_undoButton.gameObject.SetActive(false);
-			_redoButton.gameObject.SetActive(false);
+			_undoButton.SetActive(false);
+			_redoButton.SetActive(false);
 		}
 	}
 
-	private void UndoTurn()
+	public void OnUndoButtonClicked()
 	{
+		HideUndoAndRedoButtons();
 		((HumanPlayerModtroller) _players[_currentPlayer]).CancelCardSelection(
 			onFinished: () => StartCoroutine(_commander.UndoPlayerTurn(
 			onFinished: () => UpdateCamera(
 			onFinished: () => StartCoroutine(BeginPlayerTurn())))));
 	}
 
-	private void RedoTurn()
+	public void OnRedoButtonClicked()
 	{
+		HideUndoAndRedoButtons();
 		((HumanPlayerModtroller) _players[_currentPlayer]).CancelCardSelection(
 			onFinished: () => StartCoroutine(_commander.RedoPlayerTurn(
 			onFinished: () => UpdateCamera(
 			onFinished: () => StartCoroutine(BeginPlayerTurn())))));
+	}
+
+	public void OnSubmitCardsButtonClicked()
+	{
+		((HumanPlayerModtroller) _players[_currentPlayer]).OnSubmitCardsButtonClicked();
 	}
 
 	public void EndGame()
