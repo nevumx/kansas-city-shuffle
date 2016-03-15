@@ -33,7 +33,8 @@ public partial class MainGameModtroller : MonoBehaviour
 						public				int							WildCardValue			{ get { return _wildcardPile.ReadOnlyCards.Last().CardValue; } }
 
 	[SerializeField]	private				TweenHolder					_mainCameraAnchor;
-
+	[SerializeField]	private				Camera						_mainCamera;
+						public				Camera						MainCamera				{ get { return _mainCamera; } }
 	[SerializeField]	private				NxDynamicButton				_playerReadyButton;
 	[SerializeField]	private				GameObject					_submitCardsButton;
 						public				GameObject					SubmitCardsButton		{ get { return _submitCardsButton; } }
@@ -172,7 +173,7 @@ public partial class MainGameModtroller : MonoBehaviour
 	{
 		for (int i = 0, iMax = _players.Length; i < iMax; ++i)
 		{
-			if (_players[i] is HumanPlayerModtroller)
+			if (_players[i] != null && _players[i].IsHuman)
 			{
 				((HumanPlayerModtroller) _players[i]).OnHumanTurnBegan -= ProcessCommandSystemOnHumanPlayerTurn;
 			}
@@ -693,7 +694,7 @@ public partial class MainGameModtroller : MonoBehaviour
 
 	public void OnSubmitCardsButtonClicked()
 	{
-		((HumanPlayerModtroller) _players[_currentPlayer]).OnSubmitCardsButtonClicked();
+		((HumanPlayerModtroller) _players[_currentPlayer]).SubmitCards();
 	}
 
 	public void EndGame()

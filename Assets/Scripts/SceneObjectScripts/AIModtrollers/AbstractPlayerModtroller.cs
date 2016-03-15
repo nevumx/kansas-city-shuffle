@@ -98,7 +98,8 @@ public abstract class AbstractPlayerModtroller : MonoBehaviour
 				allowedCardIndexes.Add(i);
 			}
 		}
-		for (int i = allowedCardIndexes.LastIndex(); i >= 0; --i)
+
+		for (int i = allowedCardIndexes.LastIndex(); i >= 0; --i) // Reverse iterate to not invalidate
 		{
 			if (!((direction == MainGameModtroller.PlayDirection.UNDECIDED)
 			   || (_MainGameModtroller.WildcardRule && handCards[allowedCardIndexes[i]].CardValue == _MainGameModtroller.WildCardValue)

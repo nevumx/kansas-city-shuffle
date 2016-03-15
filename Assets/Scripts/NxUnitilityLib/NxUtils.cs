@@ -182,7 +182,12 @@ namespace Nx
 			}
 		}
 
-		public static bool IsEmpty<T>(this ReadOnlyCollection<T> list)
+		public static bool IsEmpty<T>(this ReadOnlyCollection<T> collection)
+		{
+			return collection.Count <= 0;
+		}
+
+		public static bool IsEmpty<T>(this List<T> list)
 		{
 			return list.Count <= 0;
 		}

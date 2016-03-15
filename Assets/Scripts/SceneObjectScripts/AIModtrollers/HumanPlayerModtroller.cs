@@ -9,11 +9,13 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 {
 						public	event		Action			OnHumanTurnBegan;
 
-						private				LinkedList<int>	_selectedCardIndexes		= new LinkedList<int>();
+						private				List<int>		_selectedCardIndexes	= new List<int>();
+
+						private				List<int>		_allowedCardIndexes		= null;
 
 	[SerializeField]	private				GameObject		_submitCardsButton;
 
-						public	override	bool			IsHuman	{ get { return true; } }
+						public	override	bool			IsHuman					{ get { return true; } }
 
 	public override AbstractPlayerModtroller Init(MainGameModtroller mainGameModtroller)
 	{
@@ -24,16 +26,29 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 
 	public override void BeginCardSelection()
 	{
-		List<int> allowedCardIndexes = GetAllowedCardIndexes();
-		if (allowedCardIndexes.Count > 0)
+		_allowedCardIndexes = GetAllowedCardIndexes();
+		if (_allowedCardIndexes.Count > 0)
 		{
 			OnHumanTurnBegan.Raise();
-			Hand.CardsTextVisibility = true;
-			if (allowedCardIndexes.Count == 1)
+
+			ReadOnlyCollection<CardModViewtroller> cards = Hand.ReadOnlyCards;
+			cards.ForEach(c => 
 			{
-				_selectedCardIndexes.AddLast(allowedCardIndexes[0]);
+				c.Button.CancelDrag();
+				c.Button.ClearAllDelegates();
+			});
+
+			for (int i = 0, iMax = cards.Count; i < iMax; ++i)
+			{
+				if (_allowedCardIndexes.Contains(i))
+				{
+					SetupInteractionDelegatesForCardAtIndex(i);
+				}
 			}
-			UpdateOptions(allowedCardIndexes);
+
+			Hand.CardsTextVisibility = true;
+			SetCardStates();
+			_submitCardsButton.SetActive(_MainGameModtroller.OptionalPlayRule);
 		}
 		else
 		{
@@ -41,9 +56,14 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 		}
 	}
 
-	public void OnSubmitCardsButtonClicked()
+	public void SubmitCards()
 	{
-		Hand.ReadOnlyCards.ForEach(c => c.Button.ClearOnClickedDelegates());
+		Hand.ReadOnlyCards.ForEach(c => 
+		{
+			c.Button.CancelDrag();
+			c.Button.ClearAllDelegates();
+		});
+
 		_submitCardsButton.SetActive(false);
 		_MainGameModtroller.EndPlayerTurn(_selectedCardIndexes.ToArray());
 		_selectedCardIndexes.Clear();
@@ -51,6 +71,12 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 
 	public void CancelCardSelection(Action onFinished)
 	{
+		Hand.ReadOnlyCards.ForEach(c => 
+		{
+			c.Button.CancelDrag();
+			c.Button.ClearAllDelegates();
+		});
+
 		_selectedCardIndexes.Clear();
 		_submitCardsButton.SetActive(false);
 		Hand.SetCardsAnimStates(CardModViewtroller.CardViewFSM.AnimState.OBSCURED, onFinished: () =>
@@ -60,88 +86,103 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 		});
 	}
 
-	private void UpdateOptions(List<int> allowedCardIndexes)
+	private void SetupInteractionDelegatesForCardAtIndex(int index)
 	{
-		Action updateOptionsDelegate = () => UpdateOptions(allowedCardIndexes);
 		ReadOnlyCollection<CardModViewtroller> cards = Hand.ReadOnlyCards;
-		cards.ForEach(c => c.Button.ClearOnClickedDelegates());
-		if (_selectedCardIndexes.Count <= 0)
+
+		cards[index].Button.AddToOnClicked(() =>
 		{
-			for (int i = 0, iMax = cards.Count; i < iMax; ++i)
+			if (_selectedCardIndexes.Contains(index))
 			{
-				if (_MainGameModtroller.Direction == MainGameModtroller.PlayDirection.UNDECIDED
-					|| allowedCardIndexes.Exists(n => n == i))
+				_selectedCardIndexes.Remove(index);
+				if (_selectedCardIndexes.IsEmpty())
 				{
-					SetButtonActiveToAdd(cards[i], updateOptionsDelegate);
-				}
-				else
-				{
-					SetButtonInactive(cards[i]);
+					_submitCardsButton.SetActive(_MainGameModtroller.OptionalPlayRule && !cards.Exists(c => c.Button.IsBeingDragged));
 				}
 			}
-			_submitCardsButton.SetActive(_MainGameModtroller.OptionalPlayRule);
-		}
-		else
-		{
-			for (int i = 0, iMax = cards.Count; i < iMax; ++i)
+			else
 			{
-				if (_selectedCardIndexes.Exists(n => n == i))
+				_selectedCardIndexes.ForEach(i =>
 				{
-					SetButtonActiveToRemove(cards[i], updateOptionsDelegate);
-				}
-				else
-				{
-					if (cards[i].CardValue == cards[_selectedCardIndexes.First.Value].CardValue)
+					if (cards[i].CardValue != cards[index].CardValue)
 					{
-						SetButtonActiveToAdd(cards[i], updateOptionsDelegate);
+						cards[i].Button.CancelDrag();
 					}
-					else if (allowedCardIndexes.Exists(n => n == i))
-					{
-						SetButtonInactiveToReplace(cards[i], updateOptionsDelegate);
-					}
-					else
-					{
-						SetButtonInactive(cards[i]);
-					}
-				}
+				});
+				_selectedCardIndexes.Add(index);
+				_selectedCardIndexes.RemoveAll(i => Hand.ReadOnlyCards[i].CardValue != cards[index].CardValue);
+				_submitCardsButton.SetActive(!cards.Exists(c => c.Button.IsBeingDragged));
 			}
-			_submitCardsButton.gameObject.SetActive(true);
+			SetCardStates();
+		});
+
+		cards[index].Button.AddToOnDoubleClicked(() =>
+		{
+			if (!_selectedCardIndexes.Contains(index))
+			{
+				_selectedCardIndexes.Add(index);
+				_selectedCardIndexes.RemoveAll(i => cards[i].CardValue != cards[index].CardValue);
+			}
+			SubmitCards();
+		});
+
+		cards[index].Button.AddToOnBeginDrag(() =>
+		{
+			if (!_selectedCardIndexes.Contains(index))
+			{
+				_selectedCardIndexes.ForEach(i =>
+				{
+					if (cards[i].CardValue != cards[index].CardValue)
+					{
+						cards[i].Button.CancelDrag();
+					}
+				});
+				_selectedCardIndexes.Add(index);
+				_selectedCardIndexes.RemoveAll(i => cards[i].CardValue != cards[index].CardValue);
+			}
+			SetCardStates();
+			_submitCardsButton.SetActive(false);
+		});
+
+		cards[index].Button.AddToOnDrag(p =>
+		{
+			Ray ray = _MainGameModtroller.MainCamera.ScreenPointToRay(p.position); float distance;
+			new Plane(cards[index].transform.up, cards[index].transform.position).Raycast(ray, out distance);
+			cards[index].transform.position = ray.GetPoint(distance);
+		});
+
+		cards[index].Button.AddToOnDrop(p =>
+		{
+			if (p.delta.y > 0)
+			{
+				SubmitCards();
+			}
+			else
+			{
+				cards[index].AddIncrementalPositionTween(Hand.GetFinalPositionOfCardAtIndex(index))
+							.AddIncrementalScaleTween(cards[index].ViewFSM.GetAnimScale())
+							.SetDuration(cards[index].CardAnimationData.CardStateChangeDuration);
+				_submitCardsButton.SetActive(!cards.Exists(c => c.Button.IsBeingDragged));
+			}
+		});
+	}
+
+	private void SetCardStates()
+	{
+		for (int i = 0, iMax = Hand.ReadOnlyCards.Count; i < iMax; ++i)
+		{
+			if (_selectedCardIndexes.Contains(i))
+			{
+				Hand.ReadOnlyCards[i].ViewFSM.SetAnimState(CardModViewtroller.CardViewFSM.AnimState.SELECTED);
+			}
+			else if (_allowedCardIndexes.Contains(i) && _selectedCardIndexes.IsEmpty())
+			{
+				Hand.ReadOnlyCards[i].ViewFSM.SetAnimState(CardModViewtroller.CardViewFSM.AnimState.ABLE_TO_BE_SELECTED);
+			}
+			else
+			{
+				Hand.ReadOnlyCards[i].ViewFSM.SetAnimState(CardModViewtroller.CardViewFSM.AnimState.VISIBLE);
+			}
 		}
-	}
-
-	private void SetButtonActiveToAdd(CardModViewtroller card, Action updateOptionsLambda)
-	{
-		card.ViewFSM.SetAnimState(CardModViewtroller.CardViewFSM.AnimState.ABLE_TO_BE_SELECTED);
-		card.Button.AddToOnClicked(() =>
-		{
-			_selectedCardIndexes.AddLast(Hand.ReadOnlyCards.IndexOf(card));
-			updateOptionsLambda();
-		});
-	}
-
-	private void SetButtonActiveToRemove(CardModViewtroller card, Action updateOptionsLambda)
-	{
-		card.ViewFSM.SetAnimState(CardModViewtroller.CardViewFSM.AnimState.SELECTED);
-		card.Button.AddToOnClicked(() =>
-		{
-			_selectedCardIndexes.Remove(Hand.ReadOnlyCards.IndexOf(card));
-			updateOptionsLambda();
-		});
-	}
-
-	private void SetButtonInactiveToReplace(CardModViewtroller card, Action updateOptionsLambda)
-	{
-		card.ViewFSM.SetAnimState(CardModViewtroller.CardViewFSM.AnimState.VISIBLE);
-		card.Button.AddToOnClicked(() =>
-		{
-			_selectedCardIndexes.Clear();
-			_selectedCardIndexes.AddLast(Hand.ReadOnlyCards.IndexOf(card));
-			updateOptionsLambda();
-		});
-	}
-
-	private void SetButtonInactive(CardModViewtroller card)
-	{
-		card.ViewFSM.SetAnimState(CardModViewtroller.CardViewFSM.AnimState.VISIBLE);
 	}
 }

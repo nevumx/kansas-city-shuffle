@@ -2341,6 +2341,10 @@ Prefab:
       propertyPath: _redoButton
       value: 
       objectReference: {fileID: 1620896786}
+    - target: {fileID: 11423022, guid: dc4e7beb3e04749539cef63af21cb996, type: 2}
+      propertyPath: _mainCamera
+      value: 
+      objectReference: {fileID: 1709494920}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dc4e7beb3e04749539cef63af21cb996, type: 2}
   m_IsPrefabParent: 0

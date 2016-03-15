@@ -123,7 +123,7 @@ public class CardHolder : MonoBehaviour
 		cardBeingMoved.ViewFSM.SetAnimState(other._cardsAnimState, performTweens: false);
 		cardBeingMoved.ViewFSM.SetTextVisibility(visibleDuringTween.HasValue ? visibleDuringTween.Value : other._cardsTextVisibility);
 
-		outTween = cardBeingMoved.AddIncrementalPositionTween(other.GetCardPositionAtIndex(indexToInsertAt) + cardBeingMoved.ViewFSM.GetAnimPositionOffset())
+		outTween = cardBeingMoved.AddIncrementalPositionTween(other.GetFinalPositionOfCardAtIndex(indexToInsertAt))
 								 .AddOffsetHeightTween(_cardAnimationData.GeneralCardMoveHeight)
 								 .AddLocalRotationTween(Vector3.one * 360.0f + cardBeingMoved.ViewFSM.GetAnimRotationOffset())
 								 .AddIncrementalScaleTween(cardBeingMoved.ViewFSM.GetAnimScale())
@@ -288,5 +288,15 @@ public class CardHolder : MonoBehaviour
 	protected virtual void OnCardRecieveTweenFinished(CardModViewtroller card)
 	{
 		card.ViewFSM.SetTextVisibility(_cardsTextVisibility);
+	}
+
+	public Vector3 GetFinalPositionOfCardAtIndex(int index)
+	{
+		return GetCardPositionAtIndex(index) + _Cards[index].ViewFSM.GetAnimPositionOffset();
+	}
+
+	public Vector3 GetFinalPositionOfCard(CardModViewtroller card)
+	{
+		return GetFinalPositionOfCardAtIndex(_Cards.IndexOf(card));
 	}
 }

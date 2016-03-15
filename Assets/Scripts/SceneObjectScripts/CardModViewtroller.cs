@@ -6,6 +6,7 @@ using Nx;
 public class CardModViewtroller : MonoBehaviour, ITweenable
 {
 	[SerializeField]	private	CardAnimationData	_cardAnimationData;
+						public	CardAnimationData	CardAnimationData	{ get { return _cardAnimationData; } }
 
 	[SerializeField]	private	Text				_cardText;
 
@@ -125,10 +126,7 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 					returnTween.AddIncrementalScaleTween(Vector3.one);
 					goto case AnimState.ABLE_TO_BE_SELECTED;
 				case AnimState.ABLE_TO_BE_SELECTED:
-					returnTween.AddIncrementalPositionTween(new Vector3(
-						_parentModViewtroller.transform.position.x,
-						_parentModViewtroller.ParentCardHolder.transform.position.y,
-						_parentModViewtroller.transform.position.z));
+					returnTween.AddIncrementalPositionTween(_parentModViewtroller.ParentCardHolder.GetFinalPositionOfCard(_parentModViewtroller));
 					break;
 				case AnimState.VISIBLE:
 				default:
@@ -146,10 +144,7 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 					returnTween.AddIncrementalScaleTween(Vector3.one);
 					goto case AnimState.ABLE_TO_BE_SELECTED;
 				case AnimState.ABLE_TO_BE_SELECTED:
-					returnTween.AddIncrementalPositionTween(new Vector3(
-						_parentModViewtroller.transform.position.x,
-						_parentModViewtroller.ParentCardHolder.transform.position.y,
-						_parentModViewtroller.transform.position.z))
+					returnTween.AddIncrementalPositionTween(_parentModViewtroller.ParentCardHolder.GetFinalPositionOfCard(_parentModViewtroller))
 							.SetDuration(_parentModViewtroller._cardAnimationData.CardStateChangeDuration);;
 					break;
 				case AnimState.OBSCURED:
@@ -176,12 +171,8 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 					goto case AnimState.VISIBLE;
 				case AnimState.VISIBLE:
 				default:
-					returnTween.AddIncrementalPositionTween(new Vector3(
-						_parentModViewtroller.transform.position.x,
-						_parentModViewtroller.ParentCardHolder.transform.position.y
-							+ _parentModViewtroller._cardAnimationData.CardFloatingHeight,
-						_parentModViewtroller.transform.position.z))
-							.SetDuration(_parentModViewtroller._cardAnimationData.CardStateChangeDuration);
+					returnTween.AddIncrementalPositionTween(_parentModViewtroller.ParentCardHolder.GetFinalPositionOfCard(_parentModViewtroller))
+						.SetDuration(_parentModViewtroller._cardAnimationData.CardStateChangeDuration);
 					break;
 			}
 		}
@@ -194,11 +185,7 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 					returnTween.AddLocalRotationTween(Vector3.zero);
 					goto case AnimState.VISIBLE;
 				case AnimState.VISIBLE:
-					returnTween.AddIncrementalPositionTween(new Vector3(
-						_parentModViewtroller.transform.position.x,
-						_parentModViewtroller.ParentCardHolder.transform.position.y
-							+ _parentModViewtroller._cardAnimationData.CardFloatingHeight,
-						_parentModViewtroller.transform.position.z));
+					returnTween.AddIncrementalPositionTween(_parentModViewtroller.ParentCardHolder.GetFinalPositionOfCard(_parentModViewtroller));
 					goto case AnimState.ABLE_TO_BE_SELECTED;
 				case AnimState.ABLE_TO_BE_SELECTED:
 				default:

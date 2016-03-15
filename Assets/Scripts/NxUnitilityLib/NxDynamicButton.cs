@@ -4,19 +4,21 @@ using System;
 
 namespace Nx
 {
-	public class NxDynamicButton : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, IDragHandler, IEndDragHandler
+	public class NxDynamicButton : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 	{
 		private	readonly	float						DOUBLE_CLICK_THRESHOLD_TIME	= 0.5f;
 		private	readonly	float						CLICK_EXPIRE_THRESHOLD_TIME	= 1.0f;
 
 		private				Action						_onClicked;
 		private				Action						_onDoubleClicked;
-		private				Action<PointerEventData>	_onDragged;
-		private				Action						_onDropped;
+		private				Action						_onBeginDrag;
+		private				Action<PointerEventData>	_onDrag;
+		private				Action<PointerEventData>	_onDrop;
 
 		private				float						_timeLastClickBegan			= 0.0f;
 		private				float						_timeLastClicked			= 0.0f;
 		private				bool						_isBeingDragged				= false;
+		public				bool						IsBeingDragged				{ get { return _isBeingDragged; } }
 
 		public void AddToOnClicked(Action toAdd)
 		{
@@ -40,26 +42,37 @@ namespace Nx
 			_onDoubleClicked += toAdd;
 		}
 
-		public void AddToOnDragged(Action<PointerEventData> toAdd)
+		public void AddToOnBeginDrag(Action toAdd)
 		{
 #if NX_DEBUG
-			if (_onDragged != null && _onDragged.GetInvocationList().Exists(d => d.Method == toAdd.Method && d.Target == toAdd.Target))
+			if (_onBeginDrag != null && _onBeginDrag.GetInvocationList().Exists(d => d.Method == toAdd.Method && d.Target == toAdd.Target))
 			{
 				NxUtils.LogWarning("Warning: Adding two identical delegates to a NxButton");
 			}
 #endif
-			_onDragged += toAdd;
+			_onBeginDrag += toAdd;
 		}
 
-		public void AddToOnDropped(Action toAdd)
+		public void AddToOnDrag(Action<PointerEventData> toAdd)
 		{
 #if NX_DEBUG
-			if (_onDropped != null && _onDropped.GetInvocationList().Exists(d => d.Method == toAdd.Method && d.Target == toAdd.Target))
+			if (_onDrag != null && _onDrag.GetInvocationList().Exists(d => d.Method == toAdd.Method && d.Target == toAdd.Target))
 			{
 				NxUtils.LogWarning("Warning: Adding two identical delegates to a NxButton");
 			}
 #endif
-			_onDropped += toAdd;
+			_onDrag += toAdd;
+		}
+
+		public void AddToOnDrop(Action<PointerEventData> toAdd)
+		{
+#if NX_DEBUG
+			if (_onDrop != null && _onDrop.GetInvocationList().Exists(d => d.Method == toAdd.Method && d.Target == toAdd.Target))
+			{
+				NxUtils.LogWarning("Warning: Adding two identical delegates to a NxButton");
+			}
+#endif
+			_onDrop += toAdd;
 		}
 
 		public void OnPointerDown(PointerEventData eventData)
@@ -75,13 +88,11 @@ namespace Nx
 				{
 					_onClicked.Raise();
 					_timeLastClicked = Time.realtimeSinceStartup;
-					NxUtils.Log("Click");
 				}
 				else
 				{
 					_onDoubleClicked.Raise();
 					_timeLastClicked = 0.0f;
-					NxUtils.Log("DoubleClick");
 				}
 			}
 		}
@@ -92,22 +103,30 @@ namespace Nx
 			{
 				_onClicked.Raise();
 				_timeLastClicked = Time.realtimeSinceStartup;
-				NxUtils.Log("ButtonClick");
 			}
+		}
+
+		public void OnBeginDrag(PointerEventData eventData)
+		{
+			_isBeingDragged = true;
+			_onBeginDrag.Raise();
 		}
 
 		public void OnDrag(PointerEventData eventData)
 		{
-			_isBeingDragged = true;
-			_onDragged.Raise(eventData);
-			NxUtils.Log("Drag");
+			if (_isBeingDragged)
+			{
+				_onDrag.Raise(eventData);
+			}
 		}
 
 		public void OnEndDrag(PointerEventData eventData)
 		{
-			_isBeingDragged = false;
-			_onDropped.Raise();
-			NxUtils.Log("Drop");
+			if (_isBeingDragged)
+			{
+				_isBeingDragged = false;
+				_onDrop.Raise(eventData);
+			}
 		}
 
 		public void ClearOnClickedDelegates()
@@ -120,22 +139,33 @@ namespace Nx
 			_onDoubleClicked = null;
 		}
 
-		public void ClearOnDraggedDelegates()
+		public void ClearOnBeginDragDelegates()
 		{
-			_onDragged = null;
+			_onBeginDrag = null;
 		}
 
-		public void ClearOnDroppedDelegates()
+		public void ClearOnDragDelegates()
 		{
-			_onDropped = null;
+			_onDrag = null;
+		}
+
+		public void ClearOnDropDelegates()
+		{
+			_onDrop = null;
 		}
 
 		public void ClearAllDelegates()
 		{
 			ClearOnClickedDelegates();
 			ClearOnDoubleClickedDelegates();
-			ClearOnDraggedDelegates();
-			ClearOnDroppedDelegates();
+			ClearOnBeginDragDelegates();
+			ClearOnDragDelegates();
+			ClearOnDropDelegates();
+		}
+
+		public void CancelDrag()
+		{
+			_isBeingDragged = false;
 		}
 	}
 }
