@@ -251,7 +251,7 @@ public partial class MainGameModtroller : MonoBehaviour
 				for (int k = 0, kMax = values.Length; k < kMax; ++k)
 				{
 					TweenHolder createCardTweenHolder;
-					_deck.CreateCard(values[k], suits[j], out createCardTweenHolder, fancyEntrance: true, angleOffsetForFancyEntrance:
+					_deck.CreateCard(values[k], suits[j], _mainCamera, out createCardTweenHolder, fancyEntrance: true, angleOffsetForFancyEntrance:
 						(float)(k + j * kMax + i * jMax * kMax) / (iMax * jMax * kMax) * Mathf.PI * 2.0f);
 					cardCreationTweenWaiter.AddFinishable(createCardTweenHolder);
 					yield return new WaitForSeconds(_cardAnimationData.CardCreationTotalDuration / (iMax * jMax * kMax));

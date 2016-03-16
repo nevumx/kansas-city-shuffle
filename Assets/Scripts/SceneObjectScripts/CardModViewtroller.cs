@@ -24,10 +24,11 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 	[SerializeField]	private	TweenHolder			_tweenHolder;
 						public	TweenHolder			TweenHolder			{ get { return _tweenHolder; } }
 
-	public CardModViewtroller Init(Card.CardValue value, Card.CardSuit suit)
+	public CardModViewtroller Init(Card.CardValue value, Card.CardSuit suit, Camera eventCamera)
 	{
 		_card = new Card(value, suit);
 		_cardText.text = _card.FormattedForCardText();
+		_cardText.canvas.worldCamera = eventCamera;
 		return this;
 	}
 

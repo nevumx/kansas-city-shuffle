@@ -82,11 +82,11 @@ public class CardHolder : MonoBehaviour
 		_cardsAnimState = newState;
 	}
 
-	public void CreateCard(Card.CardValue cardValue, Card.CardSuit cardSuit, out TweenHolder outTween,
+	public void CreateCard(Card.CardValue cardValue, Card.CardSuit cardSuit, Camera eventCamera, out TweenHolder outTween,
 						   bool fancyEntrance = false, float angleOffsetForFancyEntrance = 0.0f)
 	{
 		outTween = null;
-		var card = ((CardModViewtroller)Instantiate(CardPrefab)).Init(cardValue, cardSuit);
+		var card = ((CardModViewtroller)Instantiate(CardPrefab)).Init(cardValue, cardSuit, eventCamera);
 		AddCard(card);
 		card.ViewFSM.SetAnimState(_cardsAnimState, performTweens: false);
 

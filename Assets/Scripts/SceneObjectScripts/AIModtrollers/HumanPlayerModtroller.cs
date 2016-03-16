@@ -48,7 +48,6 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 
 			Hand.CardsTextVisibility = true;
 			SetCardStates();
-			_submitCardsButton.SetActive(_MainGameModtroller.OptionalPlayRule);
 		}
 		else
 		{
@@ -95,10 +94,6 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 			if (_selectedCardIndexes.Contains(index))
 			{
 				_selectedCardIndexes.Remove(index);
-				if (_selectedCardIndexes.IsEmpty())
-				{
-					_submitCardsButton.SetActive(_MainGameModtroller.OptionalPlayRule && !cards.Exists(c => c.Button.IsBeingDragged));
-				}
 			}
 			else
 			{
@@ -111,7 +106,6 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 				});
 				_selectedCardIndexes.Add(index);
 				_selectedCardIndexes.RemoveAll(i => Hand.ReadOnlyCards[i].CardValue != cards[index].CardValue);
-				_submitCardsButton.SetActive(!cards.Exists(c => c.Button.IsBeingDragged));
 			}
 			SetCardStates();
 		});
@@ -141,14 +135,21 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 				_selectedCardIndexes.RemoveAll(i => cards[i].CardValue != cards[index].CardValue);
 			}
 			SetCardStates();
-			_submitCardsButton.SetActive(false);
 		});
 
 		cards[index].Button.AddToOnDrag(p =>
 		{
 			Ray ray = _MainGameModtroller.MainCamera.ScreenPointToRay(p.position); float distance;
-			new Plane(cards[index].transform.up, cards[index].transform.position).Raycast(ray, out distance);
-			cards[index].transform.position = ray.GetPoint(distance);
+			new Plane(cards[index].ParentCardHolder.transform.up, cards[index].ParentCardHolder.GetFinalPositionOfCard(cards[index])).Raycast(ray, out distance);
+			IncrementalPositionTween posTween = null;
+			if ((posTween = cards[index].TweenHolder.GetTweenOfType<IncrementalPositionTween>()) != null)
+			{
+				posTween.PositionTo = ray.GetPoint(distance);
+			}
+			else
+			{
+				cards[index].transform.position = ray.GetPoint(distance);
+			}
 		});
 
 		cards[index].Button.AddToOnDrop(p =>
@@ -159,10 +160,14 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 			}
 			else
 			{
+				if (!_selectedCardIndexes.Exists(i => cards[i].CardValue == cards[index].CardValue && i != index && !cards[i].Button.IsBeingDragged))
+				{
+					_selectedCardIndexes.Remove(index);
+					SetCardStates();
+				}
 				cards[index].AddIncrementalPositionTween(Hand.GetFinalPositionOfCardAtIndex(index))
 							.AddIncrementalScaleTween(cards[index].ViewFSM.GetAnimScale())
 							.SetDuration(cards[index].CardAnimationData.CardStateChangeDuration);
-				_submitCardsButton.SetActive(!cards.Exists(c => c.Button.IsBeingDragged));
 			}
 		});
 	}
@@ -184,5 +189,7 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 				Hand.ReadOnlyCards[i].ViewFSM.SetAnimState(CardModViewtroller.CardViewFSM.AnimState.VISIBLE);
 			}
 		}
+		_submitCardsButton.SetActive(!Hand.ReadOnlyCards.Exists(c => c.Button.IsBeingDragged)
+										&& (_MainGameModtroller.OptionalPlayRule || !_selectedCardIndexes.IsEmpty()));
 	}
 }
