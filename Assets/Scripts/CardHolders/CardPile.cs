@@ -64,7 +64,13 @@ public class CardPile : DynamicCardHolder
 	{
 		if (_keepAllButTopCardTextInvisible)
 		{
-			ReadOnlyCards.ForEach(r => r.ViewFSM.SetTextVisibility(false));
+			ReadOnlyCards.ForEach(r =>
+			{
+				if (!_CardsInTransition.Contains(r))
+				{
+					r.ViewFSM.SetTextVisibility(false);
+				}
+			});
 			card.ViewFSM.SetTextVisibility(true);
 		}
 		else
