@@ -124,7 +124,7 @@ public class CardHolder : MonoBehaviour
 		cardBeingMoved.ViewFSM.SetTextVisibility(visibleDuringTween.HasValue ? visibleDuringTween.Value : other._cardsTextVisibility);
 
 		outTween = cardBeingMoved.AddIncrementalPositionTween(other.GetFinalPositionOfCardAtIndex(indexToInsertAt))
-								 .AddOffsetHeightTween(_cardAnimationData.GeneralCardMoveHeight)
+								 .AddOffsetHeightTween(_cardAnimationData.GeneralCardMoveHeight, OffsetHeightTween.CircularHeightFunction)
 								 .AddLocalRotationTween(Vector3.one * 360.0f + cardBeingMoved.ViewFSM.GetAnimRotationOffset())
 								 .AddIncrementalScaleTween(cardBeingMoved.ViewFSM.GetAnimScale())
 								 .SetDuration(_cardAnimationData.GeneralCardMoveDuration)

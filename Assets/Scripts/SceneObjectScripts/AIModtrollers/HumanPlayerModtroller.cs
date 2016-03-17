@@ -154,7 +154,7 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 
 		cards[index].Button.AddToOnDrop(p =>
 		{
-			if (p.delta.y > 0)
+			if (p.delta.y > 0.0f || (p.delta.y == 0.0f && p.position.y > Screen.height / 2.0f))
 			{
 				SubmitCards();
 			}
