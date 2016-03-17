@@ -433,12 +433,12 @@ public partial class MainGameModtroller : MonoBehaviour
 		deckRefillTweenWaiter.Ready = true;
 	}
 
-	public void EndPlayerTurn(int[] cardIndexes)
+	public void EndPlayerTurn(int[] cardIndexes, bool handCardsWereDragged = false)
 	{
-		StartCoroutine(EndPlayerTurnInternal(cardIndexes));
+		StartCoroutine(EndPlayerTurnInternal(cardIndexes, handCardsWereDragged));
 	}
 
-	private IEnumerator EndPlayerTurnInternal(int[] cardIndexes)
+	private IEnumerator EndPlayerTurnInternal(int[] cardIndexes, bool handCardsWereDragged)
 	{
 		HideUndoAndRedoButtons();
 		if (NxUtils.IsNullOrEmpty(cardIndexes))
@@ -460,6 +460,14 @@ public partial class MainGameModtroller : MonoBehaviour
 			{
 				var moveCardCommand = new MoveCardCommand(_players[_currentPlayer].Hand, cardIndexes[i], _discardPile, visibleDuringTween: true);
 				_commander.ExecuteAndAddToCurrentTurnBundle(moveCardCommand);
+				if (handCardsWereDragged)
+				{
+					moveCardCommand.OutTween.GetTweenOfType<OffsetHeightTween>().IfIsNotNullThen(t => 
+					{
+						t.Height = _cardAnimationData.CardDragSubmitTweenHeight;
+						t.HeightFunction = OffsetHeightTween.QuadraticHeightFunction;
+					});
+				}
 				cardMoveTweenWaiter.AddFinishable(moveCardCommand.OutTween);
 				if (_deck.CardCount <= 0)
 				{

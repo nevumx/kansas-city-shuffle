@@ -22,6 +22,7 @@ MonoBehaviour:
   _deckRefillDelayPerCard: 0.15
   _generalCardMoveHeight: 3
   _generalCardMoveDuration: 1.5
+  _cardDragSubmitTweenHeight: 1.5
   _consectiveCardDealDelay: 0.4
   _consectiveCardSubmitDelay: 0.25
   _cardFloatingHeight: 1.5

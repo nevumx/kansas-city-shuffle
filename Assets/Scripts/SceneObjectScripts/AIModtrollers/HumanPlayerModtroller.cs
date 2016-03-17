@@ -55,7 +55,7 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 		}
 	}
 
-	public void SubmitCards()
+	public void SubmitCards(bool handCardsWereDragged = false)
 	{
 		Hand.ReadOnlyCards.ForEach(c => 
 		{
@@ -64,7 +64,7 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 		});
 
 		_submitCardsButton.SetActive(false);
-		_MainGameModtroller.EndPlayerTurn(_selectedCardIndexes.ToArray());
+		_MainGameModtroller.EndPlayerTurn(_selectedCardIndexes.ToArray(), handCardsWereDragged);
 		_selectedCardIndexes.Clear();
 	}
 
@@ -156,7 +156,7 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 		{
 			if (p.delta.y > 0.0f || (p.delta.y == 0.0f && p.position.y > Screen.height / 2.0f))
 			{
-				SubmitCards();
+				SubmitCards(handCardsWereDragged: true);
 			}
 			else
 			{

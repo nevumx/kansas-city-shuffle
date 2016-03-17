@@ -17,6 +17,7 @@ public class CardAnimationData : ScriptableObject
 	[SerializeField] private float _deckRefillDelayPerCard;
 	[SerializeField] private float _generalCardMoveHeight;
 	[SerializeField] private float _generalCardMoveDuration;
+	[SerializeField] private float _cardDragSubmitTweenHeight;
 	[SerializeField] private float _consectiveCardDealDelay;
 	[SerializeField] private float _consectiveCardSubmitDelay;
 	[SerializeField] private float _cardFloatingHeight;
@@ -35,6 +36,7 @@ public class CardAnimationData : ScriptableObject
 	public float DeckRefillDelayPerCard					{ get { return _deckRefillDelayPerCard; } }
 	public float GeneralCardMoveHeight					{ get { return _generalCardMoveHeight; } }
 	public float GeneralCardMoveDuration				{ get { return _generalCardMoveDuration; } }
+	public float CardDragSubmitTweenHeight				{ get { return _cardDragSubmitTweenHeight; } }
 	public float ConsecutiveCardDealDelay				{ get { return _consectiveCardDealDelay; } }
 	public float ConsecutiveCardSubmitDelay				{ get { return _consectiveCardSubmitDelay; } }
 	public float CardFloatingHeight						{ get { return _cardFloatingHeight; } }
