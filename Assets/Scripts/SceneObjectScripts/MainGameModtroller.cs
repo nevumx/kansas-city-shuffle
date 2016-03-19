@@ -462,11 +462,7 @@ public partial class MainGameModtroller : MonoBehaviour
 				_commander.ExecuteAndAddToCurrentTurnBundle(moveCardCommand);
 				if (handCardsWereDragged)
 				{
-					moveCardCommand.OutTween.GetTweenOfType<OffsetHeightTween>().IfIsNotNullThen(t => 
-					{
-						t.Height = _cardAnimationData.CardDragSubmitTweenHeight;
-						t.HeightFunction = OffsetHeightTween.QuadraticHeightFunction;
-					});
+					moveCardCommand.OutTween.GetTweenOfType<OffsetHeightTween>().IfIsNotNullThen(t => t.Height = _cardAnimationData.CardDragSubmitTweenHeight);
 				}
 				cardMoveTweenWaiter.AddFinishable(moveCardCommand.OutTween);
 				if (_deck.CardCount <= 0)
@@ -515,6 +511,7 @@ public partial class MainGameModtroller : MonoBehaviour
 				var dealToCommand = new DealToCommand(_deck, _wildcardPile);
 				_commander.ExecuteAndAddToCurrentTurnBundle(dealToCommand);
 				dealToCommand.OutTween.AddOffsetHeightTween(_cardAnimationData.GeneralCardMoveHeight / 2.0f);
+				cardMoveTweenWaiter.AddFinishable(dealToCommand.OutTween);
 			}
 			cardMoveTweenWaiter.Ready = true;
 		}

@@ -99,7 +99,7 @@ public class CardHolder : MonoBehaviour
 			card.transform.position = transform.position
 					+ Vector3.right * rightDistance
 					+ Vector3.forward * upDistance;
-			outTween = card.AddPositionTween(GetCardPositionAtIndex(_Cards.LastIndex()))
+			outTween = card.AddIncrementalPositionTween(GetCardPositionAtIndex(_Cards.LastIndex()), true)
 						   .AddOffsetHeightTween(_cardAnimationData.DeckFillFancyIntroTweenHeight)
 						   .AddLocalRotationTween(360.0f * Vector3.one + card.ViewFSM.GetAnimRotationOffset())
 						   .SetDuration(_cardAnimationData.DeckFillDurationPerCard)
@@ -123,12 +123,11 @@ public class CardHolder : MonoBehaviour
 		cardBeingMoved.ViewFSM.SetAnimState(other._cardsAnimState, performTweens: false);
 		cardBeingMoved.ViewFSM.SetTextVisibility(visibleDuringTween.HasValue ? visibleDuringTween.Value : other._cardsTextVisibility);
 
-		outTween = cardBeingMoved.AddIncrementalPositionTween(other.GetFinalPositionOfCardAtIndex(indexToInsertAt))
-								 .AddOffsetHeightTween(_cardAnimationData.GeneralCardMoveHeight, OffsetHeightTween.CircularHeightFunction)
+		outTween = cardBeingMoved.AddIncrementalPositionTween(other.GetFinalPositionOfCardAtIndex(indexToInsertAt), boostSpeed: true)
+								 .AddOffsetHeightTween(_cardAnimationData.GeneralCardMoveHeight)
 								 .AddLocalRotationTween(Vector3.one * 360.0f + cardBeingMoved.ViewFSM.GetAnimRotationOffset())
 								 .AddIncrementalScaleTween(cardBeingMoved.ViewFSM.GetAnimScale())
 								 .SetDuration(_cardAnimationData.GeneralCardMoveDuration)
-								 .SetAnimationCurveFunction(TweenHolder.LinearAnimationCurve)
 								 .AddToOnFinishedOnce(() => other.OnCardRecieveTweenFinished(cardBeingMoved));
 
 		OnCardSent(cardBeingMoved);
@@ -181,7 +180,6 @@ public class CardHolder : MonoBehaviour
 		{
 			shuffleAnimationWaiter.AddFinishable(
 					_shuffleAnimationCamera.AddPositionPingPongTween(_shuffleAnimationCamera.transform.position + Vector3.up * _cardAnimationData.CameraShuffleTweenUpAmount)
-										   .SetAnimationCurveFunction(TweenHolder.EaseInOutPingPongAnimationCurveFastOutro)
 										   .SetDuration(_cardAnimationData.DeckShuffleExplosionDuration));
 		}
 
@@ -214,8 +212,7 @@ public class CardHolder : MonoBehaviour
 		if (_shuffleAnimationCamera != null && _shuffleAnimationOriginPoint != null)
 		{
 			shuffleAnimationWaiter.AddFinishable(
-					_shuffleAnimationCamera.AddPositionPingPongTween(_shuffleAnimationCamera.transform.position + Vector3.up * _cardAnimationData.CameraShuffleTweenUpAmount) // TODO: Magic Number
-										   .SetAnimationCurveFunction(TweenHolder.EaseInOutPingPongAnimationCurveFastOutro)
+					_shuffleAnimationCamera.AddPositionPingPongTween(_shuffleAnimationCamera.transform.position + Vector3.up * _cardAnimationData.CameraShuffleTweenUpAmount)
 										   .SetDuration(_cardAnimationData.DeckShuffleExplosionDuration));
 		}
 
@@ -249,7 +246,6 @@ public class CardHolder : MonoBehaviour
 		{
 			shuffleAnimationWaiter.AddFinishable(
 					_shuffleAnimationCamera.AddPositionPingPongTween(_shuffleAnimationCamera.transform.position + Vector3.up * _cardAnimationData.CameraShuffleTweenUpAmount)
-										   .SetAnimationCurveFunction(TweenHolder.EaseInOutPingPongAnimationCurveFastOutro)
 										   .SetDuration(_cardAnimationData.DeckShuffleExplosionDuration));
 		}
 
@@ -265,10 +261,9 @@ public class CardHolder : MonoBehaviour
 			rotationVector.z -= card.ViewFSM.GetAnimRotationOffset().z;
 			card.AddPositionPingPongTween(GetCardPositionAtIndex(cardIndex), card.gameObject.transform.position + Vector3.up * _cardAnimationData.DeckShuffleExplosionSphereRadius
 					+ UnityEngine.Random.onUnitSphere * UnityEngine.Random.Range(0.1f, Mathf.Max(1.0f, _cardAnimationData.DeckShuffleExplosionSphereRadius)))
-				.SetAnimationCurveFunction(TweenHolder.EaseInOutPingPongAnimationCurveFastOutro)
 				.SetDuration(animationDuration)
 				.SetDelay(UnityEngine.Random.Range(0.0f, _cardAnimationData.DeckShuffleExplosionDuration - animationDuration))
-				.AddLocalRotationTween(rotationVector)
+				.AddLocalRotationTween(rotationVector, true)
 				.AddToOnFinishedOnce(() => OnCardRecieveTweenFinished(card));
 	}
 

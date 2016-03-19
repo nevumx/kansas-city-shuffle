@@ -21,6 +21,7 @@ public class PositionPingPongTween : Tween
 
 	private void OnUpdate(GameObject gameObj, float percentDone, float timeRemaining)
 	{
+		percentDone = TweenHolder.EaseInOutPingPongAnimationCurveFastOutro(percentDone);
 		if (percentDone < 0.5f)
 		{
 			gameObj.transform.position = Vector3.Lerp(PositionFrom, PositionTo, PingPongFunction(percentDone));

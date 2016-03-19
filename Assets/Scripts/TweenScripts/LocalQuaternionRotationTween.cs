@@ -19,6 +19,7 @@ public class LocalQuaternionRotationTween : Tween
 
 	private void OnUpdate(GameObject gameObj, float percentDone, float timeRemaining)
 	{
+		percentDone = TweenHolder.EaseInOutAnimationCurve(percentDone);
 		gameObj.transform.localRotation = Quaternion.Slerp(From, To, percentDone);
 	}
 }

@@ -10,7 +10,6 @@ public class TweenHolder : MonoBehaviour, IFinishable
 	private	Action													_onFinishedOnce;
 	public	float													Duration				= 1.0f;
 	public	float													Delay					= 0.0f;
-	public	Func<float, float>										AnimationCurveFunction;
 	private	LinkedList<Tween>										_tweens					= new LinkedList<Tween>();
 	private	NxSortedLinkedList<Action<GameObject, float, float>>	_updateDelegates		= new NxSortedLinkedList<Action<GameObject, float, float>>
 																								(sortBy: d => ((Tween)d.Target).GetExecutionOrder());
@@ -35,9 +34,8 @@ public class TweenHolder : MonoBehaviour, IFinishable
 		_onFinishedOnce = null;
 		Duration = 1.0f;
 		Delay = 0.0f;
-		AnimationCurveFunction = EaseInOutAnimationCurve; // LinearAnimationCurve
 	}
-	
+
 	public TweenHolder Play()
 	{
 		_timeStarted = Time.time;
@@ -54,11 +52,6 @@ public class TweenHolder : MonoBehaviour, IFinishable
 	public TweenHolder SetDelay(float newDelay)
 	{
 		Delay = newDelay;
-		return this;
-	}
-	public TweenHolder SetAnimationCurveFunction(Func<float, float> newAnimationCurveFunction)
-	{
-		newAnimationCurveFunction.IfIsNotNullThen(f => AnimationCurveFunction = f);
 		return this;
 	}
 	public TweenHolder AddToOnFinishedOnce(Action toAdd)
@@ -119,7 +112,7 @@ public class TweenHolder : MonoBehaviour, IFinishable
 		{
 			return;
 		}
-		_updateDelegates.IfIsNotNullThen(u => u.ForEach(d => d(gameObject, AnimationCurveFunction(percentDone), done ? 0.0f : Mathf.Max(0.0f, TimeRemaining))));
+		_updateDelegates.IfIsNotNullThen(u => u.ForEach(d => d(gameObject, percentDone, done ? 0.0f : Mathf.Max(0.0f, TimeRemaining))));
 		StartCoroutine(RaiseEndOfFrameCallbacks());
 		if (done)
 		{
@@ -179,8 +172,6 @@ public class TweenHolder : MonoBehaviour, IFinishable
 		}
 		return default(T);
 	}
-	
-	public static float LinearAnimationCurve(float percentDone) { return percentDone; }
 
 	public static float EaseInOutAnimationCurve(float percentDone)
 	{
@@ -214,8 +205,8 @@ public class Tween
 	{
 		return 0;
 	}
-	
+
 	public virtual Action<GameObject, float, float> GetUpdateDelegate() { return null; }
-	
+
 	public virtual Action<GameObject> GetEndOfFrameDelegate() { return null; }
 }

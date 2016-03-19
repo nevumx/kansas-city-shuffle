@@ -24,7 +24,7 @@ public class IncrementalScaleTween : Tween
 		}
 
 		Vector3 destOffset = ScaleTo - gameObj.transform.localScale;
-		float speed = destOffset.magnitude / timeRemaining;
+		float speed = destOffset.magnitude / timeRemaining * -6.0f * percentDone * (percentDone - 1.0f) + 0.65f;
 		Vector3 nextDest = gameObj.transform.localScale + destOffset.normalized * speed * Time.deltaTime;
 
 		if (Vector3.Distance(gameObj.transform.localScale, nextDest)

@@ -19,6 +19,7 @@ public class PositionTween : Tween
 
 	private void OnUpdate(GameObject gameObj, float percentDone, float timeRemaining)
 	{
+		percentDone = TweenHolder.EaseInOutAnimationCurve(percentDone);
 		gameObj.transform.position = Vector3.Lerp(PositionFrom, PositionTo, percentDone);
 	}
 }

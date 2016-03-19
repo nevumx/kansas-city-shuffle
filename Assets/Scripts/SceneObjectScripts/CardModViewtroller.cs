@@ -80,7 +80,7 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 
 		public void SetTextVisibility(bool visible)
 		{
-			_parentModViewtroller._cardText.canvasRenderer.SetColor(visible ? Color.white:new Color(0.0f, 0.0f, 0.0f, 0.0f));
+			_parentModViewtroller._cardText.canvasRenderer.SetColor(visible ? Color.white : new Color(0.0f, 0.0f, 0.0f, 0.0f));
 		}
 
 		public TweenHolder SetAnimState(AnimState newState, bool performTweens = true)
@@ -119,7 +119,6 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 		private void ObscuredState(AnimState lastState, ref TweenHolder returnTween)
 		{
 			returnTween.AddLocalRotationTween(TURNED_OVER_ROTATION_OFFSET)
-				.SetAnimationCurveFunction(TweenHolder.LinearAnimationCurve)
 				.SetDuration(_parentModViewtroller._cardAnimationData.CardStateChangeDuration);
 			switch (lastState)
 			{
@@ -153,8 +152,7 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 					returnTween.AddPositionPingPongTween(_parentModViewtroller.transform.position
 							+ Vector3.up * _parentModViewtroller._cardAnimationData.CardFloatingHeight)
 						.AddLocalRotationTween(Vector3.zero)
-						.SetAnimationCurveFunction(TweenHolder.LinearAnimationCurve)
-							.SetDuration(_parentModViewtroller._cardAnimationData.CardStateChangeDuration);
+						.SetDuration(_parentModViewtroller._cardAnimationData.CardStateChangeDuration);
 					break;
 			}
 		}

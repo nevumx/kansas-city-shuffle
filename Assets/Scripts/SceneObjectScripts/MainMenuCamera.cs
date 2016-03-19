@@ -34,7 +34,6 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 		TweenTransformPair nextPair = _tweenTransformPairs[nextIndex];
 		this.AddPositionTween(nextPair.From.position, nextPair.To.position)
 			.AddQuaternionRotationTween(nextPair.From.rotation, nextPair.To.rotation)
-			.SetAnimationCurveFunction(TweenHolder.EaseInOutAnimationCurve)
 			.SetDuration(_durationForEachTween)
 			.AddToOnFinishedOnce(TweenThroughNewTweenTransformPair);
 	}
