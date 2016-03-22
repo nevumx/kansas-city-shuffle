@@ -45,9 +45,9 @@ public static class PositionPingPongTweenHelperFunctions
 		return AddPositionPingPongTweenInternal(tweenHolder, tweenHolder.transform.position, to, tweenHolder.transform.position);
 	}
 
-	public static TweenHolder AddPositionPingPongTween(this TweenHolder tweenHolder, Vector3 from, Vector3 to)
+	public static TweenHolder AddPositionPingPongTween(this TweenHolder tweenHolder, Vector3 to, Vector3 backTo)
 	{
-		return AddPositionPingPongTweenInternal(tweenHolder, from, to, from);
+		return AddPositionPingPongTweenInternal(tweenHolder, tweenHolder.transform.position, to, backTo);
 	}
 
 	public static TweenHolder AddPositionPingPongTween(this TweenHolder tweenHolder, Vector3 from, Vector3 to, Vector3 backTo)
@@ -60,9 +60,9 @@ public static class PositionPingPongTweenHelperFunctions
 		return AddPositionPingPongTweenInternal(tweenable.TweenHolder, tweenable.gameObject.transform.position, to, tweenable.gameObject.transform.position);
 	}
 
-	public static TweenHolder AddPositionPingPongTween(this ITweenable tweenable, Vector3 from, Vector3 to)
+	public static TweenHolder AddPositionPingPongTween(this ITweenable tweenable, Vector3 to, Vector3 backTo)
 	{
-		return AddPositionPingPongTweenInternal(tweenable.TweenHolder, from, to, from);
+		return AddPositionPingPongTweenInternal(tweenable.TweenHolder, tweenable.gameObject.transform.position, to, backTo);
 	}
 
 	public static TweenHolder AddPositionPingPongTween(this ITweenable tweenable, Vector3 from, Vector3 to, Vector3 backTo)

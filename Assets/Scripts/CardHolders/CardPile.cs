@@ -54,8 +54,7 @@ public class CardPile : DynamicCardHolder
 		base.OnCardSent(sentCard);
 		if (_keepAllButTopCardTextInvisible)
 		{
-			ReadOnlyCards.ForEach(r => r.ViewFSM.SetTextVisibility(false));
-			ReadOnlyCards.Last().IfIsNotNullThen(c => c.ViewFSM.SetTextVisibility(true));
+			UpdateCardVisibilities();
 		}
 	}
 
@@ -63,19 +62,20 @@ public class CardPile : DynamicCardHolder
 	{
 		if (_keepAllButTopCardTextInvisible)
 		{
-			ReadOnlyCards.ForEach(r =>
-			{
-				if (!_CardsInTransition.Contains(r))
-				{
-					r.ViewFSM.SetTextVisibility(false);
-				}
-			});
-			card.ViewFSM.SetTextVisibility(true);
+			UpdateCardVisibilities();
 		}
 		else
 		{
 			base.OnCardRecieveTweenFinished(card);
 		}
+	}
+
+	private void UpdateCardVisibilities()
+	{
+		var pileCards = new List<CardModViewtroller>(ReadOnlyCards);
+		pileCards.RemoveAll(c => _CardsInTransition.Contains(c));
+		pileCards.ForEach(c => c.ViewFSM.SetTextVisibility(false));
+		pileCards.Last().IfIsNotNullThen(c => c.ViewFSM.SetTextVisibility(true));
 	}
 
 	protected override Vector3 GetCardPositionAtIndex(int index)

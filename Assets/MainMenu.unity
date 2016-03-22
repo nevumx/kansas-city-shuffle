@@ -7174,7 +7174,7 @@ GameObject:
   - 224: {fileID: 811431836}
   - 114: {fileID: 811431837}
   m_Layer: 5
-  m_Name: DSwtichLHCRuleToggle
+  m_Name: DSwtichLBCRuleToggle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16816,7 +16816,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: D-Switch LHC Rule
+  m_Text: D-Switch LBC Rule
 --- !u!222 &1882859524
 CanvasRenderer:
   m_ObjectHideFlags: 0

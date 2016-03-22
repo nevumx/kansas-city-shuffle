@@ -120,41 +120,50 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 		{
 			returnTween.AddLocalRotationTween(TURNED_OVER_ROTATION_OFFSET)
 				.SetDuration(_parentModViewtroller._cardAnimationData.CardStateChangeDuration);
+			Vector3 finalPosition = _parentModViewtroller.ParentCardHolder.GetFinalPositionOfCard(_parentModViewtroller);
 			switch (lastState)
 			{
 				case AnimState.SELECTED:
 					returnTween.AddIncrementalScaleTween(Vector3.one);
 					goto case AnimState.ABLE_TO_BE_SELECTED;
 				case AnimState.ABLE_TO_BE_SELECTED:
-					returnTween.AddIncrementalPositionTween(_parentModViewtroller.ParentCardHolder.GetFinalPositionOfCard(_parentModViewtroller));
+					returnTween.RemoveTweenOfType<PositionPingPongTween>().AddIncrementalPositionTween(finalPosition);
 					break;
 				case AnimState.VISIBLE:
 				default:
-					returnTween.AddPositionPingPongTween(_parentModViewtroller.transform.position
-						+ Vector3.up * _parentModViewtroller._cardAnimationData.CardFloatingHeight);
+					if (returnTween.GetTweenOfType<PositionPingPongTween>() != null)
+					{
+						goto case AnimState.ABLE_TO_BE_SELECTED;
+					}
+					returnTween.AddPositionPingPongTween(finalPosition
+						+ Vector3.up * _parentModViewtroller._cardAnimationData.CardFloatingHeight, finalPosition);
 					break;
 			}
 		}
 
 		private void VisibleState(AnimState lastState, ref TweenHolder returnTween)
 		{
+			Vector3 finalPosition = _parentModViewtroller.ParentCardHolder.GetFinalPositionOfCard(_parentModViewtroller);
 			switch (lastState)
 			{
 				case AnimState.SELECTED:
 					returnTween.AddIncrementalScaleTween(Vector3.one);
 					goto case AnimState.ABLE_TO_BE_SELECTED;
 				case AnimState.ABLE_TO_BE_SELECTED:
-					returnTween.AddIncrementalPositionTween(_parentModViewtroller.ParentCardHolder.GetFinalPositionOfCard(_parentModViewtroller))
-							.SetDuration(_parentModViewtroller._cardAnimationData.CardStateChangeDuration);;
+					returnTween.RemoveTweenOfType<PositionPingPongTween>().AddIncrementalPositionTween(finalPosition);
 					break;
 				case AnimState.OBSCURED:
 				default:
-					returnTween.AddPositionPingPongTween(_parentModViewtroller.transform.position
-							+ Vector3.up * _parentModViewtroller._cardAnimationData.CardFloatingHeight)
-						.AddLocalRotationTween(Vector3.zero)
-						.SetDuration(_parentModViewtroller._cardAnimationData.CardStateChangeDuration);
+					if (returnTween.GetTweenOfType<PositionPingPongTween>() != null)
+					{
+						goto case AnimState.ABLE_TO_BE_SELECTED;
+					}
+					returnTween.AddPositionPingPongTween(finalPosition
+								+ Vector3.up * _parentModViewtroller._cardAnimationData.CardFloatingHeight, finalPosition)
+						.AddLocalRotationTween(Vector3.zero);
 					break;
 			}
+			returnTween.SetDuration(_parentModViewtroller._cardAnimationData.CardStateChangeDuration);
 		}
 
 		private void AbleToBeSelectedState(AnimState lastState, ref TweenHolder returnTween)
@@ -162,18 +171,17 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 			switch (lastState)
 			{
 				case AnimState.SELECTED:
-					returnTween.AddIncrementalScaleTween(Vector3.one)
-						.SetDuration(_parentModViewtroller._cardAnimationData.CardStateChangeDuration);
+					returnTween.AddIncrementalScaleTween(Vector3.one);
 					break;
 				case AnimState.OBSCURED:
 					returnTween.AddLocalRotationTween(Vector3.zero);
 					goto case AnimState.VISIBLE;
 				case AnimState.VISIBLE:
 				default:
-					returnTween.AddIncrementalPositionTween(_parentModViewtroller.ParentCardHolder.GetFinalPositionOfCard(_parentModViewtroller))
-						.SetDuration(_parentModViewtroller._cardAnimationData.CardStateChangeDuration);
+					returnTween.AddIncrementalPositionTween(_parentModViewtroller.ParentCardHolder.GetFinalPositionOfCard(_parentModViewtroller));
 					break;
 			}
+			returnTween.SetDuration(_parentModViewtroller._cardAnimationData.CardStateChangeDuration);
 		}
 
 		private void SelectedState(AnimState lastState, ref TweenHolder returnTween)
