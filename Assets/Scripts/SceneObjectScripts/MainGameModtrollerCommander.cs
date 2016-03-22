@@ -154,7 +154,7 @@ public partial class MainGameModtroller : MonoBehaviour
 
 		public override void SetupUndoData()
 		{
-			_oldScore = _mgmUnderControl._players[_mgmUnderControl._currentPlayer].Points;
+			_oldScore = _mgmUnderControl._players[_playerIndex].Points;
 		}
 
 		public override void Do()
@@ -165,6 +165,36 @@ public partial class MainGameModtroller : MonoBehaviour
 		public override void Undo()
 		{
 			_mgmUnderControl._players[_playerIndex].Points = _oldScore;
+		}
+	}
+
+	private class SetPlayerEliminatedCommand : MGMCommand
+	{
+		private int _playerIndex;
+		private bool _newEliminated;
+		private bool _oldEliminated;
+
+		private SetPlayerEliminatedCommand() {}
+
+		public SetPlayerEliminatedCommand(MainGameModtroller mgmUnderControl, int playerIndex, bool newEliminated) : base(mgmUnderControl)
+		{
+			_playerIndex = playerIndex;
+			_newEliminated = newEliminated;
+		}
+
+		public override void SetupUndoData()
+		{
+			_oldEliminated = _mgmUnderControl._players[_playerIndex].Eliminated;
+		}
+
+		public override void Do()
+		{
+			_mgmUnderControl._players[_playerIndex].Eliminated = _newEliminated;
+		}
+
+		public override void Undo()
+		{
+			_mgmUnderControl._players[_playerIndex].Eliminated = _oldEliminated;
 		}
 	}
 

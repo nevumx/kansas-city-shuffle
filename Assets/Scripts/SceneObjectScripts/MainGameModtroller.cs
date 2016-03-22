@@ -345,7 +345,13 @@ public partial class MainGameModtroller : MonoBehaviour
 
 			if (_gameSettings.EliminationRule)
 			{
-				_players.ForEach(p => p.IfIsNotNullThen(() => p.Eliminated = false));
+				for (int i = 0, iMax = _players.Length; i < iMax; ++i)
+				{
+					if (_players[i] != null)
+					{
+						_commander.ExecuteAndAddToCurrentTurnBundle(new SetPlayerEliminatedCommand(this, i, false));
+					}
+				}
 			}
 
 			bool playerHandRefillDone = false,
@@ -445,7 +451,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		{
 			if (_gameSettings.EliminationRule)
 			{
-				_players[_currentPlayer].Eliminated = true;
+				_commander.ExecuteAndAddToCurrentTurnBundle(new SetPlayerEliminatedCommand(this, _currentPlayer, true));
 			}
 			CycleCurrentPlayer(onFinished: () => StartCoroutine(BeginPlayerTurn()));
 		}
