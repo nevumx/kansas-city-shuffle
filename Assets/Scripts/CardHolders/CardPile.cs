@@ -52,30 +52,24 @@ public class CardPile : DynamicCardHolder
 	protected override void OnCardSent(CardModViewtroller sentCard)
 	{
 		base.OnCardSent(sentCard);
-		if (_keepAllButTopCardTextInvisible)
-		{
-			UpdateCardVisibilities();
-		}
+		UpdateCardVisibilities();
 	}
 
 	protected override void OnCardRecieveTweenFinished(CardModViewtroller card)
 	{
-		if (_keepAllButTopCardTextInvisible)
-		{
-			UpdateCardVisibilities();
-		}
-		else
-		{
-			base.OnCardRecieveTweenFinished(card);
-		}
+		base.OnCardRecieveTweenFinished(card);
+		UpdateCardVisibilities();
 	}
 
 	private void UpdateCardVisibilities()
 	{
-		var pileCards = new List<CardModViewtroller>(ReadOnlyCards);
-		pileCards.RemoveAll(c => _CardsInTransition.Contains(c));
-		pileCards.ForEach(c => c.ViewFSM.SetTextVisibility(false));
-		pileCards.Last().IfIsNotNullThen(c => c.ViewFSM.SetTextVisibility(true));
+		if (_keepAllButTopCardTextInvisible)
+		{
+			var pileCards = new List<CardModViewtroller>(ReadOnlyCards);
+			pileCards.RemoveAll(c => _CardsInTransition.Contains(c));
+			pileCards.ForEach(c => c.ViewFSM.SetTextVisibility(false));
+			pileCards.Last().IfIsNotNullThen(c => c.ViewFSM.SetTextVisibility(true));
+		}
 	}
 
 	protected override Vector3 GetCardPositionAtIndex(int index)

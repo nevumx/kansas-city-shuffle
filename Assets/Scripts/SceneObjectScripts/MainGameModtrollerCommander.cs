@@ -12,6 +12,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		public virtual void Undo() {}
 		public virtual void Redo() { Do(); }
 		public virtual void SetupUndoData() {}
+		public virtual bool IsTweened { get { return false; } }
 	}
 
 	private class MGMCommand : Command
@@ -203,6 +204,8 @@ public partial class MainGameModtroller : MonoBehaviour
 		public abstract TweenHolder OutTween { get; }
 
 		public abstract void AddToOnFinished(Action toAdd);
+
+		public override bool IsTweened { get { return true; } }
 	}
 
 	private class MoveCardCommand : TweenedCommand
@@ -452,8 +455,7 @@ public partial class MainGameModtroller : MonoBehaviour
 			{
 				if (node.Value is IFinishable)
 				{
-					bool isTweenedCommand = node.Value is TweenedCommand;
-					if (isTweenedCommand)
+					if (node.Value.IsTweened)
 					{
 						node.Value.Undo();
 					}
@@ -462,7 +464,7 @@ public partial class MainGameModtroller : MonoBehaviour
 						yield return new WaitUntil(() => animationWaiter.NumFinishableToWaitFor <= 0);
 					}
 					animationWaiter.AddFinishable((IFinishable) node.Value);
-					if (isTweenedCommand)
+					if (node.Value.IsTweened)
 					{
 						yield return new WaitForSeconds(_cardAnimationData.UndoTurnDelay);
 					}
