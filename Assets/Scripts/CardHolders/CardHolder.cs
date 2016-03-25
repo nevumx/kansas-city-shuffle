@@ -94,16 +94,19 @@ public class CardHolder : MonoBehaviour
 		{
 			float cardCreationRadius = _cardAnimationData.DeckFillFancyIntroCardSpawnDistance;
 			float rightDistance = cardCreationRadius * Mathf.Cos(angleOffsetForFancyEntrance);
-			float upDistance = cardCreationRadius * Mathf.Sin(angleOffsetForFancyEntrance);
+			float forwardDistance = cardCreationRadius * Mathf.Sin(angleOffsetForFancyEntrance);
 
 			card.transform.position = transform.position
 					+ Vector3.right * rightDistance
-					+ Vector3.forward * upDistance;
+					+ Vector3.forward * forwardDistance;
+
 			outTween = card.AddIncrementalPositionTween(GetCardPositionAtIndex(_Cards.LastIndex()), true)
 						   .AddOffsetHeightTween(_cardAnimationData.DeckFillFancyIntroTweenHeight)
 						   .AddLocalRotationTween(360.0f * Vector3.one + card.ViewFSM.GetAnimRotationOffset())
 						   .SetDuration(_cardAnimationData.DeckFillDurationPerCard)
 						   .AddToOnFinishedOnce(() => OnCardRecieveTweenFinished(card));
+
+			OnCardRecieveTweenBegan(card);
 			return;
 		}
 

@@ -41,17 +41,15 @@ public class MainMenuModtroller : MonoBehaviour
 	[SerializeField]	private	Toggle			_refillHandRuleToggle;
 	[SerializeField]	private	Toggle			_allOrNothingRuleToggle;
 	[SerializeField]	private	Toggle			_maxDeviationRuleToggle;
-	[SerializeField]	private	Toggle			_dSwitchLHCRuleToggle;
+	[SerializeField]	private	Toggle			_dSwitchLBCRuleToggle;
 	[SerializeField]	private	Toggle			_seeAICardsToggle;
 
 	[SerializeField]	private	Slider			_numberOfDecksSlider;
-	[SerializeField]	private	Slider			_numberOfValuesPerSuitSlider;
 	[SerializeField]	private	Slider			_numberOfCardsPerPlayerSlider;
 	[SerializeField]	private	Slider			_numberOfPointsToWinSlider;
 	[SerializeField]	private	Slider			_maxDeviationThresholdSlider;
 
 	[SerializeField]	private	Text			_numberOfDecksText;
-	[SerializeField]	private	Text			_numberOfValuesPerSuitText;
 	[SerializeField]	private	Text			_numberOfCardsPerPlayerText;
 	[SerializeField]	private	Text			_numberOfPointsToWinText;
 	[SerializeField]	private	Text			_maxDeviationThresholdText;
@@ -168,7 +166,7 @@ public class MainMenuModtroller : MonoBehaviour
 		_gameSettings.MaxDeviationRule = newRule;
 	}
 
-	public void OnDSwitchLHCRuleChanged(bool newRule)
+	public void OnDSwitchLBCRuleChanged(bool newRule)
 	{
 		_gameSettings.DSwitchLBCRule = newRule;
 	}
@@ -252,7 +250,7 @@ public class MainMenuModtroller : MonoBehaviour
 		_refillHandRuleToggle.isOn = _gameSettings.RefillHandRule;
 		_allOrNothingRuleToggle.isOn = _gameSettings.AllOrNothingRule;
 		_maxDeviationRuleToggle.isOn = _gameSettings.MaxDeviationRule;
-		_dSwitchLHCRuleToggle.isOn = _gameSettings.DSwitchLBCRule;
+		_dSwitchLBCRuleToggle.isOn = _gameSettings.DSwitchLBCRule;
 		_seeAICardsToggle.isOn = _gameSettings.SeeAICards;
 		_numberOfDecksSlider.value = _gameSettings.NumberOfDecks;
 		_numberOfCardsPerPlayerSlider.value = _gameSettings.NumberOfCardsPerPlayer;

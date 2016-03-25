@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 478582}
   - 33: {fileID: 3337184}
   - 23: {fileID: 2325606}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,7 @@ GameObject:
   - 4: {fileID: 469218}
   - 114: {fileID: 11469220}
   - 114: {fileID: 11496796}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: Card
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - 114: {fileID: 11469224}
   - 222: {fileID: 22269218}
   - 114: {fileID: 11426710}
-  m_Layer: 5
+  m_Layer: 21
   m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63,7 +63,7 @@ GameObject:
   - 223: {fileID: 22369218}
   - 114: {fileID: 11469226}
   - 114: {fileID: 11477474}
-  m_Layer: 5
+  m_Layer: 21
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -80,7 +80,7 @@ GameObject:
   - 4: {fileID: 479964}
   - 33: {fileID: 3384272}
   - 23: {fileID: 2377788}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: ZWrite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,7 +114,7 @@ GameObject:
   - 4: {fileID: 482832}
   - 33: {fileID: 3337864}
   - 23: {fileID: 2303754}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: Front
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -10,7 +10,6 @@ GameObject:
   - 4: {fileID: 493560}
   - 20: {fileID: 2058368}
   - 114: {fileID: 11455750}
-  - 114: {fileID: 11489366}
   m_Layer: 0
   m_Name: ShadowCamera
   m_TagString: Untagged
@@ -496,17 +495,6 @@ MonoBehaviour:
   iterations: 1
   blurSpread: 0
   blurShader: {fileID: 4800000, guid: 57e6deea7c2924e22a5138e2b70bb4dc, type: 3}
---- !u!114 &11489366
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 135688}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a81d4ad0ba568d84982709bf5b2f3ab5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

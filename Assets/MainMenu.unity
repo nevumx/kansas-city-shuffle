@@ -1930,8 +1930,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 252344797}
-  m_LocalRotation: {x: 0.35096976, y: -0.2520136, z: -0.07858699, w: 0.89840615}
-  m_LocalPosition: {x: 11.33, y: 14.41, z: -12.37}
+  m_LocalRotation: {x: 0.34545863, y: 0.06682257, z: -0.18691778, w: 0.9171995}
+  m_LocalPosition: {x: 0.64, y: 14.41, z: -15.54}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1874089061}
@@ -5138,22 +5138,20 @@ MonoBehaviour:
   _clientScreenCanvas: {fileID: 1736024407}
   _helpScreenCanvas: {fileID: 614401575}
   _aboutScreenCanvas: {fileID: 1336661370}
-  _customPlayButton: {fileID: 1319312066}
+  _customPlayButton: {fileID: 1847162912}
   _wildCardRuleToggle: {fileID: 1525084260}
   _eliminationRuleToggle: {fileID: 331914038}
   _optionalPlayToggle: {fileID: 1923296045}
   _refillHandRuleToggle: {fileID: 1451605970}
   _allOrNothingRuleToggle: {fileID: 1997150109}
   _maxDeviationRuleToggle: {fileID: 1619979262}
-  _dSwitchLHCRuleToggle: {fileID: 811431837}
+  _dSwitchLBCRuleToggle: {fileID: 811431837}
   _seeAICardsToggle: {fileID: 84801612}
   _numberOfDecksSlider: {fileID: 1036345954}
-  _numberOfValuesPerSuitSlider: {fileID: 0}
   _numberOfCardsPerPlayerSlider: {fileID: 1772473798}
   _numberOfPointsToWinSlider: {fileID: 998292717}
   _maxDeviationThresholdSlider: {fileID: 314393102}
   _numberOfDecksText: {fileID: 1321226921}
-  _numberOfValuesPerSuitText: {fileID: 0}
   _numberOfCardsPerPlayerText: {fileID: 1448433110}
   _numberOfPointsToWinText: {fileID: 1461606711}
   _maxDeviationThresholdText: {fileID: 2122691578}
@@ -7242,7 +7240,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 573546976}
-        m_MethodName: OnDSwitchLHCRuleChanged
+        m_MethodName: OnDSwitchLBCRuleChanged
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9406,8 +9404,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1004260183}
-  m_LocalRotation: {x: -0.2544596, y: -0.8581233, z: 0.120634414, w: -0.42932752}
-  m_LocalPosition: {x: -8.41, y: 4.46, z: 6.8}
+  m_LocalRotation: {x: 0.2529776, y: 0.86094624, z: -0.11970064, w: 0.424789}
+  m_LocalPosition: {x: -11.01, y: 4.46, z: 8.63}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1874089061}
@@ -12612,6 +12610,68 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1874089061}
   m_RootOrder: 8
+--- !u!1 &1412981452
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1412981453}
+  - 20: {fileID: 1412981454}
+  m_Layer: 0
+  m_Name: Camera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1412981453
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1412981452}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1727288881}
+  m_RootOrder: 0
+--- !u!20 &1412981454
+Camera:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1412981452}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 70
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 2097152
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+  m_StereoMirrorMode: 0
 --- !u!1 &1415281520
 GameObject:
   m_ObjectHideFlags: 0
@@ -15299,10 +15359,11 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1727288880}
-  m_LocalRotation: {x: 0.23817295, y: 0.09713247, z: 0.15025303, w: 0.95460093}
-  m_LocalPosition: {x: 3.91, y: 4.46, z: -8.04}
+  m_LocalRotation: {x: 0.2529776, y: 0.86094624, z: -0.11970064, w: 0.424789}
+  m_LocalPosition: {x: -7.69, y: 4.46, z: 6.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1412981453}
   m_Father: {fileID: 0}
   m_RootOrder: 9
 --- !u!20 &1727288882
@@ -15326,10 +15387,10 @@ Camera:
   field of view: 70
   orthographic: 0
   orthographic size: 5
-  m_Depth: -1
+  m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4293918719
+    m_Bits: 4291821567
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -15369,6 +15430,11 @@ MonoBehaviour:
     _to: {fileID: 1467224614}
   _durationForEachTween: 6
   _tweenHolder: {fileID: 1727288884}
+  _cardEffectCamera: {fileID: 1412981454}
+  _blitOverlayMaterial: {fileID: 2100000, guid: 7a5d28310a4ea41779becbd0e768d1fc,
+    type: 2}
+  _blitFadeAwayMaterial: {fileID: 2100000, guid: 63631cfe21cfb4665b24647a403dce2f,
+    type: 2}
 --- !u!114 &1727288884
 MonoBehaviour:
   m_ObjectHideFlags: 0

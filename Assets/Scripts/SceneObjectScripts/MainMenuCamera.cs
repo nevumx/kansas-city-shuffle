@@ -14,12 +14,18 @@ public struct TweenTransformPair
 
 public class MainMenuCamera : MonoBehaviour, ITweenable
 {
-	[SerializeField]	private	TweenTransformPair[]	_tweenTransformPairs	= null;
-	[SerializeField]	private	float					_durationForEachTween	= 6.0f;
+	[SerializeField]	private	TweenTransformPair[]	_tweenTransformPairs		= null;
+	[SerializeField]	private	float					_durationForEachTween		= 6.0f;
 	[SerializeField]	private	TweenHolder				_tweenHolder;
-						public	TweenHolder				TweenHolder				{ get { return _tweenHolder; } }
-						private	System.Random			_randomNumber			= new System.Random();
-						private	int						_lastTransformPairIndex	= -1;
+						public	TweenHolder				TweenHolder					{ get { return _tweenHolder; } }
+						private	System.Random			_randomNumber				= new System.Random();
+						private	int						_lastTransformPairIndex		= -1;
+
+	[SerializeField]	private	Camera					_cardEffectCamera;
+	[SerializeField]	private	Material				_blitOverlayMaterial;
+	[SerializeField]	private	Material				_blitFadeAwayMaterial;
+						private	RenderTexture			_cardFadeTexture;
+						private	int						_framesToClearCardBuffer	= 1;
 
 	private void Start()
 	{
@@ -36,6 +42,7 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 			.AddQuaternionRotationTween(nextPair.From.rotation, nextPair.To.rotation)
 			.SetDuration(_durationForEachTween)
 			.AddToOnFinishedOnce(TweenThroughNewTweenTransformPair);
+		_framesToClearCardBuffer = 2;
 	}
 
 	private void OnDrawGizmosSelected()
@@ -56,5 +63,39 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 				}
 			}
 		});
+	}
+
+	private void OnRenderImage(RenderTexture src, RenderTexture dest)
+	{
+		if (_framesToClearCardBuffer > 0)
+		{
+			RenderTexture.active = _cardFadeTexture;
+			GL.Clear(true, true, new Color(0.0f, 0.0f, 0.0f, 0.0f));
+			RenderTexture.active = null;
+			--_framesToClearCardBuffer;
+		}
+
+		_blitFadeAwayMaterial.SetFloat("_FadeAmt", Time.deltaTime);
+
+		RenderTexture temp = RenderTexture.GetTemporary(_cardEffectCamera.targetTexture.width, _cardEffectCamera.targetTexture.height);
+
+		Graphics.Blit(_cardFadeTexture, temp);
+		_cardFadeTexture.DiscardContents();
+		Graphics.Blit(temp, _cardFadeTexture, _blitFadeAwayMaterial);
+
+		RenderTexture.ReleaseTemporary(temp);
+
+		Graphics.Blit(_cardEffectCamera.targetTexture, _cardFadeTexture, _blitOverlayMaterial);
+		Graphics.Blit(_cardFadeTexture, src, _blitOverlayMaterial);
+		Graphics.Blit(src, dest);
+	}
+
+	private void Awake()
+	{
+		_cardFadeTexture = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32);
+		_cardEffectCamera.targetTexture = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32);
+		RenderTexture.active = _cardEffectCamera.targetTexture;
+		GL.Clear(true, true, new Color(0.0f, 0.0f, 0.0f, 0.0f));
+		RenderTexture.active = null;
 	}
 }
