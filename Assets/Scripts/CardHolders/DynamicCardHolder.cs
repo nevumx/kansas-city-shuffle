@@ -8,17 +8,13 @@ public abstract class DynamicCardHolder : CardHolder
 
 	protected override void OnCardSent(CardModViewtroller sentCard)
 	{
-		base.OnCardSent(sentCard);
-		LinkedListNode<CardModViewtroller> outgoingCardNode = _cardsInTransition.AddLast(sentCard);
-		sentCard.TweenHolder.AddToOnFinishedOnce(() => _cardsInTransition.Remove(outgoingCardNode));
-		RepositionCards(sentCard);
+		RepositionCards();
 	}
 
 	protected override void OnCardRecieveTweenBegan(CardModViewtroller incomingCard)
 	{
-		base.OnCardRecieveTweenBegan(incomingCard);
 		_cardsInTransition.AddLast(incomingCard);
-		RepositionCards(incomingCard);
+		RepositionCards();
 	}
 
 	protected override void OnCardRecieveTweenFinished(CardModViewtroller card)
@@ -27,5 +23,5 @@ public abstract class DynamicCardHolder : CardHolder
 		_cardsInTransition.Remove(card);
 	}
 
-	protected abstract void RepositionCards(CardModViewtroller inOrOutCard);
+	protected abstract void RepositionCards();
 }

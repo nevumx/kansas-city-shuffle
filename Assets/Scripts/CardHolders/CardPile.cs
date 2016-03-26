@@ -8,7 +8,7 @@ public class CardPile : DynamicCardHolder
 	[SerializeField]	private	float	_maxDistBetweenCardsInUnits		= 0.05f;
 	[SerializeField]	private	bool	_keepAllButTopCardTextInvisible	= false;
 
-	protected override void RepositionCards(CardModViewtroller inOrOutCard)
+	protected override void RepositionCards()
 	{
 		int cardCount = ReadOnlyCards.Count;
 		float distBetweenCards = cardCount == 1 ? 0.0f : Mathf.Min(_maxDistBetweenCardsInUnits, _pileMaxHeightInUnits / (cardCount - 1));

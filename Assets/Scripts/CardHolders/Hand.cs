@@ -6,7 +6,7 @@ public class Hand : DynamicCardHolder
 {
 	[SerializeField]	private	float	_handMaxSizeInUnits	= 8.1f;
 
-	protected override void RepositionCards(CardModViewtroller inOrOutCard)
+	protected override void RepositionCards()
 	{
 		Vector3 leftmostPosition = transform.position - transform.right * _handMaxSizeInUnits / 2.0f;
 		float distBetweenCards = _handMaxSizeInUnits / (Mathf.Max(1.0f, (float)CardCount) + 1.0f);
@@ -14,7 +14,7 @@ public class Hand : DynamicCardHolder
 
 		for (int i = 0, iMax = ReadOnlyCards.Count; i < iMax; ++i)
 		{
-			if (ReadOnlyCards[i] != inOrOutCard && ReadOnlyCards[i].ViewFSM.State != CardModViewtroller.CardViewFSM.AnimState.SELECTED)
+			if (ReadOnlyCards[i].ViewFSM.State != CardModViewtroller.CardViewFSM.AnimState.SELECTED)
 			{
 				TweenHolder cardShiftTween = ReadOnlyCards[i].TweenHolder;
 				Vector3 targetPosition = leftmostPosition + transform.right * distBetweenCards * (i + 1);
