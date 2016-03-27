@@ -15,6 +15,12 @@ public class TitleScreen : MonoBehaviour
 
 	private void Update()
 	{
+		if (Application.isShowingSplashScreen)
+		{
+			_timeObjectStarted = Time.time;
+			return;
+		}
+
 		if (Time.time < _timeObjectStarted + 1.0f)
 		{
 			_titleText.color = new Color(1.0f, 1.0f, 1.0f, (Time.time - _timeObjectStarted));
