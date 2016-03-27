@@ -18,9 +18,9 @@ public class MainMenuModtroller : MonoBehaviour
 		ABOUT_SCREEN,
 	}
 
-						const	string			SAVED_SETTINGS_FILE_NAME	= "/TakkuSumSettings.nxs";
+						const	string			SAVED_SETTINGS_FILE_NAME		= "/TakkuSumSettings.nxs";
 
-						private	GameObject		_currentMenuCanvas			= null;
+						private	GameObject		_currentMenuCanvas				= null;
 
 	[SerializeField]	private	GameObject		_mainMenuCanvas;
 	[SerializeField]	private	GameObject		_settingsCanvas;
@@ -56,6 +56,10 @@ public class MainMenuModtroller : MonoBehaviour
 
 	[SerializeField]	private	CustomPlayer[]	_customPlayers;
 
+	[SerializeField]	private	Image			_logoImage;
+	[SerializeField]	private	Image			_blackFadeOutImage;
+	[SerializeField]	private	float			_fadeOutTime					= 2.0f;
+
 	private Menu _currentMenu = Menu.MAIN_MENU;
 	public Menu CurrentMenu
 	{
@@ -65,6 +69,8 @@ public class MainMenuModtroller : MonoBehaviour
 		}
 		set
 		{
+			_blackFadeOutImage.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+			_logoImage.color = Color.white;
 			_currentMenuCanvas.IfIsNotNullThen(c => c.SetActive(false));
 			switch (value)
 			{
@@ -100,10 +106,23 @@ public class MainMenuModtroller : MonoBehaviour
 	private void Start()
 	{
 		DontDestroyOnLoad(this.gameObject);
-		CurrentMenu = Menu.MAIN_MENU;
+		_currentMenuCanvas = _mainMenuCanvas;
 		ReadSettings();
 		Screen.sleepTimeout = SleepTimeout.SystemSetting;
 	}
+
+	private void Update()
+	{
+		if (_logoImage.color.a < 1.0f)
+		{
+			_logoImage.color = new Color(1.0f, 1.0f, 1.0f, Mathf.Min(_logoImage.color.a + Time.deltaTime, 1.0f));
+		}
+		else if (_blackFadeOutImage.color.a > 0.0f)
+		{
+			_blackFadeOutImage.color = new Color(0.0f, 0.0f, 0.0f, Mathf.Max(_blackFadeOutImage.color.a - Time.deltaTime / _fadeOutTime, 0.0f));
+		}
+	}
+
 	public void On1PlayerGamePressed()
 	{
 		_gameSettings.SetupFor1PlayerGame();

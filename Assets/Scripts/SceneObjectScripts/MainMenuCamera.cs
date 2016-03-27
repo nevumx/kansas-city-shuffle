@@ -26,7 +26,7 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 	[SerializeField]	private	Material				_blitFadeAwayMaterial;
 						private	RenderTexture			_cardFadeTexture;
 						private	RenderTexture			_cardFadeSwapTexture;
-						private	int						_framesToClearCardBuffer	= 1;
+						private	int						_framesToClearCardBuffer;
 
 	private void Start()
 	{
@@ -80,12 +80,15 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 		{
 			RenderTexture.active = _cardFadeTexture;
 			GL.Clear(true, true, new Color(0.0f, 0.0f, 0.0f, 0.0f));
+			RenderTexture.active = _cardFadeSwapTexture;
+			GL.Clear(true, true, new Color(0.0f, 0.0f, 0.0f, 0.0f));
 			RenderTexture.active = null;
 			--_framesToClearCardBuffer;
 		}
 
 		_blitFadeAwayMaterial.SetFloat("_FadeAmt", Time.deltaTime);
 
+		_cardFadeSwapTexture.DiscardContents();
 		Graphics.Blit(_cardFadeTexture, _cardFadeSwapTexture);
 		_cardFadeTexture.DiscardContents();
 		Graphics.Blit(_cardFadeSwapTexture, _cardFadeTexture, _blitFadeAwayMaterial);

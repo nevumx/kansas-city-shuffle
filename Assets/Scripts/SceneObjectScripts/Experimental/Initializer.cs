@@ -6,18 +6,15 @@ public class Initializer : MonoBehaviour
 {
 	private void Awake()
 	{
-#if UNITY_STANDALONE
-		Resolution bestResolution = Screen.resolutions[Screen.resolutions.Length - 1];
-		Screen.SetResolution(bestResolution.width, bestResolution.height, fullscreen: true);
-#elif UNITY_ANDROID
+#if UNITY_ANDROID
 		DisableNavUI();
 		DontDestroyOnLoad(this);
 #elif UNITY_IOS
 		Application.targetFrameRate = 60;
 #endif
-		SceneManager.LoadScene("MainMenu");
+		SceneManager.LoadScene("TitleScreen");
 	}
-	
+
 #if UNITY_ANDROID
 	private	static	AndroidJavaObject	activityInstance;
 	private	static	AndroidJavaObject	windowInstance;
@@ -64,7 +61,6 @@ public class Initializer : MonoBehaviour
 		catch {}
 #endif
 	}
-
 
 	private void OnApplicationPause(bool paused)
 	{

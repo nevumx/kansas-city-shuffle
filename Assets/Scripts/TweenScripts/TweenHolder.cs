@@ -20,6 +20,20 @@ public class TweenHolder : MonoBehaviour, IFinishable
 	[SerializeField]	private	int														_inTweenLayer;
 	[SerializeField]	private	int														_outOfTweenLayer;
 
+	private bool _shouldChangeLayer = true;
+	public bool ShouldChangeLayer
+	{
+		get
+		{
+			return _shouldChangeLayer;
+		}
+		set
+		{
+			_shouldChangeLayer = value;
+			_gameObjectsToChangeLayerOfDuringTween.ForEach(g => g.layer = _shouldChangeLayer && enabled ? _inTweenLayer : _outOfTweenLayer);
+		}
+	}
+
 	public float TimeRemaining
 	{
 		get
@@ -38,13 +52,14 @@ public class TweenHolder : MonoBehaviour, IFinishable
 		_onFinishedOnce = null;
 		Duration = 1.0f;
 		Delay = 0.0f;
+		_shouldChangeLayer = true;
 	}
 
 	public TweenHolder Play()
 	{
 		_timeStarted = Time.time;
 		enabled = true;
-		_gameObjectsToChangeLayerOfDuringTween.ForEach(g => g.layer = _inTweenLayer);
+		_gameObjectsToChangeLayerOfDuringTween.ForEach(g => g.layer = _shouldChangeLayer ? _inTweenLayer : _outOfTweenLayer);
 		return this;
 	}
 
@@ -57,6 +72,11 @@ public class TweenHolder : MonoBehaviour, IFinishable
 	public TweenHolder SetDelay(float newDelay)
 	{
 		Delay = newDelay;
+		return this;
+	}
+	public TweenHolder SetShouldChangeLayer(bool newShouldChangeLayer)
+	{
+		ShouldChangeLayer = newShouldChangeLayer;
 		return this;
 	}
 	public TweenHolder AddToOnFinishedOnce(Action toAdd)

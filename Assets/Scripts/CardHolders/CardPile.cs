@@ -21,7 +21,8 @@ public class CardPile : DynamicCardHolder
 			IncrementalPositionTween posTweenToShift;
 			if ((posTweenToShift = cardShiftTween.GetTweenOfType<IncrementalPositionTween>()) == null) // Careful (=)
 			{
-				ReadOnlyCards[i].AddIncrementalPositionTween(targetPosition);
+				ReadOnlyCards[i].AddIncrementalPositionTween(targetPosition)
+								.SetShouldChangeLayer(false);
 			}
 			else
 			{

@@ -104,6 +104,7 @@ public class CardHolder : MonoBehaviour
 						   .AddOffsetHeightTween(_cardAnimationData.DeckFillFancyIntroTweenHeight)
 						   .AddLocalRotationTween(360.0f * Vector3.one + card.ViewFSM.GetAnimRotationOffset())
 						   .SetDuration(_cardAnimationData.DeckFillDurationPerCard)
+						   .SetShouldChangeLayer(true)
 						   .AddToOnFinishedOnce(() => OnCardRecieveTweenFinished(card));
 
 			OnCardRecieveTweenBegan(card);
@@ -131,6 +132,7 @@ public class CardHolder : MonoBehaviour
 								 .AddLocalRotationTween(Vector3.one * 360.0f + cardBeingMoved.ViewFSM.GetAnimRotationOffset())
 								 .AddIncrementalScaleTween(cardBeingMoved.ViewFSM.GetAnimScale())
 								 .SetDuration(_cardAnimationData.GeneralCardMoveDuration)
+								 .SetShouldChangeLayer(true)
 								 .AddToOnFinishedOnce(() => other.OnCardRecieveTweenFinished(cardBeingMoved));
 
 		OnCardSent(cardBeingMoved);
