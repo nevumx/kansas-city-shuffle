@@ -25,11 +25,20 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 	[SerializeField]	private	Material				_blitOverlayMaterial;
 	[SerializeField]	private	Material				_blitFadeAwayMaterial;
 						private	RenderTexture			_cardFadeTexture;
+						private	RenderTexture			_cardFadeSwapTexture;
 						private	int						_framesToClearCardBuffer	= 1;
 
 	private void Start()
 	{
 		TweenThroughNewTweenTransformPair();
+
+		_cardFadeTexture = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32);
+		_cardFadeSwapTexture = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32);
+		_cardEffectCamera.targetTexture = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32);
+
+		RenderTexture.active = _cardEffectCamera.targetTexture;
+		GL.Clear(true, true, new Color(0.0f, 0.0f, 0.0f, 0.0f));
+		RenderTexture.active = null;
 	}
 
 	private void TweenThroughNewTweenTransformPair()
@@ -77,25 +86,13 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 
 		_blitFadeAwayMaterial.SetFloat("_FadeAmt", Time.deltaTime);
 
-		RenderTexture temp = RenderTexture.GetTemporary(_cardEffectCamera.targetTexture.width, _cardEffectCamera.targetTexture.height);
-
-		Graphics.Blit(_cardFadeTexture, temp);
+		Graphics.Blit(_cardFadeTexture, _cardFadeSwapTexture);
 		_cardFadeTexture.DiscardContents();
-		Graphics.Blit(temp, _cardFadeTexture, _blitFadeAwayMaterial);
-
-		RenderTexture.ReleaseTemporary(temp);
+		Graphics.Blit(_cardFadeSwapTexture, _cardFadeTexture, _blitFadeAwayMaterial);
+		_cardFadeSwapTexture.DiscardContents();
 
 		Graphics.Blit(_cardEffectCamera.targetTexture, _cardFadeTexture, _blitOverlayMaterial);
 		Graphics.Blit(_cardFadeTexture, src, _blitOverlayMaterial);
 		Graphics.Blit(src, dest);
-	}
-
-	private void Awake()
-	{
-		_cardFadeTexture = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32);
-		_cardEffectCamera.targetTexture = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32);
-		RenderTexture.active = _cardEffectCamera.targetTexture;
-		GL.Clear(true, true, new Color(0.0f, 0.0f, 0.0f, 0.0f));
-		RenderTexture.active = null;
 	}
 }

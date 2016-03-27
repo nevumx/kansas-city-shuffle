@@ -427,6 +427,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Duration: 1
   Delay: 0
+  _gameObjectsToChangeLayerOfDuringTween:
+  - {fileID: 169218}
+  - {fileID: 169224}
+  - {fileID: 169220}
+  - {fileID: 135012}
+  - {fileID: 184758}
+  - {fileID: 182398}
+  _inTweenLayer: 21
+  _outOfTweenLayer: 0
 --- !u!222 &22269218
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -448,6 +457,7 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0

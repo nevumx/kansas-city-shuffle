@@ -344,6 +344,7 @@ PlayerSettings:
   spritePackerPolicy: 
   scriptingDefineSymbols:
     1: NX_DEBUG
+    4: NX_DEBUG
     7: NX_DEBUG
   metroPackageName: TakkuSum_Integration
   metroPackageVersion: 

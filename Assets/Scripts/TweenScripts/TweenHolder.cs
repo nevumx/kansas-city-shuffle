@@ -7,14 +7,18 @@ using Nx;
 
 public class TweenHolder : MonoBehaviour, IFinishable
 {
-	private	Action													_onFinishedOnce;
-	public	float													Duration				= 1.0f;
-	public	float													Delay					= 0.0f;
-	private	LinkedList<Tween>										_tweens					= new LinkedList<Tween>();
-	private	NxSortedLinkedList<Action<GameObject, float, float>>	_updateDelegates		= new NxSortedLinkedList<Action<GameObject, float, float>>
-																								(sortBy: d => ((Tween)d.Target).GetExecutionOrder());
-	private	Action<GameObject>										_endOfFrameDelegates;
-	private	float													_timeStarted;
+						private	Action													_onFinishedOnce;
+						public	float													Duration				= 1.0f;
+						public	float													Delay					= 0.0f;
+						private	LinkedList<Tween>										_tweens					= new LinkedList<Tween>();
+						private	NxSortedLinkedList<Action<GameObject, float, float>>	_updateDelegates		= new NxSortedLinkedList<Action<GameObject, float, float>>
+																													(sortBy: d => ((Tween)d.Target).GetExecutionOrder());
+						private	Action<GameObject>										_endOfFrameDelegates;
+						private	float													_timeStarted;
+
+	[SerializeField]	private	GameObject[]											_gameObjectsToChangeLayerOfDuringTween;
+	[SerializeField]	private	int														_inTweenLayer;
+	[SerializeField]	private	int														_outOfTweenLayer;
 
 	public float TimeRemaining
 	{
@@ -40,6 +44,7 @@ public class TweenHolder : MonoBehaviour, IFinishable
 	{
 		_timeStarted = Time.time;
 		enabled = true;
+		_gameObjectsToChangeLayerOfDuringTween.ForEach(g => g.layer = _inTweenLayer);
 		return this;
 	}
 
@@ -102,7 +107,6 @@ public class TweenHolder : MonoBehaviour, IFinishable
 		if (done)
 		{
 			percentDone = 1.0f;
-			enabled = false;
 		}
 		else if (timeElapsed >= 0.0f)
 		{
@@ -119,6 +123,7 @@ public class TweenHolder : MonoBehaviour, IFinishable
 			Action prevOnFinishedOnce = _onFinishedOnce;
 			ResetVars();
 			enabled = false;
+			_gameObjectsToChangeLayerOfDuringTween.ForEach(g => g.layer = _outOfTweenLayer);
 			_tweens.Clear();
 			_updateDelegates.Clear();
 			_endOfFrameDelegates = null;
