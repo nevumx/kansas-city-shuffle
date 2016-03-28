@@ -28,4 +28,4 @@ MonoBehaviour:
   _cardFloatingHeight: 1.5
   _cardStateChangeDuration: 0.5
   _cameraShuffleTweenUpAmount: 7
-  _undoTurnDelay: 0.5
+  _undoTurnDelay: 0.15
