@@ -8,7 +8,7 @@ public class EasyAIPlayerModtroller : AIPlayerModtroller
 	public override void BeginCardSelection()
 	{
 		List<int> allowedCardIndexes = GetAllowedCardIndexes();
-		if (_MainGameModtroller.Direction == MainGameModtroller.PlayDirection.UNDECIDED || allowedCardIndexes.Count > 0)
+		if (allowedCardIndexes.Count > 0)
 		{
 			MainCardSelectionAlgorithm();
 		}

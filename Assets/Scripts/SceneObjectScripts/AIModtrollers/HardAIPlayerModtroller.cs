@@ -10,7 +10,7 @@ public class HardAIPlayerModtroller : AIPlayerModtroller
 		MainGameModtroller.PlayDirection direction = _MainGameModtroller.Direction;
 		List<int> allowedCardIndexes = GetAllowedCardIndexes();
 
-		if (direction == MainGameModtroller.PlayDirection.UNDECIDED || allowedCardIndexes.Count > 0)
+		if (allowedCardIndexes.Count > 0)
 		{
 			var allOtherCards = new List<CardModViewtroller>();
 			if (direction != MainGameModtroller.PlayDirection.UNDECIDED)
@@ -39,6 +39,7 @@ public class HardAIPlayerModtroller : AIPlayerModtroller
 					}
 				}
 			}
+
 			MainCardSelectionAlgorithm();
 		}
 		else
