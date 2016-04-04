@@ -7733,6 +7733,45 @@ MonoBehaviour:
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
+--- !u!1 &862908139
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 862908141}
+  - 114: {fileID: 862908140}
+  m_Layer: 0
+  m_Name: FPSCounter
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &862908140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 862908139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55295e68c61be4ddb8a1b4daec041f3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &862908141
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 862908139}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
 --- !u!1 &865354956
 GameObject:
   m_ObjectHideFlags: 0
@@ -12626,7 +12665,7 @@ GameObject:
   - 4: {fileID: 1412981453}
   - 20: {fileID: 1412981454}
   m_Layer: 0
-  m_Name: Camera
+  m_Name: CardFadeCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15353,7 +15392,7 @@ GameObject:
   - 81: {fileID: 1727288886}
   - 82: {fileID: 1727288885}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: MainCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15436,9 +15475,11 @@ MonoBehaviour:
     _to: {fileID: 1467224614}
   _durationForEachTween: 6
   _tweenHolder: {fileID: 1727288884}
+  _mainCamera: {fileID: 1727288882}
   _cardEffectCamera: {fileID: 1412981454}
   _blitOverlayMaterial: {fileID: 2100000, guid: 7a5d28310a4ea41779becbd0e768d1fc,
     type: 2}
+  _sceneFPSCounter: {fileID: 862908140}
   _blitFadeAwayMaterial: {fileID: 2100000, guid: 63631cfe21cfb4665b24647a403dce2f,
     type: 2}
 --- !u!114 &1727288884

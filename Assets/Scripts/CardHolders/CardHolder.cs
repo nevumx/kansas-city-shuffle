@@ -270,6 +270,7 @@ public class CardHolder : MonoBehaviour
 				.SetDuration(animationDuration)
 				.SetDelay(UnityEngine.Random.Range(0.0f, _cardAnimationData.DeckShuffleExplosionDuration - animationDuration))
 				.AddLocalRotationTween(rotationVector, true)
+				.SetShouldChangeLayer(true)
 				.AddToOnFinishedOnce(() => OnCardRecieveTweenFinished(card));
 	}
 

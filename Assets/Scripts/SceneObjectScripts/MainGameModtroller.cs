@@ -163,7 +163,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		}
 		else
 		{
-			var mainMenuData = GameObject.FindObjectOfType<MainMenuModtroller>();
+			var mainMenuData = FindObjectOfType<MainMenuModtroller>();
 			SetupAndStartGame(mainMenuData.GameSettings);
 			Destroy(mainMenuData.gameObject);
 		}

@@ -8,7 +8,7 @@ public class Initializer : MonoBehaviour
 	{
 #if UNITY_ANDROID
 		DisableNavUI();
-		DontDestroyOnLoad(this);
+		DontDestroyOnLoad(gameObject);
 #elif UNITY_IOS
 		Application.targetFrameRate = 60;
 #endif

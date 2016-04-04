@@ -21,12 +21,17 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 						private	System.Random			_randomNumber				= new System.Random();
 						private	int						_lastTransformPairIndex		= -1;
 
+	[SerializeField]	private	Camera					_mainCamera;
 	[SerializeField]	private	Camera					_cardEffectCamera;
 	[SerializeField]	private	Material				_blitOverlayMaterial;
+	[SerializeField]	private	FPSCounter				_sceneFPSCounter;
 	[SerializeField]	private	Material				_blitFadeAwayMaterial;
 						private	RenderTexture			_cardFadeTexture;
 						private	RenderTexture			_cardFadeSwapTexture;
 						private	int						_framesToClearCardBuffer;
+						private	float					_timeStarted;
+						private	bool					_performCardFadeEffect		= true;
+						private	bool					_tooLateToCancelCardEffect	= false;
 
 	private void Start()
 	{
@@ -39,6 +44,8 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 		RenderTexture.active = _cardEffectCamera.targetTexture;
 		GL.Clear(true, true, new Color(0.0f, 0.0f, 0.0f, 0.0f));
 		RenderTexture.active = null;
+
+		_timeStarted = Time.time;
 	}
 
 	private void TweenThroughNewTweenTransformPair()
@@ -57,7 +64,7 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 	private void OnDrawGizmosSelected()
 	{
 		Gizmos.color = Color.yellow;
-		_tweenTransformPairs.ForEach(t => 
+		_tweenTransformPairs.ForEach(t =>
 		{
 			if (t.From != null && t.To != null)
 			{
@@ -76,26 +83,43 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 
 	private void OnRenderImage(RenderTexture src, RenderTexture dest)
 	{
-		if (_framesToClearCardBuffer > 0)
+		if (!_tooLateToCancelCardEffect && Time.time - _timeStarted >= 1.0f)
 		{
-			RenderTexture.active = _cardFadeTexture;
-			GL.Clear(true, true, new Color(0.0f, 0.0f, 0.0f, 0.0f));
-			RenderTexture.active = _cardFadeSwapTexture;
-			GL.Clear(true, true, new Color(0.0f, 0.0f, 0.0f, 0.0f));
-			RenderTexture.active = null;
-			--_framesToClearCardBuffer;
+			if (_sceneFPSCounter.CachedAverageDeltaTime >= 1.0f / 25.0f)
+			{
+				_cardFadeTexture = null;
+				_cardFadeSwapTexture = null;
+				Destroy(_cardEffectCamera);
+				_cardEffectCamera = null;
+				_mainCamera.cullingMask |= 1 << 21;
+				_performCardFadeEffect = false;
+			}
+			_tooLateToCancelCardEffect = true;
 		}
 
-		_blitFadeAwayMaterial.SetFloat("_FadeAmt", Time.deltaTime);
+		if (_performCardFadeEffect)
+		{
+			if (_framesToClearCardBuffer > 0)
+			{
+				RenderTexture.active = _cardFadeTexture;
+				GL.Clear(true, true, new Color(0.0f, 0.0f, 0.0f, 0.0f));
+				RenderTexture.active = _cardFadeSwapTexture;
+				GL.Clear(true, true, new Color(0.0f, 0.0f, 0.0f, 0.0f));
+				RenderTexture.active = null;
+				--_framesToClearCardBuffer;
+			}
 
-		_cardFadeSwapTexture.DiscardContents();
-		Graphics.Blit(_cardFadeTexture, _cardFadeSwapTexture);
-		_cardFadeTexture.DiscardContents();
-		Graphics.Blit(_cardFadeSwapTexture, _cardFadeTexture, _blitFadeAwayMaterial);
-		_cardFadeSwapTexture.DiscardContents();
+			_blitFadeAwayMaterial.SetFloat("_FadeAmt", Time.deltaTime);
 
-		Graphics.Blit(_cardEffectCamera.targetTexture, _cardFadeTexture, _blitOverlayMaterial);
-		Graphics.Blit(_cardFadeTexture, src, _blitOverlayMaterial);
+			_cardFadeSwapTexture.DiscardContents();
+			Graphics.Blit(_cardFadeTexture, _cardFadeSwapTexture);
+			_cardFadeTexture.DiscardContents();
+			Graphics.Blit(_cardFadeSwapTexture, _cardFadeTexture, _blitFadeAwayMaterial);
+			_cardFadeSwapTexture.DiscardContents();
+
+			Graphics.Blit(_cardEffectCamera.targetTexture, _cardFadeTexture, _blitOverlayMaterial);
+			Graphics.Blit(_cardFadeTexture, src, _blitOverlayMaterial);
+		}
 		Graphics.Blit(src, dest);
 	}
 }
