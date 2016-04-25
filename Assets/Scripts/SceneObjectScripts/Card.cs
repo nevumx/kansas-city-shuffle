@@ -44,7 +44,7 @@ public struct Card
 		switch (Value)
 		{
 		case Card.CardValue.ACE:
-			cardValue = "1";
+			cardValue = "A";
 			break;
 		case Card.CardValue.TWO:
 			cardValue = "2";
