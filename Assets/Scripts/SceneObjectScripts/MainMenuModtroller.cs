@@ -221,19 +221,13 @@ public class MainMenuModtroller : MonoBehaviour
 
 	public void OnBackToMainMenuPressed()
 	{
-		if (!Network.isServer)
-		{
-			WriteSettings();
-		}
+		WriteSettings();
 		CurrentMenu = Menu.MAIN_MENU;
 	}
 
 	public void OnPlayGamePressed()
 	{
-		if (!Network.isServer)
-		{
-			WriteSettings();
-		}
+		WriteSettings();
 		PlayGame();
 	}
 
@@ -280,11 +274,6 @@ public class MainMenuModtroller : MonoBehaviour
 
 	private void WriteSettings()
 	{
-		if (Network.isServer)
-		{
-			return;
-		}
-
 		for (int i = 0, iMax = _customPlayers.Length; i < iMax; ++i)
 		{
 			_gameSettings.Players[i] = _customPlayers[i].Type;
