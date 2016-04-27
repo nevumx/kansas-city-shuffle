@@ -8,8 +8,6 @@ namespace Nx
 {
 	public static class NxUtils
 	{
-		private static readonly int CARD_TEXT_SIZE = 429;
-
 		public static void ForEach<T>(this T[] array, Action<T> action)
 		{
 			array.IfIsNotNullThen(a => Array.ForEach(a, action));
@@ -276,12 +274,6 @@ namespace Nx
 		public static string ToRichText(this string str, int size = 40, string color = "black")
 		{
 			return "<size=" + size + "><color=" + color + ">" + str + "</color></size>";
-		}
-
-		public static string FormattedForCardText(this Card card)
-		{
-			return card.ToString().ToRichText(size: CARD_TEXT_SIZE, color: card.Suit == Card.CardSuit.SPADES
-											 || card.Suit == Card.CardSuit.CLUBS ? "black" : "red");
 		}
 
 		public static void Log(object message)
