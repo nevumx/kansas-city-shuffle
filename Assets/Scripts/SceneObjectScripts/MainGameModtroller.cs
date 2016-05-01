@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
 using System.Collections;
@@ -42,7 +41,7 @@ public partial class MainGameModtroller : MonoBehaviour
 	[SerializeField]	private				GameObject					_redoButton;
 	[SerializeField]	private				GameObject					_gameEndObject;
 
-	[SerializeField]	private				Text						_directionText;
+	[SerializeField]	private				TextMesh					_directionText;
 
 	[SerializeField]	private				Transform[]					_playerRoots;
 						private				AbstractPlayerModtroller[]	_players				= new AbstractPlayerModtroller[4];
@@ -102,15 +101,17 @@ public partial class MainGameModtroller : MonoBehaviour
 		private set
 		{
 			_direction = value;
-			string directionTextColor = "black";
+
+			Color directionTextColor = Color.black;
 			if (_direction == PlayDirection.UP)
 			{
-				directionTextColor = "#00ff00ff";
+				directionTextColor = Color.green;
 			}
 			else if (_direction == PlayDirection.DOWN)
 			{
-				directionTextColor = "red";
+				directionTextColor = Color.red;
 			}
+
 			string directionString;
 			switch (_direction)
 			{
@@ -124,7 +125,8 @@ public partial class MainGameModtroller : MonoBehaviour
 				directionString = "?";
 				break;
 			}
-			_directionText.text = directionString.ToRichText(size: 600, color: directionTextColor);
+			_directionText.text = directionString;
+			_directionText.color = directionTextColor;
 		}
 	}
 
