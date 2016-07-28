@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
 using System.Collections;
@@ -34,6 +35,10 @@ public partial class MainGameModtroller : MonoBehaviour
 	[SerializeField]	private				TweenHolder					_mainCameraAnchor;
 	[SerializeField]	private				Camera						_mainCamera;
 						public				Camera						MainCamera				{ get { return _mainCamera; } }
+	[SerializeField]	private				Camera						_miniViewCamera;
+	[SerializeField]	private				RawImage					_miniViewUIImage;
+	[SerializeField]	private				RectTransform				_miniViewUIImageHolder;
+	[SerializeField]	private				TweenableGraphics			_miniViewUIGraphics;
 	[SerializeField]	private				NxDynamicButton				_playerReadyButton;
 	[SerializeField]	private				GameObject					_submitCardsButton;
 						public				GameObject					SubmitCardsButton		{ get { return _submitCardsButton; } }
@@ -103,13 +108,9 @@ public partial class MainGameModtroller : MonoBehaviour
 			_direction = value;
 
 			Color directionTextColor = Color.black;
-			if (_direction == PlayDirection.UP)
+			if (_direction == PlayDirection.UP || _direction == PlayDirection.DOWN)
 			{
 				directionTextColor = Color.green;
-			}
-			else if (_direction == PlayDirection.DOWN)
-			{
-				directionTextColor = Color.red;
 			}
 
 			string directionString;
@@ -137,6 +138,15 @@ public partial class MainGameModtroller : MonoBehaviour
 		_commander = new Commander(_cardAnimationData);
 		Direction = PlayDirection.UNDECIDED;
 		_cardWhenDirectionWasLastUpdated = null;
+
+		if (_miniViewCamera != null && _miniViewUIImage != null && _miniViewUIImageHolder != null)
+		{
+			int miniViewSquareSide = Mathf.RoundToInt(Mathf.Min(Screen.width  * (_miniViewUIImageHolder.anchorMax.x - _miniViewUIImageHolder.anchorMin.x),
+																Screen.height * (_miniViewUIImageHolder.anchorMax.y - _miniViewUIImageHolder.anchorMin.y)));
+			_miniViewUIImage.texture = _miniViewCamera.targetTexture
+				= new RenderTexture(miniViewSquareSide, miniViewSquareSide, 16, RenderTextureFormat.ARGB32);
+
+		}
 
 		if (_demoMode)
 		{
@@ -676,6 +686,9 @@ public partial class MainGameModtroller : MonoBehaviour
 	{
 		_undoButton.SetActive(_commander.UndoIsPossible);
 		_redoButton.SetActive(_commander.RedoIsPossible);
+		_miniViewCamera.Render();
+		_miniViewUIGraphics.AddIncrementalAlphaTween(1.0f)
+						   .SetDuration(1.0f);
 	}
 
 	private void HideUndoAndRedoButtons()
@@ -684,6 +697,8 @@ public partial class MainGameModtroller : MonoBehaviour
 		{
 			_undoButton.SetActive(false);
 			_redoButton.SetActive(false);
+			_miniViewUIGraphics.AddIncrementalAlphaTween(0.0f)
+							   .SetDuration(1.0f);
 		}
 	}
 

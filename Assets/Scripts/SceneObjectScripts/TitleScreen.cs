@@ -4,39 +4,22 @@ using UnityEngine.SceneManagement;
 
 public class TitleScreen : MonoBehaviour
 {
-	[SerializeField]	private	Text		_titleText;
-	[SerializeField]	private	float		_timeUntilStart	= 3.0f;
-						private float		_timeObjectStarted;
-
-	private void Start()
-	{
-		_timeObjectStarted = Time.time;
-	}
+	[SerializeField]	private	TweenableGraphics	_titleText;
 
 	private void Update()
 	{
-		if (Application.isShowingSplashScreen)
+		if (Application.isShowingSplashScreen || _titleText.TweenHolder.enabled)
 		{
-			_timeObjectStarted = Time.time;
 			return;
 		}
 
-		if (Time.time < _timeObjectStarted + 1.0f)
-		{
-			_titleText.color = new Color(1.0f, 1.0f, 1.0f, (Time.time - _timeObjectStarted));
-		}
-		else if (Time.time <= _timeObjectStarted + _timeUntilStart - 1.0f)
-		{
-			_titleText.color = Color.white;
-		}
-		else if (Time.time < _timeObjectStarted + _timeUntilStart)
-		{
-			_titleText.color = new Color(1.0f, 1.0f, 1.0f, 1.0f - (Time.time - _timeObjectStarted - _timeUntilStart + 1.0f));
-		}
-		else
-		{
-			LoadMainMenu();
-		}
+		_titleText.AddIncrementalAlphaTween(1.0f)
+				  .SetDelay(0.5f)
+				  .SetDuration(1.0f)
+				  .AddToOnFinishedOnce(() => _titleText.AddIncrementalAlphaTween(0.0f)
+													   .SetDelay(1.0f)
+													   .SetDuration(1.0f)
+													   .AddToOnFinishedOnce(LoadMainMenu));
 	}
 
 	public void LoadMainMenu()

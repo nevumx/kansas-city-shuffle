@@ -17,13 +17,13 @@ public class LocalRotationTween : Tween
 		PingPong = pingPong;
 	}
 
-	public override Action<GameObject, float, float> GetUpdateDelegate() { return OnUpdate; }
+	public override Action<Transform, float, float> GetUpdateDelegate() { return OnUpdate; }
 
-	private void OnUpdate(GameObject gameObj, float percentDone, float timeRemaining)
+	private void OnUpdate(Transform gameObjTransform, float percentDone, float timeRemaining)
 	{
 		percentDone = PingPong ? TweenHolder.EaseInOutPingPongAnimationCurveFastOutro(percentDone)
 							   : TweenHolder.EaseInOutAnimationCurve(percentDone);
-		gameObj.transform.localEulerAngles = Vector3.Lerp(EulerFrom, EulerTo, percentDone);
+		gameObjTransform.localEulerAngles = Vector3.Lerp(EulerFrom, EulerTo, percentDone);
 	}
 }
 

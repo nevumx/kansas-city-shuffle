@@ -15,28 +15,28 @@ public class IncrementalPositionTween : Tween
 		BoostSpeed = boostSpeed;
 	}
 
-	public override Action<GameObject, float, float> GetUpdateDelegate() { return OnUpdate; }
+	public override Action<Transform, float, float> GetUpdateDelegate() { return OnUpdate; }
 
-	private void OnUpdate(GameObject gameObj, float percentDone, float timeRemaining)
+	private void OnUpdate(Transform gameObjTransform, float percentDone, float timeRemaining)
 	{
 		if (Mathf.Approximately(timeRemaining, 0.0f))
 		{
-			gameObj.transform.position = PositionTo;
+			gameObjTransform.position = PositionTo;
 			return;
 		}
 
-		Vector3 destOffset = PositionTo - gameObj.transform.position;
+		Vector3 destOffset = PositionTo - gameObjTransform.position;
 		float speed = destOffset.magnitude / timeRemaining * -6.0f * percentDone * (percentDone - 1.0f) + (BoostSpeed ? 2.5f * percentDone : 0.65f);
-		Vector3 nextDest = gameObj.transform.position + destOffset.normalized * speed * Time.deltaTime;
+		Vector3 nextDest = gameObjTransform.position + destOffset.normalized * speed * Time.deltaTime;
 
-		if (Vector3.Distance(gameObj.transform.position, nextDest)
-			> Vector3.Distance(gameObj.transform.position, PositionTo))
+		if (Vector3.Distance(gameObjTransform.position, nextDest)
+			> Vector3.Distance(gameObjTransform.position, PositionTo))
 		{
-			gameObj.transform.position = PositionTo;
+			gameObjTransform.position = PositionTo;
 		}
 		else
 		{
-			gameObj.transform.position = nextDest;
+			gameObjTransform.position = nextDest;
 		}
 	}
 }

@@ -7,15 +7,15 @@ using Nx;
 
 public class HumanPlayerModtroller : AbstractPlayerModtroller
 {
-						public	event		Action			OnHumanTurnBegan;
+	public	event		Action			OnHumanTurnBegan;
 
-						private				List<int>		_selectedCardIndexes	= new List<int>();
+	private				List<int>		_selectedCardIndexes	= new List<int>();
 
-						private				List<int>		_allowedCardIndexes		= null;
+	private				List<int>		_allowedCardIndexes		= null;
 
-	[SerializeField]	private				GameObject		_submitCardsButton;
+	private				GameObject		_submitCardsButton;
 
-						public	override	bool			IsHuman					{ get { return true; } }
+	public	override	bool			IsHuman					{ get { return true; } }
 
 	public override AbstractPlayerModtroller Init(MainGameModtroller mainGameModtroller)
 	{
@@ -190,6 +190,6 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 			}
 		}
 		_submitCardsButton.SetActive(!Hand.ReadOnlyCards.Exists(c => c.Button.IsBeingDragged)
-										&& (_MainGameModtroller.OptionalPlayRule || !_selectedCardIndexes.IsEmpty()));
+									 && (_MainGameModtroller.OptionalPlayRule || !_selectedCardIndexes.IsEmpty()));
 	}
 }

@@ -14,21 +14,21 @@ public class OffsetHeightTween : Tween
 		Height = height;
 	}
 
-	public override Action<GameObject, float, float> GetUpdateDelegate() { return OnUpdate; }
+	public override Action<Transform, float, float> GetUpdateDelegate() { return OnUpdate; }
 
-	public override Action<GameObject> GetEndOfFrameDelegate() { return OnEndOfFrame; }
+	public override Action<Transform> GetEndOfFrameDelegate() { return OnEndOfFrame; }
 
 	public override int GetExecutionOrder() { return 1; }
 
-	private void OnUpdate(GameObject gameObj, float percentDone, float timeRemaining)
+	private void OnUpdate(Transform gameObjTransform, float percentDone, float timeRemaining)
 	{
 		_previousHeightOffset = HeightFunction(percentDone, Height) * Vector3.up;
-		gameObj.transform.position += _previousHeightOffset;
+		gameObjTransform.position += _previousHeightOffset;
 	}
 
-	private void OnEndOfFrame(GameObject gameObj)
+	private void OnEndOfFrame(Transform gameObjTransform)
 	{
-		gameObj.transform.position -= _previousHeightOffset;
+		gameObjTransform.position -= _previousHeightOffset;
 	}
 
 	private static float HeightFunction(float percentDone, float height)

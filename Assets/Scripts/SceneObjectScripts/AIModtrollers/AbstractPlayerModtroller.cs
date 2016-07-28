@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,9 +9,9 @@ public abstract class AbstractPlayerModtroller : MonoBehaviour
 	[SerializeField]	private					Hand				_hand;
 						public					Hand				Hand						{ get { return _hand; } }
 
-	[SerializeField]	private					Text				_scoreText;
+	[SerializeField]	private					TextMesh			_scoreText;
 
-	[SerializeField]	private					MainGameModtroller	_mainGameModtroller;
+						private					MainGameModtroller	_mainGameModtroller;
 						protected				MainGameModtroller	_MainGameModtroller			{ get { return _mainGameModtroller; } }
 
 	[NonSerialized]		public					string				PlayerName					= "Player ";
@@ -49,7 +48,7 @@ public abstract class AbstractPlayerModtroller : MonoBehaviour
 		set
 		{
 			_points = value;
-			_scoreText.text = (PlayerName + "\nScore: " + _points).ToRichText(size: 500, color: "#ffef6eff");
+			_scoreText.text = PlayerName + "\nScore: " + _points;
 		}
 	}
 

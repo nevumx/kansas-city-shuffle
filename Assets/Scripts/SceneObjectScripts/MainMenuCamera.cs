@@ -24,7 +24,7 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 	[SerializeField]	private	Camera					_mainCamera;
 	[SerializeField]	private	Camera					_cardEffectCamera;
 	[SerializeField]	private	Material				_blitOverlayMaterial;
-	[SerializeField]	private	FPSCounter				_sceneFPSCounter;
+						private	FPSCounter				_sceneFPSCounter;
 	[SerializeField]	private	Material				_blitFadeAwayMaterial;
 						private	RenderTexture			_cardFadeTexture;
 						private	RenderTexture			_cardFadeSwapTexture;
@@ -32,6 +32,12 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 						private	float					_timeStarted;
 						private	bool					_performCardFadeEffect		= true;
 						private	bool					_tooLateToCancelCardEffect	= false;
+
+	private void Awake()
+	{
+		FPSCounter[] allCounters = FindObjectsOfType<FPSCounter>();
+		_sceneFPSCounter = allCounters.Length > 0 ? allCounters[0] : null;
+	}
 
 	private void Start()
 	{
@@ -85,7 +91,7 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 	{
 		if (!_tooLateToCancelCardEffect && Time.time - _timeStarted >= 1.0f)
 		{
-			if (_sceneFPSCounter.CachedAverageDeltaTime >= 1.0f / 25.0f)
+			if (_sceneFPSCounter != null && _sceneFPSCounter.CachedAverageDeltaTime >= 1.0f / 25.0f)
 			{
 				_cardFadeTexture = null;
 				_cardFadeSwapTexture = null;

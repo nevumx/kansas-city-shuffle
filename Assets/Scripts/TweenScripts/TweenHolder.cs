@@ -7,18 +7,18 @@ using Nx;
 
 public class TweenHolder : MonoBehaviour, IFinishable
 {
-						private	Action													_onFinishedOnce;
-						public	float													Duration				= 1.0f;
-						public	float													Delay					= 0.0f;
-						private	LinkedList<Tween>										_tweens					= new LinkedList<Tween>();
-						private	NxSortedLinkedList<Action<GameObject, float, float>>	_updateDelegates		= new NxSortedLinkedList<Action<GameObject, float, float>>
-																													(sortBy: d => ((Tween)d.Target).GetExecutionOrder());
-						private	Action<GameObject>										_endOfFrameDelegates;
-						private	float													_timeStarted;
+						private	Action												_onFinishedOnce;
+						public	float												Duration				= 1.0f;
+						public	float												Delay					= 0.0f;
+						private	LinkedList<Tween>									_tweens					= new LinkedList<Tween>();
+						private	NxSortedLinkedList<Action<Transform, float, float>>	_updateDelegates		= new NxSortedLinkedList<Action<Transform, float, float>>
+																												(sortBy: d => ((Tween)d.Target).GetExecutionOrder());
+						private	Action<Transform>									_endOfFrameDelegates;
+						private	float												_timeStarted;
 
-	[SerializeField]	private	GameObject[]											_gameObjectsToChangeLayerOfDuringTween;
-	[SerializeField]	private	int														_inTweenLayer;
-	[SerializeField]	private	int														_outOfTweenLayer;
+	[SerializeField]	private	GameObject[]										_gameObjectsToChangeLayerOfDuringTween;
+	[SerializeField]	private	int													_inTweenLayer;
+	[SerializeField]	private	int													_outOfTweenLayer;
 
 	private bool _shouldChangeLayer = true;
 	public bool ShouldChangeLayer
@@ -136,8 +136,10 @@ public class TweenHolder : MonoBehaviour, IFinishable
 		{
 			return;
 		}
-		_updateDelegates.IfIsNotNullThen(u => u.ForEach(d => d(gameObject, percentDone, done ? 0.0f : Mathf.Max(0.0f, TimeRemaining))));
+
+		_updateDelegates.IfIsNotNullThen(u => u.ForEach(d => d(transform, percentDone, done ? 0.0f : Mathf.Max(0.0f, TimeRemaining))));
 		StartCoroutine(RaiseEndOfFrameCallbacks());
+
 		if (done)
 		{
 			Action prevOnFinishedOnce = _onFinishedOnce;
@@ -154,13 +156,13 @@ public class TweenHolder : MonoBehaviour, IFinishable
 	private IEnumerator RaiseEndOfFrameCallbacks()
 	{
 		yield return new WaitForEndOfFrame();
-		_endOfFrameDelegates.IfIsNotNullThen(d => d(gameObject));
+		_endOfFrameDelegates.IfIsNotNullThen(d => d(transform));
 	}
 
 	private void AddDelegates(Tween tweenToAdd)
 	{
-		Action<GameObject, float, float> updateDelegate = tweenToAdd.GetUpdateDelegate();
-		Action<GameObject> endOfFrameDelegate = tweenToAdd.GetEndOfFrameDelegate();
+		Action<Transform, float, float> updateDelegate = tweenToAdd.GetUpdateDelegate();
+		Action<Transform> endOfFrameDelegate = tweenToAdd.GetEndOfFrameDelegate();
 
 		if (updateDelegate != null && updateDelegate.GetInvocationList().Length == 1 && object.ReferenceEquals(updateDelegate.Target, tweenToAdd)
 			&& !_updateDelegates.Exists(d => object.ReferenceEquals(d.Target, tweenToAdd)))
@@ -181,7 +183,7 @@ public class TweenHolder : MonoBehaviour, IFinishable
 		if (_endOfFrameDelegates != null)
 		{
 			Delegate[] delegateList = _endOfFrameDelegates.GetInvocationList();
-			delegateList.FirstOrDefault(l => object.ReferenceEquals(l.Target, tween)).IfIsNotNullThen(d => _endOfFrameDelegates -= (Action<GameObject>)d);
+			delegateList.FirstOrDefault(l => object.ReferenceEquals(l.Target, tween)).IfIsNotNullThen(d => _endOfFrameDelegates -= (Action<Transform>)d);
 		}
 	}
 
@@ -231,7 +233,7 @@ public class Tween
 		return 0;
 	}
 
-	public virtual Action<GameObject, float, float> GetUpdateDelegate() { return null; }
+	public virtual Action<Transform, float, float> GetUpdateDelegate() { return null; }
 
-	public virtual Action<GameObject> GetEndOfFrameDelegate() { return null; }
+	public virtual Action<Transform> GetEndOfFrameDelegate() { return null; }
 }

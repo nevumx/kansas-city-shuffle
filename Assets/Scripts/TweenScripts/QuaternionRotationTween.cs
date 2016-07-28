@@ -15,12 +15,12 @@ public class QuaternionRotationTween : Tween
 		To = to;
 	}
 
-	public override Action<GameObject, float, float> GetUpdateDelegate() { return OnUpdate; }
+	public override Action<Transform, float, float> GetUpdateDelegate() { return OnUpdate; }
 
-	private void OnUpdate(GameObject gameObj, float percentDone, float timeRemaining)
+	private void OnUpdate(Transform gameObjTransform, float percentDone, float timeRemaining)
 	{
 		percentDone = TweenHolder.EaseInOutAnimationCurve(percentDone);
-		gameObj.transform.rotation = Quaternion.Slerp(From, To, percentDone);
+		gameObjTransform.rotation = Quaternion.Slerp(From, To, percentDone);
 	}
 }
 

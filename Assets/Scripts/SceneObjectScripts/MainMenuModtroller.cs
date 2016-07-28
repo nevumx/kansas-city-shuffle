@@ -12,53 +12,54 @@ public class MainMenuModtroller : MonoBehaviour
 		MAIN_MENU,
 		SETTINGS,
 		CUSTOM_GAME,
-		SERVER_SCREEN,
-		CLIENT_SCREEN,
-		HELP_SCREEN,
+		HELP1_SCREEN,
+		HELP2_SCREEN,
+		HELP3_SCREEN,
 		ABOUT_SCREEN,
 	}
 
-						const	string			SAVED_SETTINGS_FILE_NAME		= "/TakkuSumSettings.nxs";
+						const	string						SAVED_SETTINGS_FILE_NAME		= "/TakkuSumSettings.nxs";
+						const	float						MAX_TIME_BEFORE_SERVER_EXPIRES	= 6.0f;
 
-						private	GameObject		_currentMenuCanvas				= null;
+						private	GameObject					_currentMenuCanvas				= null;
 
-	[SerializeField]	private	GameObject		_mainMenuCanvas;
-	[SerializeField]	private	GameObject		_settingsCanvas;
-	[SerializeField]	private	GameObject		_customGameCanvas;
-	[SerializeField]	private	GameObject		_serverScreenCanvas;
-	[SerializeField]	private	GameObject		_clientScreenCanvas;
-	[SerializeField]	private	GameObject		_helpScreenCanvas;
-	[SerializeField]	private	GameObject		_aboutScreenCanvas;
+	[SerializeField]	private	GameObject					_mainMenuCanvas;
+	[SerializeField]	private	GameObject					_settingsCanvas;
+	[SerializeField]	private	GameObject					_customGameCanvas;
+	[SerializeField]	private	GameObject					_help1ScreenCanvas;
+	[SerializeField]	private	GameObject					_help2ScreenCanvas;
+	[SerializeField]	private	GameObject					_help3ScreenCanvas;
+	[SerializeField]	private	GameObject					_aboutScreenCanvas;
 
-						private	GameSettings	_gameSettings;
-						public	GameSettings	GameSettings					{ get { return _gameSettings; } }
+						private	GameSettings				_gameSettings;
+						public	GameSettings				GameSettings					{ get { return _gameSettings; } }
 
-	[SerializeField]	private	Button			_customPlayButton;
+	[SerializeField]	private	Button						_customPlayButton;
 
-	[SerializeField]	private	Toggle			_wildCardRuleToggle;
-	[SerializeField]	private	Toggle			_eliminationRuleToggle;
-	[SerializeField]	private	Toggle			_optionalPlayToggle;
-	[SerializeField]	private	Toggle			_refillHandRuleToggle;
-	[SerializeField]	private	Toggle			_allOrNothingRuleToggle;
-	[SerializeField]	private	Toggle			_maxDeviationRuleToggle;
-	[SerializeField]	private	Toggle			_dSwitchLBCRuleToggle;
-	[SerializeField]	private	Toggle			_seeAICardsToggle;
+	[SerializeField]	private	Toggle						_wildCardRuleToggle;
+	[SerializeField]	private	Toggle						_eliminationRuleToggle;
+	[SerializeField]	private	Toggle						_optionalPlayToggle;
+	[SerializeField]	private	Toggle						_refillHandRuleToggle;
+	[SerializeField]	private	Toggle						_allOrNothingRuleToggle;
+	[SerializeField]	private	Toggle						_maxDeviationRuleToggle;
+	[SerializeField]	private	Toggle						_dSwitchLBCRuleToggle;
+	[SerializeField]	private	Toggle						_seeAICardsToggle;
 
-	[SerializeField]	private	Slider			_numberOfDecksSlider;
-	[SerializeField]	private	Slider			_numberOfCardsPerPlayerSlider;
-	[SerializeField]	private	Slider			_numberOfPointsToWinSlider;
-	[SerializeField]	private	Slider			_maxDeviationThresholdSlider;
+	[SerializeField]	private	Slider						_numberOfDecksSlider;
+	[SerializeField]	private	Slider						_numberOfCardsPerPlayerSlider;
+	[SerializeField]	private	Slider						_numberOfPointsToWinSlider;
+	[SerializeField]	private	Slider						_maxDeviationThresholdSlider;
 
-	[SerializeField]	private	Text			_numberOfDecksText;
-	[SerializeField]	private	Text			_numberOfCardsPerPlayerText;
-	[SerializeField]	private	Text			_numberOfPointsToWinText;
-	[SerializeField]	private	Text			_maxDeviationThresholdText;
+	[SerializeField]	private	Text						_numberOfDecksText;
+	[SerializeField]	private	Text						_numberOfCardsPerPlayerText;
+	[SerializeField]	private	Text						_numberOfPointsToWinText;
+	[SerializeField]	private	Text						_maxDeviationThresholdText;
 
-	[SerializeField]	private	CustomPlayer[]	_customPlayers;
+	[SerializeField]	private	CustomPlayer[]				_customPlayers;
 
-	[SerializeField]	private	Image			_logoImage;
-	[SerializeField]	private	Image			_blackFadeOutImage;
-	[SerializeField]	private	float			_fadeOutTime					= 2.0f;
+	[SerializeField]	private	Image						_logoImage;
+	[SerializeField]	private	Image						_blackFadeOutImage;
+	[SerializeField]	private	float						_fadeOutTime					= 2.0f;
 
 	private Menu _currentMenu = Menu.MAIN_MENU;
 	public Menu CurrentMenu
@@ -83,14 +84,14 @@ public class MainMenuModtroller : MonoBehaviour
 			case Menu.CUSTOM_GAME:
 				_currentMenuCanvas = _customGameCanvas;
 				break;
-			case Menu.SERVER_SCREEN:
-				_currentMenuCanvas = _serverScreenCanvas;
+			case Menu.HELP1_SCREEN:
+				_currentMenuCanvas = _help1ScreenCanvas;
 				break;
-			case Menu.CLIENT_SCREEN:
-				_currentMenuCanvas = _clientScreenCanvas;
+			case Menu.HELP2_SCREEN:
+				_currentMenuCanvas = _help2ScreenCanvas;
 				break;
-			case Menu.HELP_SCREEN:
-				_currentMenuCanvas = _helpScreenCanvas;
+			case Menu.HELP3_SCREEN:
+				_currentMenuCanvas = _help3ScreenCanvas;
 				break;
 			case Menu.ABOUT_SCREEN:
 				_currentMenuCanvas = _aboutScreenCanvas;
@@ -135,14 +136,29 @@ public class MainMenuModtroller : MonoBehaviour
 		PlayGame();
 	}
 
+	public void OnBackToMainMenuPressed()
+	{
+		CurrentMenu = Menu.MAIN_MENU;
+	}
+
 	public void OnSettingsPressed()
 	{
 		CurrentMenu = Menu.SETTINGS;
 	}
 
-	public void OnHelpPressed()
+	public void OnHelp1Pressed()
 	{
-		CurrentMenu = Menu.HELP_SCREEN;
+		CurrentMenu = Menu.HELP1_SCREEN;
+	}
+
+	public void OnHelp2Pressed()
+	{
+		CurrentMenu = Menu.HELP2_SCREEN;
+	}
+
+	public void OnHelp3Pressed()
+	{
+		CurrentMenu = Menu.HELP3_SCREEN;
 	}
 
 	public void OnAboutPressed()
@@ -219,10 +235,15 @@ public class MainMenuModtroller : MonoBehaviour
 		_maxDeviationThresholdText.text = newValue.ToString();
 	}
 
-	public void OnBackToMainMenuPressed()
+	public void OnBackToMainMenuFromSettingsPressed()
 	{
 		WriteSettings();
 		CurrentMenu = Menu.MAIN_MENU;
+	}
+
+	public void OnJoinGamePressed()
+	{
+		CancelInvoke("UpdatePotentialServerList");
 	}
 
 	public void OnPlayGamePressed()
