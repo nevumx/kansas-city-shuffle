@@ -25,18 +25,15 @@ public class FPSCounter : MonoBehaviour
 		}
 #endif
 
-		if (_drawFPS)
+		_deltaTimes.Enqueue(Time.deltaTime);
+		if (_deltaTimes.Count > DELTA_TIMES_BUFFER_SIZE)
 		{
-			_deltaTimes.Enqueue(Time.deltaTime);
-			if (_deltaTimes.Count > DELTA_TIMES_BUFFER_SIZE)
-			{
-				_deltaTimes.Dequeue();
-			}
-
-			float sumDeltaTimes = 0.0f;
-			_deltaTimes.ForEach(d => sumDeltaTimes += d);
-			_cachedAverageDeltaTime =  sumDeltaTimes / _deltaTimes.Count;
+			_deltaTimes.Dequeue();
 		}
+
+		float sumDeltaTimes = 0.0f;
+		_deltaTimes.ForEach(d => sumDeltaTimes += d);
+		_cachedAverageDeltaTime =  sumDeltaTimes / _deltaTimes.Count;
 	}
 
 	private void OnGUI()
@@ -58,5 +55,10 @@ public class FPSCounter : MonoBehaviour
 			}
 			GUI.Label(new Rect(0, 0, Screen.width, Screen.height), "FPS: " + Mathf.RoundToInt(1.0f / _cachedAverageDeltaTime) + " = " + Mathf.RoundToInt(_cachedAverageDeltaTime * 1000.0f) + "ms");
 		}
+	}
+
+	public void ClearHistory()
+	{
+		_deltaTimes.Clear();
 	}
 }

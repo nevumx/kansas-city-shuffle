@@ -6,18 +6,18 @@ using Nx;
 
 public abstract class AbstractPlayerModtroller : MonoBehaviour
 {
-	[SerializeField]	private					Hand				_hand;
-						public					Hand				Hand						{ get { return _hand; } }
+	[SerializeField]	private						Hand				_hand;
+						public						Hand				Hand						{ get { return _hand; } }
 
-	[SerializeField]	private					TextMesh			_scoreText;
+	[SerializeField]	private						TextMesh			_scoreText;
 
-						private					MainGameModtroller	_mainGameModtroller;
-						protected				MainGameModtroller	_MainGameModtroller			{ get { return _mainGameModtroller; } }
+						private						MainGameModtroller	_mainGameModtroller;
+						protected					MainGameModtroller	_MainGameModtroller			{ get { return _mainGameModtroller; } }
 
-	[NonSerialized]		public					string				PlayerName					= "Player ";
-						private		readonly	string				PLAYER_ELIMINATED_TAG_LABEL = " - Out";
+	[NonSerialized]		public						string				PlayerName					= "Player ";
+						private	static	readonly	string				PLAYER_ELIMINATED_TAG_LABEL = " - Out";
 
-	[NonSerialized]		private					bool				_eliminated					= false;
+	[NonSerialized]		private						bool				_eliminated					= false;
 	public bool Eliminated 
 	{
 		get

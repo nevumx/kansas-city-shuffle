@@ -6,19 +6,19 @@ namespace Nx
 {
 	public class NxDynamicButton : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 	{
-		private	readonly	float						DOUBLE_CLICK_THRESHOLD_TIME	= 0.5f;
-		private	readonly	float						CLICK_EXPIRE_THRESHOLD_TIME	= 1.0f;
+		private	static	readonly	float						DOUBLE_CLICK_THRESHOLD_TIME	= 0.5f;
+		private	static	readonly	float						CLICK_EXPIRE_THRESHOLD_TIME	= 1.0f;
 
-		private				Action						_onClicked;
-		private				Action						_onDoubleClicked;
-		private				Action						_onBeginDrag;
-		private				Action<PointerEventData>	_onDrag;
-		private				Action<PointerEventData>	_onDrop;
+		private						Action						_onClicked;
+		private						Action						_onDoubleClicked;
+		private						Action						_onBeginDrag;
+		private						Action<PointerEventData>	_onDrag;
+		private						Action<PointerEventData>	_onDrop;
 
-		private				float						_timeLastClickBegan			= 0.0f;
-		private				float						_timeLastClicked			= 0.0f;
-		private				bool						_isBeingDragged				= false;
-		public				bool						IsBeingDragged				{ get { return _isBeingDragged; } }
+		private						float						_timeLastClickBegan			= 0.0f;
+		private						float						_timeLastClicked			= 0.0f;
+		private						bool						_isBeingDragged				= false;
+		public						bool						IsBeingDragged				{ get { return _isBeingDragged; } }
 
 		public void AddToOnClicked(Action toAdd)
 		{

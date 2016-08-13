@@ -37,6 +37,7 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 	{
 		FPSCounter[] allCounters = FindObjectsOfType<FPSCounter>();
 		_sceneFPSCounter = allCounters.Length > 0 ? allCounters[0] : null;
+		_sceneFPSCounter.IfIsNotNullThen(s => s.ClearHistory());
 	}
 
 	private void Start()
@@ -95,7 +96,7 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 			{
 				_cardFadeTexture = null;
 				_cardFadeSwapTexture = null;
-				Destroy(_cardEffectCamera);
+				Destroy(_cardEffectCamera.gameObject);
 				_cardEffectCamera = null;
 				_mainCamera.cullingMask |= 1 << 21;
 				_performCardFadeEffect = false;

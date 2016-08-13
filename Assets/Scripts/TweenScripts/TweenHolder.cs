@@ -42,6 +42,11 @@ public class TweenHolder : MonoBehaviour, IFinishable
 		}
 	}
 
+	private void Reset()
+	{
+		enabled = false;
+	}
+
 	private void Awake()
 	{
 		ResetVars();
@@ -61,6 +66,15 @@ public class TweenHolder : MonoBehaviour, IFinishable
 		enabled = true;
 		_gameObjectsToChangeLayerOfDuringTween.ForEach(g => g.layer = _shouldChangeLayer ? _inTweenLayer : _outOfTweenLayer);
 		return this;
+	}
+
+	public void Finish()
+	{
+		if (enabled)
+		{
+			_timeStarted = -Duration - Delay;
+			Update();
+		}
 	}
 
 #region Method Chainers
@@ -83,6 +97,11 @@ public class TweenHolder : MonoBehaviour, IFinishable
 	{
 			toAdd.IfIsNotNullThen(a => _onFinishedOnce += a);
 			return this;
+	}
+	public TweenHolder ClearOnFinishedOnce()
+	{
+		_onFinishedOnce = null;
+		return this;
 	}
 	public TweenHolder AddTween(Tween tweenToAdd)
 	{

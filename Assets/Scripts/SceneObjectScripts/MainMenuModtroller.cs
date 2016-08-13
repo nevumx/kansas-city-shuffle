@@ -130,12 +130,6 @@ public class MainMenuModtroller : MonoBehaviour
 		PlayGame();
 	}
 
-	public void On2PlayerGamePressed()
-	{
-		_gameSettings.SetupFor2PlayerGame();
-		PlayGame();
-	}
-
 	public void OnBackToMainMenuPressed()
 	{
 		CurrentMenu = Menu.MAIN_MENU;

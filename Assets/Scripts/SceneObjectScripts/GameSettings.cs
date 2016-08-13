@@ -50,15 +50,4 @@ public class GameSettings
 			CustomPlayer.PlayerType.NONE,
 		};
 	}
-
-	public void SetupFor2PlayerGame()
-	{
-		Players = new CustomPlayer.PlayerType[4]
-		{
-			CustomPlayer.PlayerType.HUMAN,
-			CustomPlayer.PlayerType.NONE,
-			CustomPlayer.PlayerType.HUMAN,
-			CustomPlayer.PlayerType.NONE,
-		};
-	}
 }

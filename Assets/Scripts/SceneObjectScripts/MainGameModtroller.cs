@@ -15,52 +15,52 @@ public partial class MainGameModtroller : MonoBehaviour
 		DOWN,
 	}
 
-						private	readonly	float						TIME_TO_WAIT_BEFORE_POPULATING_DECK			= 1.5f;
-						private	readonly	int							NUMBER_OF_CARDS_TO_LEAVE_IN_DISCARD_PILE	= 1;
+						private	static	readonly	float						TIME_TO_WAIT_BEFORE_POPULATING_DECK			= 1.5f;
+						private	static	readonly	int							NUMBER_OF_CARDS_TO_LEAVE_IN_DISCARD_PILE	= 1;
 
-	[SerializeField]	private				bool						_demoMode;
+	[SerializeField]	private						bool						_demoMode;
 
-	[SerializeField]	private				HumanPlayerModtroller		_humanPlayerPrefab;
-	[SerializeField]	private				EasyAIPlayerModtroller		_easyAIPlayerPrefab;
-	[SerializeField]	private				HardAIPlayerModtroller		_hardAIPlayerPrefab;
+	[SerializeField]	private						HumanPlayerModtroller		_humanPlayerPrefab;
+	[SerializeField]	private						EasyAIPlayerModtroller		_easyAIPlayerPrefab;
+	[SerializeField]	private						HardAIPlayerModtroller		_hardAIPlayerPrefab;
 
-	[SerializeField]	private				CardAnimationData			_cardAnimationData;
+	[SerializeField]	private						CardAnimationData			_cardAnimationData;
 
-	[SerializeField]	private				Deck						_deck;
-	[SerializeField]	private				CardPile					_discardPile;
-						public				int							DiscardPileLastValue	{ get { return _discardPile.ReadOnlyCards.Last().CardValue; } }
-	[SerializeField]	private				CardPile					_wildcardPile;
-						public				int							WildCardValue			{ get { return _wildcardPile.ReadOnlyCards.Last().CardValue; } }
+	[SerializeField]	private						Deck						_deck;
+	[SerializeField]	private						CardPile					_discardPile;
+						public						int							DiscardPileLastValue	{ get { return _discardPile.ReadOnlyCards.Last().CardValue; } }
+	[SerializeField]	private						CardPile					_wildcardPile;
+						public						int							WildCardValue			{ get { return _wildcardPile.ReadOnlyCards.Last().CardValue; } }
 
-	[SerializeField]	private				TweenHolder					_mainCameraAnchor;
-	[SerializeField]	private				Camera						_mainCamera;
-						public				Camera						MainCamera				{ get { return _mainCamera; } }
-	[SerializeField]	private				Camera						_miniViewCamera;
-	[SerializeField]	private				RawImage					_miniViewUIImage;
-	[SerializeField]	private				RectTransform				_miniViewUIImageHolder;
-	[SerializeField]	private				TweenableGraphics			_miniViewUIGraphics;
-	[SerializeField]	private				NxDynamicButton				_playerReadyButton;
-	[SerializeField]	private				GameObject					_submitCardsButton;
-						public				GameObject					SubmitCardsButton		{ get { return _submitCardsButton; } }
-	[SerializeField]	private				GameObject					_undoButton;
-	[SerializeField]	private				GameObject					_redoButton;
-	[SerializeField]	private				GameObject					_gameEndObject;
+	[SerializeField]	private						TweenHolder					_mainCameraAnchor;
+	[SerializeField]	private						Camera						_mainCamera;
+						public						Camera						MainCamera				{ get { return _mainCamera; } }
+	[SerializeField]	private						Camera						_miniViewCamera;
+	[SerializeField]	private						RawImage					_miniViewUIImage;
+	[SerializeField]	private						RectTransform				_miniViewUIImageHolder;
+	[SerializeField]	private						TweenableGraphics			_miniViewUIGraphics;
+	[SerializeField]	private						NxDynamicButton				_playerReadyButton;
+	[SerializeField]	private						GameObject					_submitCardsButton;
+						public						GameObject					SubmitCardsButton		{ get { return _submitCardsButton; } }
+	[SerializeField]	private						GameObject					_undoButton;
+	[SerializeField]	private						GameObject					_redoButton;
+	[SerializeField]	private						GameObject					_gameEndObject;
 
-	[SerializeField]	private				TextMesh					_directionText;
+	[SerializeField]	private						TextMesh					_directionText;
 
-	[SerializeField]	private				Transform[]					_playerRoots;
-						private				AbstractPlayerModtroller[]	_players				= new AbstractPlayerModtroller[4];
-						private				int							_currentPlayer;
-						private				int							_indexOfLastPlayerToPlayACard;
+	[SerializeField]	private						Transform[]					_playerRoots;
+						private						AbstractPlayerModtroller[]	_players				= new AbstractPlayerModtroller[4];
+						private						int							_currentPlayer;
+						private						int							_indexOfLastPlayerToPlayACard;
 
-						private				GameSettings				_gameSettings;
-						public				bool						SeeAICards				{ get { return _gameSettings.SeeAICards; } }
-						public				bool						WildcardRule			{ get { return _gameSettings.WildCardRule; } }
-						public				bool						OptionalPlayRule		{ get { return _gameSettings.OptionalPlayRule; } }
-						public				bool						MaxDeviationRule		{ get { return _gameSettings.MaxDeviationRule; } }
-						public				int							MaxDeviationThreshold	{ get { return _gameSettings.MaxDeviationThreshold; } }
+						private						GameSettings				_gameSettings;
+						public						bool						SeeAICards				{ get { return _gameSettings.SeeAICards; } }
+						public						bool						WildcardRule			{ get { return _gameSettings.WildCardRule; } }
+						public						bool						OptionalPlayRule		{ get { return _gameSettings.OptionalPlayRule; } }
+						public						bool						MaxDeviationRule		{ get { return _gameSettings.MaxDeviationRule; } }
+						public						int							MaxDeviationThreshold	{ get { return _gameSettings.MaxDeviationThreshold; } }
 
-						private				Commander					_commander;
+						private						Commander					_commander;
 
 	public AbstractPlayerModtroller[] Players { get { return _players; } }
 	private int _numValidPlayers
@@ -250,7 +250,10 @@ public partial class MainGameModtroller : MonoBehaviour
 
 	private IEnumerator PopulateDeck()
 	{
-		yield return new WaitForSeconds(TIME_TO_WAIT_BEFORE_POPULATING_DECK);
+		if (!_demoMode)
+		{
+			yield return new WaitForSeconds(TIME_TO_WAIT_BEFORE_POPULATING_DECK);
+		}
 		int[] unShuffleData;
 		var cardCreationTweenWaiter = new FinishableGroupWaiter(() => _deck.Shuffle(out unShuffleData, onFinished: () => StartCoroutine(DealCardsToPlayers())));
 		var suits = (Card.CardSuit[])Enum.GetValues(typeof(Card.CardSuit));
@@ -687,7 +690,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		_undoButton.SetActive(_commander.UndoIsPossible);
 		_redoButton.SetActive(_commander.RedoIsPossible);
 		_miniViewCamera.Render();
-		_miniViewUIGraphics.AddIncrementalAlphaTween(1.0f)
+		_miniViewUIGraphics.AddIncrementalAlphaTween(1.0f).TweenHolder
 						   .SetDuration(1.0f);
 	}
 
@@ -697,7 +700,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		{
 			_undoButton.SetActive(false);
 			_redoButton.SetActive(false);
-			_miniViewUIGraphics.AddIncrementalAlphaTween(0.0f)
+			_miniViewUIGraphics.AddIncrementalAlphaTween(0.0f).TweenHolder
 							   .SetDuration(1.0f);
 		}
 	}
