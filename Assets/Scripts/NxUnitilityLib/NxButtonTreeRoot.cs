@@ -1,51 +1,36 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using System;
 
 namespace Nx
 {
-	[Serializable]
-	public class PointerTriggerEvent : UnityEvent<PointerEventData> {}
-
-	public class NxButtonTreeRoot : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
+	public class NxButtonTreeRoot : NxSimpleButton
 	{
 							private	static	readonly	float				BUTTON_LEAF_ANIM_TIME				= 0.2f;
-							private	static	readonly	int					NO_BUTTON_ID						= -2;
 
-		[SerializeField]	private						RectTransform		_rectTransform;
 		[SerializeField]	private						NxButtonTreeLeaf[]	_buttonLeaves;
 							private						NxButtonTreeLeaf	_buttonLeafPointerIsCurrentlyInside	= null;
-		[SerializeField]	private						CircleCollider2D	_buttonCollider;
-							private						int					_currentPointerId					= NO_BUTTON_ID;
-							private						bool				_currentPointerIsInside				= false;
-		[SerializeField]	private						PointerTriggerEvent	_onClicked;
 
-		private void Start()
+		public override void OnPointerDown(PointerEventData eventData)
 		{
-			_buttonCollider.radius = Mathf.Min(_rectTransform.rect.width, _rectTransform.rect.height) / 2.0f;
-		}
-
-		public void OnPointerDown(PointerEventData eventData)
-		{
-			if (_currentPointerId == NO_BUTTON_ID)
+			if (_CurrentPointerId == NO_BUTTON_ID)
 			{
 				_buttonLeaves.ForEach(b =>
 				{
-					b.TweenableGraphics.AddIncrementalAnchoredPositionTween(b.TweenToPosition.localPosition - _rectTransform.localPosition)
+					b.TweenableGraphics.AddIncrementalAnchoredPositionTween(b.TweenToPosition.localPosition - _RectTransform.localPosition)
 									   .AddIncrementalAlphaTween(1.0f).TweenHolder
 									   .SetDuration(BUTTON_LEAF_ANIM_TIME)
 									   .AddToOnFinishedOnce(() => b.ButtonCollider.enabled = true);
 				});
 
-				_currentPointerId = eventData.pointerId;
-				_currentPointerIsInside = true;
+				_CurrentPointerId = eventData.pointerId;
+				_CurrentPointerIsInside = true;
 			}
 		}
 
-		public void OnPointerUp(PointerEventData eventData)
+		public override void OnPointerUp(PointerEventData eventData)
 		{
-			if (eventData.pointerId == _currentPointerId)
+			if (eventData.pointerId == _CurrentPointerId)
 			{
 				_buttonLeaves.ForEach(b =>
 				{
@@ -54,13 +39,12 @@ namespace Nx
 									   .AddIncrementalAlphaTween(0.0f).TweenHolder
 									   .SetDuration(BUTTON_LEAF_ANIM_TIME)
 									   .ClearOnFinishedOnce();
-
 				});
 
-				if (_currentPointerIsInside)
+				if (_CurrentPointerIsInside)
 				{
 					ResetAllButtonTreeButtons();
-					_onClicked.Invoke(eventData);
+					_OnClicked.Invoke(eventData);
 				}
 				else if (_buttonLeafPointerIsCurrentlyInside != null)
 				{
@@ -69,31 +53,15 @@ namespace Nx
 					buttonLeafBeingClicked.FireOnClickedEvent(eventData);
 				}
 
-				_currentPointerId = NO_BUTTON_ID;
-				_currentPointerIsInside = false;
+				_CurrentPointerId = NO_BUTTON_ID;
+				_CurrentPointerIsInside = false;
 				_buttonLeafPointerIsCurrentlyInside = null;
-			}
-		}
-
-		public void OnPointerEnter(PointerEventData eventData)
-		{
-			if (eventData.pointerId == _currentPointerId)
-			{
-				_currentPointerIsInside = true;
-			}
-		}
-
-		public void OnPointerExit(PointerEventData eventData)
-		{
-			if (eventData.pointerId == _currentPointerId)
-			{
-				_currentPointerIsInside = false;
 			}
 		}
 
 		public void OnPointerEnteredLeaf(int pointerId, NxButtonTreeLeaf leaf)
 		{
-			if (_currentPointerId == pointerId && _buttonLeaves.Exists(b => object.ReferenceEquals(b, leaf)))
+			if (_CurrentPointerId == pointerId && _buttonLeaves.Exists(b => object.ReferenceEquals(b, leaf)))
 			{
 				_buttonLeafPointerIsCurrentlyInside = leaf;
 			}
@@ -101,7 +69,7 @@ namespace Nx
 
 		public void OnPointerExitedLeaf(int pointerId, NxButtonTreeLeaf leaf)
 		{
-			if (_currentPointerId == pointerId && _buttonLeaves.Exists(b => object.ReferenceEquals(b, leaf)))
+			if (_CurrentPointerId == pointerId && _buttonLeaves.Exists(b => object.ReferenceEquals(b, leaf)))
 			{
 				_buttonLeafPointerIsCurrentlyInside = null;
 			}
@@ -128,8 +96,8 @@ namespace Nx
 				b.RectTransform.anchoredPosition = Vector2.zero;
 			});
 			_buttonLeafPointerIsCurrentlyInside = null;
-			_currentPointerId = NO_BUTTON_ID;
-			_currentPointerIsInside = false;
+			_CurrentPointerId = NO_BUTTON_ID;
+			_CurrentPointerIsInside = false;
 		}
 	}
 }

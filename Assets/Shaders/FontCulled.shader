@@ -1,7 +1,6 @@
 Shader "TakkuSum/Text Shader Culled" {
 	Properties {
 		_MainTex ("Font Texture", 2D) = "white" {}
-		_Color ("Text Color", Color) = (1,1,1,1)
 	}
 
 	SubShader {
@@ -13,7 +12,7 @@ Shader "TakkuSum/Text Shader Culled" {
 			"PreviewType"="Plane"
 		}
 		Lighting Off
-		Cull Back 
+		Cull Back
 		ZTest LEqual
 		ZWrite Off
 		Blend SrcAlpha OneMinusSrcAlpha
@@ -50,8 +49,7 @@ Shader "TakkuSum/Text Shader Culled" {
 				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
 				half3 worldNormal = mul(_Object2World, half4(normalize(v.normal), 0));
 				half l = (worldNormal.y * 0.5 + 0.5);
-				o.color = v.color * _Color * 2.0;
-				o.color *= lerp(_NadirColor, _ZenithColor, l);
+				o.color = v.color;
 				o.texcoord = TRANSFORM_TEX(v.texcoord,_MainTex);
 				return o;
 			}

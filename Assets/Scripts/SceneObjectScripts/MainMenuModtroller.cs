@@ -1,13 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Nx;
 
 public class MainMenuModtroller : MonoBehaviour
 {
-	public enum Menu
+	public enum Menu : byte
 	{
 		MAIN_MENU,
 		SETTINGS,
@@ -34,7 +35,7 @@ public class MainMenuModtroller : MonoBehaviour
 						private	GameSettings				_gameSettings;
 						public	GameSettings				GameSettings					{ get { return _gameSettings; } }
 
-	[SerializeField]	private	Button						_customPlayButton;
+	[SerializeField]	private	NxSimpleButton				_customPlayButton;
 
 	[SerializeField]	private	Toggle						_wildCardRuleToggle;
 	[SerializeField]	private	Toggle						_eliminationRuleToggle;
@@ -55,7 +56,7 @@ public class MainMenuModtroller : MonoBehaviour
 	[SerializeField]	private	Text						_numberOfPointsToWinText;
 	[SerializeField]	private	Text						_maxDeviationThresholdText;
 
-	[SerializeField]	private	CustomPlayer[]				_customPlayers;
+	[SerializeField]	private	Text[]						_customPlayerToggleButtonTexts;
 
 	[SerializeField]	private	Image						_logoImage;
 	[SerializeField]	private	Image						_blackFadeOutImage;
@@ -229,20 +230,48 @@ public class MainMenuModtroller : MonoBehaviour
 		_maxDeviationThresholdText.text = newValue.ToString();
 	}
 
+	public void OnCustomPlayerCycled(int playerIndex)
+	{
+		if (_gameSettings.Players.IndexIsValid(playerIndex))
+		{
+			_gameSettings.Players[playerIndex] = (GameSettings.PlayerType)(((byte)_gameSettings.Players[playerIndex] + 1) % Enum.GetValues(typeof(GameSettings.PlayerType)).Length);
+		}
+		DetermineCustomPlayerButtonTexts();
+		ValidateSettings();
+		WriteSettings();
+	}
+
+	private void DetermineCustomPlayerButtonTexts()
+	{
+		for (int i = 0, iMax = _customPlayerToggleButtonTexts.Length; i < iMax; ++i)
+		{
+			switch (_gameSettings.Players[i])
+			{
+			case GameSettings.PlayerType.HUMAN:
+				_customPlayerToggleButtonTexts[i].text = "Human";
+				break;
+			case GameSettings.PlayerType.AI_EASY:
+				_customPlayerToggleButtonTexts[i].text = "A.I.\nEasy";
+				break;
+			case GameSettings.PlayerType.AI_HARD:
+				_customPlayerToggleButtonTexts[i].text = "A.I.\nHard";
+				break;
+			case GameSettings.PlayerType.NONE:
+			default:
+				_customPlayerToggleButtonTexts[i].text = "None";
+				break;
+			}
+		}
+	}
+
 	public void OnBackToMainMenuFromSettingsPressed()
 	{
 		WriteSettings();
 		CurrentMenu = Menu.MAIN_MENU;
 	}
 
-	public void OnJoinGamePressed()
-	{
-		CancelInvoke("UpdatePotentialServerList");
-	}
-
 	public void OnPlayGamePressed()
 	{
-		WriteSettings();
 		PlayGame();
 	}
 
@@ -267,11 +296,6 @@ public class MainMenuModtroller : MonoBehaviour
 			stream.Close();
 		}
 
-		for (int i = 0, iMax = _customPlayers.Length; i < iMax; ++i)
-		{
-			_customPlayers[i].Type = _gameSettings.Players[i];
-		}
-
 		_wildCardRuleToggle.isOn = _gameSettings.WildCardRule;
 		_eliminationRuleToggle.isOn = _gameSettings.EliminationRule;
 		_optionalPlayToggle.isOn = _gameSettings.OptionalPlayRule;
@@ -285,15 +309,11 @@ public class MainMenuModtroller : MonoBehaviour
 		_numberOfPointsToWinSlider.value = _gameSettings.NumberOfPointsToWin;
 		_maxDeviationThresholdSlider.value = _gameSettings.MaxDeviationThreshold;
 		ValidateSettings();
+		DetermineCustomPlayerButtonTexts();
 	}
 
 	private void WriteSettings()
 	{
-		for (int i = 0, iMax = _customPlayers.Length; i < iMax; ++i)
-		{
-			_gameSettings.Players[i] = _customPlayers[i].Type;
-		}
-
 		string settingsFilePath = Application.persistentDataPath + SAVED_SETTINGS_FILE_NAME;
 		var formatter = new BinaryFormatter();
 		var stream = new FileStream(settingsFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
@@ -304,14 +324,21 @@ public class MainMenuModtroller : MonoBehaviour
 	public void ValidateSettings()
 	{
 		int numValidPlayers = 0;
-		for (int i = 0, iMax = _customPlayers.Length; i < iMax; ++i)
+		for (int i = 0, iMax = _gameSettings.Players.Length; i < iMax; ++i)
 		{
-			if (_customPlayers[i].Type != CustomPlayer.PlayerType.NONE)
+			if (_gameSettings.Players[i] != GameSettings.PlayerType.NONE)
 			{
 				++numValidPlayers;
 			}
 		}
-		_customPlayButton.interactable = numValidPlayers >= 2;
+		if (numValidPlayers >= 2)
+		{
+			_customPlayButton.EnableInteraction();
+		}
+		else
+		{
+			_customPlayButton.DisableInteraction();
+		}
 	}
 
 	private void PlayGame()

@@ -48,6 +48,7 @@ public partial class MainGameModtroller : MonoBehaviour
 
 	[SerializeField]	private						TextMesh					_directionText;
 
+	[SerializeField]	private						string[]					_playerIconCharacters;
 	[SerializeField]	private						Transform[]					_playerRoots;
 						private						AbstractPlayerModtroller[]	_players				= new AbstractPlayerModtroller[4];
 						private						int							_currentPlayer;
@@ -159,12 +160,12 @@ public partial class MainGameModtroller : MonoBehaviour
 			demoData.MaxDeviationRule = false;
 			demoData.DSwitchLBCRule = false;
 			demoData.SeeAICards = true;
-			demoData.Players = new CustomPlayer.PlayerType[4]
+			demoData.Players = new GameSettings.PlayerType[4]
 			{
-				CustomPlayer.PlayerType.AI_HARD,
-				CustomPlayer.PlayerType.AI_EASY,
-				CustomPlayer.PlayerType.AI_HARD,
-				CustomPlayer.PlayerType.AI_EASY,
+				GameSettings.PlayerType.AI_HARD,
+				GameSettings.PlayerType.AI_EASY,
+				GameSettings.PlayerType.AI_HARD,
+				GameSettings.PlayerType.AI_EASY,
 			};
 			demoData.NumberOfDecks = 2;
 			demoData.NumberOfCardsPerPlayer = 5;
@@ -203,18 +204,18 @@ public partial class MainGameModtroller : MonoBehaviour
 		{
 			switch (_gameSettings.Players[i])
 			{
-			case CustomPlayer.PlayerType.HUMAN:
+			case GameSettings.PlayerType.HUMAN:
 				_players[i] = ((HumanPlayerModtroller)Instantiate(_humanPlayerPrefab)).Init(this);
 				((HumanPlayerModtroller) _players[i]).OnHumanTurnBegan += ProcessCommandSystemOnHumanPlayerTurn;
 				Screen.sleepTimeout = SleepTimeout.SystemSetting;
 				break;
-			case CustomPlayer.PlayerType.AI_EASY:
+			case GameSettings.PlayerType.AI_EASY:
 				_players[i] = ((EasyAIPlayerModtroller)Instantiate(_easyAIPlayerPrefab)).Init(this);
 				break;
-			case CustomPlayer.PlayerType.AI_HARD:
+			case GameSettings.PlayerType.AI_HARD:
 				_players[i] = ((HardAIPlayerModtroller)Instantiate(_hardAIPlayerPrefab)).Init(this);
 				break;
-			case CustomPlayer.PlayerType.NONE:
+			case GameSettings.PlayerType.NONE:
 			default:
 				_players[i] = null;
 				break;
@@ -223,7 +224,8 @@ public partial class MainGameModtroller : MonoBehaviour
 			{
 				_players[i].transform.parent = _playerRoots[i];
 				_players[i].transform.ResetLocal();
-				_players[i].PlayerName += i + 1;
+				_players[i].PlayerSymbolText.text = _playerIconCharacters[i];
+				_players[i].PlayerSymbolText.color = i >= 2 ? Color.red : Color.black;
 				_players[i].Points = 0;
 			}
 		}
@@ -267,7 +269,7 @@ public partial class MainGameModtroller : MonoBehaviour
 				{
 					TweenHolder createCardTweenHolder;
 					_deck.CreateCard(values[k], suits[j], _mainCamera, out createCardTweenHolder, fancyEntrance: true, angleOffsetForFancyEntrance:
-						(float)(k + j * kMax + i * jMax * kMax) / (iMax * jMax * kMax) * Mathf.PI * 2.0f);
+						(float) (k + j * kMax + i * jMax * kMax) / (iMax * jMax * kMax) * Mathf.PI * 2.0f);
 					cardCreationTweenWaiter.AddFinishable(createCardTweenHolder);
 					yield return new WaitForSeconds(_cardAnimationData.CardCreationTotalDuration / (iMax * jMax * kMax));
 				}

@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using System;
 using System.Linq;
 using System.Collections.ObjectModel;
@@ -230,7 +232,7 @@ namespace Nx
 		public static int LastIndex<T>(this ReadOnlyCollection<T> collection)
 		{
 			return collection.Count - 1;
-				}
+		}
 
 		public static bool IndexIsValid<T>(this ICollection<T> collection, int index)
 		{
@@ -297,4 +299,7 @@ namespace Nx
 #endif
 		}
 	}
+
+	[Serializable]
+	public class PointerTriggerEvent : UnityEvent<PointerEventData> {}
 }

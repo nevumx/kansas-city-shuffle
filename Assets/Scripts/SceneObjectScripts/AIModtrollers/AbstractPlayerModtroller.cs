@@ -6,16 +6,17 @@ using Nx;
 
 public abstract class AbstractPlayerModtroller : MonoBehaviour
 {
+						private	static	readonly	float				DIMMED_PLAYER_SYMBOL_ALPHA	= 0.25f;
+
 	[SerializeField]	private						Hand				_hand;
 						public						Hand				Hand						{ get { return _hand; } }
 
+	[SerializeField]	private						TextMesh			_playerSymbolText;
+						public						TextMesh			PlayerSymbolText			{ get { return _playerSymbolText; } }
 	[SerializeField]	private						TextMesh			_scoreText;
 
 						private						MainGameModtroller	_mainGameModtroller;
 						protected					MainGameModtroller	_MainGameModtroller			{ get { return _mainGameModtroller; } }
-
-	[NonSerialized]		public						string				PlayerName					= "Player ";
-						private	static	readonly	string				PLAYER_ELIMINATED_TAG_LABEL = " - Out";
 
 	[NonSerialized]		private						bool				_eliminated					= false;
 	public bool Eliminated 
@@ -28,11 +29,19 @@ public abstract class AbstractPlayerModtroller : MonoBehaviour
 		{
 			if (value && !_eliminated)
 			{
-				_scoreText.text = _scoreText.text.Insert(_scoreText.text.IndexOf('\n'), PLAYER_ELIMINATED_TAG_LABEL);
+				Color playerSymbolColor = _playerSymbolText.color;
+				Color scoreTextColor = _scoreText.color;
+				playerSymbolColor.a = scoreTextColor.a = DIMMED_PLAYER_SYMBOL_ALPHA;
+				_playerSymbolText.color = playerSymbolColor;
+				_scoreText.color = scoreTextColor;
 			}
 			else if (!value && _eliminated)
 			{
-				_scoreText.text = _scoreText.text.Replace(PLAYER_ELIMINATED_TAG_LABEL, "");
+				Color playerSymbolColor = _playerSymbolText.color;
+				Color scoreTextColor = _scoreText.color;
+				playerSymbolColor.a = scoreTextColor.a = 1.0f;
+				_playerSymbolText.color = playerSymbolColor;
+				_scoreText.color = scoreTextColor;
 			}
 			_eliminated = value;
 		}
@@ -48,7 +57,7 @@ public abstract class AbstractPlayerModtroller : MonoBehaviour
 		set
 		{
 			_points = value;
-			_scoreText.text = PlayerName + "\nScore: " + _points;
+			_scoreText.text = _points.ToString();
 		}
 	}
 
