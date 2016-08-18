@@ -9,7 +9,7 @@
 	{
 		Tags{ "Queue" = "Transparent" "IgnoreProjector" = "True" "RenderType" = "Transparent" }
 		Blend SrcAlpha OneMinusSrcAlpha
-		Cull Off Lighting Off ZWrite Off
+		Cull Off Lighting Off
 		Pass
 		{
 			Cull Back

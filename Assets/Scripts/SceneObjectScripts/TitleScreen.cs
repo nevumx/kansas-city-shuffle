@@ -17,7 +17,7 @@ public class TitleScreen : MonoBehaviour
 				  .SetDelay(0.5f)
 				  .SetDuration(1.0f)
 				  .AddToOnFinishedOnce(() => _titleText.AddIncrementalAlphaTween(0.0f).TweenHolder
-													   .SetDelay(1.0f)
+													   .SetDelay(1.5f)
 													   .SetDuration(1.0f)
 													   .AddToOnFinishedOnce(LoadMainMenu));
 	}
