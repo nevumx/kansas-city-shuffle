@@ -42,7 +42,7 @@ GameObject:
   - 4: {fileID: 481120}
   - 23: {fileID: 2395442}
   - 102: {fileID: 10228772}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: ScoreText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,7 +59,7 @@ GameObject:
   - 4: {fileID: 496732}
   - 23: {fileID: 2396238}
   - 102: {fileID: 10216678}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: PlayerSymbolText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
