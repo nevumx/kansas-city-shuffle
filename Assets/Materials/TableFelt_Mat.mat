@@ -7,10 +7,10 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: TableFelt_Mat
-  m_Shader: {fileID: 4800000, guid: 7aac9eeb7de28be41a981748a373d0ee, type: 3}
-  m_ShaderKeywords: _DETAIL_MULX2
+  m_Shader: {fileID: 4800000, guid: eb3ef4c94bc0648f6b86aaeb27de5977, type: 3}
+  m_ShaderKeywords: 
   m_LightmapFlags: 5
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
@@ -38,6 +38,13 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
+          name: _DetailAlbedoMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
           name: _ParallaxMap
         second:
           m_Texture: {fileID: 0}
@@ -47,7 +54,7 @@ Material:
         first:
           name: _OcclusionMap
         second:
-          m_Texture: {fileID: 8400000, guid: c15a450edd971a444aa60c8caa9458ae, type: 2}
+          m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -66,37 +73,9 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _DetailAlbedoMap
-        second:
-          m_Texture: {fileID: 2800000, guid: c8fb3c40ebd49994eaf9bdc5ed0cbfa4, type: 3}
-          m_Scale: {x: 2, y: 2}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
           name: _MetallicGlossMap
         second:
           m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _ShadowTex
-        second:
-          m_Texture: {fileID: 8400000, guid: c15a450edd971a444aa60c8caa9458ae, type: 2}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _SpecGlossMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _PatternTex
-        second:
-          m_Texture: {fileID: 2800000, guid: c0c2b5e62147d4c4da5d006abe79c3db, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -114,16 +93,16 @@ Material:
         second: 0.5
       data:
         first:
+          name: _Glossiness
+        second: 0.332
+      data:
+        first:
           name: _Parallax
         second: 0.02
       data:
         first:
           name: _ZWrite
         second: 1
-      data:
-        first:
-          name: _Glossiness
-        second: 0.332
       data:
         first:
           name: _BumpScale
@@ -156,20 +135,8 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: 0, g: 0.26242402, b: 0.33088237, a: 1}
-      data:
-        first:
-          name: _SpecColor
-        second: {r: 0.2, g: 0.2, b: 0.2, a: 1}
-      data:
-        first:
-          name: _ShadowTransform
-        second: {r: 0.5, g: 0.5, b: -15, a: 15}
+        second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
           name: _SpecularColor
         second: {r: 0.172, g: 0.172, b: 0.172, a: 1}
-      data:
-        first:
-          name: _PatternColor
-        second: {r: 1, g: 0.96450305, b: 0.4852941, a: 1}

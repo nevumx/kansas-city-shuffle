@@ -4,24 +4,29 @@ using Nx;
 
 public class CardModViewtroller : MonoBehaviour, ITweenable
 {
-	[SerializeField]	private	CardAnimationData	_cardAnimationData;
-						public	CardAnimationData	CardAnimationData	{ get { return _cardAnimationData; } }
+	[SerializeField]	private	static	readonly	float					QUALITY_REDUCTION_SHRINK_FACTOR		= 0.95f;
 
-	[SerializeField]	private	TextMesh			_cardText;
+	[SerializeField]	private						CardAnimationData		_cardAnimationData;
+						public						CardAnimationData		CardAnimationData	{ get { return _cardAnimationData; } }
 
-	[NonSerialized]		public	CardHolder			ParentCardHolder	= null;
+	[SerializeField]	private						TextMesh				_cardText;
+	[SerializeField]	private						GameObject				_shadowObject;
+	[SerializeField]	private						MeshMaterialSwapInfo[]	_qualityLoweringSwapInfos;
+	[SerializeField]	private						Transform[]				_transformsToShrinkForQualityReduction;
 
-	[SerializeField]	private	NxDynamicButton		_button;
-						private	CardViewFSM			_viewFSM;
-						public	NxDynamicButton		Button				{ get { return _button; } }
-						public	CardViewFSM			ViewFSM				{ get { return _viewFSM; } }
+	[NonSerialized]		public						CardHolder				ParentCardHolder	= null;
 
-						private	Card				_card;
-						public	Card				Card				{ get { return _card; } }
-						public	int 				CardValue			{ get { return (int) _card.Value; } }
+	[SerializeField]	private						NxDynamicButton			_button;
+						private						CardViewFSM				_viewFSM;
+						public						NxDynamicButton			Button				{ get { return _button; } }
+						public						CardViewFSM				ViewFSM				{ get { return _viewFSM; } }
 
-	[SerializeField]	private	TweenHolder			_tweenHolder;
-						public	TweenHolder			TweenHolder			{ get { return _tweenHolder; } }
+						private						Card					_card;
+						public						Card					Card				{ get { return _card; } }
+						public						int 					CardValue			{ get { return (int) _card.Value; } }
+
+	[SerializeField]	private						TweenHolder				_tweenHolder;
+						public						TweenHolder				TweenHolder			{ get { return _tweenHolder; } }
 
 	public CardModViewtroller Init(Card.CardValue value, Card.CardSuit suit, Camera eventCamera)
 	{
@@ -29,6 +34,17 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 		_cardText.text = _card.ToString();
 		_cardText.color = suit == Card.CardSuit.SPADES || suit == Card.CardSuit.CLUBS ? Color.black : Color.red;
 		return this;
+	}
+
+	public void DestroyShadowObject()
+	{
+		Destroy(_shadowObject);
+	}
+
+	public void ReduceQuality()
+	{
+		_qualityLoweringSwapInfos.ForEach(q => q.MeshRenderer.material = q.SwapMaterial);
+		_transformsToShrinkForQualityReduction.ForEach(o => o.IfIsNotNullThen(t => t.localScale *= QUALITY_REDUCTION_SHRINK_FACTOR));
 	}
 
 	private void Awake()

@@ -2,36 +2,39 @@
 using Nx;
 using System;
 
-[Serializable]
-public struct TweenTransformPair
-{
-	[SerializeField]	private	Transform	_from;
-	[SerializeField]	private	Transform	_to;
-
-						public	Transform	From	{ get { return _from; } }
-						public	Transform	To		{ get { return _to; } }
-}
-
 public class MainMenuCamera : MonoBehaviour, ITweenable
 {
-	[SerializeField]	private	TweenTransformPair[]	_tweenTransformPairs		= null;
-	[SerializeField]	private	float					_durationForEachTween		= 6.0f;
-	[SerializeField]	private	TweenHolder				_tweenHolder;
-						public	TweenHolder				TweenHolder					{ get { return _tweenHolder; } }
-						private	System.Random			_randomNumber				= new System.Random();
-						private	int						_lastTransformPairIndex		= -1;
+	[Serializable]
+	private struct TweenTransformPair
+	{
+		[SerializeField]	private	Transform	_from;
+		[SerializeField]	private	Transform	_to;
 
-	[SerializeField]	private	Camera					_mainCamera;
-	[SerializeField]	private	Camera					_cardEffectCamera;
-	[SerializeField]	private	Material				_blitOverlayMaterial;
-						private	FPSCounter				_sceneFPSCounter;
-	[SerializeField]	private	Material				_blitFadeAwayMaterial;
-						private	RenderTexture			_cardFadeTexture;
-						private	RenderTexture			_cardFadeSwapTexture;
-						private	int						_framesToClearCardBuffer;
-						private	float					_timeStarted;
-						private	bool					_performCardFadeEffect		= true;
-						private	bool					_tooLateToCancelCardEffect	= false;
+							public	Transform	From	{ get { return _from; } }
+							public	Transform	To		{ get { return _to; } }
+	}
+
+						private	static	readonly	float					TARGET_FRAMERATE				= 25.0f;
+
+	[SerializeField]	private						TweenTransformPair[]	_tweenTransformPairs			= null;
+	[SerializeField]	private						float					_durationForEachTween			= 6.0f;
+	[SerializeField]	private						TweenHolder				_tweenHolder;
+						public						TweenHolder				TweenHolder						{ get { return _tweenHolder; } }
+						private						int						_lastTransformPairIndex			= -1;
+
+	[SerializeField]	private						Camera					_mainCamera;
+	[SerializeField]	private						Camera					_cardTrailsCamera;
+	[SerializeField]	private						Material				_blitOverlayMaterial;
+						private						FPSCounter				_sceneFPSCounter;
+	[SerializeField]	private						Material				_blitFadeAwayMaterial;
+						private						RenderTexture			_cardFadeTexture;
+						private						RenderTexture			_cardFadeSwapTexture;
+						private						int						_framesToClearCardBuffer;
+						private						float					_timeStarted;
+						private						bool					_renderCardTrails				= true;
+						private						bool					_tooLateToReduceGraphicsQuality	= false;
+	[SerializeField]	private						MainGameModtroller		_mainGameModtroller;
+	[SerializeField]	private						MainMenuModtroller		_mainMenuModtroller;
 
 	private void Awake()
 	{
@@ -46,9 +49,9 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 
 		_cardFadeTexture = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32);
 		_cardFadeSwapTexture = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32);
-		_cardEffectCamera.targetTexture = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32);
+		_cardTrailsCamera.targetTexture = new RenderTexture(Screen.width, Screen.height, 16, RenderTextureFormat.ARGB32);
 
-		RenderTexture.active = _cardEffectCamera.targetTexture;
+		RenderTexture.active = _cardTrailsCamera.targetTexture;
 		GL.Clear(true, true, new Color(0.0f, 0.0f, 0.0f, 0.0f));
 		RenderTexture.active = null;
 
@@ -58,7 +61,7 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 	private void TweenThroughNewTweenTransformPair()
 	{
 		int nextIndex;
-		while ((nextIndex = _randomNumber.Next(_tweenTransformPairs.Length)) == _lastTransformPairIndex);
+		while ((nextIndex = UnityEngine.Random.Range(0, _tweenTransformPairs.Length)) == _lastTransformPairIndex);
 		_lastTransformPairIndex = nextIndex;
 		TweenTransformPair nextPair = _tweenTransformPairs[nextIndex];
 		this.AddPositionTween(nextPair.From.position, nextPair.To.position)
@@ -90,21 +93,20 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 
 	private void OnRenderImage(RenderTexture src, RenderTexture dest)
 	{
-		if (!_tooLateToCancelCardEffect && Time.time - _timeStarted >= 1.0f)
+		if (!_tooLateToReduceGraphicsQuality && Time.time - _timeStarted >= 1.0f)
 		{
-			if (_sceneFPSCounter != null && _sceneFPSCounter.CachedAverageDeltaTime >= 1.0f / 25.0f)
+			if (_sceneFPSCounter != null && _sceneFPSCounter.IsUnderFramerate(TARGET_FRAMERATE))
 			{
-				_cardFadeTexture = null;
-				_cardFadeSwapTexture = null;
-				Destroy(_cardEffectCamera.gameObject);
-				_cardEffectCamera = null;
-				_mainCamera.cullingMask |= 1 << 21;
-				_performCardFadeEffect = false;
+				CancelCardTrails();
+				_mainGameModtroller.RemoveCardShadows();
+				_mainMenuModtroller.ShouldDestroyShadowsOfNewCards = true;
+				_mainGameModtroller.ReduceCardQuality();
+				_mainMenuModtroller.ShouldReduceQualityOfNewCards = true; 
 			}
-			_tooLateToCancelCardEffect = true;
+			_tooLateToReduceGraphicsQuality = true;
 		}
 
-		if (_performCardFadeEffect)
+		if (_renderCardTrails)
 		{
 			if (_framesToClearCardBuffer > 0)
 			{
@@ -124,9 +126,19 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 			Graphics.Blit(_cardFadeSwapTexture, _cardFadeTexture, _blitFadeAwayMaterial);
 			_cardFadeSwapTexture.DiscardContents();
 
-			Graphics.Blit(_cardEffectCamera.targetTexture, _cardFadeTexture, _blitOverlayMaterial);
+			Graphics.Blit(_cardTrailsCamera.targetTexture, _cardFadeTexture, _blitOverlayMaterial);
 			Graphics.Blit(_cardFadeTexture, src, _blitOverlayMaterial);
 		}
 		Graphics.Blit(src, dest);
+	}
+
+	private void CancelCardTrails()
+	{
+		_cardFadeTexture = null;
+		_cardFadeSwapTexture = null;
+		Destroy(_cardTrailsCamera.gameObject);
+		_cardTrailsCamera = null;
+		_mainCamera.cullingMask |= 1 << 21;
+		_renderCardTrails = false;
 	}
 }

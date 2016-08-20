@@ -18,6 +18,7 @@ public class GraphicsManager : MonoBehaviour {
 		UpdateShaderParams();
 	}
 
+#if UNITY_EDITOR
 	void Update()
 	{
 		if (Application.isEditor && !Application.isPlaying)
@@ -26,6 +27,7 @@ public class GraphicsManager : MonoBehaviour {
 			UpdateShaderParams();
 		}
 	}
+#endif
 
 	void CreateRamp()
 	{

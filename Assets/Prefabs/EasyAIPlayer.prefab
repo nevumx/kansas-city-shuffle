@@ -232,7 +232,7 @@ MonoBehaviour:
   _cardsTextVisibility: 0
   _shuffleAnimationCamera: {fileID: 0}
   _shuffleAnimationOriginPoint: {fileID: 0}
-  _handMaxSizeInUnits: 8.1
+  _handMaxSizeInUnits: 8.2
 --- !u!114 &11440084
 MonoBehaviour:
   m_ObjectHideFlags: 1

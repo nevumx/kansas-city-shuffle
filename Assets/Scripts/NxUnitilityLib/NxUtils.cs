@@ -302,4 +302,14 @@ namespace Nx
 
 	[Serializable]
 	public class PointerTriggerEvent : UnityEvent<PointerEventData> {}
+
+	[Serializable]
+	public struct MeshMaterialSwapInfo
+	{
+		[SerializeField]	private	MeshRenderer	_meshRenderer;
+		[SerializeField]	private	Material		_swapMaterial;
+
+							public	MeshRenderer	MeshRenderer	{ get { return _meshRenderer; } }
+							public	Material		SwapMaterial	{ get { return _swapMaterial; } }
+	}
 }

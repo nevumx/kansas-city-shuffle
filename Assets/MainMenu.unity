@@ -851,7 +851,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 452712, guid: d086bc14f12db4a74866df6c1b491778, type: 2}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 162034, guid: d086bc14f12db4a74866df6c1b491778, type: 2}
       propertyPath: m_StaticEditorFlags
@@ -864,6 +864,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d086bc14f12db4a74866df6c1b491778, type: 2}
   m_IsPrefabParent: 0
+--- !u!23 &136230103 stripped
+MeshRenderer:
+  m_PrefabParentObject: {fileID: 2351158, guid: d086bc14f12db4a74866df6c1b491778,
+    type: 2}
+  m_PrefabInternal: {fileID: 136230102}
 --- !u!1 &154588649
 GameObject:
   m_ObjectHideFlags: 0
@@ -1392,48 +1397,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 257219411}
---- !u!1001 &281307781
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 490728, guid: 70e143caa4d19db40ae6544bfb3417a3, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 490728, guid: 70e143caa4d19db40ae6544bfb3417a3, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 490728, guid: 70e143caa4d19db40ae6544bfb3417a3, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 490728, guid: 70e143caa4d19db40ae6544bfb3417a3, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 490728, guid: 70e143caa4d19db40ae6544bfb3417a3, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 490728, guid: 70e143caa4d19db40ae6544bfb3417a3, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 490728, guid: 70e143caa4d19db40ae6544bfb3417a3, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 490728, guid: 70e143caa4d19db40ae6544bfb3417a3, type: 2}
-      propertyPath: m_RootOrder
-      value: 7
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 70e143caa4d19db40ae6544bfb3417a3, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &299440006
 GameObject:
   m_ObjectHideFlags: 0
@@ -3641,6 +3604,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 11423022, guid: dc4e7beb3e04749539cef63af21cb996, type: 2}
+      propertyPath: _qualityLoweringSwapInfos.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 423008, guid: dc4e7beb3e04749539cef63af21cb996, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -3686,12 +3653,26 @@ Prefab:
       value: 
       objectReference: {fileID: 316765669}
     - target: {fileID: 11423022, guid: dc4e7beb3e04749539cef63af21cb996, type: 2}
+      propertyPath: _qualityLoweringSwapInfos.Array.data[3]._meshRenderer
+      value: 
+      objectReference: {fileID: 136230103}
+    - target: {fileID: 11423022, guid: dc4e7beb3e04749539cef63af21cb996, type: 2}
+      propertyPath: _qualityLoweringSwapInfos.Array.data[3]._swapMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: cbbeee66046188a4eba93b0007b171dc, type: 2}
+    - target: {fileID: 11423022, guid: dc4e7beb3e04749539cef63af21cb996, type: 2}
       propertyPath: _demoMode
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dc4e7beb3e04749539cef63af21cb996, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &511305417 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11423022, guid: dc4e7beb3e04749539cef63af21cb996,
+    type: 2}
+  m_PrefabInternal: {fileID: 511305416}
+  m_Script: {fileID: 11500000, guid: 8f5913afa2dbb4ade82bcd5132e2224c, type: 3}
 --- !u!1 &515823662
 GameObject:
   m_ObjectHideFlags: 0
@@ -4379,6 +4360,8 @@ MonoBehaviour:
   _logoImage: {fileID: 490889513}
   _blackFadeOutImage: {fileID: 1965547382}
   _fadeOutTime: 2
+  ShouldDestroyShadowsOfNewCards: 0
+  ShouldReduceQualityOfNewCards: 0
 --- !u!4 &573546977
 Transform:
   m_ObjectHideFlags: 0
@@ -10055,7 +10038,7 @@ GameObject:
   - 4: {fileID: 1412981453}
   - 20: {fileID: 1412981454}
   m_Layer: 0
-  m_Name: CardFadeCamera
+  m_Name: CardTrailsCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12258,7 +12241,7 @@ Transform:
   m_Children:
   - {fileID: 1412981453}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
 --- !u!20 &1727288882
 Camera:
   m_ObjectHideFlags: 0
@@ -12324,11 +12307,13 @@ MonoBehaviour:
   _durationForEachTween: 6
   _tweenHolder: {fileID: 1727288884}
   _mainCamera: {fileID: 1727288882}
-  _cardEffectCamera: {fileID: 1412981454}
+  _cardTrailsCamera: {fileID: 1412981454}
   _blitOverlayMaterial: {fileID: 2100000, guid: 7a5d28310a4ea41779becbd0e768d1fc,
     type: 2}
   _blitFadeAwayMaterial: {fileID: 2100000, guid: 63631cfe21cfb4665b24647a403dce2f,
     type: 2}
+  _mainGameModtroller: {fileID: 511305417}
+  _mainMenuModtroller: {fileID: 573546976}
 --- !u!114 &1727288884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13240,7 +13225,7 @@ Transform:
   - {fileID: 1181799340}
   - {fileID: 1467224614}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
 --- !u!1 &1882859521
 GameObject:
   m_ObjectHideFlags: 0
@@ -13392,7 +13377,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 10
 --- !u!1 &1902009741
 GameObject:
   m_ObjectHideFlags: 0

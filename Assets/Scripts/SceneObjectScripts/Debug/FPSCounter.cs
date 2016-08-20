@@ -4,12 +4,14 @@ using Nx;
 
 public class FPSCounter : MonoBehaviour
 {
-	private	const	int				DELTA_TIMES_BUFFER_SIZE		= 60;
+	private	const	int				DELTA_TIMES_BUFFER_SIZE				= 60;
 
-	private			bool			_drawFPS					= false;
-	private			Queue<float>	_deltaTimes					= new Queue<float>();
-	private			float			_cachedAverageDeltaTime		= 0.01f;
-	public			float			CachedAverageDeltaTime		{ get { return _cachedAverageDeltaTime; } }
+	private			bool			_drawFPS							= false;
+	private			Queue<float>	_deltaTimes							= new Queue<float>();
+	private			float			_totalHistoricalDeltaTimesSum		= 0.0f;
+	private			int				_totalNumHistoricalDeltaTimes		= 0;
+	private			float			_cachedAverageDeltaTime				= 0.01f;
+	private			float			_cachedAverageHistoricalDeltaTime	= 0.01f;
 
 	private void Awake()
 	{
@@ -28,12 +30,14 @@ public class FPSCounter : MonoBehaviour
 		_deltaTimes.Enqueue(Time.deltaTime);
 		if (_deltaTimes.Count > DELTA_TIMES_BUFFER_SIZE)
 		{
-			_deltaTimes.Dequeue();
+			_totalHistoricalDeltaTimesSum += _deltaTimes.Dequeue();
+			++_totalNumHistoricalDeltaTimes;
 		}
 
 		float sumDeltaTimes = 0.0f;
 		_deltaTimes.ForEach(d => sumDeltaTimes += d);
 		_cachedAverageDeltaTime =  sumDeltaTimes / _deltaTimes.Count;
+		_cachedAverageHistoricalDeltaTime = (sumDeltaTimes + _totalHistoricalDeltaTimesSum) / (_deltaTimes.Count + _totalNumHistoricalDeltaTimes);
 	}
 
 	private void OnGUI()
@@ -53,12 +57,28 @@ public class FPSCounter : MonoBehaviour
 			{
 				GUI.color = Color.green;
 			}
-			GUI.Label(new Rect(0, 0, Screen.width, Screen.height), "FPS: " + Mathf.RoundToInt(1.0f / _cachedAverageDeltaTime) + " = " + Mathf.RoundToInt(_cachedAverageDeltaTime * 1000.0f) + "ms");
+			GUI.Label(new Rect(0, 0, Screen.width, Screen.height), "FPS: " + Mathf.RoundToInt(1.0f / _cachedAverageDeltaTime)
+							   + " = " + Mathf.RoundToInt(_cachedAverageDeltaTime * 1000.0f) + "ms\n"
+							   + "Cumulative Average FPS: " + Mathf.RoundToInt(1.0f / _cachedAverageHistoricalDeltaTime)
+							   + " = " + Mathf.RoundToInt(_cachedAverageHistoricalDeltaTime * 1000.0f) + "ms");
 		}
+	}
+
+	public bool IsUnderFramerate(float framerate)
+	{
+		if (framerate <= 0.0f)
+		{
+			return true;
+		}
+		return _cachedAverageDeltaTime >= 1.0f / framerate;
 	}
 
 	public void ClearHistory()
 	{
 		_deltaTimes.Clear();
+		_totalHistoricalDeltaTimesSum = 0.0f;
+		_totalNumHistoricalDeltaTimes = 0;
+		_cachedAverageDeltaTime = 0.01f;
+		_cachedAverageHistoricalDeltaTime = 0.01f;
 	}
 }

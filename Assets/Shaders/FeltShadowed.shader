@@ -1,7 +1,9 @@
-﻿Shader "TakkuSum/Felt" {
+﻿Shader "TakkuSum/FeltShadowed" {
 	Properties {
 		_SpecularColor ("Specular Color", Color) = (1,1,1,1)
 		_MainTex ("Albedo (RGB)", 2D) = "white" {}
+		[NoScaleOffset] _ShadowTex("Shadow (RGB)", 2D) = "white" {}
+		_ShadowTransform("_ShadowTransform xy:offset zw:scale", Vector) = (0.0, 0.0, 1.0, 1.0)
 		_Glossiness ("Smoothness", Range(0,1)) = 0.5
 	}
 	SubShader {
@@ -16,6 +18,8 @@
 		#pragma target 3.0
 
 		sampler2D _MainTex;
+		sampler2D _ShadowTex;
+		half4 _ShadowTransform;
 		sampler2D _PatternTex;
 
 		struct Input {
@@ -30,10 +34,13 @@
 		fixed4 _PatternColor;
 
 		void surf (Input IN, inout SurfaceOutputStandardSpecular o) {
+			half2 shadowCoord = IN.worldPos.xz / _ShadowTransform.zw + _ShadowTransform.xy;
+
+			fixed shadow = tex2D(_ShadowTex, shadowCoord).x; // shadow render target (argb)
 			fixed pattern = tex2D(_PatternTex, IN.uv_MainTex).a; // felt game pattern (alpha8)
 			fixed4 c = tex2D (_MainTex, IN.uv_MainTex) * _FeltColor;
 
-			o.Albedo = lerp(c.rgb, _PatternColor.rgb, pattern);
+			o.Albedo = lerp(c.rgb, _PatternColor.rgb, pattern) * shadow;
 			o.Specular = _SpecularColor.rgb;
 
 			o.Smoothness = _Glossiness;

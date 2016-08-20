@@ -10,7 +10,7 @@ public class Initializer : MonoBehaviour
 		DisableNavUI();
 		DontDestroyOnLoad(gameObject);
 #elif UNITY_IOS
-		Application.targetFrameRate = 60;
+		Application.targetFrameRate = 60; // TODO: Maybe leave it at 30 for battery concerns?
 #endif
 		SceneManager.LoadScene("TitleScreen");
 	}

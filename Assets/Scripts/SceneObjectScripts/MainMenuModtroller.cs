@@ -62,6 +62,9 @@ public class MainMenuModtroller : MonoBehaviour
 	[SerializeField]	private	Image						_blackFadeOutImage;
 	[SerializeField]	private	float						_fadeOutTime					= 2.0f;
 
+						public	bool						ShouldDestroyShadowsOfNewCards	= false;
+						public	bool						ShouldReduceQualityOfNewCards	= false;
+
 	private Menu _currentMenu = Menu.MAIN_MENU;
 	public Menu CurrentMenu
 	{

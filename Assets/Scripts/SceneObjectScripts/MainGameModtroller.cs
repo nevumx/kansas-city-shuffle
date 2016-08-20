@@ -61,6 +61,9 @@ public partial class MainGameModtroller : MonoBehaviour
 						public						bool						MaxDeviationRule		{ get { return _gameSettings.MaxDeviationRule; } }
 						public						int							MaxDeviationThreshold	{ get { return _gameSettings.MaxDeviationThreshold; } }
 
+	[SerializeField]	private						MeshMaterialSwapInfo[]		_qualityLoweringSwapInfos;
+	[SerializeField]	private						GameObject					_shadowCamera;
+
 						private						Commander					_commander;
 
 	public AbstractPlayerModtroller[] Players { get { return _players; } }
@@ -146,7 +149,6 @@ public partial class MainGameModtroller : MonoBehaviour
 																Screen.height * (_miniViewUIImageHolder.anchorMax.y - _miniViewUIImageHolder.anchorMin.y)));
 			_miniViewUIImage.texture = _miniViewCamera.targetTexture
 				= new RenderTexture(miniViewSquareSide, miniViewSquareSide, 16, RenderTextureFormat.ARGB32);
-
 		}
 
 		if (_demoMode)
@@ -177,6 +179,14 @@ public partial class MainGameModtroller : MonoBehaviour
 		else
 		{
 			var mainMenuData = FindObjectOfType<MainMenuModtroller>();
+			if (mainMenuData.ShouldDestroyShadowsOfNewCards)
+			{
+				RemoveCardShadows();
+			}
+			if (mainMenuData.ShouldReduceQualityOfNewCards)
+			{
+				ReduceCardQuality();
+			}
 			SetupAndStartGame(mainMenuData.GameSettings);
 			Destroy(mainMenuData.gameObject);
 		}
@@ -679,7 +689,7 @@ public partial class MainGameModtroller : MonoBehaviour
 	}
 
 
-	// Misc. Helper Funcs.
+	// Misc. helper funcs.
 	private void FillDeck(Action onFinished)
 	{
 		_discardPile.CardsTextVisibility = true;
@@ -707,6 +717,31 @@ public partial class MainGameModtroller : MonoBehaviour
 		}
 	}
 
+	public void RemoveCardShadows()
+	{
+		_qualityLoweringSwapInfos.ForEach(q => q.MeshRenderer.material = q.SwapMaterial);
+		Destroy(_shadowCamera);
+
+		Action<CardModViewtroller> destroyCardShadowFunction = c => c.DestroyShadowObject();
+		_deck.ReadOnlyCards.ForEach(destroyCardShadowFunction);
+		_wildcardPile.IfIsNotNullThen(w => w.ReadOnlyCards.ForEach(destroyCardShadowFunction));
+		_discardPile.ReadOnlyCards.ForEach(destroyCardShadowFunction);
+		_players.ForEach(o => o.IfIsNotNullThen(p => p.Hand.ReadOnlyCards.ForEach(destroyCardShadowFunction)));
+		_deck.ShouldCreateShadowlessNewCards = true;
+	}
+
+	public void ReduceCardQuality()
+	{
+		Action<CardModViewtroller> reduceQualityFunction = c => c.ReduceQuality();
+		_deck.ReadOnlyCards.ForEach(reduceQualityFunction);
+		_wildcardPile.IfIsNotNullThen(w => w.ReadOnlyCards.ForEach(reduceQualityFunction));
+		_discardPile.ReadOnlyCards.ForEach(reduceQualityFunction);
+		_players.ForEach(o => o.IfIsNotNullThen(p => p.Hand.ReadOnlyCards.ForEach(reduceQualityFunction)));
+		_deck.ShouldReduceQualityOfNewCards = true;
+	}
+
+
+	// Button-invoked functions
 	public void OnUndoButtonClicked()
 	{
 		HideUndoAndRedoButtons();

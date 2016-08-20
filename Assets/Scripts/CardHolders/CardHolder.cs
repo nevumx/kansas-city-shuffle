@@ -6,21 +6,27 @@ using Nx;
 
 public class CardHolder : MonoBehaviour
 {
-						public		CardModViewtroller							CardPrefab;
+	[SerializeField]	private		CardModViewtroller							CardPrefab;
+	[SerializeField]	private		CardModViewtroller							ShadowlessCardPrefab;
 
 	[SerializeField]	private		CardAnimationData							_cardAnimationData;
-						protected	CardAnimationData							CardAnimationData		{ get { return _cardAnimationData; } }
+						protected	CardAnimationData							CardAnimationData				{ get { return _cardAnimationData; } }
 
-						private		List<CardModViewtroller>					_cards					= new List<CardModViewtroller>();
-						public		int											CardCount				{ get { return _Cards.Count; } }
+						private		List<CardModViewtroller>					_cards							= new List<CardModViewtroller>();
+						public		int											CardCount						{ get { return _Cards.Count; } }
 
 						private		ReadOnlyCollection<CardModViewtroller>		_cachedReadOnlyCards;
 	[SerializeField]	private		CardModViewtroller.CardViewFSM.AnimState	_cardsAnimState;
-						public		CardModViewtroller.CardViewFSM.AnimState	CardsAnimState			{ get { return _cardsAnimState; } }
+						public		CardModViewtroller.CardViewFSM.AnimState	CardsAnimState					{ get { return _cardsAnimState; } }
 	[SerializeField]	private		bool										_cardsTextVisibility;
-						protected	bool										_CardsTextVisibility	{ get { return _cardsTextVisibility; } }
+						protected	bool										_CardsTextVisibility			{ get { return _cardsTextVisibility; } }
 	[SerializeField]	private		TweenHolder									_shuffleAnimationCamera;
 	[SerializeField]	private		Transform									_shuffleAnimationOriginPoint;
+
+						private		bool										_shouldCreateShadowlessNewCards	= false;
+						public		bool										ShouldCreateShadowlessNewCards	{ set { _shouldCreateShadowlessNewCards = value; } }
+						private		bool										_shouldReduceQualityOfNewCards	= false;
+						public		bool										ShouldReduceQualityOfNewCards	{ set { _shouldReduceQualityOfNewCards = value; } }
 
 	public ReadOnlyCollection<CardModViewtroller> ReadOnlyCards
 	{
@@ -86,7 +92,11 @@ public class CardHolder : MonoBehaviour
 						   bool fancyEntrance = false, float angleOffsetForFancyEntrance = 0.0f)
 	{
 		outTween = null;
-		var card = ((CardModViewtroller)Instantiate(CardPrefab)).Init(cardValue, cardSuit, eventCamera);
+		var card = ((CardModViewtroller)Instantiate(_shouldCreateShadowlessNewCards ? ShadowlessCardPrefab : CardPrefab)).Init(cardValue, cardSuit, eventCamera);
+		if (_shouldReduceQualityOfNewCards)
+		{
+			card.ReduceQuality();
+		}
 		AddCard(card);
 		card.ViewFSM.SetAnimState(_cardsAnimState, performTweens: false);
 
@@ -110,8 +120,10 @@ public class CardHolder : MonoBehaviour
 			OnCardRecieveTweenBegan(card);
 			return;
 		}
-
-		card.transform.ResetLocal();
+		else
+		{
+			card.transform.ResetLocal();
+		}
 	}
 
 	public void MoveCard(int cardIndex, CardHolder other, out TweenHolder outTween, bool? visibleDuringTween, int indexToInsertAt = -1)
@@ -276,9 +288,9 @@ public class CardHolder : MonoBehaviour
 
 	public void DestroyAllCards()
 	{
-		foreach (CardModViewtroller card in _Cards)
+		for (int i = 0, iMax = _Cards.Count; i < iMax; ++i)
 		{
-			Destroy(card.gameObject);
+			Destroy(_Cards[i].gameObject);
 		}
 		_Cards.Clear();
 	}

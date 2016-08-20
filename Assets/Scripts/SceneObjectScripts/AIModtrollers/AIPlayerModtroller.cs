@@ -59,7 +59,7 @@ public abstract class AIPlayerModtroller : AbstractPlayerModtroller
 		if (splitter.AverageCardIndexes.Count > 0)
 		{
 			_MainGameModtroller.EndPlayerTurn(splitter.AverageCardIndexes.AllBest((a, b) => a.Length > b.Length, (a, b) => a.Length == b.Length)
-						.Best((a, b) => Math.Abs(Hand.ReadOnlyCards[a[0]].CardValue - cardValueMidpoint) < Math.Abs(Hand.ReadOnlyCards[b[0]].CardValue - cardValueMidpoint)));
+					.Best((a, b) => Math.Abs(Hand.ReadOnlyCards[a[0]].CardValue - cardValueMidpoint) < Math.Abs(Hand.ReadOnlyCards[b[0]].CardValue - cardValueMidpoint)));
 		}
 		else
 		{

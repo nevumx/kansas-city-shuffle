@@ -1,4 +1,4 @@
-﻿Shader "TakkuSum/3D Text Culled" {
+﻿Shader "Nx/3D Text Culled" {
 	Properties {
 		_MainTex ("Font Texture", 2D) = "white" {}
 	}
