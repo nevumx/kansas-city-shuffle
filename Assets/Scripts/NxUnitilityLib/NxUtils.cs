@@ -301,7 +301,7 @@ namespace Nx
 	}
 
 	[Serializable]
-	public class PointerTriggerEvent : UnityEvent<PointerEventData> {}
+	public class FloatEvent : UnityEvent<float> {}
 
 	[Serializable]
 	public struct MeshMaterialSwapInfo

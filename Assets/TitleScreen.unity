@@ -113,7 +113,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39aa5c0fecb3b43b299ac66b5848e52e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _titleText: {fileID: 810920834}
+  _titleText:
+    _tweenHolder: {fileID: 810920835}
+    _graphics:
+    - {fileID: 810920831}
+    - {fileID: 169012348}
+    _rootRectTransform: {fileID: 810920833}
 --- !u!20 &94941794
 Camera:
   m_ObjectHideFlags: 0
@@ -157,6 +162,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.62628794, y: 0.53659916, z: 0.4995861}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -186,6 +192,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 1858164194}
   m_RootOrder: 1
@@ -244,7 +251,6 @@ GameObject:
   - 222: {fileID: 810920832}
   - 114: {fileID: 810920831}
   - 114: {fileID: 810920835}
-  - 114: {fileID: 810920834}
   m_Layer: 5
   m_Name: NameText
   m_TagString: Untagged
@@ -300,6 +306,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 1858164194}
   m_RootOrder: 0
@@ -308,22 +315,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &810920834
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 810920830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b9a23e1db03443dea520494291547e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _tweenHolder: {fileID: 810920835}
-  _graphics:
-  - {fileID: 810920831}
-  - {fileID: 169012348}
-  _rootRectTransform: {fileID: 0}
 --- !u!114 &810920835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,8 +326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c085ac8f5ad774ea5afed34524d9336b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Duration: 1
-  Delay: 0
+  _ignoreTimeScale: 0
   _gameObjectsToChangeLayerOfDuringTween: []
   _inTweenLayer: 0
   _outOfTweenLayer: 0
@@ -398,6 +388,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -539,6 +530,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 810920833}
   - {fileID: 169012345}

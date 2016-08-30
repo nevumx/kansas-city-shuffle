@@ -15,6 +15,8 @@ namespace Nx
 		private						Action<PointerEventData>	_onDrag;
 		private						Action<PointerEventData>	_onDrop;
 
+		private						PointerEventData			_cachedDragEventData;
+
 		private						float						_timeLastClickBegan			= 0.0f;
 		private						float						_timeLastClicked			= 0.0f;
 		private						bool						_isBeingDragged				= false;
@@ -77,17 +79,17 @@ namespace Nx
 
 		public void OnPointerDown(PointerEventData eventData)
 		{
-			_timeLastClickBegan = Time.realtimeSinceStartup;
+			_timeLastClickBegan = Time.unscaledTime;
 		}
 
 		public void OnPointerClick(PointerEventData eventData)
 		{
-			if (!_isBeingDragged && Time.realtimeSinceStartup - _timeLastClickBegan < CLICK_EXPIRE_THRESHOLD_TIME)
+			if (!_isBeingDragged && Time.unscaledTime - _timeLastClickBegan < CLICK_EXPIRE_THRESHOLD_TIME)
 			{
-				if (_timeLastClicked == 0.0f || Time.realtimeSinceStartup - _timeLastClicked > DOUBLE_CLICK_THRESHOLD_TIME)
+				if (_timeLastClicked == 0.0f || Time.unscaledTime - _timeLastClicked > DOUBLE_CLICK_THRESHOLD_TIME)
 				{
 					_onClicked.Raise();
-					_timeLastClicked = Time.realtimeSinceStartup;
+					_timeLastClicked = Time.unscaledTime;
 				}
 				else
 				{
@@ -99,10 +101,10 @@ namespace Nx
 
 		public void OnButtonClick()
 		{
-			if (_timeLastClicked == 0.0f || Time.realtimeSinceStartup - _timeLastClicked > DOUBLE_CLICK_THRESHOLD_TIME)
+			if (_timeLastClicked == 0.0f || Time.unscaledTime - _timeLastClicked > DOUBLE_CLICK_THRESHOLD_TIME)
 			{
 				_onClicked.Raise();
-				_timeLastClicked = Time.realtimeSinceStartup;
+				_timeLastClicked = Time.unscaledTime;
 			}
 		}
 
@@ -110,13 +112,22 @@ namespace Nx
 		{
 			_isBeingDragged = true;
 			_onBeginDrag.Raise();
+			_cachedDragEventData = eventData;
 		}
 
 		public void OnDrag(PointerEventData eventData)
 		{
 			if (_isBeingDragged)
 			{
-				_onDrag.Raise(eventData);
+				_cachedDragEventData = eventData;
+			}
+		}
+
+		private void Update()
+		{
+			if (_isBeingDragged)
+			{
+				_onDrag.Raise(_cachedDragEventData);
 			}
 		}
 

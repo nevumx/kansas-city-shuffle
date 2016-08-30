@@ -16,6 +16,7 @@ MonoBehaviour:
   _deckShuffleExplosionSphereRadius: 5
   _deckShuffleExplosionDuration: 4
   _deckShuffleExplosionMaxRotations: 5
+  _timeToWaitBeforePopulatingDeck: 1.5
   _deckFillDurationPerCard: 1
   _cardCreationTotalDuration: 3
   _deckFillDelayPerCard: 0.5

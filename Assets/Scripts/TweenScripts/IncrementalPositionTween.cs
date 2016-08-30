@@ -15,28 +15,38 @@ public class IncrementalPositionTween : Tween
 		BoostSpeed = boostSpeed;
 	}
 
-	public override Action<Transform, float, float> GetUpdateDelegate() { return OnUpdate; }
+	public override Action GetUpdateDelegate() { return OnUpdate; }
 
-	private void OnUpdate(Transform gameObjTransform, float percentDone, float timeRemaining)
+	private void OnUpdate()
 	{
-		if (Mathf.Approximately(timeRemaining, 0.0f))
+		if (Mathf.Approximately(TweenHolder.TimeRemaining, 0.0f))
 		{
-			gameObjTransform.position = PositionTo;
+			TweenHolder.transform.position = PositionTo;
 			return;
 		}
 
-		Vector3 destOffset = PositionTo - gameObjTransform.position;
-		float speed = destOffset.magnitude / timeRemaining * -6.0f * percentDone * (percentDone - 1.0f) + (BoostSpeed ? 2.5f * percentDone : 0.65f);
-		Vector3 nextDest = gameObjTransform.position + destOffset.normalized * speed * Time.deltaTime;
-
-		if (Vector3.Distance(gameObjTransform.position, nextDest)
-			> Vector3.Distance(gameObjTransform.position, PositionTo))
+		Vector3 destOffset = PositionTo - TweenHolder.transform.position;
+		float speed;
+		if (BoostSpeed)
 		{
-			gameObjTransform.position = PositionTo;
+			speed = destOffset.magnitude / TweenHolder.TimeRemaining 
+				* -6.0f * TweenHolder.PercentDone * (TweenHolder.PercentDone - 1.0f) + 2.5f * TweenHolder.PercentDone;
 		}
 		else
 		{
-			gameObjTransform.position = nextDest;
+			speed = destOffset.magnitude / TweenHolder.TimeRemaining
+				* Mathf.Max(-6.0f * TweenHolder.PercentDone * (TweenHolder.PercentDone - 1.0f), TweenHolder.PercentDone > 0.5f ? 1.0f : 0.0f);
+		}
+		Vector3 nextDest = TweenHolder.transform.position + destOffset.normalized * speed * TweenHolder.DeltaTime;
+
+		if (Vector3.Distance(TweenHolder.transform.position, nextDest)
+			> Vector3.Distance(TweenHolder.transform.position, PositionTo))
+		{
+			TweenHolder.transform.position = PositionTo;
+		}
+		else
+		{
+			TweenHolder.transform.position = nextDest;
 		}
 	}
 }

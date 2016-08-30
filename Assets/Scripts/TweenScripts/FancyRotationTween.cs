@@ -15,15 +15,15 @@ public class FancyRotationTween : Tween
 		EulerTo = to;
 	}
 
-	public override Action<Transform, float, float> GetUpdateDelegate() { return OnUpdate; }
+	public override Action GetUpdateDelegate() { return OnUpdate; }
 
-	private void OnUpdate(Transform gameObjTransform, float percentDone, float timeRemaining)
+	private void OnUpdate()
 	{
-		Vector3 newRot = Vector3.Lerp(new Vector3(0.0f, 0.0f, 0.0f), new Vector3(360.0f, 360.0f, 360.0f), percentDone);
+		Vector3 newRot = Vector3.Lerp(new Vector3(0.0f, 0.0f, 0.0f), new Vector3(360.0f, 360.0f, 360.0f), TweenHolder.PercentDone);
 		Quaternion VecXQ = Quaternion.Euler(new Vector3(newRot.x, 0.0f, 0.0f));
 		Quaternion VecYQ = Quaternion.Euler(new Vector3(0.0f, newRot.y, 0.0f));
 		Quaternion VecZQ = Quaternion.Euler(new Vector3(0.0f, 0.0f, newRot.z));
-		gameObjTransform.localRotation =
+		TweenHolder.transform.localRotation =
 				VecXQ
 				* (VecXQ * VecYQ)
 				* (VecXQ * VecYQ * VecZQ);

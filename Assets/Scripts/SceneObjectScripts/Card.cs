@@ -32,73 +32,69 @@ public struct Card
 	public	readonly	CardValue	Value;
 	public	readonly	CardSuit	Suit;
 
+	public string CardValueString
+	{
+		get
+		{
+			switch (Value)
+			{
+				case Card.CardValue.ACE:
+					return "A\n";
+				case Card.CardValue.TWO:
+					return "2\n";
+				case Card.CardValue.THREE:
+					return "3\n";
+				case Card.CardValue.FOUR:
+					return "4\n";
+				case Card.CardValue.FIVE:
+					return "5\n";
+				case Card.CardValue.SIX:
+					return "6\n";
+				case Card.CardValue.SEVEN:
+					return "7\n";
+				case Card.CardValue.EIGHT:
+					return "8\n";
+				case Card.CardValue.NINE:
+					return "9\n";
+				case Card.CardValue.TEN:
+					return "10\n";
+				case Card.CardValue.JACK:
+					return "J\n";
+				case Card.CardValue.QUEEN:
+					return "Q\n";
+				case Card.CardValue.KING:
+					return "K\n";
+				default:
+					break;
+			}
+			return "?";
+		}
+	}
+
+	public string CardSuitString
+	{
+		get
+		{
+			switch (Suit)
+			{
+				case Card.CardSuit.SPADES:
+					return "\n\u2660";
+				case Card.CardSuit.CLUBS:
+					return "\n\u2663";
+				case Card.CardSuit.HEARTS:
+					return "\n\u2665";
+				case Card.CardSuit.DIAMONDS:
+					return "\n\u2666";
+				default:
+					break;
+			}
+			return "\n?";
+		}
+	}
+
 	public Card(CardValue value, CardSuit suit)
 	{
 		Value = value;
 		Suit = suit;
-	}
-
-	public override string ToString()
-	{
-		string cardValue = null;
-		switch (Value)
-		{
-		case Card.CardValue.ACE:
-			cardValue = "A";
-			break;
-		case Card.CardValue.TWO:
-			cardValue = "2";
-			break;
-		case Card.CardValue.THREE:
-			cardValue = "3";
-			break;
-		case Card.CardValue.FOUR:
-			cardValue = "4";
-			break;
-		case Card.CardValue.FIVE:
-			cardValue = "5";
-			break;
-		case Card.CardValue.SIX:
-			cardValue = "6";
-			break;
-		case Card.CardValue.SEVEN:
-			cardValue = "7";
-			break;
-		case Card.CardValue.EIGHT:
-			cardValue = "8";
-			break;
-		case Card.CardValue.NINE:
-			cardValue = "9";
-			break;
-		case Card.CardValue.TEN:
-			cardValue = "10";
-			break;
-		case Card.CardValue.JACK:
-			cardValue = "J";
-			break;
-		case Card.CardValue.QUEEN:
-			cardValue = "Q";
-			break;
-		case Card.CardValue.KING:
-			cardValue = "K";
-			break;
-		default:
-			cardValue = "?";
-			break;
-		}
-
-		switch (Suit)
-		{
-		case Card.CardSuit.SPADES:
-			return cardValue + "\n\u2660";
-		case Card.CardSuit.CLUBS:
-			return cardValue + "\n\u2663";
-		case Card.CardSuit.HEARTS:
-			return cardValue + "\n\u2665";
-		case Card.CardSuit.DIAMONDS:
-			return cardValue + "\n\u2666";
-		default:
-			return cardValue + " ?";
-		}
 	}
 }

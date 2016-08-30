@@ -22,10 +22,9 @@ namespace Nx
 									   .SetDuration(BUTTON_LEAF_ANIM_TIME)
 									   .AddToOnFinishedOnce(() => b.ButtonCollider.enabled = true);
 				});
-
-				_CurrentPointerId = eventData.pointerId;
-				_CurrentPointerIsInside = true;
 			}
+
+			base.OnPointerDown(eventData);
 		}
 
 		public override void OnPointerUp(PointerEventData eventData)
@@ -44,7 +43,7 @@ namespace Nx
 				if (_CurrentPointerIsInside)
 				{
 					ResetAllButtonTreeButtons();
-					_OnClicked.Invoke(eventData);
+					OnClicked.Invoke();
 				}
 				else if (_buttonLeafPointerIsCurrentlyInside != null)
 				{
@@ -53,8 +52,7 @@ namespace Nx
 					buttonLeafBeingClicked.FireOnClickedEvent(eventData);
 				}
 
-				_CurrentPointerId = NO_BUTTON_ID;
-				_CurrentPointerIsInside = false;
+				ResetCurrentPointerVariables();
 				_buttonLeafPointerIsCurrentlyInside = null;
 			}
 		}
@@ -96,8 +94,7 @@ namespace Nx
 				b.RectTransform.anchoredPosition = Vector2.zero;
 			});
 			_buttonLeafPointerIsCurrentlyInside = null;
-			_CurrentPointerId = NO_BUTTON_ID;
-			_CurrentPointerIsInside = false;
+			ResetCurrentPointerVariables();
 		}
 	}
 }

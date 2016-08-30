@@ -10,7 +10,7 @@ public class GraphicsManager : MonoBehaviour {
 	public			Material		CardBackMaterial;
 
 	private			Texture2D		rampTexture;
-	private	const	int				rampWidth = 128;
+	private	const	int				rampWidth		= 128;
 
 	void Start()
 	{

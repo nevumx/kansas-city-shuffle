@@ -17,18 +17,18 @@ public class PositionPingPongTween : Tween
 		PositionBackTo = backTo;
 	}
 
-	public override Action<Transform, float, float> GetUpdateDelegate() { return OnUpdate; }
+	public override Action GetUpdateDelegate() { return OnUpdate; }
 
-	private void OnUpdate(Transform gameObjTransform, float percentDone, float timeRemaining)
+	private void OnUpdate()
 	{
-		percentDone = TweenHolder.EaseInOutPingPongAnimationCurveFastOutro(percentDone);
+		float percentDone = TweenHolder.EaseInOutPingPongAnimationCurveFastOutro(TweenHolder.PercentDone);
 		if (percentDone < 0.5f)
 		{
-			gameObjTransform.position = Vector3.Lerp(PositionFrom, PositionTo, PingPongFunction(percentDone));
+			TweenHolder.transform.position = Vector3.Lerp(PositionFrom, PositionTo, PingPongFunction(percentDone));
 		}
 		else
 		{
-			gameObjTransform.position = Vector3.Lerp(PositionBackTo, PositionTo, PingPongFunction(percentDone));
+			TweenHolder.transform.position = Vector3.Lerp(PositionBackTo, PositionTo, PingPongFunction(percentDone));
 		}
 	}
 

@@ -16,11 +16,11 @@ public class IncrementalAlphaTween : Tween
 		AlphaTo = to;
 	}
 
-	public override Action<Transform, float, float> GetUpdateDelegate() { return OnUpdate; }
+	public override Action GetUpdateDelegate() { return OnUpdate; }
 
-	private void OnUpdate(Transform gameObjTransform, float percentDone, float timeRemaining)
+	private void OnUpdate()
 	{
-		if (Mathf.Approximately(timeRemaining, 0.0f))
+		if (Mathf.Approximately(TweenHolder.TimeRemaining, 0.0f))
 		{
 			_targetGraphics.ForEach(t =>
 			{
@@ -31,13 +31,12 @@ public class IncrementalAlphaTween : Tween
 			return;
 		}
 
-
 		float alphaRemaining = AlphaTo - _targetGraphics[0].color.a;
-		float speed = alphaRemaining / timeRemaining;
+		float speed = alphaRemaining / TweenHolder.TimeRemaining;
 		_targetGraphics.ForEach(t =>
 		{
 			Color nextColor = t.color;
-			nextColor.a += speed * Time.deltaTime;
+			nextColor.a += speed * TweenHolder.DeltaTime;
 			t.color = nextColor;
 		});
 	}

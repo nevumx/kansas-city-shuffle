@@ -27,7 +27,7 @@ public class FPSCounter : MonoBehaviour
 		}
 #endif
 
-		_deltaTimes.Enqueue(Time.deltaTime);
+		_deltaTimes.Enqueue(Time.unscaledDeltaTime);
 		if (_deltaTimes.Count > DELTA_TIMES_BUFFER_SIZE)
 		{
 			_totalHistoricalDeltaTimesSum += _deltaTimes.Dequeue();
@@ -59,7 +59,7 @@ public class FPSCounter : MonoBehaviour
 			}
 			GUI.Label(new Rect(0, 0, Screen.width, Screen.height), "FPS: " + Mathf.RoundToInt(1.0f / _cachedAverageDeltaTime)
 							   + " = " + Mathf.RoundToInt(_cachedAverageDeltaTime * 1000.0f) + "ms\n"
-							   + "Cumulative Average FPS: " + Mathf.RoundToInt(1.0f / _cachedAverageHistoricalDeltaTime)
+							   + "Scene Average FPS: " + Mathf.RoundToInt(1.0f / _cachedAverageHistoricalDeltaTime)
 							   + " = " + Mathf.RoundToInt(_cachedAverageHistoricalDeltaTime * 1000.0f) + "ms");
 		}
 	}

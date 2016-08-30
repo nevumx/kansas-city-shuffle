@@ -760,7 +760,7 @@ MonoBehaviour:
     m_MinSize: 10
     m_MaxSize: 300
     m_Alignment: 4
-    m_AlignByGeometry: 0
+    m_AlignByGeometry: 1
     m_RichText: 0
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
@@ -1477,7 +1477,6 @@ GameObject:
   - 222: {fileID: 303763630}
   - 114: {fileID: 303763629}
   - 114: {fileID: 303763633}
-  - 114: {fileID: 303763634}
   - 114: {fileID: 303763632}
   m_Layer: 5
   m_Name: RulesButton
@@ -1563,8 +1562,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c085ac8f5ad774ea5afed34524d9336b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Duration: 1
-  Delay: 0
+  _ignoreTimeScale: 0
   _gameObjectsToChangeLayerOfDuringTween: []
   _inTweenLayer: 0
   _outOfTweenLayer: 0
@@ -1580,7 +1578,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _parentButtonTreeRoot: {fileID: 1190398348}
-  _tweenableGraphics: {fileID: 303763634}
+  _tweenableGraphics:
+    _tweenHolder: {fileID: 303763632}
+    _graphics:
+    - {fileID: 303763629}
+    - {fileID: 515823665}
+    - {fileID: 1746010165}
+    - {fileID: 1697533013}
+    - {fileID: 536830474}
+    - {fileID: 1181091732}
+    - {fileID: 765126189}
+    _rootRectTransform: {fileID: 303763628}
   _tweenToPosition: {fileID: 2042806579}
   _buttonCollider: {fileID: 303763631}
   _onClicked:
@@ -1597,29 +1605,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Nx.PointerTriggerEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
---- !u!114 &303763634
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 303763627}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b9a23e1db03443dea520494291547e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _tweenHolder: {fileID: 303763632}
-  _graphics:
-  - {fileID: 303763629}
-  - {fileID: 515823665}
-  - {fileID: 1746010165}
-  - {fileID: 1697533013}
-  - {fileID: 536830474}
-  - {fileID: 1181091732}
-  - {fileID: 765126189}
-  _rootRectTransform: {fileID: 303763628}
 --- !u!1 &314393100
 GameObject:
   m_ObjectHideFlags: 0
@@ -2854,7 +2841,7 @@ MonoBehaviour:
     m_MinSize: 10
     m_MaxSize: 300
     m_Alignment: 4
-    m_AlignByGeometry: 0
+    m_AlignByGeometry: 1
     m_RichText: 0
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
@@ -2917,7 +2904,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rectTransform: {fileID: 405198087}
   _buttonCollider: {fileID: 405198091}
-  _OnClicked:
+  _onClicked:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 573546976}
@@ -2931,7 +2918,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Nx.PointerTriggerEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   _graphicsToDimOnDisable:
   - {fileID: 822848861}
@@ -3827,14 +3814,14 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: f5f451744a0ed4f23b0511492a17edd9, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
     m_MaxSize: 300
     m_Alignment: 4
-    m_AlignByGeometry: 0
+    m_AlignByGeometry: 1
     m_RichText: 0
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
@@ -3859,7 +3846,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rectTransform: {fileID: 521435845}
   _buttonCollider: {fileID: 521435849}
-  _OnClicked:
+  _onClicked:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 573546976}
@@ -3873,9 +3860,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Nx.PointerTriggerEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  _graphicsToDimOnDisable: []
+  _graphicsToDimOnDisable:
+  - {fileID: 1464965493}
 --- !u!58 &521435849
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4360,8 +4348,6 @@ MonoBehaviour:
   _logoImage: {fileID: 490889513}
   _blackFadeOutImage: {fileID: 1965547382}
   _fadeOutTime: 2
-  ShouldDestroyShadowsOfNewCards: 0
-  ShouldReduceQualityOfNewCards: 0
 --- !u!4 &573546977
 Transform:
   m_ObjectHideFlags: 0
@@ -4904,7 +4890,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rectTransform: {fileID: 694959146}
   _buttonCollider: {fileID: 694959150}
-  _OnClicked:
+  _onClicked:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 573546976}
@@ -4918,7 +4904,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Nx.PointerTriggerEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   _graphicsToDimOnDisable:
   - {fileID: 245554086}
@@ -5047,7 +5033,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: -0.67499924}
+  m_SizeDelta: {x: 0, y: -0.5550003}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &726686360
 MonoBehaviour:
@@ -5113,11 +5099,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rectTransform: {fileID: 731016237}
   _buttonCollider: {fileID: 731016241}
-  _OnClicked:
+  _onClicked:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 573546976}
-        m_MethodName: OnPlayGamePressed
+        m_MethodName: OnPlayCustomGamePressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5127,7 +5113,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Nx.PointerTriggerEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   _graphicsToDimOnDisable:
   - {fileID: 192272625}
@@ -5427,7 +5413,7 @@ Canvas:
   serializedVersion: 2
   m_RenderMode: 1
   m_Camera: {fileID: 1886165298}
-  m_PlaneDistance: 10
+  m_PlaneDistance: 1
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -5797,19 +5783,19 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 504b5d2f4b719024c975f6ccd3dea844, type: 3}
+    m_Font: {fileID: 12800000, guid: f5f451744a0ed4f23b0511492a17edd9, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
     m_MaxSize: 300
     m_Alignment: 4
-    m_AlignByGeometry: 0
+    m_AlignByGeometry: 1
     m_RichText: 0
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u2190\u27F5"
+  m_Text: "\u2190"
 --- !u!222 &822848862
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5965,14 +5951,14 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: f5f451744a0ed4f23b0511492a17edd9, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
     m_MaxSize: 300
     m_Alignment: 4
-    m_AlignByGeometry: 0
+    m_AlignByGeometry: 1
     m_RichText: 0
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
@@ -5997,7 +5983,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rectTransform: {fileID: 832155922}
   _buttonCollider: {fileID: 832155926}
-  _OnClicked:
+  _onClicked:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 573546976}
@@ -6011,9 +5997,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Nx.PointerTriggerEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  _graphicsToDimOnDisable: []
+  _graphicsToDimOnDisable:
+  - {fileID: 1564022938}
 --- !u!58 &832155926
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -7100,14 +7087,14 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: f5f451744a0ed4f23b0511492a17edd9, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
     m_MaxSize: 300
     m_Alignment: 4
-    m_AlignByGeometry: 0
+    m_AlignByGeometry: 1
     m_RichText: 0
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
@@ -7132,7 +7119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rectTransform: {fileID: 981864461}
   _buttonCollider: {fileID: 981864465}
-  _OnClicked:
+  _onClicked:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 573546976}
@@ -7146,9 +7133,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Nx.PointerTriggerEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  _graphicsToDimOnDisable: []
+  _graphicsToDimOnDisable:
+  - {fileID: 116955215}
 --- !u!58 &981864465
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -8156,7 +8144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rectTransform: {fileID: 1085373510}
   _buttonCollider: {fileID: 1085373513}
-  _OnClicked:
+  _onClicked:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 573546976}
@@ -8170,7 +8158,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Nx.PointerTriggerEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   _graphicsToDimOnDisable:
   - {fileID: 2089443496}
@@ -9128,7 +9116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rectTransform: {fileID: 1190398344}
   _buttonCollider: {fileID: 1190398347}
-  _OnClicked:
+  _onClicked:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 573546976}
@@ -9142,7 +9130,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Nx.PointerTriggerEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   _graphicsToDimOnDisable:
   - {fileID: 1702769833}
@@ -10251,14 +10239,14 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: f5f451744a0ed4f23b0511492a17edd9, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 10
     m_MaxSize: 300
     m_Alignment: 4
-    m_AlignByGeometry: 0
+    m_AlignByGeometry: 1
     m_RichText: 0
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
@@ -10283,7 +10271,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rectTransform: {fileID: 1440687674}
   _buttonCollider: {fileID: 1440687678}
-  _OnClicked:
+  _onClicked:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 573546976}
@@ -10297,9 +10285,10 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Nx.PointerTriggerEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  _graphicsToDimOnDisable: []
+  _graphicsToDimOnDisable:
+  - {fileID: 396881522}
 --- !u!58 &1440687678
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -10800,7 +10789,7 @@ MonoBehaviour:
     m_MinSize: 10
     m_MaxSize: 300
     m_Alignment: 4
-    m_AlignByGeometry: 0
+    m_AlignByGeometry: 1
     m_RichText: 0
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
@@ -11388,7 +11377,7 @@ MonoBehaviour:
     m_MinSize: 10
     m_MaxSize: 300
     m_Alignment: 4
-    m_AlignByGeometry: 0
+    m_AlignByGeometry: 1
     m_RichText: 0
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
@@ -12325,8 +12314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c085ac8f5ad774ea5afed34524d9336b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Duration: 1
-  Delay: 0
+  _ignoreTimeScale: 0
   _gameObjectsToChangeLayerOfDuringTween: []
   _inTweenLayer: 0
   _outOfTweenLayer: 0
@@ -13348,10 +13336,10 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0
-  far clip plane: 10
+  far clip plane: 2
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 1
   m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
@@ -13372,7 +13360,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1886165296}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 25, y: 0, z: 0}
+  m_LocalPosition: {x: 10, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
@@ -13854,7 +13842,6 @@ GameObject:
   - 222: {fileID: 1947595964}
   - 114: {fileID: 1947595963}
   - 114: {fileID: 1947595967}
-  - 114: {fileID: 1947595968}
   - 114: {fileID: 1947595966}
   m_Layer: 5
   m_Name: CustomGameButton
@@ -13941,8 +13928,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c085ac8f5ad774ea5afed34524d9336b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Duration: 1
-  Delay: 0
+  _ignoreTimeScale: 0
   _gameObjectsToChangeLayerOfDuringTween: []
   _inTweenLayer: 0
   _outOfTweenLayer: 0
@@ -13958,7 +13944,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _parentButtonTreeRoot: {fileID: 1190398348}
-  _tweenableGraphics: {fileID: 1947595968}
+  _tweenableGraphics:
+    _tweenHolder: {fileID: 1947595966}
+    _graphics:
+    - {fileID: 1947595963}
+    - {fileID: 772098175}
+    - {fileID: 652773116}
+    _rootRectTransform: {fileID: 1947595962}
   _tweenToPosition: {fileID: 87899738}
   _buttonCollider: {fileID: 1947595965}
   _onClicked:
@@ -13975,25 +13967,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Nx.PointerTriggerEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
---- !u!114 &1947595968
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1947595961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b9a23e1db03443dea520494291547e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _tweenHolder: {fileID: 1947595966}
-  _graphics:
-  - {fileID: 1947595963}
-  - {fileID: 772098175}
-  - {fileID: 652773116}
-  _rootRectTransform: {fileID: 1947595962}
 --- !u!1 &1950678119
 GameObject:
   m_ObjectHideFlags: 0
@@ -14660,7 +14635,6 @@ GameObject:
   - 222: {fileID: 2100020145}
   - 114: {fileID: 2100020144}
   - 114: {fileID: 2100020149}
-  - 114: {fileID: 2100020148}
   - 114: {fileID: 2100020147}
   m_Layer: 5
   m_Name: AboutButton
@@ -14748,29 +14722,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c085ac8f5ad774ea5afed34524d9336b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Duration: 1
-  Delay: 0
+  _ignoreTimeScale: 0
   _gameObjectsToChangeLayerOfDuringTween: []
   _inTweenLayer: 0
   _outOfTweenLayer: 0
---- !u!114 &2100020148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2100020142}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b9a23e1db03443dea520494291547e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _tweenHolder: {fileID: 2100020147}
-  _graphics:
-  - {fileID: 2100020144}
-  - {fileID: 969569733}
-  - {fileID: 414519945}
-  - {fileID: 1608787643}
-  _rootRectTransform: {fileID: 2100020143}
 --- !u!114 &2100020149
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14783,7 +14738,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _parentButtonTreeRoot: {fileID: 1085373514}
-  _tweenableGraphics: {fileID: 2100020148}
+  _tweenableGraphics:
+    _tweenHolder: {fileID: 2100020147}
+    _graphics:
+    - {fileID: 2100020144}
+    - {fileID: 969569733}
+    - {fileID: 414519945}
+    - {fileID: 1608787643}
+    _rootRectTransform: {fileID: 2100020143}
   _tweenToPosition: {fileID: 1698383444}
   _buttonCollider: {fileID: 2100020146}
   _onClicked:
@@ -14800,7 +14762,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_TypeName: Nx.PointerTriggerEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
 --- !u!1 &2122691576
 GameObject:

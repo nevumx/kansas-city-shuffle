@@ -15,19 +15,19 @@ public class IncrementalAnchoredPositionTween : Tween
 		PositionTo = to;
 	}
 
-	public override Action<Transform, float, float> GetUpdateDelegate() { return OnUpdate; }
+	public override Action GetUpdateDelegate() { return OnUpdate; }
 
-	private void OnUpdate(Transform gameObjTransform, float percentDone, float timeRemaining)
+	private void OnUpdate()
 	{
-		if (Mathf.Approximately(timeRemaining, 0.0f))
+		if (Mathf.Approximately(TweenHolder.TimeRemaining, 0.0f))
 		{
 			_targetRectTransform.anchoredPosition = PositionTo;
 			return;
 		}
 
 		Vector2 destOffset = PositionTo - _targetRectTransform.anchoredPosition;
-		float speed = destOffset.magnitude / timeRemaining;// * -6.0f * percentDone * (percentDone - 1.0f) + 2.5f * percentDone;
-		Vector2 nextDest = _targetRectTransform.anchoredPosition + destOffset.normalized * speed * Time.deltaTime;
+		float speed = destOffset.magnitude / TweenHolder.TimeRemaining;
+		Vector2 nextDest = _targetRectTransform.anchoredPosition + destOffset.normalized * speed * TweenHolder.DeltaTime;
 
 		if (Vector2.Distance(_targetRectTransform.anchoredPosition, nextDest)
 			> Vector2.Distance(_targetRectTransform.anchoredPosition, PositionTo))

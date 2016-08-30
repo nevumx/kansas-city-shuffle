@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using System;
 
 namespace Nx
@@ -22,7 +22,7 @@ namespace Nx
 		[SerializeField]	private	CircleCollider2D	_buttonCollider;
 							public	CircleCollider2D	ButtonCollider		{ get { return _buttonCollider; } }
 
-		[SerializeField]	private	PointerTriggerEvent	_onClicked;
+		[SerializeField]	private	UnityEvent			_onClicked;
 
 		private void Start()
 		{
@@ -41,7 +41,7 @@ namespace Nx
 
 		public void FireOnClickedEvent(PointerEventData eventData)
 		{
-			_onClicked.Invoke(eventData);
+			_onClicked.Invoke();
 		}
 	}
 }

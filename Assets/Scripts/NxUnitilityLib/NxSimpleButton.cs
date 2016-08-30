@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System;
@@ -13,53 +14,60 @@ namespace Nx
 		[SerializeField]	private						RectTransform		_rectTransform;
 							protected					RectTransform		_RectTransform			{ get { return _rectTransform; } }
 		[SerializeField]	private						CircleCollider2D	_buttonCollider;
-		[SerializeField]	protected					PointerTriggerEvent	_OnClicked;
+		[SerializeField]	private						UnityEvent			_onClicked;
+							public						UnityEvent			OnClicked				{ get { return _onClicked; } }
 		[SerializeField]	private						Graphic[]			_graphicsToDimOnDisable;
 
-							protected					int					_CurrentPointerId		= NO_BUTTON_ID;
-							protected					bool				_CurrentPointerIsInside	= false;
+							private						int					_currentPointerId		= NO_BUTTON_ID;
+							protected					int					_CurrentPointerId		{ get { return _currentPointerId; } }
+							private						bool				_currentPointerIsInside	= false;
+							protected					bool				_CurrentPointerIsInside	{ get { return _currentPointerIsInside; } }
 
 		private void Start()
 		{
 			_buttonCollider.radius = Mathf.Min(_rectTransform.rect.width, _rectTransform.rect.height) / 2.0f;
 		}
 
+		private void OnDisable()
+		{
+			ResetCurrentPointerVariables();
+		}
+
 		public virtual void OnPointerDown(PointerEventData eventData)
 		{
-			if (_CurrentPointerId == NO_BUTTON_ID)
+			if (_currentPointerId == NO_BUTTON_ID)
 			{
-				_CurrentPointerId = eventData.pointerId;
-				_CurrentPointerIsInside = true;
+				_currentPointerId = eventData.pointerId;
+				_currentPointerIsInside = true;
 			}
 		}
 
 		public virtual void OnPointerUp(PointerEventData eventData)
 		{
-			if (eventData.pointerId == _CurrentPointerId)
+			if (eventData.pointerId == _currentPointerId)
 			{
-				if (_CurrentPointerIsInside)
+				if (_currentPointerIsInside)
 				{
-					_OnClicked.Invoke(eventData);
+					_onClicked.Invoke();
 				}
 
-				_CurrentPointerId = NO_BUTTON_ID;
-				_CurrentPointerIsInside = false;
+				ResetCurrentPointerVariables();
 			}
 		}
 
 		public void OnPointerEnter(PointerEventData eventData)
 		{
-			if (eventData.pointerId == _CurrentPointerId)
+			if (eventData.pointerId == _currentPointerId)
 			{
-				_CurrentPointerIsInside = true;
+				_currentPointerIsInside = true;
 			}
 		}
 
 		public void OnPointerExit(PointerEventData eventData)
 		{
-			if (eventData.pointerId == _CurrentPointerId)
+			if (eventData.pointerId == _currentPointerId)
 			{
-				_CurrentPointerIsInside = false;
+				_currentPointerIsInside = false;
 			}
 		}
 
@@ -83,8 +91,13 @@ namespace Nx
 				g.color = graphicColor;
 			});
 			_buttonCollider.enabled = false;
-			_CurrentPointerId = NO_BUTTON_ID;
-			_CurrentPointerIsInside = false;
+			ResetCurrentPointerVariables();
+		}
+
+		protected void ResetCurrentPointerVariables()
+		{
+			_currentPointerId = NO_BUTTON_ID;
+			_currentPointerIsInside = false;
 		}
 	}
 }

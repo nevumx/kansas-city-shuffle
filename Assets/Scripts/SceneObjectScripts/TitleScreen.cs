@@ -24,7 +24,7 @@ public class TitleScreen : MonoBehaviour
 
 	public void LoadMainMenu()
 	{
-		_titleText.gameObject.SetActive(false);
+		_titleText.RootRectTransform.gameObject.SetActive(false);
 		SceneManager.LoadScene("MainMenu");
 	}
 }

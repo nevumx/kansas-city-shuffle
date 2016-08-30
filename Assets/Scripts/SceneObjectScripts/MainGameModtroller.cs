@@ -15,8 +15,9 @@ public partial class MainGameModtroller : MonoBehaviour
 		DOWN,
 	}
 
-						private	static	readonly	float						TIME_TO_WAIT_BEFORE_POPULATING_DECK			= 1.5f;
 						private	static	readonly	int							NUMBER_OF_CARDS_TO_LEAVE_IN_DISCARD_PILE	= 1;
+						public	static	readonly	float						MIN_TIMESCALE								= 0.5f;
+						public	static	readonly	float						MAX_TIMESCALE								= 8.0f;
 
 	[SerializeField]	private						bool						_demoMode;
 
@@ -39,12 +40,16 @@ public partial class MainGameModtroller : MonoBehaviour
 	[SerializeField]	private						RawImage					_miniViewUIImage;
 	[SerializeField]	private						RectTransform				_miniViewUIImageHolder;
 	[SerializeField]	private						TweenableGraphics			_miniViewUIGraphics;
-	[SerializeField]	private						NxDynamicButton				_playerReadyButton;
+	[SerializeField]	private						NxSimpleButton				_playerReadyButton;
 	[SerializeField]	private						GameObject					_submitCardsButton;
 						public						GameObject					SubmitCardsButton		{ get { return _submitCardsButton; } }
 	[SerializeField]	private						GameObject					_undoButton;
 	[SerializeField]	private						GameObject					_redoButton;
-	[SerializeField]	private						GameObject					_gameEndObject;
+	[SerializeField]	private						TweenableGraphics			_gameEndSymbol;
+	[SerializeField]	private						TweenableGraphics			_gameEndText;
+	[SerializeField]	private						Text						_gameEndSymbolText;
+	[SerializeField]	private						NxKnobSlider				_timeScaleKnobSlider;
+	[SerializeField]	private						Text						_timeScaleText;
 
 	[SerializeField]	private						TextMesh					_directionText;
 
@@ -179,16 +184,23 @@ public partial class MainGameModtroller : MonoBehaviour
 		else
 		{
 			var mainMenuData = FindObjectOfType<MainMenuModtroller>();
-			if (mainMenuData.ShouldDestroyShadowsOfNewCards)
+			if (mainMenuData != null)
 			{
-				RemoveCardShadows();
+				if (mainMenuData.ShouldDestroyShadowsOfNewCards)
+				{
+					RemoveCardShadows();
+				}
+				if (mainMenuData.ShouldReduceQualityOfNewCards)
+				{
+					ReduceCardQuality();
+				}
+				SetupAndStartGame(mainMenuData.GameSettings);
+				Destroy(mainMenuData.gameObject);
 			}
-			if (mainMenuData.ShouldReduceQualityOfNewCards)
+			else
 			{
-				ReduceCardQuality();
+				SetupAndStartGame(new GameSettings());
 			}
-			SetupAndStartGame(mainMenuData.GameSettings);
-			Destroy(mainMenuData.gameObject);
 		}
 	}
 
@@ -206,6 +218,7 @@ public partial class MainGameModtroller : MonoBehaviour
 	private void SetupAndStartGame(GameSettings gameSettings)
 	{
 		_gameSettings = gameSettings;
+		SetTimeScalePercentage(_gameSettings.TimeScalePercentage);
 		if (_numHumanPlayers <= 0)
 		{
 			Screen.sleepTimeout = SleepTimeout.NeverSleep;
@@ -264,7 +277,7 @@ public partial class MainGameModtroller : MonoBehaviour
 	{
 		if (!_demoMode)
 		{
-			yield return new WaitForSeconds(TIME_TO_WAIT_BEFORE_POPULATING_DECK);
+			yield return new WaitForSeconds(_cardAnimationData.TimeToWaitBeforePopulatingDeck);
 		}
 		int[] unShuffleData;
 		var cardCreationTweenWaiter = new FinishableGroupWaiter(() => _deck.Shuffle(out unShuffleData, onFinished: () => StartCoroutine(DealCardsToPlayers())));
@@ -366,7 +379,7 @@ public partial class MainGameModtroller : MonoBehaviour
 
 			if (_players[_currentPlayer].Points >= _gameSettings.NumberOfPointsToWin && !_demoMode)
 			{
-				_gameEndObject.SetActive(true);
+				PlayerWin();
 				return false;
 			}
 
@@ -550,6 +563,55 @@ public partial class MainGameModtroller : MonoBehaviour
 		}
 	}
 
+	private void PlayerWin()
+	{
+		_gameEndSymbolText.text = _players[_currentPlayer].PlayerSymbolText.text;
+		Color playerSymbolColor = _players[_currentPlayer].PlayerSymbolText.color;
+		playerSymbolColor.a = 0.0f;
+		_gameEndSymbolText.color = playerSymbolColor;
+		_gameEndSymbol.AddIncrementalAlphaTween(1.0f).TweenHolder
+					  .AddIncrementalScaleTween(Vector3.one)
+					  .AddLocalRotationTween(Vector3.up * 360.0f)
+					  .SetDuration(3.0f)
+					  .AddToOnFinishedOnce(() => 
+						{
+							_gameEndText.AddIncrementalAlphaTween(1.0f).TweenHolder
+										.SetDuration(1.0f);
+
+							_deck.ShuffleAnimationCamera.AddPositionTween(_deck.ShuffleAnimationCamera.transform.position + Vector3.up * 5.0f)
+														.SetDuration(6.0f);
+
+							_players.ForEach(o => o.IfIsNotNullThen(p => p.Hand.ReadOnlyCards.ForEach(c =>
+							{
+								float animationDuration = UnityEngine.Random.Range(2.0f, 6.0f);
+								Vector3 rotationVector = (Mathf.Round(UnityEngine.Random.Range(1.0f, 3.0f)) * 2.0f) * 360.0f * Vector3.one;
+								c.AddPositionTween(c.gameObject.transform.position + Vector3.up * 13.0f)
+								 .AddLocalRotationTween(rotationVector, true)
+								 .SetDuration(animationDuration)
+								 .SetIgnoreTimeScale(true).Play();
+								c.ViewFSM.SetTextVisibility(true);
+							})));
+
+							Action<CardModViewtroller> animatePileCardFunction = c =>
+							{
+								float animationDuration = UnityEngine.Random.Range(2.0f, 6.0f);
+								Vector3 rotationVector = (Mathf.Round(UnityEngine.Random.Range(1.0f, 3.0f)) * 2.0f) * 360.0f * Vector3.one;
+								Vector3 destinationField = UnityEngine.Random.insideUnitCircle * 10.0f;
+								destinationField.z = destinationField.y;
+								destinationField.y = c.gameObject.transform.position.y + 13.0f;
+								c.AddPositionTween(destinationField)
+								 .AddLocalRotationTween(rotationVector, true)
+								 .SetDuration(animationDuration)
+								 .SetIgnoreTimeScale(true).Play();
+								c.ViewFSM.SetTextVisibility(true);
+							};
+
+							_deck.ReadOnlyCards.ForEach(animatePileCardFunction);
+							_wildcardPile.ReadOnlyCards.ForEach(animatePileCardFunction);
+							_discardPile.ReadOnlyCards.ForEach(animatePileCardFunction);
+						});
+	}
+
 
 	// Player/Camera perspective shift handling
 	private void CycleCurrentPlayer(Action onFinished)
@@ -561,9 +623,9 @@ public partial class MainGameModtroller : MonoBehaviour
 		{
 			UpdateCardVisibilityForPlayer(prevPlayerIndex, onFinished: () =>
 			{
-				_playerReadyButton.ClearOnClickedDelegates();
+				_playerReadyButton.OnClicked.RemoveAllListeners();
 				_playerReadyButton.gameObject.SetActive(true);
-				_playerReadyButton.AddToOnClicked(() =>
+				_playerReadyButton.OnClicked.AddListener(() =>
 				{
 					_playerReadyButton.gameObject.SetActive(false);
 					UpdateCamera(onFinished);
@@ -742,6 +804,18 @@ public partial class MainGameModtroller : MonoBehaviour
 
 
 	// Button-invoked functions
+	public void SetTimeScalePercentage(float percent)
+	{
+		Time.timeScale = Mathf.Lerp(MIN_TIMESCALE, MAX_TIMESCALE, _gameSettings.TimeScalePercentage = percent);
+		_timeScaleText.IfIsNotNullThen(t => t.text = (Mathf.Round(Time.timeScale * 10.0f) / 10.0f).ToString() + "x");
+		_timeScaleKnobSlider.IfIsNotNullThen(t => t.SetRadialFillPercentage(percent));
+	}
+
+	public void WriteGameSettings()
+	{
+		_gameSettings.WriteToDisk();
+	}
+
 	public void OnUndoButtonClicked()
 	{
 		HideUndoAndRedoButtons();
@@ -762,7 +836,7 @@ public partial class MainGameModtroller : MonoBehaviour
 
 	public void OnSubmitCardsButtonClicked()
 	{
-		((HumanPlayerModtroller) _players[_currentPlayer]).SubmitCards();
+		((HumanPlayerModtroller)_players[_currentPlayer]).SubmitCards();
 	}
 
 	public void EndGame()

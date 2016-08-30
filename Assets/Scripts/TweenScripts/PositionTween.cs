@@ -15,12 +15,12 @@ public class PositionTween : Tween
 		PositionTo = to;
 	}
 
-	public override Action<Transform, float, float> GetUpdateDelegate() { return OnUpdate; }
+	public override Action GetUpdateDelegate() { return OnUpdate; }
 
-	private void OnUpdate(Transform gameObjTransform, float percentDone, float timeRemaining)
+	private void OnUpdate()
 	{
-		percentDone = TweenHolder.EaseInOutAnimationCurve(percentDone);
-		gameObjTransform.position = Vector3.Lerp(PositionFrom, PositionTo, percentDone);
+		float percentDone = TweenHolder.EaseInOutAnimationCurve(TweenHolder.PercentDone);
+		TweenHolder.transform.position = Vector3.Lerp(PositionFrom, PositionTo, percentDone);
 	}
 }
 

@@ -7,15 +7,16 @@ using Nx;
 
 public class HumanPlayerModtroller : AbstractPlayerModtroller
 {
-	public	event		Action			OnHumanTurnBegan;
+	private	static	readonly	float			CARD_DRAG_ACCELERATION	= 3.0f;
 
-	private				List<int>		_selectedCardIndexes	= new List<int>();
+	public	event				Action			OnHumanTurnBegan;
 
-	private				List<int>		_allowedCardIndexes		= null;
+	private						List<int>		_selectedCardIndexes	= new List<int>();
+	private						List<int>		_allowedCardIndexes		= null;
 
-	private				GameObject		_submitCardsButton;
+	private						GameObject		_submitCardsButton;
 
-	public	override	bool			IsHuman					{ get { return true; } }
+	public	override			bool			IsHuman					{ get { return true; } }
 
 	public override AbstractPlayerModtroller Init(MainGameModtroller mainGameModtroller)
 	{
@@ -142,13 +143,14 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 			Ray ray = _MainGameModtroller.MainCamera.ScreenPointToRay(p.position); float distance;
 			new Plane(cards[index].ParentCardHolder.transform.up, cards[index].ParentCardHolder.GetFinalPositionOfCard(cards[index])).Raycast(ray, out distance);
 			IncrementalPositionTween posTween = null;
+			Vector3 targetPosition = ray.GetPoint(distance);
 			if ((posTween = cards[index].TweenHolder.GetTweenOfType<IncrementalPositionTween>()) != null)
 			{
-				posTween.PositionTo = ray.GetPoint(distance);
+				posTween.PositionTo = targetPosition;
 			}
 			else
 			{
-				cards[index].transform.position = ray.GetPoint(distance);
+				cards[index].transform.position += (targetPosition - cards[index].transform.position) * CARD_DRAG_ACCELERATION * Time.deltaTime;
 			}
 		});
 

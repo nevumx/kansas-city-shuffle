@@ -9,7 +9,8 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 	[SerializeField]	private						CardAnimationData		_cardAnimationData;
 						public						CardAnimationData		CardAnimationData	{ get { return _cardAnimationData; } }
 
-	[SerializeField]	private						TextMesh				_cardText;
+	[SerializeField]	private						TextMesh				_cardValueText;
+	[SerializeField]	private						TextMesh				_cardSuitText;
 	[SerializeField]	private						GameObject				_shadowObject;
 	[SerializeField]	private						MeshMaterialSwapInfo[]	_qualityLoweringSwapInfos;
 	[SerializeField]	private						Transform[]				_transformsToShrinkForQualityReduction;
@@ -31,8 +32,9 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 	public CardModViewtroller Init(Card.CardValue value, Card.CardSuit suit, Camera eventCamera)
 	{
 		_card = new Card(value, suit);
-		_cardText.text = _card.ToString();
-		_cardText.color = suit == Card.CardSuit.SPADES || suit == Card.CardSuit.CLUBS ? Color.black : Color.red;
+		_cardValueText.text = _card.CardValueString;
+		_cardSuitText.text = _card.CardSuitString;
+		_cardValueText.color = _cardSuitText.color = suit == Card.CardSuit.SPADES || suit == Card.CardSuit.CLUBS ? Color.black : Color.red;
 		return this;
 	}
 
@@ -95,7 +97,8 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 
 		public void SetTextVisibility(bool visible)
 		{
-			_parentModViewtroller._cardText.gameObject.SetActive(visible);//.SetColor(visible ? Color.white : new Color(0.0f, 0.0f, 0.0f, 0.0f));
+			_parentModViewtroller._cardValueText.gameObject.SetActive(visible);
+			_parentModViewtroller._cardSuitText.gameObject.SetActive(visible);
 		}
 
 		public TweenHolder SetAnimState(AnimState newState, bool performTweens = true)

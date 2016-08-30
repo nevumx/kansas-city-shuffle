@@ -7,18 +7,18 @@ using Nx;
 
 public class TweenHolder : MonoBehaviour, IFinishable
 {
-						private	Action												_onFinishedOnce;
-						public	float												Duration				= 1.0f;
-						public	float												Delay					= 0.0f;
-						private	LinkedList<Tween>									_tweens					= new LinkedList<Tween>();
-						private	NxSortedLinkedList<Action<Transform, float, float>>	_updateDelegates		= new NxSortedLinkedList<Action<Transform, float, float>>
-																												(sortBy: d => ((Tween)d.Target).GetExecutionOrder());
-						private	Action<Transform>									_endOfFrameDelegates;
-						private	float												_timeStarted;
+						private	Action						_onFinishedOnce;
+	[NonSerialized]		public	float						Duration			= 1.0f;
+	[NonSerialized]		public	float						Delay				= 0.0f;
+						public	bool						IgnoreTimeScale		= false;
+						private	LinkedList<Tween>			_tweens				= new LinkedList<Tween>();
+						private	NxSortedLinkedList<Action>	_updateDelegates	= new NxSortedLinkedList<Action>(sortBy: d => ((Tween)d.Target).GetExecutionOrder());
+						private	Action						_endOfFrameDelegates;
+						private	float						_timeStarted;
 
-	[SerializeField]	private	GameObject[]										_gameObjectsToChangeLayerOfDuringTween;
-	[SerializeField]	private	int													_inTweenLayer;
-	[SerializeField]	private	int													_outOfTweenLayer;
+	[SerializeField]	private	GameObject[]				_gameObjectsToChangeLayerOfDuringTween;
+	[SerializeField]	private	int							_inTweenLayer;
+	[SerializeField]	private	int							_outOfTweenLayer;
 
 	private bool _shouldChangeLayer = true;
 	public bool ShouldChangeLayer
@@ -34,11 +34,43 @@ public class TweenHolder : MonoBehaviour, IFinishable
 		}
 	}
 
+	private float _time
+	{
+		get
+		{
+			return IgnoreTimeScale ? Time.unscaledTime : Time.time;
+		}
+	}
+
+	public float DeltaTime
+	{
+		get
+		{
+			return IgnoreTimeScale ? Time.unscaledDeltaTime : Time.deltaTime;
+		}
+	}
+
+	private float _timeElapsed
+	{
+		get
+		{
+			return _time - _timeStarted - Delay;
+		}
+	}
+
 	public float TimeRemaining
 	{
 		get
 		{
-			return enabled ? Duration - (Time.time - _timeStarted - Delay) : Duration;
+			return enabled ? Mathf.Max(Duration - _timeElapsed, 0.0f) : Duration;
+		}
+	}
+
+	public float PercentDone
+	{
+		get
+		{
+			return enabled ? Mathf.Clamp(_timeElapsed / Duration, 0.0f, 1.0f) : 0.0f;
 		}
 	}
 
@@ -62,7 +94,7 @@ public class TweenHolder : MonoBehaviour, IFinishable
 
 	public TweenHolder Play()
 	{
-		_timeStarted = Time.time;
+		_timeStarted = _time;
 		enabled = true;
 		_gameObjectsToChangeLayerOfDuringTween.ForEach(g => g.layer = _shouldChangeLayer ? _inTweenLayer : _outOfTweenLayer);
 		return this;
@@ -88,6 +120,11 @@ public class TweenHolder : MonoBehaviour, IFinishable
 		Delay = newDelay;
 		return this;
 	}
+	public TweenHolder SetIgnoreTimeScale(bool newIgnoreTimeScale)
+	{
+		IgnoreTimeScale = newIgnoreTimeScale;
+		return this;
+	}
 	public TweenHolder SetShouldChangeLayer(bool newShouldChangeLayer)
 	{
 		ShouldChangeLayer = newShouldChangeLayer;
@@ -107,6 +144,7 @@ public class TweenHolder : MonoBehaviour, IFinishable
 	{
 		RemoveDelegates(tweenToAdd); // Make sure it is only registered once
 		AddDelegates(tweenToAdd);
+		tweenToAdd.TweenHolder = this;
 		for (LinkedListNode<Tween> node = _tweens.First; node != null; node = node.Next)
 		{
 			if (node.Value.GetType() == tweenToAdd.GetType())
@@ -130,6 +168,7 @@ public class TweenHolder : MonoBehaviour, IFinishable
 			if (node.Value.GetType() == cachedTweenType)
 			{
 				RemoveDelegates(node.Value);
+				node.Value.TweenHolder = null;
 				_tweens.Remove(node);
 				return this;
 			}
@@ -140,31 +179,21 @@ public class TweenHolder : MonoBehaviour, IFinishable
 
 	private void Update()
 	{
-		float percentDone = 0.0f;
-		float timeElapsed = Time.time - _timeStarted - Delay;
-		bool done = timeElapsed >= Duration;
-		if (done)
-		{
-			percentDone = 1.0f;
-		}
-		else if (timeElapsed >= 0.0f)
-		{
-			percentDone = Mathf.Clamp(timeElapsed / Duration, 0.0f, 1.0f);
-		}
-		else // delay not over
+		if (_timeElapsed < 0.0f)
 		{
 			return;
 		}
 
-		_updateDelegates.IfIsNotNullThen(u => u.ForEach(d => d(transform, percentDone, done ? 0.0f : Mathf.Max(0.0f, TimeRemaining))));
+		_updateDelegates.IfIsNotNullThen(o => o.ForEach(u => u()));
 		StartCoroutine(RaiseEndOfFrameCallbacks());
 
-		if (done)
+		if (_timeElapsed >= Duration)
 		{
 			Action prevOnFinishedOnce = _onFinishedOnce;
 			ResetVars();
 			enabled = false;
 			_gameObjectsToChangeLayerOfDuringTween.ForEach(g => g.layer = _outOfTweenLayer);
+			_tweens.ForEach(t => t.TweenHolder = null);
 			_tweens.Clear();
 			_updateDelegates.Clear();
 			_endOfFrameDelegates = null;
@@ -175,13 +204,13 @@ public class TweenHolder : MonoBehaviour, IFinishable
 	private IEnumerator RaiseEndOfFrameCallbacks()
 	{
 		yield return new WaitForEndOfFrame();
-		_endOfFrameDelegates.IfIsNotNullThen(d => d(transform));
+		_endOfFrameDelegates.IfIsNotNullThen(d => d());
 	}
 
 	private void AddDelegates(Tween tweenToAdd)
 	{
-		Action<Transform, float, float> updateDelegate = tweenToAdd.GetUpdateDelegate();
-		Action<Transform> endOfFrameDelegate = tweenToAdd.GetEndOfFrameDelegate();
+		Action updateDelegate = tweenToAdd.GetUpdateDelegate();
+		Action endOfFrameDelegate = tweenToAdd.GetEndOfFrameDelegate();
 
 		if (updateDelegate != null && updateDelegate.GetInvocationList().Length == 1 && object.ReferenceEquals(updateDelegate.Target, tweenToAdd)
 			&& !_updateDelegates.Exists(d => object.ReferenceEquals(d.Target, tweenToAdd)))
@@ -202,7 +231,7 @@ public class TweenHolder : MonoBehaviour, IFinishable
 		if (_endOfFrameDelegates != null)
 		{
 			Delegate[] delegateList = _endOfFrameDelegates.GetInvocationList();
-			delegateList.FirstOrDefault(l => object.ReferenceEquals(l.Target, tween)).IfIsNotNullThen(d => _endOfFrameDelegates -= (Action<Transform>)d);
+			delegateList.FirstOrDefault(l => object.ReferenceEquals(l.Target, tween)).IfIsNotNullThen(d => _endOfFrameDelegates -= (Action)d);
 		}
 	}
 
@@ -247,12 +276,14 @@ public class TweenHolder : MonoBehaviour, IFinishable
 
 public class Tween
 {
+	public	TweenHolder	TweenHolder	{ protected get; set; }
+
 	public virtual int GetExecutionOrder() // For tweens which operate on the same property.
 	{
 		return 0;
 	}
 
-	public virtual Action<Transform, float, float> GetUpdateDelegate() { return null; }
+	public virtual Action GetUpdateDelegate() { return null; }
 
-	public virtual Action<Transform> GetEndOfFrameDelegate() { return null; }
+	public virtual Action GetEndOfFrameDelegate() { return null; }
 }

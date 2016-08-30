@@ -21,7 +21,9 @@ public class CardHolder : MonoBehaviour
 	[SerializeField]	private		bool										_cardsTextVisibility;
 						protected	bool										_CardsTextVisibility			{ get { return _cardsTextVisibility; } }
 	[SerializeField]	private		TweenHolder									_shuffleAnimationCamera;
+						public		TweenHolder									ShuffleAnimationCamera			{ get { return _shuffleAnimationCamera; } }
 	[SerializeField]	private		Transform									_shuffleAnimationOriginPoint;
+						public		Transform									ShuffleAnimationOriginPoint		{ get { return _shuffleAnimationOriginPoint; } }
 
 						private		bool										_shouldCreateShadowlessNewCards	= false;
 						public		bool										ShouldCreateShadowlessNewCards	{ set { _shouldCreateShadowlessNewCards = value; } }
@@ -274,16 +276,16 @@ public class CardHolder : MonoBehaviour
 	private void AnimateShuffle(CardModViewtroller card, int cardIndex)
 	{
 		float animationDuration = UnityEngine.Random.Range(2.0f, _cardAnimationData.DeckShuffleExplosionDuration / 2.0f);
-			Vector3 rotationVector = (Mathf.Round(UnityEngine.Random.Range(1.0f, _cardAnimationData.DeckShuffleExplosionMaxRotations / 2.0f)) * 2.0f + 1.0f) * 360.0f * Vector3.one;
-			rotationVector.z -= card.ViewFSM.GetAnimRotationOffset().z;
-			card.AddPositionPingPongTween(card.gameObject.transform.position + Vector3.up * _cardAnimationData.DeckShuffleExplosionSphereRadius
-						+ UnityEngine.Random.onUnitSphere * UnityEngine.Random.Range(0.1f, Mathf.Max(1.0f, _cardAnimationData.DeckShuffleExplosionSphereRadius)),
-					GetCardPositionAtIndex(cardIndex))
-				.SetDuration(animationDuration)
-				.SetDelay(UnityEngine.Random.Range(0.0f, _cardAnimationData.DeckShuffleExplosionDuration - animationDuration))
-				.AddLocalRotationTween(rotationVector, true)
-				.SetShouldChangeLayer(true)
-				.AddToOnFinishedOnce(() => OnCardRecieveTweenFinished(card));
+		Vector3 rotationVector = (Mathf.Round(UnityEngine.Random.Range(1.0f, _cardAnimationData.DeckShuffleExplosionMaxRotations / 2.0f)) * 2.0f + 1.0f) * 360.0f * Vector3.one;
+		rotationVector.z -= card.ViewFSM.GetAnimRotationOffset().z;
+		card.AddPositionPingPongTween(card.gameObject.transform.position + Vector3.up * _cardAnimationData.DeckShuffleExplosionSphereRadius
+					+ UnityEngine.Random.onUnitSphere * UnityEngine.Random.Range(0.1f, Mathf.Max(1.0f, _cardAnimationData.DeckShuffleExplosionSphereRadius)),
+				GetCardPositionAtIndex(cardIndex))
+			.SetDuration(animationDuration)
+			.SetDelay(UnityEngine.Random.Range(0.0f, _cardAnimationData.DeckShuffleExplosionDuration - animationDuration))
+			.AddLocalRotationTween(rotationVector, true)
+			.SetShouldChangeLayer(true)
+			.AddToOnFinishedOnce(() => OnCardRecieveTweenFinished(card));
 	}
 
 	public void DestroyAllCards()

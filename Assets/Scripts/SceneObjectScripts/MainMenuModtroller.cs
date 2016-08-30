@@ -2,8 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using Nx;
 
 public class MainMenuModtroller : MonoBehaviour
@@ -19,51 +17,48 @@ public class MainMenuModtroller : MonoBehaviour
 		ABOUT_SCREEN,
 	}
 
-						const	string						SAVED_SETTINGS_FILE_NAME		= "/TakkuSumSettings.nxs";
-						const	float						MAX_TIME_BEFORE_SERVER_EXPIRES	= 6.0f;
+						private	GameObject		_currentMenuCanvas				= null;
 
-						private	GameObject					_currentMenuCanvas				= null;
+	[SerializeField]	private	GameObject		_mainMenuCanvas;
+	[SerializeField]	private	GameObject		_settingsCanvas;
+	[SerializeField]	private	GameObject		_customGameCanvas;
+	[SerializeField]	private	GameObject		_help1ScreenCanvas;
+	[SerializeField]	private	GameObject		_help2ScreenCanvas;
+	[SerializeField]	private	GameObject		_help3ScreenCanvas;
+	[SerializeField]	private	GameObject		_aboutScreenCanvas;
 
-	[SerializeField]	private	GameObject					_mainMenuCanvas;
-	[SerializeField]	private	GameObject					_settingsCanvas;
-	[SerializeField]	private	GameObject					_customGameCanvas;
-	[SerializeField]	private	GameObject					_help1ScreenCanvas;
-	[SerializeField]	private	GameObject					_help2ScreenCanvas;
-	[SerializeField]	private	GameObject					_help3ScreenCanvas;
-	[SerializeField]	private	GameObject					_aboutScreenCanvas;
+						private	GameSettings	_gameSettings;
+						public	GameSettings	GameSettings					{ get { return _gameSettings; } }
 
-						private	GameSettings				_gameSettings;
-						public	GameSettings				GameSettings					{ get { return _gameSettings; } }
+	[SerializeField]	private	NxSimpleButton	_customPlayButton;
 
-	[SerializeField]	private	NxSimpleButton				_customPlayButton;
+	[SerializeField]	private	Toggle			_wildCardRuleToggle;
+	[SerializeField]	private	Toggle			_eliminationRuleToggle;
+	[SerializeField]	private	Toggle			_optionalPlayToggle;
+	[SerializeField]	private	Toggle			_refillHandRuleToggle;
+	[SerializeField]	private	Toggle			_allOrNothingRuleToggle;
+	[SerializeField]	private	Toggle			_maxDeviationRuleToggle;
+	[SerializeField]	private	Toggle			_dSwitchLBCRuleToggle;
+	[SerializeField]	private	Toggle			_seeAICardsToggle;
 
-	[SerializeField]	private	Toggle						_wildCardRuleToggle;
-	[SerializeField]	private	Toggle						_eliminationRuleToggle;
-	[SerializeField]	private	Toggle						_optionalPlayToggle;
-	[SerializeField]	private	Toggle						_refillHandRuleToggle;
-	[SerializeField]	private	Toggle						_allOrNothingRuleToggle;
-	[SerializeField]	private	Toggle						_maxDeviationRuleToggle;
-	[SerializeField]	private	Toggle						_dSwitchLBCRuleToggle;
-	[SerializeField]	private	Toggle						_seeAICardsToggle;
+	[SerializeField]	private	Slider			_numberOfDecksSlider;
+	[SerializeField]	private	Slider			_numberOfCardsPerPlayerSlider;
+	[SerializeField]	private	Slider			_numberOfPointsToWinSlider;
+	[SerializeField]	private	Slider			_maxDeviationThresholdSlider;
 
-	[SerializeField]	private	Slider						_numberOfDecksSlider;
-	[SerializeField]	private	Slider						_numberOfCardsPerPlayerSlider;
-	[SerializeField]	private	Slider						_numberOfPointsToWinSlider;
-	[SerializeField]	private	Slider						_maxDeviationThresholdSlider;
+	[SerializeField]	private	Text			_numberOfDecksText;
+	[SerializeField]	private	Text			_numberOfCardsPerPlayerText;
+	[SerializeField]	private	Text			_numberOfPointsToWinText;
+	[SerializeField]	private	Text			_maxDeviationThresholdText;
 
-	[SerializeField]	private	Text						_numberOfDecksText;
-	[SerializeField]	private	Text						_numberOfCardsPerPlayerText;
-	[SerializeField]	private	Text						_numberOfPointsToWinText;
-	[SerializeField]	private	Text						_maxDeviationThresholdText;
+	[SerializeField]	private	Text[]			_customPlayerToggleButtonTexts;
 
-	[SerializeField]	private	Text[]						_customPlayerToggleButtonTexts;
+	[SerializeField]	private	Image			_logoImage;
+	[SerializeField]	private	Image			_blackFadeOutImage;
+	[SerializeField]	private	float			_fadeOutTime					= 2.0f;
 
-	[SerializeField]	private	Image						_logoImage;
-	[SerializeField]	private	Image						_blackFadeOutImage;
-	[SerializeField]	private	float						_fadeOutTime					= 2.0f;
-
-						public	bool						ShouldDestroyShadowsOfNewCards	= false;
-						public	bool						ShouldReduceQualityOfNewCards	= false;
+	[NonSerialized]		public	bool			ShouldDestroyShadowsOfNewCards	= false;
+	[NonSerialized]		public	bool			ShouldReduceQualityOfNewCards	= false;
 
 	private Menu _currentMenu = Menu.MAIN_MENU;
 	public Menu CurrentMenu
@@ -241,7 +236,7 @@ public class MainMenuModtroller : MonoBehaviour
 		}
 		DetermineCustomPlayerButtonTexts();
 		ValidateSettings();
-		WriteSettings();
+		_gameSettings.WriteToDisk();
 	}
 
 	private void DetermineCustomPlayerButtonTexts()
@@ -269,35 +264,18 @@ public class MainMenuModtroller : MonoBehaviour
 
 	public void OnBackToMainMenuFromSettingsPressed()
 	{
-		WriteSettings();
+		_gameSettings.WriteToDisk();
 		CurrentMenu = Menu.MAIN_MENU;
 	}
 
-	public void OnPlayGamePressed()
+	public void OnPlayCustomGamePressed()
 	{
 		PlayGame();
 	}
 
 	private void ReadSettings()
 	{
-		string settingsFilePath = Application.persistentDataPath + SAVED_SETTINGS_FILE_NAME;
-		FileStream stream = null;
-		var formatter = new BinaryFormatter();
-
-		try
-		{
-			stream = new FileStream(settingsFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-			_gameSettings = (GameSettings) formatter.Deserialize(stream);
-			stream.Close();
-		}
-		catch
-		{
-			stream.IfIsNotNullThen(s => s.Close());
-			stream = new FileStream(settingsFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
-			_gameSettings = new GameSettings();
-			formatter.Serialize(stream, _gameSettings);
-			stream.Close();
-		}
+		_gameSettings = GameSettings.ReadFromDisk();
 
 		_wildCardRuleToggle.isOn = _gameSettings.WildCardRule;
 		_eliminationRuleToggle.isOn = _gameSettings.EliminationRule;
@@ -313,15 +291,6 @@ public class MainMenuModtroller : MonoBehaviour
 		_maxDeviationThresholdSlider.value = _gameSettings.MaxDeviationThreshold;
 		ValidateSettings();
 		DetermineCustomPlayerButtonTexts();
-	}
-
-	private void WriteSettings()
-	{
-		string settingsFilePath = Application.persistentDataPath + SAVED_SETTINGS_FILE_NAME;
-		var formatter = new BinaryFormatter();
-		var stream = new FileStream(settingsFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
-		formatter.Serialize(stream, _gameSettings);
-		stream.Close();
 	}
 
 	public void ValidateSettings()

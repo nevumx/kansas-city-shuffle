@@ -9,6 +9,7 @@ public class CardAnimationData : ScriptableObject
 	[SerializeField] private float _deckShuffleExplosionSphereRadius;
 	[SerializeField] private float _deckShuffleExplosionDuration;
 	[SerializeField] private float _deckShuffleExplosionMaxRotations;
+	[SerializeField] private float _timeToWaitBeforePopulatingDeck;
 
 	[Header("General Game Animation Data")]
 	[SerializeField] private float _deckFillDurationPerCard;
@@ -30,6 +31,7 @@ public class CardAnimationData : ScriptableObject
 	public float DeckShuffleExplosionSphereRadius		{ get { return _deckShuffleExplosionSphereRadius; } }
 	public float DeckShuffleExplosionDuration			{ get { return _deckShuffleExplosionDuration; } }
 	public float DeckShuffleExplosionMaxRotations		{ get { return _deckShuffleExplosionMaxRotations; } }
+	public float TimeToWaitBeforePopulatingDeck			{ get { return _timeToWaitBeforePopulatingDeck; } }
 	public float DeckFillDurationPerCard				{ get { return _deckFillDurationPerCard; } }
 	public float CardCreationTotalDuration				{ get { return _cardCreationTotalDuration; } }
 	public float DeckFillDelayPerCard					{ get { return _deckFillDelayPerCard; } }

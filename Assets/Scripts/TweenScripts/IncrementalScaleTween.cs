@@ -13,28 +13,29 @@ public class IncrementalScaleTween : Tween
 		ScaleTo = to;
 	}
 	
-	public override Action<Transform, float, float> GetUpdateDelegate() { return OnUpdate; }
+	public override Action GetUpdateDelegate() { return OnUpdate; }
 
-	private void OnUpdate(Transform gameObjTransform, float percentDone, float timeRemaining)
+	private void OnUpdate()
 	{
-		if (Mathf.Approximately(timeRemaining, 0.0f))
+		if (Mathf.Approximately(TweenHolder.TimeRemaining, 0.0f))
 		{
-			gameObjTransform.localScale = ScaleTo;
+			TweenHolder.transform.localScale = ScaleTo;
 			return;
 		}
 
-		Vector3 destOffset = ScaleTo - gameObjTransform.localScale;
-		float speed = destOffset.magnitude / timeRemaining * -6.0f * percentDone * (percentDone - 1.0f) + 0.65f;
-		Vector3 nextDest = gameObjTransform.localScale + destOffset.normalized * speed * Time.deltaTime;
+		Vector3 destOffset = ScaleTo - TweenHolder.transform.localScale;
+		float speed = destOffset.magnitude / TweenHolder.TimeRemaining
+			* Mathf.Max(-6.0f * TweenHolder.PercentDone * (TweenHolder.PercentDone - 1.0f), TweenHolder.PercentDone > 0.5f ? 1.0f : 0.0f);
+		Vector3 nextDest = TweenHolder.transform.localScale + destOffset.normalized * speed * TweenHolder.DeltaTime;
 
-		if (Vector3.Distance(gameObjTransform.localScale, nextDest)
-			> Vector3.Distance(gameObjTransform.localScale, ScaleTo))
+		if (Vector3.Distance(TweenHolder.transform.localScale, nextDest)
+			> Vector3.Distance(TweenHolder.transform.localScale, ScaleTo))
 		{
-			gameObjTransform.localScale = gameObjTransform.localScale = ScaleTo;
+			TweenHolder.transform.localScale = ScaleTo;
 		}
 		else
 		{
-			gameObjTransform.localScale = gameObjTransform.localScale = nextDest;
+			TweenHolder.transform.localScale = nextDest;
 		}
 	}
 }
