@@ -38,8 +38,7 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 
 	private void Awake()
 	{
-		FPSCounter[] allCounters = FindObjectsOfType<FPSCounter>();
-		_sceneFPSCounter = allCounters.Length > 0 ? allCounters[0] : null;
+		_sceneFPSCounter = FindObjectOfType<FPSCounter>();
 		_sceneFPSCounter.IfIsNotNullThen(s => s.ClearHistory());
 	}
 

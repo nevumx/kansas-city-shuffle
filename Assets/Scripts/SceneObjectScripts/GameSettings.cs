@@ -24,7 +24,7 @@ public class GameSettings
 	public						bool			RefillHandRule;
 	public						bool			AllOrNothingRule;
 	public						bool			MaxDeviationRule;
-	public						bool			DSwitchLBCRule;
+	public						bool			LoseBestCardRule;
 	public						bool			SeeAICards;
 	public						PlayerType[]	Players;
 	public						int				NumberOfDecks;
@@ -41,7 +41,7 @@ public class GameSettings
 		RefillHandRule			= false;
 		AllOrNothingRule		= false;
 		MaxDeviationRule		= false;
-		DSwitchLBCRule			= false;
+		LoseBestCardRule		= false;
 		SeeAICards				= false;
 		Players					= new PlayerType[4]
 									{
@@ -56,17 +56,6 @@ public class GameSettings
 		MaxDeviationThreshold	= 3;
 		TimeScalePercentage		= (1.0f - MainGameModtroller.MIN_TIMESCALE)
 								/ (MainGameModtroller.MAX_TIMESCALE - MainGameModtroller.MIN_TIMESCALE);
-	}
-
-	public void SetupFor1PlayerGame()
-	{
-		Players = new PlayerType[4]
-		{
-			PlayerType.HUMAN,
-			PlayerType.NONE,
-			PlayerType.AI_EASY,
-			PlayerType.NONE,
-		};
 	}
 
 	public void WriteToDisk()

@@ -33,7 +33,7 @@
 			{
 				v2f o;
 				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
-				half3 worldNormal = mul(_Object2World, half4(normalize(v.normal), 0));
+				half3 worldNormal = mul(unity_ObjectToWorld, half4(normalize(v.normal), 0));
 				half l = (worldNormal.y * 0.5 + 0.5);
 				o.vc = lerp(_NadirColor, _ZenithColor, l);
 				o.texcoord = v.texcoord;

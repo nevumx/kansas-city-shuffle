@@ -33,6 +33,11 @@ namespace Nx
 			ResetCurrentPointerVariables();
 		}
 
+		private void OnApplicationPause()
+		{
+			ResetCurrentPointerVariables();
+		}
+
 		public virtual void OnPointerDown(PointerEventData eventData)
 		{
 			if (_currentPointerId == NO_BUTTON_ID)

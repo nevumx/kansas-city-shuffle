@@ -165,7 +165,7 @@ public partial class MainGameModtroller : MonoBehaviour
 			demoData.RefillHandRule = true;
 			demoData.AllOrNothingRule = true;
 			demoData.MaxDeviationRule = false;
-			demoData.DSwitchLBCRule = false;
+			demoData.LoseBestCardRule = false;
 			demoData.SeeAICards = true;
 			demoData.Players = new GameSettings.PlayerType[4]
 			{
@@ -525,7 +525,7 @@ public partial class MainGameModtroller : MonoBehaviour
 
 			bool directionDidHardChange;
 			UpdateDirection(out directionDidHardChange);
-			if (_gameSettings.DSwitchLBCRule && directionDidHardChange)
+			if (_gameSettings.LoseBestCardRule && directionDidHardChange)
 			{
 				int mostAdvantageousCardIndex = _players[_currentPlayer].GetMostAdvantageousCardIndex();
 				if (_direction == PlayDirection.DOWN ? _players[_currentPlayer].Hand.ReadOnlyCards[mostAdvantageousCardIndex].CardValue < DiscardPileLastValue
@@ -811,7 +811,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		_timeScaleKnobSlider.IfIsNotNullThen(t => t.SetRadialFillPercentage(percent));
 	}
 
-	public void WriteGameSettings()
+	public void WriteGameSettingsToDisk()
 	{
 		_gameSettings.WriteToDisk();
 	}

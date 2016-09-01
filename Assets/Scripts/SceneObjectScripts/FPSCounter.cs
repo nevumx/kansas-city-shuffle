@@ -6,12 +6,14 @@ public class FPSCounter : MonoBehaviour
 {
 	private	const	int				DELTA_TIMES_BUFFER_SIZE				= 60;
 
-	private			bool			_drawFPS							= false;
+
 	private			Queue<float>	_deltaTimes							= new Queue<float>();
-	private			float			_totalHistoricalDeltaTimesSum		= 0.0f;
-	private			int				_totalNumHistoricalDeltaTimes		= 0;
-	private			float			_cachedAverageDeltaTime				= 0.01f;
-	private			float			_cachedAverageHistoricalDeltaTime	= 0.01f;
+	private			float			_cachedAverageDeltaTime				= 1.0f;
+	private			int				_numDeltaTimesToIgnore				= 2;
+
+#if NX_DEBUG
+	private			bool			_drawFPS							= false;
+#endif
 
 	private void Awake()
 	{
@@ -21,48 +23,54 @@ public class FPSCounter : MonoBehaviour
 	private void Update()
 	{
 #if NX_DEBUG
-		if (Input.GetKeyDown(KeyCode.Escape))
+		if (Input.GetKeyDown(Application.platform == RuntimePlatform.Android ? KeyCode.Menu : KeyCode.Escape))
 		{
 			_drawFPS = !_drawFPS;
 		}
 #endif
+		if (_numDeltaTimesToIgnore > 0)
+		{
+			--_numDeltaTimesToIgnore;
+			return;
+		}
 
 		_deltaTimes.Enqueue(Time.unscaledDeltaTime);
+
 		if (_deltaTimes.Count > DELTA_TIMES_BUFFER_SIZE)
 		{
-			_totalHistoricalDeltaTimesSum += _deltaTimes.Dequeue();
-			++_totalNumHistoricalDeltaTimes;
+			_deltaTimes.Dequeue();
 		}
 
 		float sumDeltaTimes = 0.0f;
 		_deltaTimes.ForEach(d => sumDeltaTimes += d);
 		_cachedAverageDeltaTime =  sumDeltaTimes / _deltaTimes.Count;
-		_cachedAverageHistoricalDeltaTime = (sumDeltaTimes + _totalHistoricalDeltaTimesSum) / (_deltaTimes.Count + _totalNumHistoricalDeltaTimes);
 	}
 
+#if NX_DEBUG
 	private void OnGUI()
 	{
-		if (_drawFPS)
+		if (!_drawFPS)
 		{
-			GUI.skin.label.fontSize = 25;
-			if (1.0f / _cachedAverageDeltaTime < 15.0f)
-			{
-				GUI.color = Color.red;
-			}
-			else if (1.0f / _cachedAverageDeltaTime < 30.0f)
-			{
-				GUI.color = Color.yellow;
-			}
-			else
-			{
-				GUI.color = Color.green;
-			}
-			GUI.Label(new Rect(0, 0, Screen.width, Screen.height), "FPS: " + Mathf.RoundToInt(1.0f / _cachedAverageDeltaTime)
-							   + " = " + Mathf.RoundToInt(_cachedAverageDeltaTime * 1000.0f) + "ms\n"
-							   + "Scene Average FPS: " + Mathf.RoundToInt(1.0f / _cachedAverageHistoricalDeltaTime)
-							   + " = " + Mathf.RoundToInt(_cachedAverageHistoricalDeltaTime * 1000.0f) + "ms");
+			return;
 		}
+
+		GUI.skin.label.fontSize = 25;
+		if (1.0f / _cachedAverageDeltaTime < 15.0f)
+		{
+			GUI.color = Color.red;
+		}
+		else if (1.0f / _cachedAverageDeltaTime < 30.0f)
+		{
+			GUI.color = Color.yellow;
+		}
+		else
+		{
+			GUI.color = Color.green;
+		}
+		GUI.Label(new Rect(0, 0, Screen.width, Screen.height), "FPS: " + Mathf.RoundToInt(1.0f / _cachedAverageDeltaTime)
+						   + " = " + Mathf.RoundToInt(_cachedAverageDeltaTime * 1000.0f) + "ms");
 	}
+#endif
 
 	public bool IsUnderFramerate(float framerate)
 	{
@@ -76,9 +84,7 @@ public class FPSCounter : MonoBehaviour
 	public void ClearHistory()
 	{
 		_deltaTimes.Clear();
-		_totalHistoricalDeltaTimesSum = 0.0f;
-		_totalNumHistoricalDeltaTimes = 0;
-		_cachedAverageDeltaTime = 0.01f;
-		_cachedAverageHistoricalDeltaTime = 0.01f;
+		_numDeltaTimesToIgnore = 2;
+		_cachedAverageDeltaTime = 1.0f;
 	}
 }

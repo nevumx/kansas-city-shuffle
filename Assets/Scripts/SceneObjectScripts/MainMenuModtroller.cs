@@ -9,7 +9,7 @@ public class MainMenuModtroller : MonoBehaviour
 	public enum Menu : byte
 	{
 		MAIN_MENU,
-		SETTINGS,
+		RULES,
 		CUSTOM_GAME,
 		HELP1_SCREEN,
 		HELP2_SCREEN,
@@ -20,7 +20,7 @@ public class MainMenuModtroller : MonoBehaviour
 						private	GameObject		_currentMenuCanvas				= null;
 
 	[SerializeField]	private	GameObject		_mainMenuCanvas;
-	[SerializeField]	private	GameObject		_settingsCanvas;
+	[SerializeField]	private	GameObject		_rulesCanvas;
 	[SerializeField]	private	GameObject		_customGameCanvas;
 	[SerializeField]	private	GameObject		_help1ScreenCanvas;
 	[SerializeField]	private	GameObject		_help2ScreenCanvas;
@@ -38,8 +38,7 @@ public class MainMenuModtroller : MonoBehaviour
 	[SerializeField]	private	Toggle			_refillHandRuleToggle;
 	[SerializeField]	private	Toggle			_allOrNothingRuleToggle;
 	[SerializeField]	private	Toggle			_maxDeviationRuleToggle;
-	[SerializeField]	private	Toggle			_dSwitchLBCRuleToggle;
-	[SerializeField]	private	Toggle			_seeAICardsToggle;
+	[SerializeField]	private	Toggle			_loseBestCardRuleToggle;
 
 	[SerializeField]	private	Slider			_numberOfDecksSlider;
 	[SerializeField]	private	Slider			_numberOfCardsPerPlayerSlider;
@@ -77,8 +76,8 @@ public class MainMenuModtroller : MonoBehaviour
 			case Menu.MAIN_MENU:
 				_currentMenuCanvas = _mainMenuCanvas;
 				break;
-			case Menu.SETTINGS:
-				_currentMenuCanvas = _settingsCanvas;
+			case Menu.RULES:
+				_currentMenuCanvas = _rulesCanvas;
 				break;
 			case Menu.CUSTOM_GAME:
 				_currentMenuCanvas = _customGameCanvas;
@@ -113,6 +112,15 @@ public class MainMenuModtroller : MonoBehaviour
 
 	private void Update()
 	{
+		if (Application.platform == RuntimePlatform.Android && Input.GetKeyDown(KeyCode.Escape) && CurrentMenu != Menu.MAIN_MENU)
+		{
+			if (CurrentMenu == Menu.RULES)
+			{
+				WriteSettingsToDisk();
+			}
+			CurrentMenu = Menu.MAIN_MENU;
+		}
+
 		if (_logoImage.color.a < 1.0f)
 		{
 			_logoImage.color = new Color(1.0f, 1.0f, 1.0f, Mathf.Min(_logoImage.color.a + Time.deltaTime, 1.0f));
@@ -123,20 +131,14 @@ public class MainMenuModtroller : MonoBehaviour
 		}
 	}
 
-	public void On1PlayerGamePressed()
-	{
-		_gameSettings.SetupFor1PlayerGame();
-		PlayGame();
-	}
-
 	public void OnBackToMainMenuPressed()
 	{
 		CurrentMenu = Menu.MAIN_MENU;
 	}
 
-	public void OnSettingsPressed()
+	public void OnRulesPressed()
 	{
-		CurrentMenu = Menu.SETTINGS;
+		CurrentMenu = Menu.RULES;
 	}
 
 	public void OnHelp1Pressed()
@@ -194,14 +196,9 @@ public class MainMenuModtroller : MonoBehaviour
 		_gameSettings.MaxDeviationRule = newRule;
 	}
 
-	public void OnDSwitchLBCRuleChanged(bool newRule)
+	public void OnLoseBestCardRuleChanged(bool newRule)
 	{
-		_gameSettings.DSwitchLBCRule = newRule;
-	}
-
-	public void OnSeeAICardsToggleChanged(bool newRule)
-	{
-		_gameSettings.SeeAICards = newRule;
+		_gameSettings.LoseBestCardRule = newRule;
 	}
 
 	public void OnNumberOfDecksSliderChanged(float newValue)
@@ -226,7 +223,7 @@ public class MainMenuModtroller : MonoBehaviour
 	{
 		_gameSettings.MaxDeviationThreshold = Mathf.RoundToInt(newValue);
 		_maxDeviationThresholdText.text = newValue.ToString();
-	}
+		}
 
 	public void OnCustomPlayerCycled(int playerIndex)
 	{
@@ -236,7 +233,18 @@ public class MainMenuModtroller : MonoBehaviour
 		}
 		DetermineCustomPlayerButtonTexts();
 		ValidateSettings();
-		_gameSettings.WriteToDisk();
+		WriteSettingsToDisk();
+	}
+
+	public void OnResetCustomPlayersPressed()
+	{
+		_gameSettings.Players[0] = GameSettings.PlayerType.HUMAN;
+		_gameSettings.Players[1] = GameSettings.PlayerType.NONE;
+		_gameSettings.Players[2] = GameSettings.PlayerType.AI_EASY;
+		_gameSettings.Players[3] = GameSettings.PlayerType.NONE;
+		DetermineCustomPlayerButtonTexts();
+		ValidateSettings();
+		WriteSettingsToDisk();
 	}
 
 	private void DetermineCustomPlayerButtonTexts()
@@ -262,33 +270,26 @@ public class MainMenuModtroller : MonoBehaviour
 		}
 	}
 
-	public void OnBackToMainMenuFromSettingsPressed()
+	public void WriteSettingsToDisk()
 	{
 		_gameSettings.WriteToDisk();
-		CurrentMenu = Menu.MAIN_MENU;
-	}
-
-	public void OnPlayCustomGamePressed()
-	{
-		PlayGame();
 	}
 
 	private void ReadSettings()
 	{
 		_gameSettings = GameSettings.ReadFromDisk();
 
-		_wildCardRuleToggle.isOn = _gameSettings.WildCardRule;
-		_eliminationRuleToggle.isOn = _gameSettings.EliminationRule;
-		_optionalPlayToggle.isOn = _gameSettings.OptionalPlayRule;
-		_refillHandRuleToggle.isOn = _gameSettings.RefillHandRule;
-		_allOrNothingRuleToggle.isOn = _gameSettings.AllOrNothingRule;
-		_maxDeviationRuleToggle.isOn = _gameSettings.MaxDeviationRule;
-		_dSwitchLBCRuleToggle.isOn = _gameSettings.DSwitchLBCRule;
-		_seeAICardsToggle.isOn = _gameSettings.SeeAICards;
-		_numberOfDecksSlider.value = _gameSettings.NumberOfDecks;
-		_numberOfCardsPerPlayerSlider.value = _gameSettings.NumberOfCardsPerPlayer;
-		_numberOfPointsToWinSlider.value = _gameSettings.NumberOfPointsToWin;
-		_maxDeviationThresholdSlider.value = _gameSettings.MaxDeviationThreshold;
+		_wildCardRuleToggle.isOn			= _gameSettings.WildCardRule;
+		_eliminationRuleToggle.isOn			= _gameSettings.EliminationRule;
+		_optionalPlayToggle.isOn			= _gameSettings.OptionalPlayRule;
+		_refillHandRuleToggle.isOn			= _gameSettings.RefillHandRule;
+		_allOrNothingRuleToggle.isOn		= _gameSettings.AllOrNothingRule;
+		_maxDeviationRuleToggle.isOn		= _gameSettings.MaxDeviationRule;
+		_loseBestCardRuleToggle.isOn		= _gameSettings.LoseBestCardRule;
+		_numberOfDecksSlider.value			= _gameSettings.NumberOfDecks;
+		_numberOfCardsPerPlayerSlider.value	= _gameSettings.NumberOfCardsPerPlayer;
+		_numberOfPointsToWinSlider.value	= _gameSettings.NumberOfPointsToWin;
+		_maxDeviationThresholdSlider.value	= _gameSettings.MaxDeviationThreshold;
 		ValidateSettings();
 		DetermineCustomPlayerButtonTexts();
 	}
@@ -313,7 +314,7 @@ public class MainMenuModtroller : MonoBehaviour
 		}
 	}
 
-	private void PlayGame()
+	public void PlayGame()
 	{
 		SceneManager.LoadScene("MainGame");
 	}
