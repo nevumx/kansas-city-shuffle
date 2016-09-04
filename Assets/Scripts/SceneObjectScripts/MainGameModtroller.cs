@@ -58,6 +58,7 @@ public partial class MainGameModtroller : MonoBehaviour
 						private						AbstractPlayerModtroller[]	_players				= new AbstractPlayerModtroller[4];
 						private						int							_currentPlayer;
 						private						int							_indexOfLastPlayerToPlayACard;
+						private						bool						_firstHumanHasPlayed	= false;
 
 						private						GameSettings				_gameSettings;
 						public						bool						SeeAICards				{ get { return _gameSettings.SeeAICards; } }
@@ -269,7 +270,19 @@ public partial class MainGameModtroller : MonoBehaviour
 
 		if (!_demoMode)
 		{
-			_mainCameraAnchor.AddLocalQuaternionRotationTween(Quaternion.Euler(Vector3.up * (float) _currentPlayer / _players.Length * 360.0f));
+			if (_numHumanPlayers >= 1)
+			{
+				int firstHumanPlayer = 0;
+				while (_players[firstHumanPlayer] == null || !_players[firstHumanPlayer].IsHuman)
+				{
+					++firstHumanPlayer;
+				}
+				_mainCameraAnchor.AddLocalQuaternionRotationTween(Quaternion.Euler(Vector3.up * (float) firstHumanPlayer / _players.Length * 360.0f));
+			}
+			else
+			{
+				_mainCameraAnchor.AddLocalQuaternionRotationTween(Quaternion.Euler(Vector3.up * (float) _currentPlayer / _players.Length * 360.0f));
+			}
 		}
 
 		StartCoroutine(PopulateDeck());
@@ -428,6 +441,7 @@ public partial class MainGameModtroller : MonoBehaviour
 	private void ProcessCommandSystemOnHumanPlayerTurn()
 	{
 		_commander.FinishTurnBundle();
+		_firstHumanHasPlayed = true;
 		UpdateUndoAndRedoButtons();
 	}
 
@@ -622,7 +636,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		int prevPlayerIndex = _currentPlayer;
 		_commander.ExecuteAndAddToCurrentTurnBundle(new SetCurrentPlayerCommand(this, _nextPlayerIndex));
 
-		if (_players[_currentPlayer].IsHuman && _numHumanPlayers > 1)
+		if (_players[_currentPlayer].IsHuman && _numHumanPlayers > 1 && _firstHumanHasPlayed)
 		{
 			UpdateCardVisibilityForPlayer(prevPlayerIndex, onFinished: () =>
 			{
@@ -643,21 +657,27 @@ public partial class MainGameModtroller : MonoBehaviour
 
 	private void UpdateCamera(Action onFinished)
 	{
+		Action onFinishedWithAnimCheck = () =>
+		{
+			if (_players[_currentPlayer].IsHuman)
+			{
+				_players[_currentPlayer].Hand.SetIntendedIncomingCardAnimState(CardModViewtroller.CardViewFSM.AnimState.VISIBLE);
+			}
+			onFinished();
+		};
+
 		if (_demoMode || !_players[_currentPlayer].IsHuman)
 		{
 			onFinished();
 		}
+		else if (_numHumanPlayers <= 1 || !_firstHumanHasPlayed)
+		{
+			onFinishedWithAnimCheck();
+		}
 		else
 		{
 			_mainCameraAnchor.AddLocalQuaternionRotationTween(Quaternion.Euler(Vector3.up * (float) _currentPlayer / _players.Length * 360.0f))
-				.AddToOnFinishedOnce(() =>
-				{
-					if (_players[_currentPlayer].IsHuman)
-					{
-						_players[_currentPlayer].Hand.SetIntendedIncomingCardAnimState(CardModViewtroller.CardViewFSM.AnimState.VISIBLE);
-					}
-					onFinished();
-				});
+							 .AddToOnFinishedOnce(onFinishedWithAnimCheck);
 		}
 	}
 
