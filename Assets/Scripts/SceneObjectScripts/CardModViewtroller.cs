@@ -10,7 +10,9 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 						public						CardAnimationData		CardAnimationData	{ get { return _cardAnimationData; } }
 
 	[SerializeField]	private						TextMesh				_cardValueText;
+						public						TextMesh				CardValueText		{ get { return _cardValueText; } }
 	[SerializeField]	private						TextMesh				_cardSuitText;
+						public						TextMesh				CardSuitText		{ get { return _cardSuitText; } }
 	[SerializeField]	private						GameObject				_shadowObject;
 	[SerializeField]	private						MeshMaterialSwapInfo[]	_qualityLoweringSwapInfos;
 	[SerializeField]	private						Transform[]				_transformsToShrinkForQualityReduction;

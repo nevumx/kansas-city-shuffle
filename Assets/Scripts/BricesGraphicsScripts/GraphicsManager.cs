@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.Assertions;
+using Nx;
 
 [ExecuteInEditMode]
 public class GraphicsManager : MonoBehaviour {
 
 	public			GraphicsSetup	GraphicsSetup;
 
-	public			Material		CardBackMaterial;
+	public			Material[]		CardBackMaterials;
 
 	private			Texture2D		rampTexture;
 	private	const	int				rampWidth		= 128;
@@ -57,6 +57,6 @@ public class GraphicsManager : MonoBehaviour {
 		Shader.SetGlobalColor("_CardBackColor0",	GraphicsSetup.CardBackColorBackground);
 		Shader.SetGlobalColor("_CardBackColor1",	GraphicsSetup.CardBackColorPattern);
 
-		CardBackMaterial.SetTexture("_MainTex",		GraphicsSetup.CardBackPatternTexture);
+		CardBackMaterials.ForEach(c => c.SetTexture("_MainTex",		GraphicsSetup.CardBackPatternTexture));
 	}
 }

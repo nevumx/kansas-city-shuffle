@@ -69,6 +69,8 @@ public partial class MainGameModtroller : MonoBehaviour
 	[SerializeField]	private						MeshMaterialSwapInfo[]		_qualityLoweringSwapInfos;
 	[SerializeField]	private						GameObject					_shadowCamera;
 
+	[SerializeField]	private						EasterEggListener			_easterEggListener;
+
 						private						Commander					_commander;
 
 	public AbstractPlayerModtroller[] Players { get { return _players; } }
@@ -210,7 +212,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		{
 			if (_players[i] != null && _players[i].IsHuman)
 			{
-				((HumanPlayerModtroller) _players[i]).OnHumanTurnBegan -= ProcessCommandSystemOnHumanPlayerTurn;
+				((HumanPlayerModtroller)_players[i]).OnHumanTurnBegan -= ProcessCommandSystemOnHumanPlayerTurn;
 			}
 		}
 	}
@@ -286,18 +288,19 @@ public partial class MainGameModtroller : MonoBehaviour
 
 		for (int i = 0, iMax = _gameSettings.NumberOfDecks; i < iMax; ++i)
 		{
-			for (int j = 0, jMax = suits.Length; j < jMax; ++j)
+			for (int j = 0, jMax = values.Length; j < jMax; ++j)
 			{
-				for (int k = 0, kMax = values.Length; k < kMax; ++k)
+				TweenHolder createCardTweenHolder;
+				for (int k = 0, kMax = suits.Length; k < kMax; ++k)
 				{
-					TweenHolder createCardTweenHolder;
-					_deck.CreateCard(values[k], suits[j], _mainCamera, out createCardTweenHolder, fancyEntrance: true, angleOffsetForFancyEntrance:
-						(float) (k + j * kMax + i * jMax * kMax) / (iMax * jMax * kMax) * Mathf.PI * 2.0f);
+					_deck.CreateCard(values[j], suits[k], _mainCamera, out createCardTweenHolder, fancyEntrance: true, angleOffsetForFancyEntrance:
+						((float) (j + i * jMax) / (iMax * jMax * kMax / 2.0f) + k / 4.0f) * Mathf.PI * 2.0f);
 					cardCreationTweenWaiter.AddFinishable(createCardTweenHolder);
-					yield return new WaitForSeconds(_cardAnimationData.CardCreationTotalDuration / (iMax * jMax * kMax));
 				}
+				yield return new WaitForSeconds(_cardAnimationData.CardCreationTotalDuration / (iMax * jMax));
 			}
 		}
+		_easterEggListener.IfIsNotNullThen(e => e.enabled = true);
 		cardCreationTweenWaiter.Ready = true;
 	}
 
@@ -487,7 +490,7 @@ public partial class MainGameModtroller : MonoBehaviour
 	private IEnumerator EndPlayerTurnInternal(int[] cardIndexes, bool handCardsWereDragged)
 	{
 		HideUndoAndRedoButtons();
-		if (NxUtils.IsNullOrEmpty(cardIndexes))
+		if (cardIndexes.IsNullOrEmpty())
 		{
 			if (_gameSettings.EliminationRule)
 			{
@@ -640,7 +643,7 @@ public partial class MainGameModtroller : MonoBehaviour
 
 	private void UpdateCamera(Action onFinished)
 	{
-		if (_demoMode)
+		if (_demoMode || !_players[_currentPlayer].IsHuman)
 		{
 			onFinished();
 		}

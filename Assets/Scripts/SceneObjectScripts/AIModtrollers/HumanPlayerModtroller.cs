@@ -28,32 +28,26 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 	public override void BeginCardSelection()
 	{
 		_allowedCardIndexes = GetAllowedCardIndexes();
-		if (_allowedCardIndexes.Count > 0)
+
+		OnHumanTurnBegan.Raise();
+
+		ReadOnlyCollection<CardModViewtroller> cards = Hand.ReadOnlyCards;
+		cards.ForEach(c =>
 		{
-			OnHumanTurnBegan.Raise();
+			c.Button.CancelDrag();
+			c.Button.ClearAllDelegates();
+		});
 
-			ReadOnlyCollection<CardModViewtroller> cards = Hand.ReadOnlyCards;
-			cards.ForEach(c => 
+		for (int i = 0, iMax = cards.Count; i < iMax; ++i)
+		{
+			if (_allowedCardIndexes.Contains(i))
 			{
-				c.Button.CancelDrag();
-				c.Button.ClearAllDelegates();
-			});
-
-			for (int i = 0, iMax = cards.Count; i < iMax; ++i)
-			{
-				if (_allowedCardIndexes.Contains(i))
-				{
-					SetupInteractionDelegatesForCardAtIndex(i);
-				}
+				SetupInteractionDelegatesForCardAtIndex(i);
 			}
+		}
 
-			Hand.CardsTextVisibility = true;
-			SetCardStates();
-		}
-		else
-		{
-			_MainGameModtroller.EndPlayerTurn(null);
-		}
+		Hand.CardsTextVisibility = true;
+		SetCardStates();
 	}
 
 	public void SubmitCards(bool handCardsWereDragged = false)
@@ -174,24 +168,32 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 		});
 	}
 
-	private void SetCardStates()
+	private void SetCardStates(Action onFinished = null)
 	{
+		FinishableGroupWaiter cardStateTransitionWaiter = null;
+		if (onFinished != null)
+		{
+			cardStateTransitionWaiter = new FinishableGroupWaiter(onFinished);
+		}
 		for (int i = 0, iMax = Hand.ReadOnlyCards.Count; i < iMax; ++i)
 		{
+			TweenHolder transitionTweenHolder;
 			if (_selectedCardIndexes.Contains(i))
 			{
-				Hand.ReadOnlyCards[i].ViewFSM.SetAnimState(CardModViewtroller.CardViewFSM.AnimState.SELECTED);
+				transitionTweenHolder = Hand.ReadOnlyCards[i].ViewFSM.SetAnimState(CardModViewtroller.CardViewFSM.AnimState.SELECTED);
 			}
 			else if (_allowedCardIndexes.Contains(i) && _selectedCardIndexes.IsEmpty())
 			{
-				Hand.ReadOnlyCards[i].ViewFSM.SetAnimState(CardModViewtroller.CardViewFSM.AnimState.ABLE_TO_BE_SELECTED);
+				transitionTweenHolder = Hand.ReadOnlyCards[i].ViewFSM.SetAnimState(CardModViewtroller.CardViewFSM.AnimState.ABLE_TO_BE_SELECTED);
 			}
 			else
 			{
-				Hand.ReadOnlyCards[i].ViewFSM.SetAnimState(CardModViewtroller.CardViewFSM.AnimState.VISIBLE);
+				transitionTweenHolder = Hand.ReadOnlyCards[i].ViewFSM.SetAnimState(CardModViewtroller.CardViewFSM.AnimState.VISIBLE);
 			}
+			cardStateTransitionWaiter.IfIsNotNullThen(c => c.AddFinishable(transitionTweenHolder));
 		}
-		_submitCardsButton.SetActive(!Hand.ReadOnlyCards.Exists(c => c.Button.IsBeingDragged)
-									 && (_MainGameModtroller.OptionalPlayRule || !_selectedCardIndexes.IsEmpty()));
+		_submitCardsButton.SetActive(_allowedCardIndexes.Count <= 0 || (!Hand.ReadOnlyCards.Exists(c => c.Button.IsBeingDragged)
+									 && (_MainGameModtroller.OptionalPlayRule || !_selectedCardIndexes.IsEmpty())));
+		cardStateTransitionWaiter.IfIsNotNullThen(c => c.Ready = true);
 	}
 }

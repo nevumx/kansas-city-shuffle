@@ -25,6 +25,19 @@ namespace Nx
 			_buttonCollider.radius = Mathf.Min(_RectTransform.rect.width, _RectTransform.rect.height) / 2.0f;
 		}
 
+		private void OnDisable()
+		{
+			_radialFillImages.Images.ForEach(i => i.fillAmount = 0.0f);
+		}
+
+		private void OnApplicationPause(bool isPaused)
+		{
+			if (isPaused && _currentPointerId != NxSimpleButton.NO_BUTTON_ID)
+			{
+				Release();
+			}
+		}
+
 		public void OnPointerDown(PointerEventData eventData)
 		{
 			if (_currentPointerId == NxSimpleButton.NO_BUTTON_ID)
@@ -39,9 +52,21 @@ namespace Nx
 		{
 			if (eventData.pointerId == _currentPointerId)
 			{
-				_currentPointerId = NxSimpleButton.NO_BUTTON_ID;
+				Release();
+			}
+		}
 
+		private void Release()
+		{
+			_currentPointerId = NxSimpleButton.NO_BUTTON_ID;
+
+			if (_radialFillImages.TweenHolder.enabled)
+			{
 				TweenRadialImageOut();
+			}
+			else
+			{
+				_radialFillImages.Images.ForEach(i => i.fillAmount = 0.0f);
 			}
 		}
 
@@ -64,15 +89,15 @@ namespace Nx
 		private void TweenRadialImageIn()
 		{
 			_radialFillImages.AddIncrementalRadialFillTween(_radialFillAmount).TweenHolder
-								 .SetDuration(_holdDuration)
-								 .AddToOnFinishedOnce(() => _onHeld.Invoke());
+							 .SetDuration(_holdDuration)
+							 .AddToOnFinishedOnce(() => _onHeld.Invoke());
 		}
 
 		private void TweenRadialImageOut()
 		{
 			_radialFillImages.AddIncrementalRadialFillTween(0.0f).TweenHolder
-								 .SetDuration(_holdDuration)
-								 .ClearOnFinishedOnce();
+							 .SetDuration(_holdDuration)
+							 .ClearOnFinishedOnce();
 		}
 	}
 }

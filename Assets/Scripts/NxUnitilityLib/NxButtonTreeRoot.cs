@@ -11,6 +11,16 @@ namespace Nx
 		[SerializeField]	private						NxButtonTreeLeaf[]	_buttonLeaves;
 							private						NxButtonTreeLeaf	_buttonLeafPointerIsCurrentlyInside	= null;
 
+		private void OnApplicationPause(bool isPaused)
+		{
+			if (isPaused && _CurrentPointerId != NxSimpleButton.NO_BUTTON_ID)
+			{
+				ResetAllButtonTreeButtons();
+				ResetCurrentPointerVariables();
+				_buttonLeafPointerIsCurrentlyInside = null;
+			}
+		}
+
 		public override void OnPointerDown(PointerEventData eventData)
 		{
 			if (_CurrentPointerId == NO_BUTTON_ID)

@@ -33,9 +33,12 @@ namespace Nx
 			ResetCurrentPointerVariables();
 		}
 
-		private void OnApplicationPause()
+		private void OnApplicationPause(bool isPaused)
 		{
-			ResetCurrentPointerVariables();
+			if (isPaused)
+			{
+				ResetCurrentPointerVariables();
+			}
 		}
 
 		public virtual void OnPointerDown(PointerEventData eventData)

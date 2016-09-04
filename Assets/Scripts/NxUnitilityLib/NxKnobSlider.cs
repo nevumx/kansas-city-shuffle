@@ -28,12 +28,20 @@ namespace Nx
 			ResetButtonCollider();
 		}
 
+		private void OnApplicationPause(bool isPaused)
+		{
+			if (isPaused && _currentPointerId != NxSimpleButton.NO_BUTTON_ID)
+			{
+				Release();
+			}
+		}
+
 		private void ResetButtonCollider()
 		{
 			_buttonCollider.radius = Mathf.Min(_RectTransform.rect.width, _RectTransform.rect.height) / 2.0f;
 		}
 
-		public virtual void OnPointerDown(PointerEventData eventData)
+		public void OnPointerDown(PointerEventData eventData)
 		{
 			if (_currentPointerId == NxSimpleButton.NO_BUTTON_ID)
 			{
@@ -43,15 +51,20 @@ namespace Nx
 			}
 		}
 
-		public virtual void OnPointerUp(PointerEventData eventData)
+		public void OnPointerUp(PointerEventData eventData)
 		{
 			if (eventData.pointerId == _currentPointerId)
 			{
-				_currentPointerId = NxSimpleButton.NO_BUTTON_ID;
-				ResetButtonCollider();
-				_torqueBar.rectTransform.sizeDelta = Vector2.zero;
-				_onReleased.Invoke();
+				Release();
 			}
+		}
+
+		private void Release()
+		{
+			_currentPointerId = NxSimpleButton.NO_BUTTON_ID;
+			ResetButtonCollider();
+			_torqueBar.rectTransform.sizeDelta = Vector2.zero;
+			_onReleased.Invoke();
 		}
 
 		public void OnDrag(PointerEventData eventData)

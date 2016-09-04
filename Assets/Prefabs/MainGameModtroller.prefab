@@ -433,17 +433,20 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
   m_Materials:
   - {fileID: 2100000, guid: e916c8f333a103640835fa91bf901dec, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 0
-  m_ReflectionProbeUsage: 0
   m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_SelectedWireframeHidden: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -459,17 +462,20 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
   m_Materials:
   - {fileID: 2100000, guid: 31b8a3780cb47a14b93582e05ae6bc71, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 0
-  m_ReflectionProbeUsage: 0
   m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_SelectedWireframeHidden: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -485,17 +491,20 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
   m_Materials:
   - {fileID: 2100000, guid: ac267115a37a6f1479a3a945887fcf1e, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 0
-  m_ReflectionProbeUsage: 0
   m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_SelectedWireframeHidden: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -511,17 +520,20 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
   m_Materials:
   - {fileID: 2100000, guid: a7c0b567694843e47ada8da3387edef8, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 0
-  m_ReflectionProbeUsage: 0
   m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_SelectedWireframeHidden: 0
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -563,7 +575,7 @@ Light:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 199590}
   m_Enabled: 1
-  serializedVersion: 6
+  serializedVersion: 7
   m_Type: 1
   m_Color: {r: 0.25735295, g: 0.50831616, b: 1, a: 1}
   m_Intensity: 0.25
@@ -573,6 +585,7 @@ Light:
   m_Shadows:
     m_Type: 0
     m_Resolution: -1
+    m_CustomResolution: -1
     m_Strength: 1
     m_Bias: 0.05
     m_NormalBias: 0.4
@@ -585,10 +598,10 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_Lightmapping: 4
+  m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
-  m_AreaSize: {x: 1, y: 1}
 --- !u!108 &10895416
 Light:
   m_ObjectHideFlags: 1
@@ -596,7 +609,7 @@ Light:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 173956}
   m_Enabled: 1
-  serializedVersion: 6
+  serializedVersion: 7
   m_Type: 1
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
   m_Intensity: 0.44
@@ -606,6 +619,7 @@ Light:
   m_Shadows:
     m_Type: 0
     m_Resolution: -1
+    m_CustomResolution: -1
     m_Strength: 1
     m_Bias: 0.05
     m_NormalBias: 0.4
@@ -618,10 +632,10 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_Lightmapping: 4
+  m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
-  m_AreaSize: {x: 1, y: 1}
 --- !u!114 &11423022
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -648,12 +662,25 @@ MonoBehaviour:
   _miniViewCamera: {fileID: 0}
   _miniViewUIImage: {fileID: 0}
   _miniViewUIImageHolder: {fileID: 0}
-  _miniViewUIGraphics: {fileID: 0}
+  _miniViewUIGraphics:
+    _tweenHolder: {fileID: 0}
+    _graphics: []
+    _rootRectTransform: {fileID: 0}
   _playerReadyButton: {fileID: 0}
   _submitCardsButton: {fileID: 0}
   _undoButton: {fileID: 0}
   _redoButton: {fileID: 0}
-  _gameEndObject: {fileID: 0}
+  _gameEndSymbol:
+    _tweenHolder: {fileID: 0}
+    _graphics: []
+    _rootRectTransform: {fileID: 0}
+  _gameEndText:
+    _tweenHolder: {fileID: 0}
+    _graphics: []
+    _rootRectTransform: {fileID: 0}
+  _gameEndSymbolText: {fileID: 0}
+  _timeScaleKnobSlider: {fileID: 0}
+  _timeScaleText: {fileID: 0}
   _directionText: {fileID: 0}
   _playerIconCharacters:
   - "\u2660"
@@ -685,7 +712,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GraphicsSetup: {fileID: 11400000, guid: aca555095fb424d4c93e455bea119ea2, type: 2}
-  CardBackMaterial: {fileID: 2100000, guid: efc522f239718344dadc2318a1d1906f, type: 2}
+  CardBackMaterials:
+  - {fileID: 2100000, guid: 8c304ce783cd4f54b9d204794113d469, type: 2}
+  - {fileID: 2100000, guid: efc522f239718344dadc2318a1d1906f, type: 2}
 --- !u!114 &11448194
 MonoBehaviour:
   m_ObjectHideFlags: 1

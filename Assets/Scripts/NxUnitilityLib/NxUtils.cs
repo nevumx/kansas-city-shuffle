@@ -23,6 +23,23 @@ namespace Nx
 			}
 		}
 
+		public static bool StartsWith<T>(this T[] array, T[] other) where T : IEquatable<T>
+		{
+			if (other.Length > array.Length)
+			{
+				return false;
+			}
+
+			for (int i = 0, iMax = other.Length; i < iMax; ++i)
+			{
+				if (!array[i].Equals(other[i]))
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+
 		public static bool Exists<T>(this IEnumerable<T> container, Predicate<T> predicate)
 		{
 			for (IEnumerator<T> enumerator = container.GetEnumerator(); enumerator.MoveNext();)
