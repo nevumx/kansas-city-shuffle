@@ -23,7 +23,13 @@ public class FPSCounter : MonoBehaviour
 	private void Update()
 	{
 #if NX_DEBUG
-		if (Input.GetKeyDown(Application.platform == RuntimePlatform.Android ? KeyCode.Menu : KeyCode.Escape))
+#if UNITY_ANDROID && !UNITY_EDITOR
+		if (Input.GetKeyDown(KeyCode.Menu))
+#elif UNITY_IOS && !UNITY_EDITOR
+		if (Input.touchCount >= 4)
+#else
+		if (Input.GetKeyDown(KeyCode.Escape))
+#endif
 		{
 			_drawFPS = !_drawFPS;
 		}
