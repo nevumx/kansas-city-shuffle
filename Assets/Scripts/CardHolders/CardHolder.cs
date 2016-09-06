@@ -307,7 +307,7 @@ public class CardHolder : MonoBehaviour
 
 	private IEnumerator PlayCardRuffleClip()
 	{
-		yield return new WaitForSeconds(_cardAnimationData.DeckShuffleExplosionDuration - _cardRuffleClip.length);
+		yield return new WaitForSeconds(Mathf.Max(0.0f, _cardAnimationData.DeckShuffleExplosionDuration - _cardRuffleClip.length));
 		CardFlipAudio.PlayOneShot(_cardRuffleClip);
 	}
 
