@@ -525,7 +525,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
-  m_MotionVectors: 1
+  m_MotionVectors: 0
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
@@ -736,6 +736,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 11474358, guid: 5fc4aeaea7ea242ff843eca8aba8ec1f, type: 2}
+      propertyPath: CardFlipAudio
+      value: 
+      objectReference: {fileID: 936044418}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5fc4aeaea7ea242ff843eca8aba8ec1f, type: 2}
   m_IsPrefabParent: 0
@@ -1282,6 +1286,10 @@ Prefab:
       propertyPath: _easterEggListener
       value: 
       objectReference: {fileID: 140759649}
+    - target: {fileID: 11423022, guid: dc4e7beb3e04749539cef63af21cb996, type: 2}
+      propertyPath: _cardFlipAudio
+      value: 
+      objectReference: {fileID: 936044418}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dc4e7beb3e04749539cef63af21cb996, type: 2}
   m_IsPrefabParent: 0
@@ -1330,6 +1338,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 11466320, guid: 0656f9f70fbf6436fbeb531b53aa803a, type: 2}
+      propertyPath: CardFlipAudio
+      value: 
+      objectReference: {fileID: 936044418}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0656f9f70fbf6436fbeb531b53aa803a, type: 2}
   m_IsPrefabParent: 0
@@ -1390,6 +1402,14 @@ Prefab:
       propertyPath: _shuffleAnimationOriginPoint
       value: 
       objectReference: {fileID: 930376669}
+    - target: {fileID: 11400000, guid: 02fc62c70298141e18b4c975ab809b0d, type: 2}
+      propertyPath: _cardFlipAudio
+      value: 
+      objectReference: {fileID: 936044418}
+    - target: {fileID: 11400000, guid: 02fc62c70298141e18b4c975ab809b0d, type: 2}
+      propertyPath: CardFlipAudio
+      value: 
+      objectReference: {fileID: 936044418}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 02fc62c70298141e18b4c975ab809b0d, type: 2}
   m_IsPrefabParent: 0
@@ -1962,6 +1982,8 @@ GameObject:
   - 20: {fileID: 936044416}
   - 114: {fileID: 936044414}
   - 114: {fileID: 936044417}
+  - 81: {fileID: 936044419}
+  - 82: {fileID: 936044418}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: Untagged
@@ -2045,6 +2067,87 @@ MonoBehaviour:
   m_EventMask:
     serializedVersion: 2
     m_Bits: 4293918665
+--- !u!82 &936044418
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 936044413}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 8237e78ac5a5c4126b051683f3bb34b5, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 1
+  BypassListenerEffects: 1
+  BypassReverbZones: 1
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+--- !u!81 &936044419
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 936044413}
+  m_Enabled: 1
 --- !u!1 &979591068
 GameObject:
   m_ObjectHideFlags: 0

@@ -25,6 +25,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1, y: 0.3, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -40,11 +41,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CardPrefab: {fileID: 0}
+  ShadowlessCardPrefab: {fileID: 0}
   _cardAnimationData: {fileID: 11400000, guid: dd461eca7ef8a4ec785591483437832b, type: 2}
   _cardsAnimState: 1
   _cardsTextVisibility: 1
   _shuffleAnimationCamera: {fileID: 0}
   _shuffleAnimationOriginPoint: {fileID: 0}
+  CardFlipAudio: {fileID: 0}
+  _cardShuffleClip: {fileID: 8300000, guid: 291a8c601a4f64f2e95d555f78d40093, type: 3}
+  _cardRuffleClip: {fileID: 8300000, guid: ecb7f14d931c44e11b9523d0be3102a3, type: 3}
   _pileMaxHeightInUnits: 0.4
   _maxDistBetweenCardsInUnits: 0.05
   _keepAllButTopCardTextInvisible: 1

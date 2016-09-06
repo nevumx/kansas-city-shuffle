@@ -48,6 +48,9 @@ MonoBehaviour:
   _cardsTextVisibility: 0
   _shuffleAnimationCamera: {fileID: 0}
   _shuffleAnimationOriginPoint: {fileID: 0}
+  CardFlipAudio: {fileID: 0}
+  _cardShuffleClip: {fileID: 8300000, guid: 291a8c601a4f64f2e95d555f78d40093, type: 3}
+  _cardRuffleClip: {fileID: 8300000, guid: ecb7f14d931c44e11b9523d0be3102a3, type: 3}
   _pileMaxHeightInUnits: 0.4
   _maxDistBetweenCardsInUnits: 0.05
   _keepAllButTopCardTextInvisible: 0

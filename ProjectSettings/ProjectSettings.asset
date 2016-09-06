@@ -353,9 +353,9 @@ PlayerSettings:
   psmSplashimage: {fileID: 0}
   spritePackerPolicy: 
   scriptingDefineSymbols:
-    1: NX_DEBUG
-    4: NX_DEBUG
-    7: NX_DEBUG
+    1: 
+    4: 
+    7: 
   metroPackageName: TakkuSum_Integration
   metroPackageVersion: 
   metroCertificatePath: 

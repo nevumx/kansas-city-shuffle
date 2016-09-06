@@ -563,7 +563,7 @@ GameObject:
   - 222: {fileID: 49096924}
   - 114: {fileID: 49096923}
   m_Layer: 5
-  m_Name: Description
+  m_Name: Credits
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -627,12 +627,12 @@ MonoBehaviour:
     Nicholaos Mouzourakis
 
 
-    Logo and Additional Design
+    Branding and Additional Design
 
     Moe El-Kaaki
 
 
-    3D Artist
+    3D Technical Artist
 
     Brice Vandemoortele
 
@@ -2697,7 +2697,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
-  m_MotionVectors: 1
+  m_MotionVectors: 0
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
@@ -6148,7 +6148,7 @@ GameObject:
   - 222: {fileID: 824072195}
   - 114: {fileID: 824072193}
   m_Layer: 5
-  m_Name: DescriptionContainer
+  m_Name: CreditsContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12697,9 +12697,9 @@ AudioSource:
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
+  BypassEffects: 1
+  BypassListenerEffects: 1
+  BypassReverbZones: 1
   rolloffCustomCurve:
     serializedVersion: 2
     m_Curve:

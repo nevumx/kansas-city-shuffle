@@ -1,7 +1,8 @@
 using UnityEngine;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System;
 using Nx;
 
 public class CardHolder : MonoBehaviour
@@ -24,6 +25,10 @@ public class CardHolder : MonoBehaviour
 						public		TweenHolder									ShuffleAnimationCamera			{ get { return _shuffleAnimationCamera; } }
 	[SerializeField]	private		Transform									_shuffleAnimationOriginPoint;
 						public		Transform									ShuffleAnimationOriginPoint		{ get { return _shuffleAnimationOriginPoint; } }
+
+						public		AudioSource									CardFlipAudio;
+	[SerializeField]	private		AudioClip									_cardShuffleClip;
+	[SerializeField]	private		AudioClip									_cardRuffleClip;
 
 						private		bool										_shouldCreateShadowlessNewCards	= false;
 						public		bool										ShouldCreateShadowlessNewCards	{ set { _shouldCreateShadowlessNewCards = value; } }
@@ -120,11 +125,15 @@ public class CardHolder : MonoBehaviour
 						   .AddToOnFinishedOnce(() => OnCardRecieveTweenFinished(card));
 
 			OnCardRecieveTweenBegan(card);
-			return;
 		}
 		else
 		{
 			card.transform.ResetLocal();
+		}
+
+		if (CardFlipAudio != null)
+		{
+			CardFlipAudio.Play();
 		}
 	}
 
@@ -151,6 +160,11 @@ public class CardHolder : MonoBehaviour
 
 		OnCardSent(cardBeingMoved);
 		other.OnCardRecieveTweenBegan(cardBeingMoved);
+
+		if (CardFlipAudio != null)
+		{
+			CardFlipAudio.Play();
+		}
 	}
 
 	private void AddCard(CardModViewtroller card, int indexToInsertAt = -1)
@@ -205,6 +219,12 @@ public class CardHolder : MonoBehaviour
 		_Cards.Clear();
 		_Cards = cardsToShuffleTo;
 		shuffleAnimationWaiter.Ready = true;
+
+		if (CardFlipAudio != null)
+		{
+			CardFlipAudio.PlayOneShot(_cardShuffleClip);
+			StartCoroutine(PlayCardRuffleClip());
+		}
 	}
 
 	public void UnShuffle(int[] unShuffleData, Action onFinished)
@@ -238,6 +258,12 @@ public class CardHolder : MonoBehaviour
 		_Cards.Clear();
 		_Cards = new List<CardModViewtroller>(unShuffledCards);
 		shuffleAnimationWaiter.Ready = true;
+
+		if (CardFlipAudio != null)
+		{
+			CardFlipAudio.PlayOneShot(_cardShuffleClip);
+			StartCoroutine(PlayCardRuffleClip());
+		}
 	}
 
 	public void ReShuffle(int[] unShuffleData, Action onFinished)
@@ -271,6 +297,18 @@ public class CardHolder : MonoBehaviour
 		_Cards.Clear();
 		_Cards = new List<CardModViewtroller>(reShuffledCards);
 		shuffleAnimationWaiter.Ready = true;
+
+		if (CardFlipAudio != null)
+		{
+			CardFlipAudio.PlayOneShot(_cardShuffleClip);
+			StartCoroutine(PlayCardRuffleClip());
+		}
+	}
+
+	private IEnumerator PlayCardRuffleClip()
+	{
+		yield return new WaitForSeconds(_cardAnimationData.DeckShuffleExplosionDuration - _cardRuffleClip.length);
+		CardFlipAudio.PlayOneShot(_cardRuffleClip);
 	}
 
 	private void AnimateShuffle(CardModViewtroller card, int cardIndex)

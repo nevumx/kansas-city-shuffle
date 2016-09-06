@@ -64,6 +64,7 @@ public abstract class AbstractPlayerModtroller : MonoBehaviour
 	public virtual AbstractPlayerModtroller Init(MainGameModtroller mainGameModtroller)
 	{
 		_mainGameModtroller = mainGameModtroller;
+		Hand.CardFlipAudio = _mainGameModtroller.CardFlipAudio;
 		return this;
 	}
 

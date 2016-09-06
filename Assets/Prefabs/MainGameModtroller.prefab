@@ -433,7 +433,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
-  m_MotionVectors: 1
+  m_MotionVectors: 0
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
@@ -462,7 +462,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
-  m_MotionVectors: 1
+  m_MotionVectors: 0
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
@@ -491,7 +491,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
-  m_MotionVectors: 1
+  m_MotionVectors: 0
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
@@ -520,7 +520,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
-  m_MotionVectors: 1
+  m_MotionVectors: 0
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_Materials:
@@ -654,6 +654,7 @@ MonoBehaviour:
   _hardAIPlayerPrefab: {fileID: 11466938, guid: d8d47c4a5464a4d1aaf244b025596447,
     type: 2}
   _cardAnimationData: {fileID: 11400000, guid: dd461eca7ef8a4ec785591483437832b, type: 2}
+  _cardFlipAudio: {fileID: 0}
   _deck: {fileID: 0}
   _discardPile: {fileID: 0}
   _wildcardPile: {fileID: 0}
@@ -700,6 +701,7 @@ MonoBehaviour:
   - _meshRenderer: {fileID: 2329708}
     _swapMaterial: {fileID: 2100000, guid: 781683718db9dbd4f964bbbaf189cd8b, type: 2}
   _shadowCamera: {fileID: 155178}
+  _easterEggListener: {fileID: 0}
 --- !u!114 &11436930
 MonoBehaviour:
   m_ObjectHideFlags: 1

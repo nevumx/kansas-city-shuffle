@@ -27,6 +27,9 @@ public partial class MainGameModtroller : MonoBehaviour
 
 	[SerializeField]	private						CardAnimationData			_cardAnimationData;
 
+	[SerializeField]	private						AudioSource					_cardFlipAudio;
+						public						AudioSource					CardFlipAudio			{ get { return _cardFlipAudio; } }
+
 	[SerializeField]	private						Deck						_deck;
 	[SerializeField]	private						CardPile					_discardPile;
 						public						int							DiscardPileLastValue	{ get { return _discardPile.ReadOnlyCards.Last().CardValue; } }
