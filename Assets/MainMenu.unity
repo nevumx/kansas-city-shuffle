@@ -619,27 +619,10 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'KansasCityShuffle
-
-
-    Director, Programmer, Designer, Producer, Composer and Animator
-
-    Nicholaos Mouzourakis
-
-
-    Branding and Additional Design
-
-    Moe El-Kaaki
-
-
-    3D Technical Artist
-
-    Brice Vandemoortele
-
-
-    Original Concept
-
-    Charles-Eric Kirihara-Sum'
+  m_Text: "KansasCityShuffle\n\nDirector, Programmer, Designer, Producer, Composer
+    and Animator\nNicholaos Mouzourakis\n\nBranding and Additional Design\nMoe El-Kaaki\n\n3D
+    Technical Artist\nBrice Vandemoortele\n\nOriginal Concept\nCharles-Eric Kirihara-Sum\n\n\xA92016
+    Nicholaos Mouzourakis"
 --- !u!222 &49096924
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13069,7 +13052,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -27.380646, y: 0}
+  m_SizeDelta: {x: -41.48062, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1863265201
 MonoBehaviour:

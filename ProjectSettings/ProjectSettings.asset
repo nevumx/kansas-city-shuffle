@@ -10,7 +10,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 0
-  companyName: NEVUM_X
+  companyName: Nicholaos Mouzourakis
   productName: KCShuffle
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -93,7 +93,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleIdentifier: com.nevumx.TakkuSum
+  bundleIdentifier: com.nevumx.KansasCityShuffle
   bundleVersion: 1.0
   preloadedAssets: []
   metroEnableIndependentInputSource: 0
