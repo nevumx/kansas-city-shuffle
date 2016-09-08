@@ -318,4 +318,9 @@ public class MainMenuModtroller : MonoBehaviour
 	{
 		SceneManager.LoadScene("MainGame");
 	}
+
+	public void EmailAuthor()
+	{
+		Application.OpenURL("mailto:nevumx@gmail.com?subject=KansasCityShuffle");
+	}
 }
