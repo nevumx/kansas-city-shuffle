@@ -4399,7 +4399,7 @@ MonoBehaviour:
     of the Discard Pile, depending on the direction of play. Example: if the current
     card on the discard pile is a 5, and the direction of play is up, and the max
     deviation threshold is set to 3, a player can only play a 5, 6, or 7.\n\u2022
-    Lose Best Card Rule: If a player swtiches the direction of play by playing the
+    Lose Best Card Rule: If a player switches the direction of play by playing the
     same valued card as the last player, they will also lose their most advantageous
     card after the switch. (Example: the card closest to King after switching the
     direction to be up.)"
