@@ -1410,7 +1410,7 @@ GameObject:
   m_Component:
   - 224: {fileID: 140408527}
   m_Layer: 5
-  m_Name: Instructions3Canvas
+  m_Name: HowToPlay3Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4603,7 +4603,7 @@ GameObject:
   m_Component:
   - 224: {fileID: 614401576}
   m_Layer: 5
-  m_Name: Instructions1Canvas
+  m_Name: HowToPlay1Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -11397,7 +11397,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Instructions
+  m_Text: How to Play
 --- !u!222 &1472906201
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11681,7 +11681,7 @@ GameObject:
   m_Component:
   - 224: {fileID: 1567643959}
   m_Layer: 5
-  m_Name: Instructions2Canvas
+  m_Name: HowToPlay2Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
