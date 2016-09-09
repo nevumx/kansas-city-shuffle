@@ -15,9 +15,9 @@ public partial class MainGameModtroller : MonoBehaviour
 		DOWN,
 	}
 
-						private	static	readonly	int							NUMBER_OF_CARDS_TO_LEAVE_IN_DISCARD_PILE	= 1;
-						public	static	readonly	float						MIN_TIMESCALE								= 0.5f;
-						public	static	readonly	float						MAX_TIMESCALE								= 8.0f;
+						private	static	readonly	int							NUMBER_OF_CARDS_TO_LEAVE_IN_DECK_REFILL_PILE	= 1;
+						public	static	readonly	float						MIN_TIMESCALE									= 0.5f;
+						public	static	readonly	float						MAX_TIMESCALE									= 8.0f;
 
 	[SerializeField]	private						bool						_demoMode;
 
@@ -780,9 +780,11 @@ public partial class MainGameModtroller : MonoBehaviour
 	// Misc. helper funcs.
 	private void FillDeck(Action onFinished)
 	{
-		_discardPile.CardsTextVisibility = true;
+		CardHolder cardHolderToRefillDeckWith = _gameSettings.WildCardRule && _wildcardPile.CardCount > _discardPile.CardCount ? _wildcardPile : _discardPile;
+		cardHolderToRefillDeckWith.CardsTextVisibility = true;
 		_commander.ExecuteAndAddToCurrentTurnBundle(
-				new RefillDeckCommand(_deck, _discardPile, NUMBER_OF_CARDS_TO_LEAVE_IN_DISCARD_PILE, onFinished));
+				new RefillDeckCommand(_deck, cardHolderToRefillDeckWith, NUMBER_OF_CARDS_TO_LEAVE_IN_DECK_REFILL_PILE, onFinished: () =>
+						_commander.ExecuteAndAddToCurrentTurnBundle(new ShuffleCommand(_deck, onFinished))));
 	}
 
 	private void UpdateUndoAndRedoButtons()

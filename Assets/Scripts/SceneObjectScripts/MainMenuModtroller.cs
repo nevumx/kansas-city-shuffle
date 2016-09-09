@@ -55,6 +55,8 @@ public class MainMenuModtroller : MonoBehaviour
 	[SerializeField]	private	Image			_logoImage;
 	[SerializeField]	private	Image			_blackFadeOutImage;
 	[SerializeField]	private	float			_fadeOutTime					= 2.0f;
+	[SerializeField]	private	Image			_authorPortrait;
+	[SerializeField]	private	Sprite			_authorIOSSprite;
 
 	[NonSerialized]		public	bool			ShouldDestroyShadowsOfNewCards	= false;
 	[NonSerialized]		public	bool			ShouldReduceQualityOfNewCards	= false;
@@ -108,6 +110,9 @@ public class MainMenuModtroller : MonoBehaviour
 		_currentMenuCanvas = _mainMenuCanvas;
 		ReadSettings();
 		Screen.sleepTimeout = SleepTimeout.SystemSetting;
+#if UNITY_IOS
+		_authorPortrait.sprite = _authorIOSSprite;
+#endif
 	}
 
 	private void Update()

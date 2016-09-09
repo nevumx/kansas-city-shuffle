@@ -4413,6 +4413,8 @@ MonoBehaviour:
   _logoImage: {fileID: 490889513}
   _blackFadeOutImage: {fileID: 1965547382}
   _fadeOutTime: 2
+  _authorPortrait: {fileID: 1863265202}
+  _authorIOSSprite: {fileID: 21300000, guid: bc51ef2976fc44608a6f78948d8ea990, type: 3}
 --- !u!4 &573546977
 Transform:
   m_ObjectHideFlags: 0
