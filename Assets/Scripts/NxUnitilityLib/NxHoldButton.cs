@@ -8,16 +8,19 @@ namespace Nx
 {
 	public class NxHoldButton : NxCornerButton, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 	{
-		[SerializeField]		private		CircleCollider2D	_buttonCollider;
-		[SerializeField]		private		TweenableImages		_radialFillImages;
-		[SerializeField]
-		[Range(0.0f, 1.0f)]		private		float				_radialFillAmount		= 0.5f;
-		[SerializeField]
-		[Range(0.1f, 10.0f)]	private		float				_holdDuration			= 1.0f;
-		[SerializeField]		private		UnityEvent			_onHeld;
-								protected	UnityEvent			_OnHeld					{ get { return _onHeld; } }
+								private	static	readonly	float				HOLD_TEXT_FADE_DURATION	= 1.0f;
 
-								private		int					_currentPointerId		= NxSimpleButton.NO_BUTTON_ID;
+		[SerializeField]		private						CircleCollider2D	_buttonCollider;
+		[SerializeField]		private						TweenableImages		_radialFillImages;
+		[SerializeField]		private						TweenableGraphics	_holdText;
+		[SerializeField]
+		[Range(0.0f, 1.0f)]		private						float				_radialFillAmount		= 0.5f;
+		[SerializeField]
+		[Range(0.1f, 10.0f)]	private						float				_holdDuration			= 1.0f;
+		[SerializeField]		private						UnityEvent			_onHeld;
+								protected					UnityEvent			_OnHeld					{ get { return _onHeld; } }
+
+								private						int					_currentPointerId		= NxSimpleButton.NO_BUTTON_ID;
 
 		protected override void Start()
 		{
@@ -98,6 +101,10 @@ namespace Nx
 			_radialFillImages.AddIncrementalRadialFillTween(0.0f).TweenHolder
 							 .SetDuration(_holdDuration)
 							 .ClearOnFinishedOnce();
+			_holdText.AddIncrementalAlphaTween(1.0f).TweenHolder
+			.SetDuration(HOLD_TEXT_FADE_DURATION).AddToOnFinishedOnce(() =>
+					_holdText.AddIncrementalAlphaTween(0.0f).TweenHolder
+							 .SetDuration(HOLD_TEXT_FADE_DURATION));
 		}
 	}
 }
