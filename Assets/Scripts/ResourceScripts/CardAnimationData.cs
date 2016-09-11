@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 
-[System.Serializable]
+[Serializable]
 public class CardAnimationData : ScriptableObject
 {
 	[Header("Game Sartup Animation Data")]

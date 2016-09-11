@@ -15164,7 +15164,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Phtoto: Jonathan K. Kim'
+  m_Text: 'Photo: Jonathan K. Kim'
 --- !u!222 &2076182108
 CanvasRenderer:
   m_ObjectHideFlags: 0

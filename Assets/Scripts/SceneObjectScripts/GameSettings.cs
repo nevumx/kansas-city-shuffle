@@ -16,7 +16,7 @@ public class GameSettings
 	}
 
 
-	private	static	readonly	string			SAVED_SETTINGS_FILE_NAME		= "/TakkuSumSettings.nxs";
+	private	static	readonly	string			SAVED_SETTINGS_FILE_NAME	= "/TakkuSumSettings.nxs";
 
 	public						bool			WildCardRule;
 	public						bool			EliminationRule;
