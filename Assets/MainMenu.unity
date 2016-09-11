@@ -10754,7 +10754,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "Optional Rules can be accessed by holding down the Play Button.\n\u2022
-    Wild Card Rule: Adds a Wildcard Pile bewteen the Deck and the Discard Pile. At
+    Wild Card Rule: Adds a Wildcard Pile between the Deck and the Discard Pile. At
     any point, a player can play a card with the same value as the wildcard, even
     if it is not in line with the direction of play. Doing so will result in the direction
     of play changing, and a new wildcard being selected.\n\u2022 Elimination Rule:
