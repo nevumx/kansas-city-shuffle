@@ -81,7 +81,7 @@ public abstract class AbstractPlayerModtroller : MonoBehaviour
 		if (_MainGameModtroller.MaxDeviationRule && direction != MainGameModtroller.PlayDirection.UNDECIDED)
 		{
 			allowedCardIndexes.AddRange(handCards.AllIndexesSuchThat(
-										c => Mathf.Abs(c.CardValue - cardValue) < _MainGameModtroller.MaxDeviationThreshold));
+										c => Mathf.Abs(c.CardValue - cardValue) <= _MainGameModtroller.MaxDeviationThreshold));
 
 			if (allowedCardIndexes.Count <= 0)
 			{

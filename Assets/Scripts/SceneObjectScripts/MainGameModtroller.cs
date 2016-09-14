@@ -53,6 +53,8 @@ public partial class MainGameModtroller : MonoBehaviour
 	[SerializeField]	private						Text						_gameEndSymbolText;
 	[SerializeField]	private						NxKnobSlider				_timeScaleKnobSlider;
 	[SerializeField]	private						Text						_timeScaleText;
+	[SerializeField]	private						AdaptiveTutorialSystem		_tutorialSystem;
+						public						AdaptiveTutorialSystem		TutorialSystem			{ get { return _tutorialSystem; } }
 
 	[SerializeField]	private						TextMesh					_directionText;
 
@@ -122,12 +124,6 @@ public partial class MainGameModtroller : MonoBehaviour
 		{
 			_direction = value;
 
-			Color directionTextColor = Color.black;
-			if (_direction == PlayDirection.UP || _direction == PlayDirection.DOWN)
-			{
-				directionTextColor = Color.green;
-			}
-
 			string directionString;
 			switch (_direction)
 			{
@@ -142,7 +138,6 @@ public partial class MainGameModtroller : MonoBehaviour
 				break;
 			}
 			_directionText.text = directionString;
-			_directionText.color = directionTextColor;
 		}
 	}
 
@@ -599,7 +594,8 @@ public partial class MainGameModtroller : MonoBehaviour
 										.SetDuration(1.0f);
 
 							_deck.ShuffleAnimationCamera.AddPositionTween(_deck.ShuffleAnimationCamera.transform.position + Vector3.up * 5.0f)
-														.SetDuration(6.0f);
+														.SetDuration(6.0f)
+														.SetIgnoreTimeScale(true).Play();
 
 							_players.ForEach(o => o.IfIsNotNullThen(p => p.Hand.ReadOnlyCards.ForEach(c =>
 							{
@@ -800,6 +796,7 @@ public partial class MainGameModtroller : MonoBehaviour
 	{
 		if (!_demoMode)
 		{
+			_tutorialSystem.HideTutorial();
 			_undoButton.SetActive(false);
 			_redoButton.SetActive(false);
 			_miniViewUIGraphics.AddIncrementalAlphaTween(0.0f).TweenHolder

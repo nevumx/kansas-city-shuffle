@@ -1,0 +1,176 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a22af530c2e5f4cc1be2397e4342f958, type: 3}
+  m_Name: LocalizationData
+  m_EditorClassIdentifier: 
+  _localizations:
+  - Language: 10
+    Translations:
+    - StringKey: QUIT
+      TranslatedString: Quit
+    - StringKey: READY
+      TranslatedString: Ready
+    - StringKey: HOLD
+      TranslatedString: Hold
+    - StringKey: WINNER
+      TranslatedString: Winner
+    - StringKey: WILD_CARD_RULE_TOGGLE_TITLE
+      TranslatedString: Wild Card Rule
+    - StringKey: ELIMINATION_RULE_TOGGLE_TITLE
+      TranslatedString: Elimination Rule
+    - StringKey: OPTIONAL_PLAY_RULE_TOGGLE_TITLE
+      TranslatedString: Optional Play Rule
+    - StringKey: REFILL_HAND_RULE_TOGGLE_TITLE
+      TranslatedString: Refill Hand Rule
+    - StringKey: ALL_OR_NOTHING_RULE_TOGGLE_TITLE
+      TranslatedString: All or Nothing Rule
+    - StringKey: MAX_DEVIATION_RULE_TOGGLE_TITLE
+      TranslatedString: Max Deviation Rule
+    - StringKey: LOSE_BEST_CARD_RULE_TOGGLE_TITLE
+      TranslatedString: Lose Best Card Rule
+    - StringKey: NUMBER_OF_DECKS_SLIDER_TITLE
+      TranslatedString: Number of Decks
+    - StringKey: NUMBER_OF_CARDS_PER_PLAYER_SLIDER_TITLE
+      TranslatedString: Number of Cards per Player
+    - StringKey: NUMBER_OF_POINTS_TO_WIN_SLIDER_TITLE
+      TranslatedString: Number of Points to Win
+    - StringKey: MAX_DEVIATION_THRESHOLD_SLIDER_TITLE
+      TranslatedString: Max Deviation Threshold
+    - StringKey: CUSTOM_GAME_CANVAS_TITLE
+      TranslatedString: Custom Game
+    - StringKey: ABOUT_CANVAS_TITLE
+      TranslatedString: About
+    - StringKey: CREDITS_TEXT
+      TranslatedString: "KansasCityShuffle\n\nCreator, Director, Programmer, Designer,\nProducer,
+        Composer and Animator\nNicholaos Mouzourakis\n\nBranding and Additional Design\nMoe
+        El-Kaaki\n\n3D Technical Artist\nBrice Vandemoortele\n\nOriginal Concept\nCharles-Eric
+        Kirihara-Sum\n\n\xA92016 Nicholaos Mouzourakis. All Rights Reserved."
+    - StringKey: PHOTO_CREDIT_TEXT
+      TranslatedString: 'Photo: Jonathan K. Kim'
+    - StringKey: HOW_TO_PLAY_PAGE_1_TITLE
+      TranslatedString: Basic Rules
+    - StringKey: HOW_TO_PLAY_PAGE_1_CONTENT
+      TranslatedString: "\u2022 The main goal of the game is to be the last player
+        to play a card; doing so will net you one or more points.\n\u2022 Cards can
+        only be played on top of the last card played, based on the direction of play.
+        If the direction of play is UP, only a card of higher or equal value can be
+        played, and vice-versa when the direction is DOWN.\n\u2022 Playing a card
+        with the same value as the last card played will result in the direction of
+        play being switched to its opposite.\n\u2022 Players may also play two or
+        more cards with the same value to get more cards back from the deck, as long
+        as they follow the above rules."
+    - StringKey: HOW_TO_PLAY_PAGE_2_TITLE
+      TranslatedString: Optional Rules
+    - StringKey: HOW_TO_PLAY_PAGE_2_CONTENT
+      TranslatedString: "Optional Rules can be accessed by holding down the Play Button.\n\u2022
+        Wild Card Rule: Adds a Wildcard Pile between the Deck and the Discard Pile.
+        At any point, a player can play a card with the same value as the wildcard,
+        even if it is not in line with the direction of play. Doing so will result
+        in the direction of play changing, and a new wildcard being selected.\n\u2022
+        Elimination Rule: If a player cannot play a card, he is out for the rest of
+        the round, and will not be able to score points.\n\u2022 Optional Play Rule:
+        A player can choose to forfeit his turn, even if he is otherwise able to play
+        a card.\n\u2022 Refill Hand Rule: All players' hands are reshuffled into the
+        deck and redrawn at the end of each round."
+    - StringKey: HOW_TO_PLAY_PAGE_3_TITLE
+      TranslatedString: Optional Rules continued
+    - StringKey: HOW_TO_PLAY_PAGE_3_CONTENT
+      TranslatedString: "\u2022 All or Nothing Rule: Instead of gaining one point
+        per round win, the winning player will receive the number of points equal
+        to the size of the Discard Pile.\n\u2022 Max Deviation Rule: Players may only
+        play a certain number (Max Deviation Threshold) of cards higher or lower than
+        the current card on top of the Discard Pile, depending on the direction of
+        play. Example: if the current card on the discard pile is a 5, and the direction
+        of play is up, and the max deviation threshold is set to 3, a player can only
+        play a 5, 6, or 7.\n\u2022 Lose Best Card Rule: If a player switches the direction
+        of play by playing the same-valued card as the last player, they will also
+        lose their most advantageous card after the switch. (Example: the card closest
+        to King after switching the direction to be up.)"
+    - StringKey: ACE_ABBREVIATION_CHARACTER
+      TranslatedString: A
+    - StringKey: JACK_ABBREVIATION_CHARACTER
+      TranslatedString: J
+    - StringKey: QUEEN_ABBREVIATION_CHARACTER
+      TranslatedString: Q
+    - StringKey: KING_ABBREVIATION_CHARACTER
+      TranslatedString: K
+    - StringKey: NONE
+      TranslatedString: None
+    - StringKey: AI_EASY
+      TranslatedString: A.I. Easy
+    - StringKey: AI_HARD
+      TranslatedString: A.I. Hard
+    - StringKey: HUMAN
+      TranslatedString: Human
+    - StringKey: SHORT_APP_DESCRIPTION
+      TranslatedString: A fun, simple card game for 1-4 players.
+    - StringKey: LONG_APP_DESCRIPTION
+      TranslatedString: 'KansasCityShuffle is a card game about outpacing your opponent.
+        Too far up or down, and someone will win and score points! Not enough challenge
+        for you? Mix and match between 11 different gameplay rule options for 3,320,000
+        game possibilities. Find your favorite and play with your friends! Or if you''re
+        still looking for some fun, pit 4 AI''s against each other and watch them
+        battle each other with blazing speed! Also includes an Undo/Redo feature if
+        you make a mistake or would like to see the outcome of a different play.
+
+
+        This game is an original piece from an independent game developer in Montreal,
+        Canada with a focus on making fun, simple games. KansasCityShuffle was also
+        designed to be a beautiful project internally; all 5,419 lines of source code
+        for the main game have been carefully written and reviewed for readability,
+        efficiency, integrity, and maintainability. For this reason, the author is
+        making it available for sale to those who might be interested. Send him an
+        email from the "About" section in the app to inquire.
+
+
+        And of course, as with all games created by Nicholaos Mouzourakis, easter
+        eggs exist to be found! Enjoy!'
+    - StringKey: ANY_CARD_TUTORIAL
+      TranslatedString: The direction of play is undecided. (See the symbol under
+        the deck) Any card may be played. If it is higher than the face-up card in
+        the middle of the table, the direction of play will change to UP; if it is
+        lower, the direction will change to DOWN.
+    - StringKey: UP_CARD_TUTORIAL
+      TranslatedString: The direction of play is UP. (See the symbol under the deck)
+        You must play a card higher than or equal to the face-up card in the middle
+        of the table. If the cards are equal in value, the direction of play will
+        change to DOWN.
+    - StringKey: DOWN_CARD_TUTORIAL
+      TranslatedString: The direction of play is DOWN. (See the symbol under the deck)
+        You must play a card higher than or equal to the face-up card in the middle
+        of the table. If the cards are equal in value, the direction of play will
+        change to UP.
+    - StringKey: NO_CARD_TUTORIAL
+      TranslatedString: Unfortunately, you cannot play a card, because you have no
+        cards that can be played on the face-up card in the middle of the table with
+        the current direction of play. You will be unable to play this turn, and may
+        lose this round.
+    - StringKey: MULTIPLE_CARD_TUTORIAL
+      TranslatedString: You have two or more cards with the same value that can be
+        played. If you wish, you may select two or more playable cards of equal value
+        and play them as one to get more cards drawn to your hand at the end of the
+        turn.
+    - StringKey: WILD_CARD_TUTORIAL
+      TranslatedString: You have a card with the same value as the current wildcard.
+        You may play this card, but the direction will also switch to its opposite.
+    - StringKey: OPTIONAL_PLAY_TUTORIAL
+      TranslatedString: Since the Optional Play rule is enabled, you may choose to
+        not play a card this turn. However, you will forfeit your turn as if you were
+        unable to play a card initially.
+    - StringKey: MAX_DEVIATION_TUTORIAL
+      TranslatedString: While the Max Deviation rule is enabled, you may only play
+        cards whose value is with a certain distance from the face-up card in the
+        middle of the table, depending on the Max Deviation Threshold from the Rules
+        screen. (Default value is 3)
+    - StringKey: RESET_TUTORIALS
+      TranslatedString: Reset Tutorials
+    - StringKey: REMOVE_TUTORIALS
+      TranslatedString: Remove Tutorials

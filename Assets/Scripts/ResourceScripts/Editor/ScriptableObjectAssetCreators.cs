@@ -2,9 +2,9 @@
 using UnityEditor;
 using System;
 
-public class GraphicsSettingsAsset
+public class ScriptableObjectAssetCreators
 {
-	[MenuItem("Assets/Create/GraphicsSetupAsset")]
+	[MenuItem("Assets/Create/Add New Graphics Setup Asset...")]
 	public static void CreateGraphicsSetupAsset()
 	{
 		CustomAssetUtility.CreateAsset<GraphicsSetup>();
@@ -14,5 +14,11 @@ public class GraphicsSettingsAsset
 	public static void CreateNewCardAnimationData()
 	{
 		CustomAssetUtility.CreateAsset<CardAnimationData>();
+	}
+
+	[MenuItem("Assets/Create/Add New Localization Data...")]
+	public static void CreateNewLocalizationData()
+	{
+		CustomAssetUtility.CreateAsset<LocalizationData>();
 	}
 }

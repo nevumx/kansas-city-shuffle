@@ -30,7 +30,12 @@ namespace Nx
 
 		private void OnDisable()
 		{
+			_radialFillImages.TweenHolder.ClearOnFinishedOnce().Finish();
 			_radialFillImages.Images.ForEach(i => i.fillAmount = 0.0f);
+			if (_currentPointerId != NxSimpleButton.NO_BUTTON_ID)
+			{
+				Release();
+			}
 		}
 
 		private void OnApplicationPause(bool isPaused)

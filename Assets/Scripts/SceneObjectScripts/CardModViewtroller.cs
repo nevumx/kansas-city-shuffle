@@ -8,6 +8,7 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 
 	[SerializeField]	private						CardAnimationData		_cardAnimationData;
 						public						CardAnimationData		CardAnimationData	{ get { return _cardAnimationData; } }
+	[SerializeField]	private						LocalizationData		_localizationData;
 
 	[SerializeField]	private						TextMesh				_cardValueText;
 						public						TextMesh				CardValueText		{ get { return _cardValueText; } }
@@ -34,7 +35,32 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 	public CardModViewtroller Init(Card.CardValue value, Card.CardSuit suit, Camera eventCamera)
 	{
 		_card = new Card(value, suit);
-		_cardValueText.text = _card.CardValueString;
+		if (_card.Value == Card.CardValue.ACE   || _card.Value == Card.CardValue.JACK
+		 || _card.Value == Card.CardValue.QUEEN || _card.Value == Card.CardValue.KING)
+		{
+			switch (_card.Value)
+			{
+				case Card.CardValue.ACE:
+					_cardValueText.text = _localizationData.GetLocalizedStringForKey("ACE_ABBREVIATION_CHARACTER") + "\n";
+					break;
+				case Card.CardValue.JACK:
+					_cardValueText.text = _localizationData.GetLocalizedStringForKey("JACK_ABBREVIATION_CHARACTER") + "\n";
+					break;
+				case Card.CardValue.QUEEN:
+					_cardValueText.text = _localizationData.GetLocalizedStringForKey("QUEEN_ABBREVIATION_CHARACTER") + "\n";
+					break;
+				case Card.CardValue.KING:
+					_cardValueText.text = _localizationData.GetLocalizedStringForKey("KING_ABBREVIATION_CHARACTER") + "\n";
+					break;
+				default:
+					_cardValueText.text = _card.CardValueString;
+					break;
+			}
+		}
+		else
+		{
+			_cardValueText.text = _card.CardValueString;
+		}
 		_cardSuitText.text = _card.CardSuitString;
 		_cardValueText.color = _cardSuitText.color = suit == Card.CardSuit.SPADES || suit == Card.CardSuit.CLUBS ? Color.black : Color.red;
 		return this;
@@ -192,7 +218,7 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 			{
 				case AnimState.SELECTED:
 					returnTween.AddIncrementalScaleTween(Vector3.one);
-					break;
+					goto case AnimState.VISIBLE;
 				case AnimState.OBSCURED:
 					returnTween.AddLocalRotationTween(Vector3.zero);
 					goto case AnimState.VISIBLE;

@@ -448,6 +448,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cardAnimationData: {fileID: 11400000, guid: dd461eca7ef8a4ec785591483437832b, type: 2}
+  _localizationData: {fileID: 11400000, guid: 79f31da989bcd4b5796c729a3b6056e2, type: 2}
   _cardValueText: {fileID: 10204132}
   _cardSuitText: {fileID: 10234644}
   _shadowObject: {fileID: 184160}

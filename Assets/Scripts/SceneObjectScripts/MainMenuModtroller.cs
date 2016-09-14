@@ -17,49 +17,51 @@ public class MainMenuModtroller : MonoBehaviour
 		ABOUT_SCREEN,
 	}
 
-						private	GameObject		_currentMenuCanvas				= null;
+						private	GameObject			_currentMenuCanvas				= null;
 
-	[SerializeField]	private	GameObject		_mainMenuCanvas;
-	[SerializeField]	private	GameObject		_rulesCanvas;
-	[SerializeField]	private	GameObject		_customGameCanvas;
-	[SerializeField]	private	GameObject		_help1ScreenCanvas;
-	[SerializeField]	private	GameObject		_help2ScreenCanvas;
-	[SerializeField]	private	GameObject		_help3ScreenCanvas;
-	[SerializeField]	private	GameObject		_aboutScreenCanvas;
+	[SerializeField]	private	GameObject			_mainMenuCanvas;
+	[SerializeField]	private	GameObject			_rulesCanvas;
+	[SerializeField]	private	GameObject			_customGameCanvas;
+	[SerializeField]	private	GameObject			_help1ScreenCanvas;
+	[SerializeField]	private	GameObject			_help2ScreenCanvas;
+	[SerializeField]	private	GameObject			_help3ScreenCanvas;
+	[SerializeField]	private	GameObject			_aboutScreenCanvas;
 
-						private	GameSettings	_gameSettings;
-						public	GameSettings	GameSettings					{ get { return _gameSettings; } }
+						private	GameSettings		_gameSettings;
+						public	GameSettings		GameSettings					{ get { return _gameSettings; } }
 
-	[SerializeField]	private	NxSimpleButton	_customPlayButton;
+	[SerializeField]	private	LocalizationData	_localizationData;
 
-	[SerializeField]	private	Toggle			_wildCardRuleToggle;
-	[SerializeField]	private	Toggle			_eliminationRuleToggle;
-	[SerializeField]	private	Toggle			_optionalPlayToggle;
-	[SerializeField]	private	Toggle			_refillHandRuleToggle;
-	[SerializeField]	private	Toggle			_allOrNothingRuleToggle;
-	[SerializeField]	private	Toggle			_maxDeviationRuleToggle;
-	[SerializeField]	private	Toggle			_loseBestCardRuleToggle;
+	[SerializeField]	private	NxSimpleButton		_customPlayButton;
 
-	[SerializeField]	private	Slider			_numberOfDecksSlider;
-	[SerializeField]	private	Slider			_numberOfCardsPerPlayerSlider;
-	[SerializeField]	private	Slider			_numberOfPointsToWinSlider;
-	[SerializeField]	private	Slider			_maxDeviationThresholdSlider;
+	[SerializeField]	private	Toggle				_wildCardRuleToggle;
+	[SerializeField]	private	Toggle				_eliminationRuleToggle;
+	[SerializeField]	private	Toggle				_optionalPlayToggle;
+	[SerializeField]	private	Toggle				_refillHandRuleToggle;
+	[SerializeField]	private	Toggle				_allOrNothingRuleToggle;
+	[SerializeField]	private	Toggle				_maxDeviationRuleToggle;
+	[SerializeField]	private	Toggle				_loseBestCardRuleToggle;
 
-	[SerializeField]	private	Text			_numberOfDecksText;
-	[SerializeField]	private	Text			_numberOfCardsPerPlayerText;
-	[SerializeField]	private	Text			_numberOfPointsToWinText;
-	[SerializeField]	private	Text			_maxDeviationThresholdText;
+	[SerializeField]	private	Slider				_numberOfDecksSlider;
+	[SerializeField]	private	Slider				_numberOfCardsPerPlayerSlider;
+	[SerializeField]	private	Slider				_numberOfPointsToWinSlider;
+	[SerializeField]	private	Slider				_maxDeviationThresholdSlider;
 
-	[SerializeField]	private	Text[]			_customPlayerToggleButtonTexts;
+	[SerializeField]	private	Text				_numberOfDecksText;
+	[SerializeField]	private	Text				_numberOfCardsPerPlayerText;
+	[SerializeField]	private	Text				_numberOfPointsToWinText;
+	[SerializeField]	private	Text				_maxDeviationThresholdText;
 
-	[SerializeField]	private	Image			_logoImage;
-	[SerializeField]	private	Image			_blackFadeOutImage;
-	[SerializeField]	private	float			_fadeOutTime					= 2.0f;
-	[SerializeField]	private	Image			_authorPortrait;
-	[SerializeField]	private	Sprite			_authorIOSSprite;
+	[SerializeField]	private	Text[]				_customPlayerToggleButtonTexts;
 
-	[NonSerialized]		public	bool			ShouldDestroyShadowsOfNewCards	= false;
-	[NonSerialized]		public	bool			ShouldReduceQualityOfNewCards	= false;
+	[SerializeField]	private	Image				_logoImage;
+	[SerializeField]	private	Image				_blackFadeOutImage;
+	[SerializeField]	private	float				_fadeOutTime					= 2.0f;
+	[SerializeField]	private	Image				_authorPortrait;
+	[SerializeField]	private	Sprite				_authorIOSSprite;
+
+	[NonSerialized]		public	bool				ShouldDestroyShadowsOfNewCards	= false;
+	[NonSerialized]		public	bool				ShouldReduceQualityOfNewCards	= false;
 
 	private Menu _currentMenu = Menu.MAIN_MENU;
 	public Menu CurrentMenu
@@ -259,17 +261,17 @@ public class MainMenuModtroller : MonoBehaviour
 			switch (_gameSettings.Players[i])
 			{
 			case GameSettings.PlayerType.HUMAN:
-				_customPlayerToggleButtonTexts[i].text = "Human";
+				_customPlayerToggleButtonTexts[i].text = _localizationData.GetLocalizedStringForKey("HUMAN");
 				break;
 			case GameSettings.PlayerType.AI_EASY:
-				_customPlayerToggleButtonTexts[i].text = "A.I.\nEasy";
+				_customPlayerToggleButtonTexts[i].text = _localizationData.GetLocalizedStringForKey("AI_EASY");
 				break;
 			case GameSettings.PlayerType.AI_HARD:
-				_customPlayerToggleButtonTexts[i].text = "A.I.\nHard";
+				_customPlayerToggleButtonTexts[i].text = _localizationData.GetLocalizedStringForKey("AI_HARD");
 				break;
 			case GameSettings.PlayerType.NONE:
 			default:
-				_customPlayerToggleButtonTexts[i].text = "None";
+				_customPlayerToggleButtonTexts[i].text = _localizationData.GetLocalizedStringForKey("NONE");
 				break;
 			}
 		}
@@ -327,5 +329,15 @@ public class MainMenuModtroller : MonoBehaviour
 	public void EmailAuthor()
 	{
 		Application.OpenURL("mailto:nevumx@gmail.com?subject=KansasCityShuffle");
+	}
+
+	public void ResetAllTutorials()
+	{
+		AdaptiveTutorialSystem.ResetAllTutorials();
+	}
+
+	public void RemoveAllTutorials()
+	{
+		AdaptiveTutorialSystem.FinishAllTutorials();
 	}
 }

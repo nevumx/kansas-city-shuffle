@@ -16,7 +16,7 @@ public class GameSettings
 	}
 
 
-	private	static	readonly	string			SAVED_SETTINGS_FILE_NAME	= "/TakkuSumSettings.nxs";
+	private	static	readonly	string			SAVED_SETTINGS_FILE_NAME	= "/KCSGameSettings.nxs";
 
 	public						bool			WildCardRule;
 	public						bool			EliminationRule;
@@ -77,7 +77,7 @@ public class GameSettings
 		try
 		{
 			stream = new FileStream(settingsFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-			toReturn = (GameSettings) formatter.Deserialize(stream);
+			toReturn = (GameSettings)formatter.Deserialize(stream);
 			stream.Close();
 		}
 		catch

@@ -7,21 +7,23 @@ using Nx;
 
 public class HumanPlayerModtroller : AbstractPlayerModtroller
 {
-	private	static	readonly	float			CARD_DRAG_ACCELERATION	= 3.0f;
+	private	static	readonly	float					CARD_DRAG_ACCELERATION	= 3.0f;
 
-	public	event				Action			OnHumanTurnBegan;
+	public	event				Action					OnHumanTurnBegan;
 
-	private						List<int>		_selectedCardIndexes	= new List<int>();
-	private						List<int>		_allowedCardIndexes		= null;
+	private						List<int>				_selectedCardIndexes	= new List<int>();
+	private						List<int>				_allowedCardIndexes		= null;
 
-	private						GameObject		_submitCardsButton;
+	private						GameObject				_submitCardsButton;
+	private						AdaptiveTutorialSystem	_tutorialSystem;
 
-	public	override			bool			IsHuman					{ get { return true; } }
+	public	override			bool					IsHuman					{ get { return true; } }
 
 	public override AbstractPlayerModtroller Init(MainGameModtroller mainGameModtroller)
 	{
 		AbstractPlayerModtroller toReturn = base.Init(mainGameModtroller);
 		_submitCardsButton = _MainGameModtroller.SubmitCardsButton;
+		_tutorialSystem = _MainGameModtroller.TutorialSystem;
 		return toReturn;
 	}
 
@@ -44,6 +46,42 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 			{
 				SetupInteractionDelegatesForCardAtIndex(i);
 			}
+		}
+
+		if (_MainGameModtroller.Direction == MainGameModtroller.PlayDirection.UNDECIDED)
+		{
+			_tutorialSystem.ShowTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.ANY_CARD_TUTORIAL);
+		}
+		if (_MainGameModtroller.Direction == MainGameModtroller.PlayDirection.UP && _allowedCardIndexes.Count > 0
+			&& _allowedCardIndexes.Exists(i => Hand.ReadOnlyCards[i].CardValue >= _MainGameModtroller.DiscardPileLastValue))
+		{
+			_tutorialSystem.ShowTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.UP_CARD_TUTORIAL);
+		}
+		if (_MainGameModtroller.Direction == MainGameModtroller.PlayDirection.DOWN && _allowedCardIndexes.Count > 0
+			&& _allowedCardIndexes.Exists(i => Hand.ReadOnlyCards[i].CardValue <= _MainGameModtroller.DiscardPileLastValue))
+		{
+			_tutorialSystem.ShowTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.DOWN_CARD_TUTORIAL);
+		}
+		if (_allowedCardIndexes.Count <= 0)
+		{
+			_tutorialSystem.ShowTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.NO_CARD_TUTORIAL);
+		}
+		if (_allowedCardIndexes.Exists(i => _allowedCardIndexes.Exists(j => Hand.ReadOnlyCards[i].CardValue == Hand.ReadOnlyCards[j].CardValue && i != j)))
+		{
+			_tutorialSystem.ShowTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.MULTIPLE_CARD_TUTORIAL);
+		}
+		if (_MainGameModtroller.WildcardRule && _allowedCardIndexes.Exists(i => Hand.ReadOnlyCards[i].CardValue == _MainGameModtroller.WildCardValue))
+		{
+			_tutorialSystem.ShowTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.WILD_CARD_TUTORIAL);
+		}
+		if (_MainGameModtroller.OptionalPlayRule && _allowedCardIndexes.Count > 0)
+		{
+			_tutorialSystem.ShowTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.OPTIONAL_PLAY_TUTORIAL);
+		}
+		if (_MainGameModtroller.MaxDeviationRule && (_MainGameModtroller.Direction == MainGameModtroller.PlayDirection.UP
+													  ||  _MainGameModtroller.Direction == MainGameModtroller.PlayDirection.DOWN))
+		{
+			_tutorialSystem.ShowTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.MAX_DEVIATION_TUTORIAL);
 		}
 
 		Hand.CardsTextVisibility = true;
@@ -78,6 +116,16 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 			Hand.CardsTextVisibility = false;
 			onFinished();
 		});
+	}
+
+	private void OnApplicationPause(bool isPaused)
+	{
+		if (isPaused)
+		{
+			Hand.ReadOnlyCards.ForEach(c => c.Button.CancelDrag());
+			_selectedCardIndexes.Clear();
+		}
+		SetCardStates();
 	}
 
 	private void SetupInteractionDelegatesForCardAtIndex(int index)
