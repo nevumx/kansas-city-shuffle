@@ -594,7 +594,7 @@ public partial class MainGameModtroller : MonoBehaviour
 										.SetDuration(1.0f);
 
 							_deck.ShuffleAnimationCamera.AddPositionTween(_deck.ShuffleAnimationCamera.transform.position + Vector3.up * 5.0f)
-														.SetDuration(6.0f)
+														.SetDuration(3.0f)
 														.SetIgnoreTimeScale(true).Play();
 
 							_players.ForEach(o => o.IfIsNotNullThen(p => p.Hand.ReadOnlyCards.ForEach(c =>
@@ -612,7 +612,7 @@ public partial class MainGameModtroller : MonoBehaviour
 							{
 								float animationDuration = UnityEngine.Random.Range(2.0f, 6.0f);
 								Vector3 rotationVector = (Mathf.Round(UnityEngine.Random.Range(1.0f, 3.0f)) * 2.0f) * 360.0f * Vector3.one;
-								Vector3 destinationField = UnityEngine.Random.insideUnitCircle * 10.0f;
+								Vector3 destinationField = UnityEngine.Random.insideUnitCircle * 12.0f;
 								destinationField.z = destinationField.y;
 								destinationField.y = c.gameObject.transform.position.y + 13.0f;
 								c.AddPositionTween(destinationField)

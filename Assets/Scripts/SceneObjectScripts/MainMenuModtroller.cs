@@ -230,7 +230,7 @@ public class MainMenuModtroller : MonoBehaviour
 	{
 		_gameSettings.MaxDeviationThreshold = Mathf.RoundToInt(newValue);
 		_maxDeviationThresholdText.text = newValue.ToString();
-		}
+	}
 
 	public void OnCustomPlayerCycled(int playerIndex)
 	{

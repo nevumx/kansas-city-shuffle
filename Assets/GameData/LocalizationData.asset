@@ -110,29 +110,6 @@ MonoBehaviour:
       TranslatedString: A.I. Hard
     - StringKey: HUMAN
       TranslatedString: Human
-    - StringKey: SHORT_APP_DESCRIPTION
-      TranslatedString: A fun, simple card game for 1-4 players.
-    - StringKey: LONG_APP_DESCRIPTION
-      TranslatedString: 'KansasCityShuffle is a card game about outpacing your opponent.
-        Too far up or down, and someone will win and score points! Not enough challenge
-        for you? Mix and match between 11 different gameplay rule options for 3,320,000
-        game possibilities. Find your favorite and play with your friends! Or if you''re
-        still looking for some fun, pit 4 AI''s against each other and watch them
-        battle each other with blazing speed! Also includes an Undo/Redo feature if
-        you make a mistake or would like to see the outcome of a different play.
-
-
-        This game is an original piece from an independent game developer in Montreal,
-        Canada with a focus on making fun, simple games. KansasCityShuffle was also
-        designed to be a beautiful project internally; all 5,419 lines of source code
-        for the main game have been carefully written and reviewed for readability,
-        efficiency, integrity, and maintainability. For this reason, the author is
-        making it available for sale to those who might be interested. Send him an
-        email from the "About" section in the app to inquire.
-
-
-        And of course, as with all games created by Nicholaos Mouzourakis, easter
-        eggs exist to be found! Enjoy!'
     - StringKey: ANY_CARD_TUTORIAL
       TranslatedString: The direction of play is undecided. (See the symbol under
         the deck) Any card may be played. If it is higher than the face-up card in

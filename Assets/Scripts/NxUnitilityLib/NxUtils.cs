@@ -153,28 +153,6 @@ namespace Nx
 			return best.ToArray();
 		}
 
-		public static int[] AllBestIndexes<T>(this ReadOnlyCollection<T> list, Func<T,T,bool> AIsBetterThanB, Func<T,T,bool> AIsSameAsB)
-		{
-			if (list.Count <= 0)
-			{
-				return new int[0];
-			}
-			var bestIndexes = new LinkedList<int>(new int[] {0});
-			for (int i = 1, iMax = list.Count; i < iMax; ++i)
-			{
-				if (AIsBetterThanB(list[i], list[bestIndexes.First.Value]))
-				{
-					bestIndexes.Clear();
-					bestIndexes.AddLast(i);
-				}
-				else if (AIsSameAsB(list[i], list[bestIndexes.First.Value]))
-				{
-					bestIndexes.AddLast(i);
-				}
-			}
-			return bestIndexes.ToArray();
-		}
-
 		public static void IfIsNotNullThen(this System.Object obj, Action action)
 		{
 			if (obj != null)

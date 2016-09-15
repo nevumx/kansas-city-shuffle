@@ -74,25 +74,14 @@ public abstract class AbstractPlayerModtroller : MonoBehaviour
 
 	protected List<int> GetAllowedCardIndexes()
 	{
-		int cardValue = _MainGameModtroller.DiscardPileLastValue;
+		int lastCardValue = _MainGameModtroller.DiscardPileLastValue;
 		MainGameModtroller.PlayDirection direction = _MainGameModtroller.Direction;
 		ReadOnlyCollection<CardModViewtroller> handCards = Hand.ReadOnlyCards;
 		List<int> allowedCardIndexes = new List<int>();
 		if (_MainGameModtroller.MaxDeviationRule && direction != MainGameModtroller.PlayDirection.UNDECIDED)
 		{
 			allowedCardIndexes.AddRange(handCards.AllIndexesSuchThat(
-										c => Mathf.Abs(c.CardValue - cardValue) <= _MainGameModtroller.MaxDeviationThreshold));
-
-			if (allowedCardIndexes.Count <= 0)
-			{
-				Func<CardModViewtroller, CardModViewtroller, bool> AIsCloserToCardValueThanB =
-					(a, b) => Mathf.Abs(a.CardValue - cardValue) < Mathf.Abs(b.CardValue - cardValue);
-
-				Func<CardModViewtroller, CardModViewtroller, bool> AIsSameDistanceToCardValueAsB =
-					(a, b) => Mathf.Abs(a.CardValue - cardValue) == Mathf.Abs(b.CardValue - cardValue);
-
-				allowedCardIndexes.AddRange(handCards.AllBestIndexes(AIsCloserToCardValueThanB, AIsSameDistanceToCardValueAsB));
-			}
+										c => Mathf.Abs(c.CardValue - lastCardValue) <= _MainGameModtroller.MaxDeviationThreshold));
 
 			if (_MainGameModtroller.WildcardRule)
 			{
@@ -112,8 +101,8 @@ public abstract class AbstractPlayerModtroller : MonoBehaviour
 		{
 			if (!((direction == MainGameModtroller.PlayDirection.UNDECIDED)
 			   || (_MainGameModtroller.WildcardRule && handCards[allowedCardIndexes[i]].CardValue == _MainGameModtroller.WildCardValue)
-			   || (direction == MainGameModtroller.PlayDirection.DOWN && handCards[allowedCardIndexes[i]].CardValue <= cardValue)
-			   || (direction == MainGameModtroller.PlayDirection.UP && handCards[allowedCardIndexes[i]].CardValue >= cardValue)))
+			   || (direction == MainGameModtroller.PlayDirection.DOWN && handCards[allowedCardIndexes[i]].CardValue <= lastCardValue)
+			   || (direction == MainGameModtroller.PlayDirection.UP && handCards[allowedCardIndexes[i]].CardValue >= lastCardValue)))
 			{
 				allowedCardIndexes.RemoveAt(i);
 			}
