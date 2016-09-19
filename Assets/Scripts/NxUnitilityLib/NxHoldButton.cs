@@ -51,7 +51,21 @@ namespace Nx
 			if (_currentPointerId == NxSimpleButton.NO_BUTTON_ID)
 			{
 				_currentPointerId = eventData.pointerId;
-
+				if (_radialFillImages.Images[0].fillAmount == 1.0f)
+				{
+					_radialFillImages.TweenHolder.Finish();
+				}
+				_radialFillImages.Images.ForEach(i =>
+				{
+					Color imageAlpha = i.color;
+					imageAlpha.a = 1.0f;
+					i.color = imageAlpha;
+					i.transform.localScale = Vector3.one;
+					if (i.fillAmount == 1.0f)
+					{
+						i.fillAmount = 0.0f;
+					}
+				});
 				TweenRadialImageIn();
 			}
 		}
@@ -74,7 +88,8 @@ namespace Nx
 			}
 			else
 			{
-				_radialFillImages.Images.ForEach(i => i.fillAmount = 0.0f);
+				_radialFillImages.AddAlphaTween(0.0f).TweenHolder
+								 .AddIncrementalScaleTween(Vector3.one * 2.0f);
 			}
 		}
 
@@ -106,10 +121,10 @@ namespace Nx
 			_radialFillImages.AddIncrementalRadialFillTween(0.0f).TweenHolder
 							 .SetDuration(_holdDuration)
 							 .ClearOnFinishedOnce();
-			_holdText.AddIncrementalAlphaTween(1.0f).TweenHolder
-			.SetDuration(HOLD_TEXT_FADE_DURATION).AddToOnFinishedOnce(() =>
-					_holdText.AddIncrementalAlphaTween(0.0f).TweenHolder
-							 .SetDuration(HOLD_TEXT_FADE_DURATION));
+			_holdText.AddAlphaTween(1.0f).TweenHolder
+					 .SetDuration(HOLD_TEXT_FADE_DURATION).AddToOnFinishedOnce(() =>
+							_holdText.AddAlphaTween(0.0f).TweenHolder
+									 .SetDuration(HOLD_TEXT_FADE_DURATION));
 		}
 	}
 }

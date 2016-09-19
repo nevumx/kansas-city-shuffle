@@ -17,51 +17,54 @@ public class MainMenuModtroller : MonoBehaviour
 		ABOUT_SCREEN,
 	}
 
-						private	GameObject			_currentMenuCanvas				= null;
+						private	GameObject				_currentMenuCanvas				= null;
 
-	[SerializeField]	private	GameObject			_mainMenuCanvas;
-	[SerializeField]	private	GameObject			_rulesCanvas;
-	[SerializeField]	private	GameObject			_customGameCanvas;
-	[SerializeField]	private	GameObject			_help1ScreenCanvas;
-	[SerializeField]	private	GameObject			_help2ScreenCanvas;
-	[SerializeField]	private	GameObject			_help3ScreenCanvas;
-	[SerializeField]	private	GameObject			_aboutScreenCanvas;
+	[SerializeField]	private	GameObject				_mainMenuCanvas;
+	[SerializeField]	private	GameObject				_rulesCanvas;
+	[SerializeField]	private	GameObject				_customGameCanvas;
+	[SerializeField]	private	GameObject				_help1ScreenCanvas;
+	[SerializeField]	private	GameObject				_help2ScreenCanvas;
+	[SerializeField]	private	GameObject				_help3ScreenCanvas;
+	[SerializeField]	private	GameObject				_aboutScreenCanvas;
 
-						private	GameSettings		_gameSettings;
-						public	GameSettings		GameSettings					{ get { return _gameSettings; } }
+						private	GameSettings			_gameSettings;
+						public	GameSettings			GameSettings					{ get { return _gameSettings; } }
 
-	[SerializeField]	private	LocalizationData	_localizationData;
+	[SerializeField]	private	LocalizationData		_localizationData;
 
-	[SerializeField]	private	NxSimpleButton		_customPlayButton;
+	[SerializeField]	private	AdaptiveTutorialSystem	_tutorialSystem;
 
-	[SerializeField]	private	Toggle				_wildCardRuleToggle;
-	[SerializeField]	private	Toggle				_eliminationRuleToggle;
-	[SerializeField]	private	Toggle				_optionalPlayToggle;
-	[SerializeField]	private	Toggle				_refillHandRuleToggle;
-	[SerializeField]	private	Toggle				_allOrNothingRuleToggle;
-	[SerializeField]	private	Toggle				_maxDeviationRuleToggle;
-	[SerializeField]	private	Toggle				_loseBestCardRuleToggle;
+	[SerializeField]	private	NxSimpleButton			_customPlayButton;
 
-	[SerializeField]	private	Slider				_numberOfDecksSlider;
-	[SerializeField]	private	Slider				_numberOfCardsPerPlayerSlider;
-	[SerializeField]	private	Slider				_numberOfPointsToWinSlider;
-	[SerializeField]	private	Slider				_maxDeviationThresholdSlider;
+	[SerializeField]	private	Toggle					_wildCardRuleToggle;
+	[SerializeField]	private	Toggle					_eliminationRuleToggle;
+	[SerializeField]	private	Toggle					_optionalPlayToggle;
+	[SerializeField]	private	Toggle					_refillHandRuleToggle;
+	[SerializeField]	private	Toggle					_allOrNothingRuleToggle;
+	[SerializeField]	private	Toggle					_maxDeviationRuleToggle;
+	[SerializeField]	private	Toggle					_loseBestCardRuleToggle;
 
-	[SerializeField]	private	Text				_numberOfDecksText;
-	[SerializeField]	private	Text				_numberOfCardsPerPlayerText;
-	[SerializeField]	private	Text				_numberOfPointsToWinText;
-	[SerializeField]	private	Text				_maxDeviationThresholdText;
+	[SerializeField]	private	Slider					_numberOfDecksSlider;
+	[SerializeField]	private	Slider					_numberOfCardsPerPlayerSlider;
+	[SerializeField]	private	Slider					_numberOfPointsToWinSlider;
+	[SerializeField]	private	Slider					_maxDeviationThresholdSlider;
 
-	[SerializeField]	private	Text[]				_customPlayerToggleButtonTexts;
+	[SerializeField]	private	Text					_numberOfDecksText;
+	[SerializeField]	private	Text					_numberOfCardsPerPlayerText;
+	[SerializeField]	private	Text					_numberOfPointsToWinText;
+	[SerializeField]	private	Text					_maxDeviationThresholdText;
 
-	[SerializeField]	private	Image				_logoImage;
-	[SerializeField]	private	Image				_blackFadeOutImage;
-	[SerializeField]	private	float				_fadeOutTime					= 2.0f;
-	[SerializeField]	private	Image				_authorPortrait;
-	[SerializeField]	private	Sprite				_authorIOSSprite;
+	[SerializeField]	private	Text[]					_customPlayerToggleButtonTexts;
 
-	[NonSerialized]		public	bool				ShouldDestroyShadowsOfNewCards	= false;
-	[NonSerialized]		public	bool				ShouldReduceQualityOfNewCards	= false;
+	[SerializeField]	private	Image					_logoImage;
+	[SerializeField]	private	Image					_blackFadeOutImage;
+	[SerializeField]	private	float					_fadeOutTime					= 2.0f;
+	[SerializeField]	private	Image					_authorPortrait;
+	[SerializeField]	private	Sprite					_authorIOSSprite;
+	[SerializeField]	private	TweenableGraphics		_holdForMoreOptionsText;
+
+	[NonSerialized]		public	bool					ShouldDestroyShadowsOfNewCards	= false;
+	[NonSerialized]		public	bool					ShouldReduceQualityOfNewCards	= false;
 
 	private Menu _currentMenu = Menu.MAIN_MENU;
 	public Menu CurrentMenu
@@ -115,6 +118,27 @@ public class MainMenuModtroller : MonoBehaviour
 #if UNITY_IOS
 		_authorPortrait.sprite = _authorIOSSprite;
 #endif
+
+		Action tweenHoldForMoreOptionsTextUp = null;
+
+		Action tweenHoldForMoreOptionsTextDown = () =>
+		{
+			_holdForMoreOptionsText.AddAlphaTween(0.0f).TweenHolder
+								   .AddToOnFinishedOnce(tweenHoldForMoreOptionsTextUp);
+		};
+
+		tweenHoldForMoreOptionsTextUp = () =>
+		{
+			_holdForMoreOptionsText.AddAlphaTween(1.0f).TweenHolder
+								   .AddToOnFinishedOnce(tweenHoldForMoreOptionsTextDown);
+		};
+
+		tweenHoldForMoreOptionsTextUp();
+
+		if (_tutorialSystem.HoldForMoreOptionsTextHasBeenShown)
+		{
+			_holdForMoreOptionsText.gameObject.SetActive(false);
+		}
 	}
 
 	private void Update()
@@ -146,6 +170,8 @@ public class MainMenuModtroller : MonoBehaviour
 	public void OnRulesPressed()
 	{
 		CurrentMenu = Menu.RULES;
+		_tutorialSystem.HoldForMoreOptionsTextHasBeenShown = true;
+		_holdForMoreOptionsText.gameObject.SetActive(false);
 	}
 
 	public void OnHelp1Pressed()
@@ -166,11 +192,15 @@ public class MainMenuModtroller : MonoBehaviour
 	public void OnAboutPressed()
 	{
 		CurrentMenu = Menu.ABOUT_SCREEN;
+		_tutorialSystem.HoldForMoreOptionsTextHasBeenShown = true;
+		_holdForMoreOptionsText.gameObject.SetActive(false);
 	}
 
 	public void OnCustomGamePressed()
 	{
 		CurrentMenu = Menu.CUSTOM_GAME;
+		_tutorialSystem.HoldForMoreOptionsTextHasBeenShown = true;
+		_holdForMoreOptionsText.gameObject.SetActive(false);
 	}
 
 	public void OnWildCardRuleChanged(bool newRule)
@@ -333,11 +363,13 @@ public class MainMenuModtroller : MonoBehaviour
 
 	public void ResetAllTutorials()
 	{
-		AdaptiveTutorialSystem.ResetAllTutorials();
+		_tutorialSystem.ResetAllTutorials();
+		_holdForMoreOptionsText.gameObject.SetActive(true);
 	}
 
 	public void RemoveAllTutorials()
 	{
-		AdaptiveTutorialSystem.FinishAllTutorials();
+		_tutorialSystem.FinishAllTutorials();
+		_holdForMoreOptionsText.gameObject.SetActive(false);
 	}
 }

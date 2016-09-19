@@ -24,7 +24,6 @@ public class CardHolder : MonoBehaviour
 	[SerializeField]	private		TweenHolder									_shuffleAnimationCamera;
 						public		TweenHolder									ShuffleAnimationCamera			{ get { return _shuffleAnimationCamera; } }
 	[SerializeField]	private		Transform									_shuffleAnimationOriginPoint;
-						public		Transform									ShuffleAnimationOriginPoint		{ get { return _shuffleAnimationOriginPoint; } }
 
 						public		AudioSource									CardFlipAudio;
 	[SerializeField]	private		AudioClip									_cardShuffleClip;
@@ -140,12 +139,12 @@ public class CardHolder : MonoBehaviour
 	public void MoveCard(int cardIndex, CardHolder other, out TweenHolder outTween, bool? visibleDuringTween, int indexToInsertAt = -1)
 	{
 		CardModViewtroller cardBeingMoved = _Cards[cardIndex];
+		_Cards.RemoveAt(cardIndex);
 		if (!other._Cards.InsertionIndexIsValid(indexToInsertAt))
 		{
 			indexToInsertAt = other._Cards.Count;
 		}
 		other.AddCard(cardBeingMoved, indexToInsertAt);
-		_Cards.RemoveAt(cardIndex);
 
 		cardBeingMoved.ViewFSM.SetAnimState(other._cardsAnimState, performTweens: false);
 		cardBeingMoved.ViewFSM.SetTextVisibility(visibleDuringTween.HasValue ? visibleDuringTween.Value : other._cardsTextVisibility);

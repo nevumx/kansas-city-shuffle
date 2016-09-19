@@ -26,6 +26,7 @@ public partial class MainGameModtroller : MonoBehaviour
 	[SerializeField]	private						HardAIPlayerModtroller		_hardAIPlayerPrefab;
 
 	[SerializeField]	private						CardAnimationData			_cardAnimationData;
+	[SerializeField]	private						LocalizationData			_localizationData;
 
 	[SerializeField]	private						AudioSource					_cardFlipAudio;
 						public						AudioSource					CardFlipAudio			{ get { return _cardFlipAudio; } }
@@ -50,7 +51,9 @@ public partial class MainGameModtroller : MonoBehaviour
 	[SerializeField]	private						GameObject					_redoButton;
 	[SerializeField]	private						TweenableGraphics			_gameEndSymbol;
 	[SerializeField]	private						TweenableGraphics			_gameEndText;
+	[SerializeField]	private						Text						_gameEndUIText;
 	[SerializeField]	private						Text						_gameEndSymbolText;
+	[SerializeField]	private						TweenableGraphics			_playAgainButton;
 	[SerializeField]	private						NxKnobSlider				_timeScaleKnobSlider;
 	[SerializeField]	private						Text						_timeScaleText;
 	[SerializeField]	private						AdaptiveTutorialSystem		_tutorialSystem;
@@ -64,6 +67,7 @@ public partial class MainGameModtroller : MonoBehaviour
 						private						int							_currentPlayer;
 						private						int							_indexOfLastPlayerToPlayACard;
 						private						bool						_firstHumanHasPlayed	= false;
+						private						Vector3						_mainCameraLocalPosition;
 
 						private						GameSettings				_gameSettings;
 						public						bool						SeeAICards				{ get { return _gameSettings.SeeAICards; } }
@@ -148,6 +152,10 @@ public partial class MainGameModtroller : MonoBehaviour
 		_commander = new Commander(_cardAnimationData);
 		Direction = PlayDirection.UNDECIDED;
 		_cardWhenDirectionWasLastUpdated = null;
+		if (!_demoMode)
+		{
+			_mainCameraLocalPosition = _mainCamera.transform.localPosition;
+		}
 
 		if (_miniViewCamera != null && _miniViewUIImage != null && _miniViewUIImageHolder != null)
 		{
@@ -254,33 +262,11 @@ public partial class MainGameModtroller : MonoBehaviour
 			}
 		}
 
-		while (_players[_currentPlayer] == null)
-		{
-			_currentPlayer = ++_currentPlayer % _players.Length;
-		}
-
-		_indexOfLastPlayerToPlayACard = _currentPlayer;
-		do
-		{
-			_indexOfLastPlayerToPlayACard = (_indexOfLastPlayerToPlayACard + _players.Length - 1) % _players.Length;
-		}
-		while (_players[_indexOfLastPlayerToPlayACard] == null);
+		ResetPlayerIndexes();
 
 		if (!_demoMode)
 		{
-			if (_numHumanPlayers >= 1)
-			{
-				int firstHumanPlayer = 0;
-				while (_players[firstHumanPlayer] == null || !_players[firstHumanPlayer].IsHuman)
-				{
-					++firstHumanPlayer;
-				}
-				_mainCameraAnchor.AddLocalQuaternionRotationTween(Quaternion.Euler(Vector3.up * (float) firstHumanPlayer / _players.Length * 360.0f));
-			}
-			else
-			{
-				_mainCameraAnchor.AddLocalQuaternionRotationTween(Quaternion.Euler(Vector3.up * (float) _currentPlayer / _players.Length * 360.0f));
-			}
+			RotateCameraToFirstPlayer();
 		}
 
 		StartCoroutine(PopulateDeck());
@@ -584,16 +570,21 @@ public partial class MainGameModtroller : MonoBehaviour
 		Color playerSymbolColor = _players[_currentPlayer].PlayerSymbolText.color;
 		playerSymbolColor.a = 0.0f;
 		_gameEndSymbolText.color = playerSymbolColor;
-		_gameEndSymbol.AddIncrementalAlphaTween(1.0f).TweenHolder
+		_gameEndUIText.text = _localizationData.GetLocalizedStringForKey(_players[_currentPlayer].IsHuman ? "PLAYER_WINS" : "AI_WINS");
+		_gameEndSymbol.AddAlphaTween(1.0f)
 					  .AddIncrementalScaleTween(Vector3.one)
 					  .AddLocalRotationTween(Vector3.up * 360.0f)
 					  .SetDuration(3.0f)
 					  .AddToOnFinishedOnce(() => 
 						{
-							_gameEndText.AddIncrementalAlphaTween(1.0f).TweenHolder
+							_gameEndText.AddAlphaTween(1.0f).TweenHolder
 										.SetDuration(1.0f);
 
-							_deck.ShuffleAnimationCamera.AddPositionTween(_deck.ShuffleAnimationCamera.transform.position + Vector3.up * 5.0f)
+							_playAgainButton.RootRectTransform.gameObject.SetActive(true);
+							_playAgainButton.AddAlphaTween(1.0f).TweenHolder
+											.SetDuration(2.0f);
+
+							_deck.ShuffleAnimationCamera.AddLocalPositionTween(_mainCameraLocalPosition + Vector3.up * 5.0f)
 														.SetDuration(3.0f)
 														.SetIgnoreTimeScale(true).Play();
 
@@ -783,12 +774,45 @@ public partial class MainGameModtroller : MonoBehaviour
 						_commander.ExecuteAndAddToCurrentTurnBundle(new ShuffleCommand(_deck, onFinished))));
 	}
 
+	private void ResetPlayerIndexes()
+	{
+		_currentPlayer = 0;
+		while (_players[_currentPlayer] == null)
+		{
+			_currentPlayer = ++_currentPlayer % _players.Length;
+		}
+
+		_indexOfLastPlayerToPlayACard = _currentPlayer;
+		do
+		{
+			_indexOfLastPlayerToPlayACard = (_indexOfLastPlayerToPlayACard + _players.Length - 1) % _players.Length;
+		}
+		while (_players[_indexOfLastPlayerToPlayACard] == null);
+	}
+
+	private void RotateCameraToFirstPlayer()
+	{
+		if (_numHumanPlayers >= 1)
+		{
+			int firstHumanPlayer = 0;
+			while (_players[firstHumanPlayer] == null || !_players[firstHumanPlayer].IsHuman)
+			{
+				++firstHumanPlayer;
+			}
+			_mainCameraAnchor.AddLocalQuaternionRotationTween(Quaternion.Euler(Vector3.up * (float) firstHumanPlayer / _players.Length * 360.0f));
+		}
+		else
+		{
+			_mainCameraAnchor.AddLocalQuaternionRotationTween(Quaternion.Euler(Vector3.up * (float) _currentPlayer / _players.Length * 360.0f));
+		}
+	}
+
 	private void UpdateUndoAndRedoButtons()
 	{
 		_undoButton.SetActive(_commander.UndoIsPossible);
 		_redoButton.SetActive(_commander.RedoIsPossible);
 		_miniViewCamera.Render();
-		_miniViewUIGraphics.AddIncrementalAlphaTween(1.0f).TweenHolder
+		_miniViewUIGraphics.AddAlphaTween(1.0f).TweenHolder
 						   .SetDuration(1.0f);
 	}
 
@@ -799,7 +823,7 @@ public partial class MainGameModtroller : MonoBehaviour
 			_tutorialSystem.HideTutorial();
 			_undoButton.SetActive(false);
 			_redoButton.SetActive(false);
-			_miniViewUIGraphics.AddIncrementalAlphaTween(0.0f).TweenHolder
+			_miniViewUIGraphics.AddAlphaTween(0.0f).TweenHolder
 							   .SetDuration(1.0f);
 		}
 	}
@@ -844,7 +868,7 @@ public partial class MainGameModtroller : MonoBehaviour
 	public void OnUndoButtonClicked()
 	{
 		HideUndoAndRedoButtons();
-		((HumanPlayerModtroller) _players[_currentPlayer]).CancelCardSelection(
+		((HumanPlayerModtroller)_players[_currentPlayer]).CancelCardSelection(
 			onFinished: () => StartCoroutine(_commander.UndoPlayerTurn(
 			onFinished: () => UpdateCamera(
 			onFinished: () => StartCoroutine(BeginPlayerTurn())))));
@@ -853,7 +877,7 @@ public partial class MainGameModtroller : MonoBehaviour
 	public void OnRedoButtonClicked()
 	{
 		HideUndoAndRedoButtons();
-		((HumanPlayerModtroller) _players[_currentPlayer]).CancelCardSelection(
+		((HumanPlayerModtroller)_players[_currentPlayer]).CancelCardSelection(
 			onFinished: () => StartCoroutine(_commander.RedoPlayerTurn(
 			onFinished: () => UpdateCamera(
 			onFinished: () => StartCoroutine(BeginPlayerTurn())))));
@@ -862,6 +886,57 @@ public partial class MainGameModtroller : MonoBehaviour
 	public void OnSubmitCardsButtonClicked()
 	{
 		((HumanPlayerModtroller)_players[_currentPlayer]).SubmitCards();
+	}
+
+	public void PlayAgain()
+	{
+		_gameEndSymbol.RootRectTransform.localScale = Vector3.one * 4.0f;
+		_gameEndText.TweenHolder.Finish();
+
+		Color tempAlphaColor = _gameEndUIText.color;
+		tempAlphaColor.a = 0.0f;
+		_gameEndUIText.color = tempAlphaColor;
+
+		tempAlphaColor = _gameEndSymbolText.color;
+		tempAlphaColor.a = 0.0f;
+		_gameEndSymbolText.color = tempAlphaColor;
+
+		_playAgainButton.TweenHolder.Finish();
+		_playAgainButton.Graphics.ForEach(g =>
+		{
+			tempAlphaColor = g.color;
+			tempAlphaColor.a = 0.0f;
+			g.color = tempAlphaColor;
+		});
+		_playAgainButton.RootRectTransform.gameObject.SetActive(false);
+
+		_players.ForEach(o => o.IfIsNotNullThen(p => p.Points = 0));
+		_commander.Reset();
+		Direction = PlayDirection.UNDECIDED;
+		_cardWhenDirectionWasLastUpdated = null;
+		_firstHumanHasPlayed = false;
+		ResetPlayerIndexes();
+		RotateCameraToFirstPlayer();
+
+		_deck.ShuffleAnimationCamera.AddLocalPositionTween(_mainCameraLocalPosition)
+									.SetDuration(_cardAnimationData.GeneralCardMoveDuration)
+									.SetIgnoreTimeScale(false).Play()
+									.AddToOnFinishedOnce(() =>
+			{
+				TweenHolder outTween;
+				int[] unShuffleData;
+				var cardReverseTweenWaiter = new FinishableGroupWaiter(() => _deck.Shuffle(out unShuffleData, onFinished: () => StartCoroutine(DealCardsToPlayers())));
+				CardModViewtroller[] allCards = GameObject.FindObjectsOfType<CardModViewtroller>();
+				allCards.ForEach(c =>
+				{
+					c.TweenHolder.RemoveAllTweens();
+					c.ParentCardHolder.MoveCard(c.ParentCardHolder.ReadOnlyCards.IndexOf(c), _deck, out outTween, true);
+					outTween.RemoveTweenOfType<OffsetHeightTween>()
+							.SetIgnoreTimeScale(false).Play();
+					cardReverseTweenWaiter.AddFinishable(outTween);
+				});
+				cardReverseTweenWaiter.Ready = true;
+			});
 	}
 
 	public void EndGame()

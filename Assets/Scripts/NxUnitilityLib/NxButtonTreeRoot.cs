@@ -28,7 +28,7 @@ namespace Nx
 				_buttonLeaves.ForEach(b =>
 				{
 					b.TweenableGraphics.AddIncrementalAnchoredPositionTween(b.TweenToPosition.localPosition - _RectTransform.localPosition)
-									   .AddIncrementalAlphaTween(1.0f).TweenHolder
+									   .AddAlphaTween(1.0f).TweenHolder
 									   .SetDuration(BUTTON_LEAF_ANIM_TIME)
 									   .AddToOnFinishedOnce(() => b.ButtonCollider.enabled = true);
 				});
@@ -45,7 +45,7 @@ namespace Nx
 				{
 					b.ButtonCollider.enabled = false;
 					b.TweenableGraphics.AddIncrementalAnchoredPositionTween(Vector2.zero)
-									   .AddIncrementalAlphaTween(0.0f).TweenHolder
+									   .AddAlphaTween(0.0f).TweenHolder
 									   .SetDuration(BUTTON_LEAF_ANIM_TIME)
 									   .ClearOnFinishedOnce();
 				});

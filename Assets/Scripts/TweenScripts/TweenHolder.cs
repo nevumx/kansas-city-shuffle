@@ -179,7 +179,7 @@ public class TweenHolder : MonoBehaviour, IFinishable
 
 	private void Update()
 	{
-		if (_timeElapsed < 0.0f)
+		if (_timeElapsed < 0.0f || !gameObject.activeInHierarchy)
 		{
 			return;
 		}
@@ -246,6 +246,16 @@ public class TweenHolder : MonoBehaviour, IFinishable
 			}
 		}
 		return default(T);
+	}
+
+	public void RemoveAllTweens()
+	{
+		_tweens.ForEach(t =>
+		{
+			RemoveDelegates(t);
+			t.TweenHolder = null;
+		});
+		_tweens.Clear();
 	}
 
 	public static float EaseInOutAnimationCurve(float percentDone)

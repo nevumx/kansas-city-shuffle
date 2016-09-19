@@ -13,10 +13,10 @@ public class TitleScreen : MonoBehaviour
 			return;
 		}
 
-		_titleText.AddIncrementalAlphaTween(1.0f).TweenHolder
+		_titleText.AddAlphaTween(1.0f).TweenHolder
 				  .SetDelay(0.5f)
 				  .SetDuration(1.0f)
-				  .AddToOnFinishedOnce(() => _titleText.AddIncrementalAlphaTween(0.0f).TweenHolder
+				  .AddToOnFinishedOnce(() => _titleText.AddAlphaTween(0.0f).TweenHolder
 													   .SetDelay(1.5f)
 													   .SetDuration(1.0f)
 													   .AddToOnFinishedOnce(LoadMainMenu));

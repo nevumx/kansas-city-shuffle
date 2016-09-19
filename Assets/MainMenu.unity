@@ -835,7 +835,6 @@ GameObject:
   - 222: {fileID: 82289253}
   - 114: {fileID: 82289252}
   - 114: {fileID: 82289251}
-  - 114: {fileID: 82289250}
   m_Layer: 5
   m_Name: ResetTutorialsButton
   m_TagString: Untagged
@@ -865,21 +864,6 @@ RectTransform:
   m_AnchoredPosition: {x: -0.00067329407, y: -0.000004887581}
   m_SizeDelta: {x: -0.000030517578, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &82289250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 82289248}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c085ac8f5ad774ea5afed34524d9336b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IgnoreTimeScale: 0
-  _gameObjectsToChangeLayerOfDuringTween: []
-  _inTweenLayer: 0
-  _outOfTweenLayer: 0
 --- !u!114 &82289251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -895,7 +879,7 @@ MonoBehaviour:
   _cornerToSnapCenterTo: 0
   _buttonCollider: {fileID: 82289254}
   _radialFillImages:
-    _tweenHolder: {fileID: 82289250}
+    _tweenHolder: {fileID: 634408135}
     _images:
     - {fileID: 634408133}
   _holdText:
@@ -1285,6 +1269,111 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 119530739}
+--- !u!1 &121439771
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 224: {fileID: 121439772}
+  - 222: {fileID: 121439773}
+  - 114: {fileID: 121439774}
+  - 114: {fileID: 121439776}
+  - 114: {fileID: 121439775}
+  m_Layer: 5
+  m_Name: HoldForMoreText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &121439772
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 121439771}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 788970812}
+  m_RootOrder: 1
+  m_AnchorMin: {x: 0.25, y: 0.026490068}
+  m_AnchorMax: {x: 0.75, y: 0.134}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &121439773
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 121439771}
+--- !u!114 &121439774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 121439771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 0
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 12800000, guid: 504b5d2f4b719024c975f6ccd3dea844, type: 3}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 1
+    m_MinSize: 10
+    m_MaxSize: 300
+    m_Alignment: 4
+    m_AlignByGeometry: 1
+    m_RichText: 0
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Lorem ipsum
+--- !u!114 &121439775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 121439771}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c085ac8f5ad774ea5afed34524d9336b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IgnoreTimeScale: 1
+  _gameObjectsToChangeLayerOfDuringTween: []
+  _inTweenLayer: 0
+  _outOfTweenLayer: 0
+--- !u!114 &121439776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 121439771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9436b31aefc3d46f986be8813c99fea5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _localizationData: {fileID: 11400000, guid: 79f31da989bcd4b5796c729a3b6056e2, type: 2}
+  _UITextToLocalize: {fileID: 121439774}
+  _stringKey: HOLD_FOR_MORE_OPTIONS
 --- !u!1001 &126509294
 Prefab:
   m_ObjectHideFlags: 0
@@ -1794,7 +1883,7 @@ RectTransform:
   - {fileID: 135454892}
   - {fileID: 95996102}
   m_Father: {fileID: 1673384507}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_AnchorMin: {x: 0.65, y: 0.05}
   m_AnchorMax: {x: 0.75, y: 0.2}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -2106,7 +2195,7 @@ RectTransform:
   m_Children:
   - {fileID: 620008264}
   m_Father: {fileID: 1673384507}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_AnchorMin: {x: 0.85, y: 0.05}
   m_AnchorMax: {x: 0.95, y: 0.2}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -2992,7 +3081,6 @@ GameObject:
   - 222: {fileID: 314189670}
   - 114: {fileID: 314189669}
   - 114: {fileID: 314189668}
-  - 114: {fileID: 314189667}
   m_Layer: 5
   m_Name: ResetTutorialsButton
   m_TagString: Untagged
@@ -3022,21 +3110,6 @@ RectTransform:
   m_AnchoredPosition: {x: -0.00038528442, y: -0.000004887581}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &314189667
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 314189665}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c085ac8f5ad774ea5afed34524d9336b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IgnoreTimeScale: 0
-  _gameObjectsToChangeLayerOfDuringTween: []
-  _inTweenLayer: 0
-  _outOfTweenLayer: 0
 --- !u!114 &314189668
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3052,7 +3125,7 @@ MonoBehaviour:
   _cornerToSnapCenterTo: 0
   _buttonCollider: {fileID: 314189671}
   _radialFillImages:
-    _tweenHolder: {fileID: 314189667}
+    _tweenHolder: {fileID: 405063852}
     _images:
     - {fileID: 405063850}
   _holdText:
@@ -3535,6 +3608,7 @@ GameObject:
   - 224: {fileID: 388053251}
   - 222: {fileID: 388053253}
   - 114: {fileID: 388053252}
+  - 114: {fileID: 388053254}
   m_Layer: 5
   m_Name: RadialFillBar
   m_TagString: Untagged
@@ -3593,6 +3667,21 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 388053250}
+--- !u!114 &388053254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 388053250}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c085ac8f5ad774ea5afed34524d9336b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IgnoreTimeScale: 1
+  _gameObjectsToChangeLayerOfDuringTween: []
+  _inTweenLayer: 0
+  _outOfTweenLayer: 0
 --- !u!1 &389931634
 GameObject:
   m_ObjectHideFlags: 0
@@ -3759,6 +3848,7 @@ GameObject:
   - 224: {fileID: 405063849}
   - 222: {fileID: 405063851}
   - 114: {fileID: 405063850}
+  - 114: {fileID: 405063852}
   m_Layer: 5
   m_Name: RadialFillBar
   m_TagString: Untagged
@@ -3817,6 +3907,21 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 405063848}
+--- !u!114 &405063852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 405063848}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c085ac8f5ad774ea5afed34524d9336b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IgnoreTimeScale: 1
+  _gameObjectsToChangeLayerOfDuringTween: []
+  _inTweenLayer: 0
+  _outOfTweenLayer: 0
 --- !u!1 &405198086
 GameObject:
   m_ObjectHideFlags: 0
@@ -4888,6 +4993,7 @@ GameObject:
   - 224: {fileID: 534717989}
   - 222: {fileID: 534717991}
   - 114: {fileID: 534717990}
+  - 114: {fileID: 534717992}
   m_Layer: 5
   m_Name: RadialFillBar
   m_TagString: Untagged
@@ -4946,6 +5052,21 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 534717988}
+--- !u!114 &534717992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 534717988}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c085ac8f5ad774ea5afed34524d9336b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IgnoreTimeScale: 1
+  _gameObjectsToChangeLayerOfDuringTween: []
+  _inTweenLayer: 0
+  _outOfTweenLayer: 0
 --- !u!1 &535409031
 GameObject:
   m_ObjectHideFlags: 0
@@ -5483,6 +5604,7 @@ MonoBehaviour:
   _help3ScreenCanvas: {fileID: 140408526}
   _aboutScreenCanvas: {fileID: 1336661370}
   _localizationData: {fileID: 11400000, guid: 79f31da989bcd4b5796c729a3b6056e2, type: 2}
+  _tutorialSystem: {fileID: 681592624}
   _customPlayButton: {fileID: 731016238}
   _wildCardRuleToggle: {fileID: 1525084260}
   _eliminationRuleToggle: {fileID: 7429284}
@@ -5509,6 +5631,11 @@ MonoBehaviour:
   _fadeOutTime: 2
   _authorPortrait: {fileID: 1863265202}
   _authorIOSSprite: {fileID: 21300000, guid: bc51ef2976fc44608a6f78948d8ea990, type: 3}
+  _holdForMoreOptionsText:
+    _tweenHolder: {fileID: 121439775}
+    _graphics:
+    - {fileID: 121439774}
+    _rootRectTransform: {fileID: 121439772}
 --- !u!4 &573546977
 Transform:
   m_ObjectHideFlags: 0
@@ -5821,7 +5948,6 @@ GameObject:
   - 224: {fileID: 612399691}
   - 58: {fileID: 612399694}
   - 114: {fileID: 612399693}
-  - 114: {fileID: 612399692}
   m_Layer: 5
   m_Name: ResetHoldButton
   m_TagString: Untagged
@@ -5848,21 +5974,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &612399692
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 612399690}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c085ac8f5ad774ea5afed34524d9336b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IgnoreTimeScale: 1
-  _gameObjectsToChangeLayerOfDuringTween: []
-  _inTweenLayer: 0
-  _outOfTweenLayer: 0
 --- !u!114 &612399693
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5878,7 +5989,7 @@ MonoBehaviour:
   _cornerToSnapCenterTo: 0
   _buttonCollider: {fileID: 612399694}
   _radialFillImages:
-    _tweenHolder: {fileID: 612399692}
+    _tweenHolder: {fileID: 2086274110}
     _images:
     - {fileID: 2086274108}
   _holdText:
@@ -6103,6 +6214,7 @@ GameObject:
   - 224: {fileID: 634408132}
   - 222: {fileID: 634408134}
   - 114: {fileID: 634408133}
+  - 114: {fileID: 634408135}
   m_Layer: 5
   m_Name: RadialFillBar
   m_TagString: Untagged
@@ -6161,6 +6273,21 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 634408131}
+--- !u!114 &634408135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 634408131}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c085ac8f5ad774ea5afed34524d9336b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IgnoreTimeScale: 1
+  _gameObjectsToChangeLayerOfDuringTween: []
+  _inTweenLayer: 0
+  _outOfTweenLayer: 0
 --- !u!1 &635838667
 GameObject:
   m_ObjectHideFlags: 0
@@ -6171,6 +6298,7 @@ GameObject:
   - 224: {fileID: 635838668}
   - 222: {fileID: 635838670}
   - 114: {fileID: 635838669}
+  - 114: {fileID: 635838671}
   m_Layer: 5
   m_Name: RadialFillBar
   m_TagString: Untagged
@@ -6229,6 +6357,21 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 635838667}
+--- !u!114 &635838671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 635838667}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c085ac8f5ad774ea5afed34524d9336b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IgnoreTimeScale: 1
+  _gameObjectsToChangeLayerOfDuringTween: []
+  _inTweenLayer: 0
+  _outOfTweenLayer: 0
 --- !u!1 &649431747
 GameObject:
   m_ObjectHideFlags: 0
@@ -6490,6 +6633,52 @@ MonoBehaviour:
   _localizationData: {fileID: 11400000, guid: 79f31da989bcd4b5796c729a3b6056e2, type: 2}
   _UITextToLocalize: {fileID: 677521919}
   _stringKey: ALL_OR_NOTHING_RULE_TOGGLE_TITLE
+--- !u!1 &681592623
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 681592625}
+  - 114: {fileID: 681592624}
+  m_Layer: 0
+  m_Name: AdaptiveTutorialSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &681592624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 681592623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7a5b4c210782462fb10b51a3b4ba18e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _tutorialGraphics:
+    _tweenHolder: {fileID: 0}
+    _graphics: []
+    _rootRectTransform: {fileID: 0}
+  _tutorialText: {fileID: 0}
+  _localizationData: {fileID: 0}
+--- !u!4 &681592625
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 681592623}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
 --- !u!1 &689133160
 GameObject:
   m_ObjectHideFlags: 0
@@ -7651,6 +7840,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1943640964}
+  - {fileID: 121439772}
   - {fileID: 1965547381}
   - {fileID: 1043200303}
   m_Father: {fileID: 768824517}
@@ -8760,7 +8950,6 @@ GameObject:
   - 222: {fileID: 947243268}
   - 114: {fileID: 947243267}
   - 114: {fileID: 947243266}
-  - 114: {fileID: 947243265}
   m_Layer: 5
   m_Name: ResetTutorialsButton
   m_TagString: Untagged
@@ -8790,21 +8979,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -0.000004887581}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &947243265
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 947243263}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c085ac8f5ad774ea5afed34524d9336b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IgnoreTimeScale: 0
-  _gameObjectsToChangeLayerOfDuringTween: []
-  _inTweenLayer: 0
-  _outOfTweenLayer: 0
 --- !u!114 &947243266
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8820,7 +8994,7 @@ MonoBehaviour:
   _cornerToSnapCenterTo: 0
   _buttonCollider: {fileID: 947243269}
   _radialFillImages:
-    _tweenHolder: {fileID: 947243265}
+    _tweenHolder: {fileID: 388053254}
     _images:
     - {fileID: 388053252}
   _holdText:
@@ -10315,7 +10489,7 @@ RectTransform:
   m_Children:
   - {fileID: 384074558}
   m_Father: {fileID: 788970812}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -0.5}
@@ -11874,6 +12048,7 @@ GameObject:
   - 224: {fileID: 1228077077}
   - 222: {fileID: 1228077079}
   - 114: {fileID: 1228077078}
+  - 114: {fileID: 1228077080}
   m_Layer: 5
   m_Name: RadialFillBar
   m_TagString: Untagged
@@ -11932,6 +12107,21 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1228077076}
+--- !u!114 &1228077080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1228077076}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c085ac8f5ad774ea5afed34524d9336b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IgnoreTimeScale: 1
+  _gameObjectsToChangeLayerOfDuringTween: []
+  _inTweenLayer: 0
+  _outOfTweenLayer: 0
 --- !u!1 &1239325653
 GameObject:
   m_ObjectHideFlags: 0
@@ -12812,7 +13002,7 @@ RectTransform:
   m_Children:
   - {fileID: 1129147021}
   m_Father: {fileID: 1673384507}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_AnchorMin: {x: 0.45, y: 0.05}
   m_AnchorMax: {x: 0.55, y: 0.2}
   m_AnchoredPosition: {x: 0.00005722046, y: -0.0000007748604}
@@ -14713,6 +14903,7 @@ GameObject:
   - 224: {fileID: 1567828955}
   - 222: {fileID: 1567828957}
   - 114: {fileID: 1567828956}
+  - 114: {fileID: 1567828958}
   m_Layer: 5
   m_Name: RadialFillBar
   m_TagString: Untagged
@@ -14771,6 +14962,21 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1567828954}
+--- !u!114 &1567828958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1567828954}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c085ac8f5ad774ea5afed34524d9336b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IgnoreTimeScale: 1
+  _gameObjectsToChangeLayerOfDuringTween: []
+  _inTweenLayer: 0
+  _outOfTweenLayer: 0
 --- !u!1 &1595573010
 GameObject:
   m_ObjectHideFlags: 0
@@ -15305,10 +15511,10 @@ RectTransform:
   m_Children:
   - {fileID: 1050199766}
   - {fileID: 1084536508}
-  - {fileID: 2082261000}
   - {fileID: 1332575909}
   - {fileID: 150742086}
   - {fileID: 166740933}
+  - {fileID: 2082261000}
   - {fileID: 496220615}
   m_Father: {fileID: 768824517}
   m_RootOrder: 1
@@ -16259,7 +16465,6 @@ GameObject:
   - 222: {fileID: 1856841942}
   - 114: {fileID: 1856841941}
   - 114: {fileID: 1856841940}
-  - 114: {fileID: 1856841939}
   m_Layer: 5
   m_Name: RemoveTutorialsButton
   m_TagString: Untagged
@@ -16289,21 +16494,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0.00024700165, y: -0.000004887581}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1856841939
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1856841937}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c085ac8f5ad774ea5afed34524d9336b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IgnoreTimeScale: 0
-  _gameObjectsToChangeLayerOfDuringTween: []
-  _inTweenLayer: 0
-  _outOfTweenLayer: 0
 --- !u!114 &1856841940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16319,7 +16509,7 @@ MonoBehaviour:
   _cornerToSnapCenterTo: 0
   _buttonCollider: {fileID: 1856841943}
   _radialFillImages:
-    _tweenHolder: {fileID: 1856841939}
+    _tweenHolder: {fileID: 1567828958}
     _images:
     - {fileID: 1567828956}
   _holdText:
@@ -16942,7 +17132,6 @@ GameObject:
   - 222: {fileID: 1912843800}
   - 114: {fileID: 1912843799}
   - 114: {fileID: 1912843798}
-  - 114: {fileID: 1912843797}
   m_Layer: 5
   m_Name: RemoveTutorialsButton
   m_TagString: Untagged
@@ -16972,21 +17161,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0.00024700165, y: -0.000004887581}
   m_SizeDelta: {x: -0.000030517578, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1912843797
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1912843795}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c085ac8f5ad774ea5afed34524d9336b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IgnoreTimeScale: 0
-  _gameObjectsToChangeLayerOfDuringTween: []
-  _inTweenLayer: 0
-  _outOfTweenLayer: 0
 --- !u!114 &1912843798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17002,7 +17176,7 @@ MonoBehaviour:
   _cornerToSnapCenterTo: 0
   _buttonCollider: {fileID: 1912843801}
   _radialFillImages:
-    _tweenHolder: {fileID: 1912843797}
+    _tweenHolder: {fileID: 534717992}
     _images:
     - {fileID: 534717990}
   _holdText:
@@ -17654,7 +17828,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 788970812}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -18233,7 +18407,6 @@ GameObject:
   - 224: {fileID: 2082261000}
   - 58: {fileID: 2082261003}
   - 114: {fileID: 2082261002}
-  - 114: {fileID: 2082261001}
   m_Layer: 5
   m_Name: ResetHoldButton
   m_TagString: Untagged
@@ -18254,27 +18427,12 @@ RectTransform:
   m_Children:
   - {fileID: 313113010}
   m_Father: {fileID: 1673384507}
-  m_RootOrder: 2
+  m_RootOrder: 5
   m_AnchorMin: {x: 0.25, y: 0.05}
   m_AnchorMax: {x: 0.35, y: 0.2}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2082261001
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2082260999}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c085ac8f5ad774ea5afed34524d9336b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IgnoreTimeScale: 1
-  _gameObjectsToChangeLayerOfDuringTween: []
-  _inTweenLayer: 0
-  _outOfTweenLayer: 0
 --- !u!114 &2082261002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18290,7 +18448,7 @@ MonoBehaviour:
   _cornerToSnapCenterTo: 0
   _buttonCollider: {fileID: 2082261003}
   _radialFillImages:
-    _tweenHolder: {fileID: 2082261001}
+    _tweenHolder: {fileID: 635838671}
     _images:
     - {fileID: 635838669}
   _holdText:
@@ -18450,6 +18608,7 @@ GameObject:
   - 224: {fileID: 2086274107}
   - 222: {fileID: 2086274109}
   - 114: {fileID: 2086274108}
+  - 114: {fileID: 2086274110}
   m_Layer: 5
   m_Name: RadialFillBar
   m_TagString: Untagged
@@ -18508,6 +18667,21 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2086274106}
+--- !u!114 &2086274110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2086274106}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c085ac8f5ad774ea5afed34524d9336b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IgnoreTimeScale: 1
+  _gameObjectsToChangeLayerOfDuringTween: []
+  _inTweenLayer: 0
+  _outOfTweenLayer: 0
 --- !u!1 &2089443494
 GameObject:
   m_ObjectHideFlags: 0
@@ -19159,7 +19333,6 @@ GameObject:
   - 222: {fileID: 2139749156}
   - 114: {fileID: 2139749155}
   - 114: {fileID: 2139749154}
-  - 114: {fileID: 2139749153}
   m_Layer: 5
   m_Name: RemoveTutorialsButton
   m_TagString: Untagged
@@ -19189,21 +19362,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -0.000004887581}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2139749153
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2139749151}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c085ac8f5ad774ea5afed34524d9336b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IgnoreTimeScale: 0
-  _gameObjectsToChangeLayerOfDuringTween: []
-  _inTweenLayer: 0
-  _outOfTweenLayer: 0
 --- !u!114 &2139749154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19219,7 +19377,7 @@ MonoBehaviour:
   _cornerToSnapCenterTo: 0
   _buttonCollider: {fileID: 2139749157}
   _radialFillImages:
-    _tweenHolder: {fileID: 2139749153}
+    _tweenHolder: {fileID: 1228077080}
     _images:
     - {fileID: 1228077078}
   _holdText:

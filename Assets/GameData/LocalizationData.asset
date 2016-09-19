@@ -20,8 +20,12 @@ MonoBehaviour:
       TranslatedString: Ready
     - StringKey: HOLD
       TranslatedString: Hold
-    - StringKey: WINNER
-      TranslatedString: Winner
+    - StringKey: PLAYER_WINS
+      TranslatedString: Player Wins
+    - StringKey: AI_WINS
+      TranslatedString: A.I. Wins
+    - StringKey: PLAY_AGAIN
+      TranslatedString: Play Again
     - StringKey: WILD_CARD_RULE_TOGGLE_TITLE
       TranslatedString: Wild Card Rule
     - StringKey: ELIMINATION_RULE_TOGGLE_TITLE
@@ -110,21 +114,28 @@ MonoBehaviour:
       TranslatedString: A.I. Hard
     - StringKey: HUMAN
       TranslatedString: Human
+    - StringKey: RESET_TUTORIALS
+      TranslatedString: Reset Tutorials
+    - StringKey: REMOVE_TUTORIALS
+      TranslatedString: Remove Tutorials
+    - StringKey: HOLD_FOR_MORE_OPTIONS
+      TranslatedString: Hold for more options
     - StringKey: ANY_CARD_TUTORIAL
-      TranslatedString: The direction of play is undecided. (See the symbol under
-        the deck) Any card may be played. If it is higher than the face-up card in
-        the middle of the table, the direction of play will change to UP; if it is
-        lower, the direction will change to DOWN.
+      TranslatedString: "The direction of play is undecided. (See the <color=#00ff0000>?</color>
+        symbol under the deck) Any card may be played. If it is higher than the face-up
+        card in the middle of the table, the direction of play will change to UP;
+        (<color=#00ff0000>\u25B2</color>) if it is lower, the direction will change to
+        DOWN. (<color=#00ff0000>\u25BC</color>)"
     - StringKey: UP_CARD_TUTORIAL
-      TranslatedString: The direction of play is UP. (See the symbol under the deck)
-        You must play a card higher than or equal to the face-up card in the middle
-        of the table. If the cards are equal in value, the direction of play will
-        change to DOWN.
+      TranslatedString: "The direction of play is UP. (See the <color=#00ff0000>\u25B2</color>
+        symbol under the deck) You must play a card higher than or equal to the face-up
+        card in the middle of the table. If the cards are equal in value, the direction
+        of play will change to DOWN. (<color=#00ff0000>\u25BC</color>)"
     - StringKey: DOWN_CARD_TUTORIAL
-      TranslatedString: The direction of play is DOWN. (See the symbol under the deck)
-        You must play a card higher than or equal to the face-up card in the middle
-        of the table. If the cards are equal in value, the direction of play will
-        change to UP.
+      TranslatedString: "The direction of play is DOWN. (See the <color=#00ff0000>\u25BC</color>
+        symbol under the deck) You must play a card higher than or equal to the face-up
+        card in the middle of the table. If the cards are equal in value, the direction
+        of play will change to UP. (<color=#00ff0000>\u25B2</color>)"
     - StringKey: NO_CARD_TUTORIAL
       TranslatedString: Unfortunately, you cannot play a card, because you have no
         cards that can be played on the face-up card in the middle of the table with
@@ -136,18 +147,15 @@ MonoBehaviour:
         and play them as one to get more cards drawn to your hand at the end of the
         turn.
     - StringKey: WILD_CARD_TUTORIAL
-      TranslatedString: You have a card with the same value as the current wildcard.
+      TranslatedString: "You have a card with the same value as the current wildcard.
         You may play this card, but the direction will also switch to its opposite.
+        (<color=#00ff0000>\u25B2</color>/<color=#00ff0000>\u25BC</color>)"
     - StringKey: OPTIONAL_PLAY_TUTORIAL
       TranslatedString: Since the Optional Play rule is enabled, you may choose to
         not play a card this turn. However, you will forfeit your turn as if you were
         unable to play a card initially.
     - StringKey: MAX_DEVIATION_TUTORIAL
       TranslatedString: While the Max Deviation rule is enabled, you may only play
-        cards whose value is with a certain distance from the face-up card in the
+        cards whose value is within a certain distance from the face-up card in the
         middle of the table, depending on the Max Deviation Threshold from the Rules
         screen. (Default value is 3)
-    - StringKey: RESET_TUTORIALS
-      TranslatedString: Reset Tutorials
-    - StringKey: REMOVE_TUTORIALS
-      TranslatedString: Remove Tutorials

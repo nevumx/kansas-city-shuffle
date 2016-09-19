@@ -405,10 +405,15 @@ public partial class MainGameModtroller : MonoBehaviour
 
 		public Commander(CardAnimationData cardAnimationData)
 		{
+			Reset();
+			_cardAnimationData = cardAnimationData;
+		}
+
+		public void Reset()
+		{
 			_undoStack = new Stack<TurnCommandBundle>();
 			_redoStack = new Stack<TurnCommandBundle>();
 			_startCommandTracking = false;
-			_cardAnimationData = cardAnimationData;
 		}
 
 		public void ExecuteAndAddToCurrentTurnBundle(Command command)

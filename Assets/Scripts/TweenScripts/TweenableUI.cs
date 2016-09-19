@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System;
 
 [Serializable]
-public struct TweenableGraphics
+public struct TweenableGraphics : ITweenable
 {
 	[SerializeField]	private	TweenHolder		_tweenHolder;
 						public	TweenHolder		TweenHolder			{ get { return _tweenHolder; } }
@@ -13,6 +13,7 @@ public struct TweenableGraphics
 
 	[SerializeField]	private	RectTransform	_rootRectTransform;
 						public	RectTransform	RootRectTransform	{ get { return _rootRectTransform; } }
+						public	GameObject		gameObject			{ get { return _rootRectTransform.gameObject; } }
 }
 
 [Serializable]
