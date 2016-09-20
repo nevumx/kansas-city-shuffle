@@ -89,7 +89,8 @@ namespace Nx
 			else
 			{
 				_radialFillImages.AddAlphaTween(0.0f).TweenHolder
-								 .AddIncrementalScaleTween(Vector3.one * 2.0f);
+								 .AddIncrementalScaleTween(Vector3.one * 2.0f)
+								 .SetDuration(0.5f);
 			}
 		}
 
@@ -122,7 +123,8 @@ namespace Nx
 							 .SetDuration(_holdDuration)
 							 .ClearOnFinishedOnce();
 			_holdText.AddAlphaTween(1.0f).TweenHolder
-					 .SetDuration(HOLD_TEXT_FADE_DURATION).AddToOnFinishedOnce(() =>
+					 .SetDuration(HOLD_TEXT_FADE_DURATION)
+					 .AddToOnFinishedOnce(() =>
 							_holdText.AddAlphaTween(0.0f).TweenHolder
 									 .SetDuration(HOLD_TEXT_FADE_DURATION));
 		}

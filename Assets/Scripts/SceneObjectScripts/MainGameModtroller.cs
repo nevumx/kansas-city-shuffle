@@ -65,6 +65,7 @@ public partial class MainGameModtroller : MonoBehaviour
 	[SerializeField]	private						Transform[]					_playerRoots;
 						private						AbstractPlayerModtroller[]	_players				= new AbstractPlayerModtroller[4];
 						private						int							_currentPlayer;
+						private						int							_currentCameraPlayer;
 						private						int							_indexOfLastPlayerToPlayACard;
 						private						bool						_firstHumanHasPlayed	= false;
 						private						Vector3						_mainCameraLocalPosition;
@@ -99,6 +100,15 @@ public partial class MainGameModtroller : MonoBehaviour
 		{
 			int numHumanPlayers = 0;
 			_players.ForEach(p => p.IfIsNotNullThen(() => numHumanPlayers += p.IsHuman ? 1 : 0));
+			return numHumanPlayers;
+		}
+	}
+	private int _numActiveHumanPlayers
+	{
+		get
+		{
+			int numHumanPlayers = 0;
+			_players.ForEach(p => p.IfIsNotNullThen(() => numHumanPlayers += p.IsHuman && !p.Eliminated ? 1 : 0));
 			return numHumanPlayers;
 		}
 	}
@@ -316,7 +326,7 @@ public partial class MainGameModtroller : MonoBehaviour
 			}
 		}
 
-		var cardDealeryTweenWaiter = new FinishableGroupWaiter(() => StartCoroutine(BeginNewRound()));
+		var cardDealTweenWaiter = new FinishableGroupWaiter(() => StartCoroutine(BeginNewRound()));
 		for (int i = 0, iMax = _gameSettings.NumberOfCardsPerPlayer; i < iMax; ++i)
 		{
 			for (int j = 0, jMax = _players.Length; j < jMax; ++j)
@@ -332,12 +342,12 @@ public partial class MainGameModtroller : MonoBehaviour
 
 					var dealToCommand = new DealToCommand(_deck, _players[j]);
 					_commander.ExecuteAndAddToCurrentTurnBundle(dealToCommand);
-					cardDealeryTweenWaiter.AddFinishable(dealToCommand.OutTween);
+					cardDealTweenWaiter.AddFinishable(dealToCommand.OutTween);
 					yield return new WaitForSeconds(_cardAnimationData.ConsecutiveCardDealDelay / _numValidPlayers);
 				}
 			}
 		}
-		cardDealeryTweenWaiter.Ready = true;
+		cardDealTweenWaiter.Ready = true;
 	}
 
 	private IEnumerator BeginNewRound()
@@ -377,12 +387,6 @@ public partial class MainGameModtroller : MonoBehaviour
 			_commander.ExecuteAndAddToCurrentTurnBundle(new SetPlayerScoreCommand(this, _currentPlayer,
 				_players[_currentPlayer].Points + (_gameSettings.AllOrNothingRule ? _discardPile.CardCount : 1)));
 
-			if (_players[_currentPlayer].Points >= _gameSettings.NumberOfPointsToWin && !_demoMode)
-			{
-				PlayerWin();
-				return false;
-			}
-
 			if (_gameSettings.EliminationRule)
 			{
 				for (int i = 0, iMax = _players.Length; i < iMax; ++i)
@@ -392,6 +396,12 @@ public partial class MainGameModtroller : MonoBehaviour
 						_commander.ExecuteAndAddToCurrentTurnBundle(new SetPlayerEliminatedCommand(this, i, false));
 					}
 				}
+			}
+
+			if (_players[_currentPlayer].Points >= _gameSettings.NumberOfPointsToWin && !_demoMode)
+			{
+				PlayerWin();
+				return false;
 			}
 
 			bool playerHandRefillDone = false,
@@ -626,7 +636,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		int prevPlayerIndex = _currentPlayer;
 		_commander.ExecuteAndAddToCurrentTurnBundle(new SetCurrentPlayerCommand(this, _nextPlayerIndex));
 
-		if (_players[_currentPlayer].IsHuman && _numHumanPlayers > 1 && _firstHumanHasPlayed)
+		if (_players[_currentPlayer].IsHuman && _numActiveHumanPlayers > 1 && _firstHumanHasPlayed)
 		{
 			UpdateCardVisibilityForPlayer(prevPlayerIndex, onFinished: () =>
 			{
@@ -660,13 +670,14 @@ public partial class MainGameModtroller : MonoBehaviour
 		{
 			onFinished();
 		}
-		else if (_numHumanPlayers <= 1 || !_firstHumanHasPlayed)
+		else if (_numHumanPlayers <= 1 || _currentCameraPlayer == _currentPlayer)
 		{
 			onFinishedWithAnimCheck();
 		}
 		else
 		{
-			_mainCameraAnchor.AddLocalQuaternionRotationTween(Quaternion.Euler(Vector3.up * (float) _currentPlayer / _players.Length * 360.0f))
+			_mainCameraAnchor.AddLocalQuaternionRotationTween(Quaternion.Euler(
+								Vector3.up * (float) (_currentCameraPlayer = _currentPlayer) / _players.Length * 360.0f))
 							 .AddToOnFinishedOnce(onFinishedWithAnimCheck);
 		}
 	}
@@ -799,11 +810,13 @@ public partial class MainGameModtroller : MonoBehaviour
 			{
 				++firstHumanPlayer;
 			}
-			_mainCameraAnchor.AddLocalQuaternionRotationTween(Quaternion.Euler(Vector3.up * (float) firstHumanPlayer / _players.Length * 360.0f));
+			_mainCameraAnchor.AddLocalQuaternionRotationTween(Quaternion.Euler(
+				Vector3.up * (float) (_currentCameraPlayer = firstHumanPlayer) / _players.Length * 360.0f));
 		}
 		else
 		{
-			_mainCameraAnchor.AddLocalQuaternionRotationTween(Quaternion.Euler(Vector3.up * (float) _currentPlayer / _players.Length * 360.0f));
+			_mainCameraAnchor.AddLocalQuaternionRotationTween(Quaternion.Euler(
+				Vector3.up * (float) (_currentCameraPlayer = _currentPlayer) / _players.Length * 360.0f));
 		}
 	}
 
