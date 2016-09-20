@@ -266,10 +266,13 @@ public class MainMenuModtroller : MonoBehaviour
 	{
 		if (_gameSettings.Players.IndexIsValid(playerIndex))
 		{
-			_gameSettings.Players[playerIndex] = (GameSettings.PlayerType)(((byte)_gameSettings.Players[playerIndex] + 1) % Enum.GetValues(typeof(GameSettings.PlayerType)).Length);
+			do
+			{
+				_gameSettings.Players[playerIndex] = (GameSettings.PlayerType)(((byte)_gameSettings.Players[playerIndex] + 1)
+																				% Enum.GetValues(typeof(GameSettings.PlayerType)).Length);
+			} while (_gameSettings.NumValidPlayers <= 1);
 		}
 		DetermineCustomPlayerButtonTexts();
-		ValidateSettings();
 		WriteSettingsToDisk();
 	}
 
@@ -280,7 +283,6 @@ public class MainMenuModtroller : MonoBehaviour
 		_gameSettings.Players[2] = GameSettings.PlayerType.AI_EASY;
 		_gameSettings.Players[3] = GameSettings.PlayerType.NONE;
 		DetermineCustomPlayerButtonTexts();
-		ValidateSettings();
 		WriteSettingsToDisk();
 	}
 
@@ -315,6 +317,8 @@ public class MainMenuModtroller : MonoBehaviour
 	private void ReadSettings()
 	{
 		_gameSettings = GameSettings.ReadFromDisk();
+		ValidateSettings();
+		WriteSettingsToDisk();
 
 		_wildCardRuleToggle.isOn			= _gameSettings.WildCardRule;
 		_eliminationRuleToggle.isOn			= _gameSettings.EliminationRule;
@@ -327,27 +331,14 @@ public class MainMenuModtroller : MonoBehaviour
 		_numberOfCardsPerPlayerSlider.value	= _gameSettings.NumberOfCardsPerPlayer;
 		_numberOfPointsToWinSlider.value	= _gameSettings.NumberOfPointsToWin;
 		_maxDeviationThresholdSlider.value	= _gameSettings.MaxDeviationThreshold;
-		ValidateSettings();
 		DetermineCustomPlayerButtonTexts();
 	}
 
 	public void ValidateSettings()
 	{
-		int numValidPlayers = 0;
-		for (int i = 0, iMax = _gameSettings.Players.Length; i < iMax; ++i)
+		if (_gameSettings.NumValidPlayers <= 1)
 		{
-			if (_gameSettings.Players[i] != GameSettings.PlayerType.NONE)
-			{
-				++numValidPlayers;
-			}
-		}
-		if (numValidPlayers >= 2)
-		{
-			_customPlayButton.EnableInteraction();
-		}
-		else
-		{
-			_customPlayButton.DisableInteraction();
+			_gameSettings = new GameSettings();
 		}
 	}
 

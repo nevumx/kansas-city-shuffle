@@ -33,6 +33,22 @@ public class GameSettings
 	public						int				MaxDeviationThreshold;
 	public						float			TimeScalePercentage;
 
+	public int NumValidPlayers
+	{
+		get
+		{
+			int numValidPlayers = 0;
+			for (int i = 0, iMax = Players.Length; i < iMax; ++i)
+			{
+				if (Players[i] != GameSettings.PlayerType.NONE)
+				{
+					++numValidPlayers;
+				}
+			}
+			return numValidPlayers;
+		}
+	}
+
 	public GameSettings()
 	{
 		WildCardRule			= false;

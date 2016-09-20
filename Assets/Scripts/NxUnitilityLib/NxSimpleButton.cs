@@ -9,14 +9,12 @@ namespace Nx
 	public class NxSimpleButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
 	{
 							public	static	readonly	int					NO_BUTTON_ID			= -2;
-							private	static	readonly	float				DIMMED_GRAPHIC_ALPHA	= 0.25f;
 
 		[SerializeField]	private						RectTransform		_rectTransform;
 							protected					RectTransform		_RectTransform			{ get { return _rectTransform; } }
 		[SerializeField]	private						CircleCollider2D	_buttonCollider;
 		[SerializeField]	private						UnityEvent			_onClicked;
 							public						UnityEvent			OnClicked				{ get { return _onClicked; } }
-		[SerializeField]	private						Graphic[]			_graphicsToDimOnDisable;
 
 							private						int					_currentPointerId		= NO_BUTTON_ID;
 							protected					int					_CurrentPointerId		{ get { return _currentPointerId; } }
@@ -77,29 +75,6 @@ namespace Nx
 			{
 				_currentPointerIsInside = false;
 			}
-		}
-
-		public void EnableInteraction()
-		{
-			_buttonCollider.enabled = true;
-			_graphicsToDimOnDisable.ForEach(g => 
-			{
-				Color graphicColor = g.color;
-				graphicColor.a = 1.0f;
-				g.color = graphicColor;
-			});
-		}
-
-		public void DisableInteraction()
-		{
-			_graphicsToDimOnDisable.ForEach(g => 
-			{
-				Color graphicColor = g.color;
-				graphicColor.a = DIMMED_GRAPHIC_ALPHA;
-				g.color = graphicColor;
-			});
-			_buttonCollider.enabled = false;
-			ResetCurrentPointerVariables();
 		}
 
 		protected void ResetCurrentPointerVariables()

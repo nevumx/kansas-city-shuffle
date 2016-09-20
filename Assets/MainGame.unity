@@ -872,8 +872,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  _graphicsToDimOnDisable:
-  - {fileID: 232229260}
 --- !u!58 &362826095
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -1044,8 +1042,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  _graphicsToDimOnDisable:
-  - {fileID: 1496082732}
 --- !u!58 &486260741
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3185,8 +3181,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  _graphicsToDimOnDisable:
-  - {fileID: 2145880097}
 --- !u!58 &1448559018
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3316,8 +3310,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  _graphicsToDimOnDisable:
-  - {fileID: 2044034037}
 --- !u!58 &1477971705
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3574,8 +3566,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
-  _graphicsToDimOnDisable:
-  - {fileID: 1313886744}
 --- !u!58 &1594850176
 CircleCollider2D:
   m_ObjectHideFlags: 0
