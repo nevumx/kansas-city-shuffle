@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using System;
 
 namespace Nx
@@ -13,6 +12,7 @@ namespace Nx
 		[SerializeField]	private						RectTransform		_rectTransform;
 							protected					RectTransform		_RectTransform			{ get { return _rectTransform; } }
 		[SerializeField]	private						CircleCollider2D	_buttonCollider;
+							protected					CircleCollider2D	_ButtonCollider			{ get { return _buttonCollider; } }
 		[SerializeField]	private						UnityEvent			_onClicked;
 							public						UnityEvent			OnClicked				{ get { return _onClicked; } }
 
@@ -21,12 +21,12 @@ namespace Nx
 							private						bool				_currentPointerIsInside	= false;
 							protected					bool				_CurrentPointerIsInside	{ get { return _currentPointerIsInside; } }
 
-		private void Start()
+		protected virtual void Start()
 		{
 			_buttonCollider.radius = Mathf.Min(_rectTransform.rect.width, _rectTransform.rect.height) / 2.0f;
 		}
 
-		private void OnDisable()
+		protected virtual void OnDisable()
 		{
 			ResetCurrentPointerVariables();
 		}

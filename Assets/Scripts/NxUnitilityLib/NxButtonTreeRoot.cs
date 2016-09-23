@@ -1,110 +1,60 @@
 ﻿using UnityEngine;
-using UnityEngine.EventSystems;
+using UnityEngine.UI;
 using System;
 
 namespace Nx
 {
 	public class NxButtonTreeRoot : NxSimpleButton
 	{
-							private	static	readonly	float				BUTTON_LEAF_ANIM_TIME				= 0.2f;
+							public	static	readonly	float				BUTTON_LEAF_ANIM_TIME	= 0.2f;
 
 		[SerializeField]	private						NxButtonTreeLeaf[]	_buttonLeaves;
-							private						NxButtonTreeLeaf	_buttonLeafPointerIsCurrentlyInside	= null;
 
-		private void OnApplicationPause(bool isPaused)
+		protected override void Start()
 		{
-			if (isPaused && _CurrentPointerId != NxSimpleButton.NO_BUTTON_ID)
+			base.Start();
+			_buttonLeaves.ForEach(b =>
 			{
-				ResetAllButtonTreeButtons();
-				ResetCurrentPointerVariables();
-				_buttonLeafPointerIsCurrentlyInside = null;
-			}
+				Vector2 relativeTweenToPosition = b.TweenToPosition.localPosition - _RectTransform.localPosition;
+				b.ButtonConnectorBar.RootRectTransform.localEulerAngles
+					= Vector3.forward * Mathf.Rad2Deg * Mathf.Atan2(relativeTweenToPosition.y, relativeTweenToPosition.x);
+				b.ButtonConnectorBar.RootRectTransform.sizeDelta = new Vector2(relativeTweenToPosition.magnitude, 0.0f);
+			});
 		}
 
-		public override void OnPointerDown(PointerEventData eventData)
+		protected override void OnDisable()
 		{
-			if (_CurrentPointerId == NO_BUTTON_ID)
-			{
-				_buttonLeaves.ForEach(b =>
-				{
-					b.TweenableGraphics.AddIncrementalAnchoredPositionTween(b.TweenToPosition.localPosition - _RectTransform.localPosition)
-									   .AddAlphaTween(1.0f).TweenHolder
-									   .SetDuration(BUTTON_LEAF_ANIM_TIME)
-									   .AddToOnFinishedOnce(() => b.ButtonCollider.enabled = true);
-				});
-			}
-
-			base.OnPointerDown(eventData);
-		}
-
-		public override void OnPointerUp(PointerEventData eventData)
-		{
-			if (eventData.pointerId == _CurrentPointerId)
-			{
-				_buttonLeaves.ForEach(b =>
-				{
-					b.ButtonCollider.enabled = false;
-					b.TweenableGraphics.AddIncrementalAnchoredPositionTween(Vector2.zero)
-									   .AddAlphaTween(0.0f).TweenHolder
-									   .SetDuration(BUTTON_LEAF_ANIM_TIME)
-									   .ClearOnFinishedOnce();
-				});
-
-				if (_CurrentPointerIsInside)
-				{
-					ResetAllButtonTreeButtons();
-					OnClicked.Invoke();
-				}
-				else if (_buttonLeafPointerIsCurrentlyInside != null)
-				{
-					NxButtonTreeLeaf buttonLeafBeingClicked = _buttonLeafPointerIsCurrentlyInside;
-					ResetAllButtonTreeButtons();
-					buttonLeafBeingClicked.FireOnClickedEvent(eventData);
-				}
-
-				ResetCurrentPointerVariables();
-				_buttonLeafPointerIsCurrentlyInside = null;
-			}
-		}
-
-		public void OnPointerEnteredLeaf(int pointerId, NxButtonTreeLeaf leaf)
-		{
-			if (_CurrentPointerId == pointerId && _buttonLeaves.Exists(b => object.ReferenceEquals(b, leaf)))
-			{
-				_buttonLeafPointerIsCurrentlyInside = leaf;
-			}
-		}
-
-		public void OnPointerExitedLeaf(int pointerId, NxButtonTreeLeaf leaf)
-		{
-			if (_CurrentPointerId == pointerId && _buttonLeaves.Exists(b => object.ReferenceEquals(b, leaf)))
-			{
-				_buttonLeafPointerIsCurrentlyInside = null;
-			}
-		}
-
-		private void ResetAllButtonTreeButtons()
-		{
-			NxButtonTreeRoot[] buttonTreeRoots = FindObjectsOfType<NxButtonTreeRoot>();
-			buttonTreeRoots.ForEach(b => b.ResetLeafButtons());
-		}
-
-		private void ResetLeafButtons()
-		{
+			base.OnDisable();
 			_buttonLeaves.ForEach(b =>
 			{
 				b.TweenHolder.Finish();
 				b.ButtonCollider.enabled = false;
-				b.TweenableGraphics.Graphics.ForEach(g =>
+				Action<Graphic> resetAlpha = g =>
 				{
 					Color buttonColor = g.color;
 					buttonColor.a = 0.0f;
 					g.color = buttonColor;
-				});
+				};
+				b.TweenableGraphics.Graphics.ForEach(resetAlpha);
+				b.ButtonConnectorBar.Graphics.ForEach(resetAlpha);
 				b.RectTransform.anchoredPosition = Vector2.zero;
 			});
-			_buttonLeafPointerIsCurrentlyInside = null;
-			ResetCurrentPointerVariables();
+		}
+
+		public void ExpandButtonTreeLeaves()
+		{
+			_buttonLeaves.ForEach(b =>
+			{
+				b.TweenableGraphics.AddIncrementalAnchoredPositionTween(b.TweenToPosition.localPosition - _RectTransform.localPosition)
+								   .AddAlphaTween(1.0f).TweenHolder
+								   .SetDuration(BUTTON_LEAF_ANIM_TIME)
+								   .AddToOnFinishedOnce(() =>
+								{
+									b.ButtonCollider.enabled = true;
+									b.ButtonConnectorBar.AddAlphaTween(1.0f).TweenHolder
+														.SetDuration(BUTTON_LEAF_ANIM_TIME);
+								});
+			});
 		}
 	}
 }

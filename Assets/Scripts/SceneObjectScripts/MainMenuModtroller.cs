@@ -61,7 +61,6 @@ public class MainMenuModtroller : MonoBehaviour
 	[SerializeField]	private	float					_fadeOutTime					= 2.0f;
 	[SerializeField]	private	Image					_authorPortrait;
 	[SerializeField]	private	Sprite					_authorIOSSprite;
-	[SerializeField]	private	TweenableGraphics		_holdForMoreOptionsText;
 
 	[NonSerialized]		public	bool					ShouldDestroyShadowsOfNewCards	= false;
 	[NonSerialized]		public	bool					ShouldReduceQualityOfNewCards	= false;
@@ -118,27 +117,6 @@ public class MainMenuModtroller : MonoBehaviour
 #if UNITY_IOS
 		_authorPortrait.sprite = _authorIOSSprite;
 #endif
-
-		Action tweenHoldForMoreOptionsTextUp = null;
-
-		Action tweenHoldForMoreOptionsTextDown = () =>
-		{
-			_holdForMoreOptionsText.AddAlphaTween(0.0f).TweenHolder
-								   .AddToOnFinishedOnce(tweenHoldForMoreOptionsTextUp);
-		};
-
-		tweenHoldForMoreOptionsTextUp = () =>
-		{
-			_holdForMoreOptionsText.AddAlphaTween(1.0f).TweenHolder
-								   .AddToOnFinishedOnce(tweenHoldForMoreOptionsTextDown);
-		};
-
-		tweenHoldForMoreOptionsTextUp();
-
-		if (_tutorialSystem.HoldForMoreOptionsTextHasBeenShown)
-		{
-			_holdForMoreOptionsText.gameObject.SetActive(false);
-		}
 	}
 
 	private void Update()
@@ -170,8 +148,6 @@ public class MainMenuModtroller : MonoBehaviour
 	public void OnRulesPressed()
 	{
 		CurrentMenu = Menu.RULES;
-		_tutorialSystem.HoldForMoreOptionsTextHasBeenShown = true;
-		_holdForMoreOptionsText.gameObject.SetActive(false);
 	}
 
 	public void OnHelp1Pressed()
@@ -192,15 +168,11 @@ public class MainMenuModtroller : MonoBehaviour
 	public void OnAboutPressed()
 	{
 		CurrentMenu = Menu.ABOUT_SCREEN;
-		_tutorialSystem.HoldForMoreOptionsTextHasBeenShown = true;
-		_holdForMoreOptionsText.gameObject.SetActive(false);
 	}
 
 	public void OnCustomGamePressed()
 	{
 		CurrentMenu = Menu.CUSTOM_GAME;
-		_tutorialSystem.HoldForMoreOptionsTextHasBeenShown = true;
-		_holdForMoreOptionsText.gameObject.SetActive(false);
 	}
 
 	public void OnWildCardRuleChanged(bool newRule)
@@ -355,12 +327,10 @@ public class MainMenuModtroller : MonoBehaviour
 	public void ResetAllTutorials()
 	{
 		_tutorialSystem.ResetAllTutorials();
-		_holdForMoreOptionsText.gameObject.SetActive(true);
 	}
 
 	public void RemoveAllTutorials()
 	{
 		_tutorialSystem.FinishAllTutorials();
-		_holdForMoreOptionsText.gameObject.SetActive(false);
 	}
 }

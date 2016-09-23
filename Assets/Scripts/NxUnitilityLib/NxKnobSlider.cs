@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using System;
 
 namespace Nx
@@ -72,8 +72,8 @@ namespace Nx
 			if (eventData.pointerId == _currentPointerId)
 			{
 				float maxAngle = _knobStartAngle + _knobSpanAngle;
-				Vector2 relativePointerLocation = eventData.pointerCurrentRaycast.worldPosition - _RectTransform.position;
-				float pointerAngle = Mathf.Rad2Deg * Mathf.Atan2(relativePointerLocation.y * (_clockwise ? -1.0f : 1.0f), relativePointerLocation.x);
+				Vector2 relativePointerPosition = eventData.pointerCurrentRaycast.worldPosition - _RectTransform.position;
+				float pointerAngle = Mathf.Rad2Deg * Mathf.Atan2(relativePointerPosition.y * (_clockwise ? -1.0f : 1.0f), relativePointerPosition.x);
 				if (pointerAngle < 0.0f)
 				{
 					pointerAngle += 360.0f;
@@ -84,7 +84,7 @@ namespace Nx
 				}
 				pointerAngle = Mathf.Clamp(pointerAngle, _knobStartAngle, maxAngle);
 				_torqueBar.rectTransform.localEulerAngles = Vector3.forward * pointerAngle * (_clockwise ? -1.0f : 1.0f);
-				_torqueBar.rectTransform.sizeDelta = new Vector2(relativePointerLocation.magnitude * Screen.height / 2.0f, 0.0f);
+				_torqueBar.rectTransform.sizeDelta = new Vector2(relativePointerPosition.magnitude * Screen.height / 2.0f, 0.0f);
 				float percentfilled = _knobSpanAngle == 0.0f ? 0.0f : (pointerAngle - _knobStartAngle) / _knobSpanAngle;
 				_onSlid.Invoke(percentfilled);
 			}
