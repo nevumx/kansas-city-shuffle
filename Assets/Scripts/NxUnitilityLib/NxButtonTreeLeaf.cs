@@ -14,7 +14,7 @@ namespace Nx
 		[SerializeField]	private	RectTransform		_tweenToPosition;
 							public	RectTransform		TweenToPosition		{ get { return _tweenToPosition; } }
 
-							public	CircleCollider2D	ButtonCollider		{ get { return _ButtonCollider; } }
+							public	Collider2D			ButtonCollider		{ get { return _ButtonCollider; } }
 
 		[SerializeField]	private	TweenableGraphics	_buttonConnectorBar;
 							public	TweenableGraphics	ButtonConnectorBar	{ get { return _buttonConnectorBar; } }

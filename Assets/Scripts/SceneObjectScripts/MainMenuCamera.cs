@@ -14,7 +14,7 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 							public	Transform	To		{ get { return _to; } }
 	}
 
-						private	static	readonly	float					TARGET_FRAMERATE				= 25.0f;
+						private	static	readonly	float					TARGET_FRAMERATE				= 23.0f;
 
 	[SerializeField]	private						TweenTransformPair[]	_tweenTransformPairs			= null;
 	[SerializeField]	private						float					_durationForEachTween			= 6.0f;

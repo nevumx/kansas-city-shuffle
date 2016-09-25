@@ -112,6 +112,13 @@ public partial class MainGameModtroller : MonoBehaviour
 			return numHumanPlayers;
 		}
 	}
+	private int _numCardsPerPlayer
+	{
+		get
+		{
+			return 9 - _numValidPlayers;
+		}
+	}
 
 	private int _nextPlayerIndex
 	{
@@ -194,7 +201,6 @@ public partial class MainGameModtroller : MonoBehaviour
 				GameSettings.PlayerType.AI_EASY,
 			};
 			demoData.NumberOfDecks = 2;
-			demoData.NumberOfCardsPerPlayer = 5;
 			demoData.NumberOfPointsToWin = 1;
 			demoData.MaxDeviationThreshold = 3;
 
@@ -327,7 +333,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		}
 
 		var cardDealTweenWaiter = new FinishableGroupWaiter(() => StartCoroutine(BeginNewRound()));
-		for (int i = 0, iMax = _gameSettings.NumberOfCardsPerPlayer; i < iMax; ++i)
+		for (int i = 0, iMax = _numCardsPerPlayer; i < iMax; ++i)
 		{
 			for (int j = 0, jMax = _players.Length; j < jMax; ++j)
 			{
@@ -411,7 +417,7 @@ public partial class MainGameModtroller : MonoBehaviour
 
 			if (_gameSettings.WildCardRule)
 			{
-				StartCoroutine(RefillDeckWithWildcardPile(_wildcardPile.CardCount != 0 ? _cardAnimationData.DeckRefillDelayPerCard * (_gameSettings.NumberOfCardsPerPlayer - 1) / _wildcardPile.CardCount
+				StartCoroutine(RefillDeckWithWildcardPile(_wildcardPile.CardCount != 0 ? _cardAnimationData.DeckRefillDelayPerCard * (_numCardsPerPlayer - 1) / _wildcardPile.CardCount
 																					   : 0.0f, onFinished: () => wildcardPileRefillDone = true));
 			}
 			else
@@ -419,7 +425,7 @@ public partial class MainGameModtroller : MonoBehaviour
 				wildcardPileRefillDone = true;
 			}
 
-			StartCoroutine(RefillDeckWithDiscardPile(_discardPile.CardCount != 0 ? _cardAnimationData.DeckRefillDelayPerCard * (_gameSettings.NumberOfCardsPerPlayer - 1) / _discardPile.CardCount
+			StartCoroutine(RefillDeckWithDiscardPile(_discardPile.CardCount != 0 ? _cardAnimationData.DeckRefillDelayPerCard * (_numCardsPerPlayer - 1) / _discardPile.CardCount
 																				   : 0.0f, onFinished: () => discardPileRefillDone = true));
 			yield return new WaitUntil(() => playerHandRefillDone && wildcardPileRefillDone && discardPileRefillDone);
 

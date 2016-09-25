@@ -15,7 +15,6 @@ public class GameSettings
 		NONE,
 	}
 
-
 	private	static	readonly	string			SAVED_SETTINGS_FILE_NAME	= "/KCSGameSettings.nxs";
 
 	public						bool			WildCardRule;
@@ -28,7 +27,6 @@ public class GameSettings
 	public						bool			SeeAICards;
 	public						PlayerType[]	Players;
 	public						int				NumberOfDecks;
-	public						int				NumberOfCardsPerPlayer;
 	public						int				NumberOfPointsToWin;
 	public						int				MaxDeviationThreshold;
 	public						float			TimeScalePercentage;
@@ -67,7 +65,6 @@ public class GameSettings
 										PlayerType.NONE,
 									};
 		NumberOfDecks			= 2;
-		NumberOfCardsPerPlayer	= 7;
 		NumberOfPointsToWin		= 5;
 		MaxDeviationThreshold	= 3;
 		TimeScalePercentage		= (1.0f - MainGameModtroller.MIN_TIMESCALE)
@@ -106,5 +103,35 @@ public class GameSettings
 		}
 
 		return toReturn;
+	}
+
+	public void SetRulesFromOtherGameSettings(GameSettings other)
+	{
+		WildCardRule			= other.WildCardRule;
+		EliminationRule			= other.EliminationRule;
+		OptionalPlayRule		= other.OptionalPlayRule;
+		RefillHandRule			= other.RefillHandRule;
+		AllOrNothingRule		= other.AllOrNothingRule;
+		MaxDeviationRule		= other.MaxDeviationRule;
+		LoseBestCardRule		= other.LoseBestCardRule;
+		SeeAICards				= other.SeeAICards;
+		NumberOfDecks			= other.NumberOfDecks;
+		NumberOfPointsToWin		= other.NumberOfPointsToWin;
+		MaxDeviationThreshold	= other.MaxDeviationThreshold;
+	}
+
+	public bool OtherGameSettingsRulesAreEqual(GameSettings other)
+	{
+		return WildCardRule				== other.WildCardRule
+			&& EliminationRule			== other.EliminationRule
+			&& OptionalPlayRule			== other.OptionalPlayRule
+			&& RefillHandRule			== other.RefillHandRule
+			&& AllOrNothingRule			== other.AllOrNothingRule
+			&& MaxDeviationRule			== other.MaxDeviationRule
+			&& LoseBestCardRule			== other.LoseBestCardRule
+			&& SeeAICards				== other.SeeAICards
+			&& NumberOfDecks			== other.NumberOfDecks
+			&& NumberOfPointsToWin		== other.NumberOfPointsToWin
+			&& MaxDeviationThreshold	== other.MaxDeviationThreshold;
 	}
 }

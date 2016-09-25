@@ -10,7 +10,7 @@ namespace Nx
 	{
 								private	static	readonly	float				HOLD_TEXT_FADE_DURATION	= 1.0f;
 
-		[SerializeField]		private						CircleCollider2D	_buttonCollider;
+		[SerializeField]		private						Collider2D			_buttonCollider;
 		[SerializeField]		private						TweenableImages		_radialFillImages;
 		[SerializeField]		private						TweenableGraphics	_holdText;
 		[SerializeField]
@@ -25,7 +25,8 @@ namespace Nx
 		protected override void Start()
 		{
 			base.Start();
-			_buttonCollider.radius = Mathf.Min(_RectTransform.rect.width, _RectTransform.rect.height) / 2.0f;
+			(_buttonCollider as CircleCollider2D).IfIsNotNullThen(b => b.radius = Mathf.Min(_RectTransform.rect.width, _RectTransform.rect.height) / 2.0f);
+			(_buttonCollider as BoxCollider2D).IfIsNotNullThen(b => b.size = _RectTransform.rect.size);
 		}
 
 		private void OnDisable()

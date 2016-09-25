@@ -9,7 +9,7 @@ public class FPSCounter : MonoBehaviour
 
 	private			Queue<float>	_deltaTimes							= new Queue<float>();
 	private			float			_cachedAverageDeltaTime				= 1.0f;
-	private			int				_numDeltaTimesToIgnore				= 2;
+	private			int				_numDeltaTimesToIgnore				= 3;
 
 #if NX_DEBUG
 	private			bool			_drawFPS							= false;

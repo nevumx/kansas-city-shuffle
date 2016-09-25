@@ -11,8 +11,8 @@ namespace Nx
 
 		[SerializeField]	private						RectTransform		_rectTransform;
 							protected					RectTransform		_RectTransform			{ get { return _rectTransform; } }
-		[SerializeField]	private						CircleCollider2D	_buttonCollider;
-							protected					CircleCollider2D	_ButtonCollider			{ get { return _buttonCollider; } }
+		[SerializeField]	private						Collider2D			_buttonCollider;
+							protected					Collider2D			_ButtonCollider			{ get { return _buttonCollider; } }
 		[SerializeField]	private						UnityEvent			_onClicked;
 							public						UnityEvent			OnClicked				{ get { return _onClicked; } }
 
@@ -23,7 +23,8 @@ namespace Nx
 
 		protected virtual void Start()
 		{
-			_buttonCollider.radius = Mathf.Min(_rectTransform.rect.width, _rectTransform.rect.height) / 2.0f;
+			(_buttonCollider as CircleCollider2D).IfIsNotNullThen(b => b.radius = Mathf.Min(_rectTransform.rect.width, _rectTransform.rect.height) / 2.0f);
+			(_buttonCollider as BoxCollider2D).IfIsNotNullThen(b => b.size = _rectTransform.rect.size);
 		}
 
 		protected virtual void OnDisable()
@@ -39,7 +40,7 @@ namespace Nx
 			}
 		}
 
-		public virtual void OnPointerDown(PointerEventData eventData)
+		public void OnPointerDown(PointerEventData eventData)
 		{
 			if (_currentPointerId == NO_BUTTON_ID)
 			{
@@ -48,7 +49,7 @@ namespace Nx
 			}
 		}
 
-		public virtual void OnPointerUp(PointerEventData eventData)
+		public void OnPointerUp(PointerEventData eventData)
 		{
 			if (eventData.pointerId == _currentPointerId)
 			{
