@@ -3088,7 +3088,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 224: {fileID: 1448559014}
-  - 58: {fileID: 1448559018}
+  - 61: {fileID: 1448559018}
   - 114: {fileID: 1448559017}
   - 222: {fileID: 1448559016}
   - 114: {fileID: 1448559015}
@@ -3181,8 +3181,8 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
---- !u!58 &1448559018
-CircleCollider2D:
+--- !u!61 &1448559018
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -3194,7 +3194,7 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 10
+  m_Size: {x: 10, y: 10}
 --- !u!114 &1448559019
 MonoBehaviour:
   m_ObjectHideFlags: 0
