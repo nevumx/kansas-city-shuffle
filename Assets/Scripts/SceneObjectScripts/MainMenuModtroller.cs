@@ -15,6 +15,7 @@ public class MainMenuModtroller : MonoBehaviour
 		HELP1_SCREEN,
 		HELP2_SCREEN,
 		HELP3_SCREEN,
+		HELP4_SCREEN,
 		ABOUT_SCREEN,
 	}
 
@@ -27,6 +28,7 @@ public class MainMenuModtroller : MonoBehaviour
 	[SerializeField]	private	GameObject				_help1ScreenCanvas;
 	[SerializeField]	private	GameObject				_help2ScreenCanvas;
 	[SerializeField]	private	GameObject				_help3ScreenCanvas;
+	[SerializeField]	private	GameObject				_help4ScreenCanvas;
 	[SerializeField]	private	GameObject				_aboutScreenCanvas;
 
 	[SerializeField]	private	GameObject				_classicRulesetButtonOutline;
@@ -60,6 +62,8 @@ public class MainMenuModtroller : MonoBehaviour
 	[SerializeField]	private	Text					_maxDeviationThresholdText;
 
 	[SerializeField]	private	Text[]					_customPlayerToggleButtonTexts;
+
+	[SerializeField]	private	Text					_rulesetDescriptionText;
 
 	[SerializeField]	private	Image					_logoImage;
 	[SerializeField]	private	Image					_blackFadeOutImage;
@@ -104,6 +108,9 @@ public class MainMenuModtroller : MonoBehaviour
 				break;
 			case Menu.HELP3_SCREEN:
 				_currentMenuCanvas = _help3ScreenCanvas;
+				break;
+			case Menu.HELP4_SCREEN:
+				_currentMenuCanvas = _help4ScreenCanvas;
 				break;
 			case Menu.ABOUT_SCREEN:
 				_currentMenuCanvas = _aboutScreenCanvas;
@@ -176,6 +183,11 @@ public class MainMenuModtroller : MonoBehaviour
 	public void OnHelp3Pressed()
 	{
 		CurrentMenu = Menu.HELP3_SCREEN;
+	}
+
+	public void OnHelp4Pressed()
+	{
+		CurrentMenu = Menu.HELP4_SCREEN;
 	}
 
 	public void OnAboutPressed()
@@ -286,17 +298,17 @@ public class MainMenuModtroller : MonoBehaviour
 			switch (_gameSettings.Players[i])
 			{
 			case GameSettings.PlayerType.HUMAN:
-				_customPlayerToggleButtonTexts[i].text = _localizationData.GetLocalizedStringForKey("HUMAN");
+				_customPlayerToggleButtonTexts[i].text = _localizationData.GetLocalizedStringForKey(LocalizationData.TranslationKey.HUMAN);
 				break;
 			case GameSettings.PlayerType.AI_EASY:
-				_customPlayerToggleButtonTexts[i].text = _localizationData.GetLocalizedStringForKey("AI_EASY");
+				_customPlayerToggleButtonTexts[i].text = _localizationData.GetLocalizedStringForKey(LocalizationData.TranslationKey.AI_EASY);
 				break;
 			case GameSettings.PlayerType.AI_HARD:
-				_customPlayerToggleButtonTexts[i].text = _localizationData.GetLocalizedStringForKey("AI_HARD");
+				_customPlayerToggleButtonTexts[i].text = _localizationData.GetLocalizedStringForKey(LocalizationData.TranslationKey.AI_HARD);
 				break;
 			case GameSettings.PlayerType.NONE:
 			default:
-				_customPlayerToggleButtonTexts[i].text = _localizationData.GetLocalizedStringForKey("NONE");
+				_customPlayerToggleButtonTexts[i].text = _localizationData.GetLocalizedStringForKey(LocalizationData.TranslationKey.NONE);
 				break;
 			}
 		}
@@ -310,14 +322,17 @@ public class MainMenuModtroller : MonoBehaviour
 		if (_gameSettings.OtherGameSettingsRulesAreEqual(_classicGameSettings))
 		{
 			_classicRulesetButtonOutline.SetActive(true);
+			_rulesetDescriptionText.text = _localizationData.GetLocalizedStringForKey(LocalizationData.TranslationKey.CLASSIC_BUTTON_CONTENT);
 		}
 		else if (_gameSettings.OtherGameSettingsRulesAreEqual(_advancedGameSettings))
 		{
 			_advancedRulesetButtonOutline.SetActive(true);
+			_rulesetDescriptionText.text = _localizationData.GetLocalizedStringForKey(LocalizationData.TranslationKey.ADVANCED_BUTTON_CONTENT);
 		}
 		else
 		{
 			_customRulesetButtonOutline.SetActive(true);
+			_rulesetDescriptionText.text = _localizationData.GetLocalizedStringForKey(LocalizationData.TranslationKey.CUSTOM_BUTTON_CONTENT);
 		}
 		_gameSettings.WriteToDisk();
 	}

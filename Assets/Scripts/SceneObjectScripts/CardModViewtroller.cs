@@ -41,16 +41,16 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 			switch (_card.Value)
 			{
 				case Card.CardValue.ACE:
-					_cardValueText.text = _localizationData.GetLocalizedStringForKey("ACE_ABBREVIATION_CHARACTER") + "\n";
+					_cardValueText.text = _localizationData.GetLocalizedStringForKey(LocalizationData.TranslationKey.ACE_ABBREVIATION_CHARACTER) + "\n";
 					break;
 				case Card.CardValue.JACK:
-					_cardValueText.text = _localizationData.GetLocalizedStringForKey("JACK_ABBREVIATION_CHARACTER") + "\n";
+					_cardValueText.text = _localizationData.GetLocalizedStringForKey(LocalizationData.TranslationKey.JACK_ABBREVIATION_CHARACTER) + "\n";
 					break;
 				case Card.CardValue.QUEEN:
-					_cardValueText.text = _localizationData.GetLocalizedStringForKey("QUEEN_ABBREVIATION_CHARACTER") + "\n";
+					_cardValueText.text = _localizationData.GetLocalizedStringForKey(LocalizationData.TranslationKey.QUEEN_ABBREVIATION_CHARACTER) + "\n";
 					break;
 				case Card.CardValue.KING:
-					_cardValueText.text = _localizationData.GetLocalizedStringForKey("KING_ABBREVIATION_CHARACTER") + "\n";
+					_cardValueText.text = _localizationData.GetLocalizedStringForKey(LocalizationData.TranslationKey.KING_ABBREVIATION_CHARACTER) + "\n";
 					break;
 				default:
 					_cardValueText.text = _card.CardValueString;

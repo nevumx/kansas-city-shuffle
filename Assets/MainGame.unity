@@ -527,7 +527,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _localizationData: {fileID: 11400000, guid: 79f31da989bcd4b5796c729a3b6056e2, type: 2}
   _UITextToLocalize: {fileID: 232229260}
-  _stringKey: READY
+  _stringKey: 1
 --- !u!1 &266845630
 GameObject:
   m_ObjectHideFlags: 0
@@ -668,7 +668,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _localizationData: {fileID: 11400000, guid: 79f31da989bcd4b5796c729a3b6056e2, type: 2}
   _UITextToLocalize: {fileID: 322876924}
-  _stringKey: QUIT
+  _stringKey: 0
 --- !u!1 &330770389
 GameObject:
   m_ObjectHideFlags: 0
@@ -3961,7 +3961,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _localizationData: {fileID: 11400000, guid: 79f31da989bcd4b5796c729a3b6056e2, type: 2}
   _UITextToLocalize: {fileID: 2066402547}
-  _stringKey: HOLD
+  _stringKey: 2
 --- !u!1 &2114204324
 GameObject:
   m_ObjectHideFlags: 0
@@ -4059,7 +4059,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _localizationData: {fileID: 11400000, guid: 79f31da989bcd4b5796c729a3b6056e2, type: 2}
   _UITextToLocalize: {fileID: 2145880097}
-  _stringKey: PLAY_AGAIN
+  _stringKey: 5
 --- !u!114 &2145880097
 MonoBehaviour:
   m_ObjectHideFlags: 0

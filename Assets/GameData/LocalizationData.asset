@@ -14,186 +14,172 @@ MonoBehaviour:
   _localizations:
   - Language: 10
     Translations:
-    - StringKey: QUIT
+    - StringKey: 0
       TranslatedString: Quit
-    - StringKey: READY
+    - StringKey: 1
       TranslatedString: Ready
-    - StringKey: HOLD
+    - StringKey: 2
       TranslatedString: Hold
-    - StringKey: PLAYER_WINS
+    - StringKey: 3
       TranslatedString: Player Wins
-    - StringKey: AI_WINS
+    - StringKey: 4
       TranslatedString: A.I. Wins
-    - StringKey: PLAY_AGAIN
+    - StringKey: 5
       TranslatedString: Play Again
-    - StringKey: WILD_CARD_RULE_TOGGLE_TITLE
+    - StringKey: 6
       TranslatedString: Wild Card Rule
-    - StringKey: ELIMINATION_RULE_TOGGLE_TITLE
+    - StringKey: 7
       TranslatedString: Elimination Rule
-    - StringKey: OPTIONAL_PLAY_RULE_TOGGLE_TITLE
+    - StringKey: 8
       TranslatedString: Optional Play Rule
-    - StringKey: REFILL_HAND_RULE_TOGGLE_TITLE
+    - StringKey: 9
       TranslatedString: Refill Hand Rule
-    - StringKey: ALL_OR_NOTHING_RULE_TOGGLE_TITLE
+    - StringKey: 10
       TranslatedString: All or Nothing Rule
-    - StringKey: MAX_DEVIATION_RULE_TOGGLE_TITLE
+    - StringKey: 11
       TranslatedString: Max Deviation Rule
-    - StringKey: LOSE_BEST_CARD_RULE_TOGGLE_TITLE
+    - StringKey: 12
       TranslatedString: Lose Best Card Rule
-    - StringKey: NUMBER_OF_DECKS_SLIDER_TITLE
+    - StringKey: 13
       TranslatedString: Number of Decks
-    - StringKey: NUMBER_OF_CARDS_PER_PLAYER_SLIDER_TITLE
-      TranslatedString: Number of Cards per Player
-    - StringKey: NUMBER_OF_POINTS_TO_WIN_SLIDER_TITLE
+    - StringKey: 14
       TranslatedString: Number of Points to Win
-    - StringKey: MAX_DEVIATION_THRESHOLD_SLIDER_TITLE
+    - StringKey: 15
       TranslatedString: Max Deviation Threshold
-    - StringKey: PLAYER_SETUP_CANVAS_TITLE
+    - StringKey: 16
       TranslatedString: Player Setup
-    - StringKey: RULESETS_CANVAS_TITLE
+    - StringKey: 17
       TranslatedString: Rulesets
-    - StringKey: ABOUT_CANVAS_TITLE
+    - StringKey: 18
       TranslatedString: About
-    - StringKey: CREDITS_TEXT
+    - StringKey: 19
       TranslatedString: "KansasCityShuffle\n\nCreator, Director, Programmer, Designer,\nProducer,
         Composer and Animator\nNicholaos Mouzourakis\n\nBranding and Additional Design\nMoe
         El-Kaaki\n\n3D Technical Artist\nBrice Vandemoortele\n\nOriginal Concept\nCharles-Eric
         Kirihara-Sum\n\n\xA92016 Nicholaos Mouzourakis. All Rights Reserved."
-    - StringKey: PHOTO_CREDIT_TEXT
+    - StringKey: 20
       TranslatedString: 'Photo: Jonathan K. Kim'
-    - StringKey: HOW_TO_PLAY_PAGE_1_TITLE
+    - StringKey: 21
       TranslatedString: Basic Rules
-    - StringKey: HOW_TO_PLAY_PAGE_1_CONTENT
-      TranslatedString: "\u2022 The main goal of the game is to be the last player
-        to play a card; doing so will net you one or more points.\n\u2022 Cards can
-        only be played on top of the last card played, based on the direction of play.
-        If the direction of play is UP, (<color=lime>\u25B2</color>) only a card of
-        higher or equal value can be played, and vice-versa when the direction is
-        DOWN. (<color=lime>\u25BC</color>)\n\u2022 Playing a card with the same value
-        as the last card played will result in the direction of play being switched
-        to its opposite. (<color=lime>\u25B2</color>/<color=lime>\u25BC</color>)\n\u2022
-        Players may also play two or more cards with the same value to get more cards
-        back from the deck, as long as they follow the above rules."
-    - StringKey: HOW_TO_PLAY_PAGE_2_TITLE
+    - StringKey: 22
+      TranslatedString: "\u2022 The main goal of the game is to score points by being
+        the last player to play a card in a round.\n\u2022 Cards can only be played
+        on top of the last card played, based on the direction of play. If the direction
+        of play is UP, (<color=lime>\u25B2</color>) only a card of higher or equal
+        value can be played, and vice-versa when the direction is DOWN. (<color=lime>\u25BC</color>)\n\u2022
+        Playing a card with the same value as the last card played will result in
+        the direction of play being switched to its opposite. (<color=lime>\u25B2</color>/<color=lime>\u25BC</color>)\n\u2022
+        Players may also play two or more cards with the same value, as long as they
+        follow the above rules."
+    - StringKey: 23
       TranslatedString: Optional Rules
-    - StringKey: HOW_TO_PLAY_PAGE_2_CONTENT
+    - StringKey: 24
       TranslatedString: "\u2022 <b>Wild Card Rule:</b> Adds a Wildcard Pile between
-        the Deck and the Discard Pile. At any point, a player can play a card with
-        the same value as the wildcard, even if it is not in line with the direction
-        of play. Doing so will result in the direction of play changing, and a new
-        wildcard being selected.\n\u2022 <b>Elimination Rule:</b> If a player cannot
-        play a card, he is out for the rest of the round, and will not be able to
-        score points.\n\u2022 <b>Optional Play Rule:</b> A player can choose to forfeit
-        his turn, even if he is otherwise able to play a card.\n\u2022 <b>Refill Hand
-        Rule:</b> All players' hands are reshuffled into the deck and redrawn at the
-        end of each round."
-    - StringKey: HOW_TO_PLAY_PAGE_3_TITLE
+        the Deck and the Discard Pile. During a player's turn, they may play a card
+        with the same value as the wildcard. This will result in the direction of
+        play changing, (<color=lime>\u25B2</color>/<color=lime>\u25BC</color>) and
+        a new wildcard being selected.\n\u2022 <b>Elimination Rule:</b> If a player
+        cannot play a card, they are out for the rest of the round, and will not be
+        able to score points."
+    - StringKey: 25
       TranslatedString: Optional Rules continued
-    - StringKey: HOW_TO_PLAY_PAGE_3_CONTENT
-      TranslatedString: "\u2022 <b>All or Nothing Rule:</b> Instead of gaining one
-        point per round win, the winning player will receive the number of points
-        equal to the size of the Discard Pile.\n\u2022 <b>Max Deviation Rule:</b>
-        Players may only play a certain number (Max Deviation Threshold) of cards
-        higher or lower than the current card on top of the Discard Pile, depending
-        on the direction of play. Example: if the current card on the discard pile
-        is a 5, and the direction of play is up, and the max deviation threshold is
-        set to 3, a player can only play a 5, 6, or 7.\n\u2022 <b>Lose Best Card Rule:</b>
-        If a player switches the direction of play by playing the same-valued card
-        as the last player, they will also lose their most advantageous card after
-        the switch. (Example: the card closest to King after switching the direction
-        to be up.)"
-    - StringKey: ACE_ABBREVIATION_CHARACTER
+    - StringKey: 26
+      TranslatedString: "\u2022 <b>Optional Play Rule:</b> A player can choose to
+        forfeit his turn, even if they are otherwise able to play a card.\n\u2022
+        <b>Refill Hand Rule:</b> At the end of each round, all players' hands are
+        re-shuffled into the deck and re-drawn.\n\u2022 <b>All or Nothing Rule:</b>
+        Instead of gaining one point per round win, the winning player will receive
+        a number of points equal to the size of the Discard Pile."
+    - StringKey: 27
+      TranslatedString: Optional Rules continued
+    - StringKey: 28
+      TranslatedString: "\u2022 <b>Max Deviation Rule:</b> Players may only play cards
+        with values within a certain distance of the current card on top of the Discard
+        Pile. (Example: if the current card on the discard pile is a 5, and the direction
+        of play is UP, (<color=lime>\u25B2</color>) and the Max Deviation Threshold
+        is set to 3, a player can only play a 5, 6, or 7.)\n\u2022 <b>Lose Best Card
+        Rule:</b> If a player switches the direction of play by playing a same-valued
+        card as the current card on top of the Discard Pile, they will also lose their
+        most advantageous card after the switch. (Example: the card closest to King
+        after switching the direction to be UP. (<color=lime>\u25B2</color>))"
+    - StringKey: 29
       TranslatedString: A
-    - StringKey: JACK_ABBREVIATION_CHARACTER
+    - StringKey: 30
       TranslatedString: J
-    - StringKey: QUEEN_ABBREVIATION_CHARACTER
+    - StringKey: 31
       TranslatedString: Q
-    - StringKey: KING_ABBREVIATION_CHARACTER
+    - StringKey: 32
       TranslatedString: K
-    - StringKey: NONE
+    - StringKey: 33
       TranslatedString: None
-    - StringKey: AI_EASY
+    - StringKey: 34
       TranslatedString: A.I. Easy
-    - StringKey: AI_HARD
+    - StringKey: 35
       TranslatedString: A.I. Hard
-    - StringKey: HUMAN
+    - StringKey: 36
       TranslatedString: Human
-    - StringKey: RESET_TUTORIALS
+    - StringKey: 37
       TranslatedString: Reset Tutorials
-    - StringKey: REMOVE_TUTORIALS
+    - StringKey: 38
       TranslatedString: Remove Tutorials
-    - StringKey: MAIN_MENU_BUTTON_LABEL
+    - StringKey: 39
       TranslatedString: Main Menu
-    - StringKey: PLAY_BUTTON_LABEL
+    - StringKey: 40
       TranslatedString: Play
-    - StringKey: RULESETS_BUTTON_LABEL
+    - StringKey: 41
       TranslatedString: Rulesets
-    - StringKey: PLAYER_SETUP_BUTTON_LABEL
+    - StringKey: 42
       TranslatedString: Player Setup
-    - StringKey: HOW_TO_PLAY_BUTTON_LABEL
+    - StringKey: 43
       TranslatedString: How to Play
-    - StringKey: ABOUT_BUTTON_LABEL
+    - StringKey: 44
       TranslatedString: About
-    - StringKey: MORE_BUTTON_LABEL
-      TranslatedString: More
-    - StringKey: RESET_BUTTON_LABEL
+    - StringKey: 45
       TranslatedString: Reset
-    - StringKey: NEXT_BUTTON_LABEL
+    - StringKey: 46
       TranslatedString: Next
-    - StringKey: PREV_BUTTON_LABEL
+    - StringKey: 47
       TranslatedString: Previous
-    - StringKey: EMAIL_BUTTON_LABEL
+    - StringKey: 48
       TranslatedString: Email
-    - StringKey: CLASSIC_BUTTON_TITLE
+    - StringKey: 49
       TranslatedString: Classic
-    - StringKey: CLASSIC_BUTTON_CONTENT
+    - StringKey: 50
       TranslatedString: All optional rules have been turned off. 2 decks and 5 points
         to win.
-    - StringKey: ADVANCED_BUTTON_TITLE
+    - StringKey: 51
       TranslatedString: Advanced
-    - StringKey: ADVANCED_BUTTON_CONTENT
+    - StringKey: 52
       TranslatedString: Elimination, Refill Hand, and All or Nothing rules are on.
         2 Decks, and first to 100 points wins.
-    - StringKey: CUSTOM_BUTTON_TITLE
+    - StringKey: 53
       TranslatedString: Custom
-    - StringKey: CUSTOM_BUTTON_CONTENT
+    - StringKey: 54
       TranslatedString: Select your own rules to make a new game mode.
-    - StringKey: ANY_CARD_TUTORIAL
-      TranslatedString: "The direction of play is undecided. (See the <color=#00ff0000>?</color>
-        symbol under the deck) Any card may be played. If it is higher than the face-up
-        card in the middle of the table, the direction of play will change to UP;
-        (<color=#00ff0000>\u25B2</color>) if it is lower, the direction will change
-        to DOWN. (<color=#00ff0000>\u25BC</color>)"
-    - StringKey: UP_CARD_TUTORIAL
+    - StringKey: 55
+      TranslatedString: The direction of play is undecided. (See the <color=#00ff0000>?</color>
+        symbol) Any card may be played.
+    - StringKey: 56
       TranslatedString: "The direction of play is UP. (See the <color=#00ff0000>\u25B2</color>
-        symbol under the deck) You must play a card higher than or equal to the face-up
-        card in the middle of the table. If the cards are equal in value, the direction
-        of play will change to DOWN. (<color=#00ff0000>\u25BC</color>)"
-    - StringKey: DOWN_CARD_TUTORIAL
+        symbol) You must play a higher- or equal-value card."
+    - StringKey: 57
       TranslatedString: "The direction of play is DOWN. (See the <color=#00ff0000>\u25BC</color>
-        symbol under the deck) You must play a card higher than or equal to the face-up
-        card in the middle of the table. If the cards are equal in value, the direction
-        of play will change to UP. (<color=#00ff0000>\u25B2</color>)"
-    - StringKey: NO_CARD_TUTORIAL
-      TranslatedString: Unfortunately, you cannot play a card, because you have no
-        cards that can be played on the face-up card in the middle of the table with
-        the current direction of play. You will be unable to play this turn, and may
-        lose this round.
-    - StringKey: MULTIPLE_CARD_TUTORIAL
+        symbol) You must play a lower- or equal-value card."
+    - StringKey: 58
+      TranslatedString: Unfortunately, you cannot play a card this turn, and may lose
+        this round.
+    - StringKey: 59
       TranslatedString: You have two or more cards with the same value that can be
-        played. If you wish, you may select two or more playable cards of equal value
-        and play them as one to get more cards drawn to your hand at the end of the
-        turn.
-    - StringKey: WILD_CARD_TUTORIAL
-      TranslatedString: "You have a card with the same value as the current wildcard.
-        You may play this card, but the direction will also switch to its opposite.
-        (<color=#00ff0000>\u25B2</color>/<color=#00ff0000>\u25BC</color>)"
-    - StringKey: OPTIONAL_PLAY_TUTORIAL
-      TranslatedString: Since the Optional Play rule is enabled, you may choose to
-        not play a card this turn. However, you will forfeit your turn as if you were
-        unable to play a card initially.
-    - StringKey: MAX_DEVIATION_TUTORIAL
-      TranslatedString: While the Max Deviation rule is enabled, you may only play
-        cards whose value is within a certain distance from the face-up card in the
-        middle of the table, depending on the Max Deviation Threshold from the Rules
-        screen. (Default value is 3)
+        played together.
+    - StringKey: 60
+      TranslatedString: The objective of each round is to score points by being the
+        last player to play a card. (Default points to win is 5)
+    - StringKey: 61
+      TranslatedString: "You can play the card with the same value as the wildcard.
+        This will change the direction to its opposite. (<color=#00ff0000>\u25B2</color>/<color=#00ff0000>\u25BC</color>)"
+    - StringKey: 62
+      TranslatedString: You may choose to not play a card this turn. However, you
+        will forfeit your turn, and may lose this round.
+    - StringKey: 63
+      TranslatedString: You may only play cards whose value is within a certain distance
+        from the current card. (Default value is 3)

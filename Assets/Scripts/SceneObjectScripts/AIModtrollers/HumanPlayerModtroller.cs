@@ -83,6 +83,7 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 		{
 			_tutorialSystem.ShowTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.MAX_DEVIATION_TUTORIAL);
 		}
+		_tutorialSystem.ShowTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.OBJECTIVE_TUTORIAL);
 
 		Hand.CardsTextVisibility = true;
 		SetCardStates();

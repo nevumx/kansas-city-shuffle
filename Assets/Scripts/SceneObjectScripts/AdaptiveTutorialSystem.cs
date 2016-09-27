@@ -14,6 +14,7 @@ public class AdaptiveTutorialSystem : MonoBehaviour
 		DOWN_CARD_TUTORIAL,
 		NO_CARD_TUTORIAL,
 		MULTIPLE_CARD_TUTORIAL,
+		OBJECTIVE_TUTORIAL,
 		WILD_CARD_TUTORIAL,
 		OPTIONAL_PLAY_TUTORIAL,
 		MAX_DEVIATION_TUTORIAL,
@@ -47,7 +48,7 @@ public class AdaptiveTutorialSystem : MonoBehaviour
 		{
 			stream.IfIsNotNullThen(s => s.Close());
 			stream = new FileStream(settingsFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
-			_numberOfTimesTutorialTypeShown = new int[Enum.GetValues(typeof(TutorialType)).Length];
+			_numberOfTimesTutorialTypeShown = new int[Enum.GetValues(typeof(AdaptiveTutorialSystem.TutorialType)).Length];
 			formatter.Serialize(stream, _numberOfTimesTutorialTypeShown);
 			stream.Close();
 		}
@@ -55,13 +56,13 @@ public class AdaptiveTutorialSystem : MonoBehaviour
 
 	public void ResetAllTutorials()
 	{
-		_numberOfTimesTutorialTypeShown = new int[Enum.GetValues(typeof(TutorialType)).Length];
+		_numberOfTimesTutorialTypeShown = new int[Enum.GetValues(typeof(AdaptiveTutorialSystem.TutorialType)).Length];
 		WriteToDisk();
 	}
 
 	public void FinishAllTutorials()
 	{
-		_numberOfTimesTutorialTypeShown = new int[Enum.GetValues(typeof(TutorialType)).Length];
+		_numberOfTimesTutorialTypeShown = new int[Enum.GetValues(typeof(AdaptiveTutorialSystem.TutorialType)).Length];
 		for (int i = 0, iMax = _numberOfTimesTutorialTypeShown.Length; i < iMax; ++i)
 		{
 			_numberOfTimesTutorialTypeShown[i] = int.MaxValue;
@@ -69,11 +70,11 @@ public class AdaptiveTutorialSystem : MonoBehaviour
 		WriteToDisk();
 	}
 
-	public void ShowTutorialIfNecessary(TutorialType tutorialType)
+	public void ShowTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType tutorialType)
 	{
 		if (!_isShowingTutorial && _numberOfTimesTutorialTypeShown[(int)tutorialType] < NUMBER_OF_TIMES_TO_SHOW_TUTORIALS)
 		{
-			_tutorialText.text = _localizationData.GetLocalizedStringForKey(tutorialType.ToString());
+			_tutorialText.text = _localizationData.GetLocalizedStringForKey(tutorialType.GetTranslationKeyEquivalent());
 			_tutorialGraphics.AddAlphaTween(1.0f).TweenHolder
 							 .SetDuration(TUTORIAL_ALPHA_TRANSISTION_TIME);
 			_isShowingTutorial = true;
@@ -99,5 +100,34 @@ public class AdaptiveTutorialSystem : MonoBehaviour
 		var stream = new FileStream(settingsFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
 		formatter.Serialize(stream, _numberOfTimesTutorialTypeShown);
 		stream.Close();
+	}
+}
+
+public static class TutorialTypeEnumHelper
+{
+	public static LocalizationData.TranslationKey GetTranslationKeyEquivalent(this AdaptiveTutorialSystem.TutorialType tutorialType)
+	{
+		switch (tutorialType)
+		{
+			case AdaptiveTutorialSystem.TutorialType.ANY_CARD_TUTORIAL:
+				return LocalizationData.TranslationKey.ANY_CARD_TUTORIAL;
+			case AdaptiveTutorialSystem.TutorialType.UP_CARD_TUTORIAL:
+				return LocalizationData.TranslationKey.UP_CARD_TUTORIAL;
+			case AdaptiveTutorialSystem.TutorialType.DOWN_CARD_TUTORIAL:
+				return LocalizationData.TranslationKey.DOWN_CARD_TUTORIAL;
+			case AdaptiveTutorialSystem.TutorialType.NO_CARD_TUTORIAL:
+				return LocalizationData.TranslationKey.NO_CARD_TUTORIAL;
+			case AdaptiveTutorialSystem.TutorialType.MULTIPLE_CARD_TUTORIAL:
+				return LocalizationData.TranslationKey.MULTIPLE_CARD_TUTORIAL;
+			case AdaptiveTutorialSystem.TutorialType.WILD_CARD_TUTORIAL:
+				return LocalizationData.TranslationKey.WILD_CARD_TUTORIAL;
+			case AdaptiveTutorialSystem.TutorialType.OPTIONAL_PLAY_TUTORIAL:
+				return LocalizationData.TranslationKey.OPTIONAL_PLAY_TUTORIAL;
+			case AdaptiveTutorialSystem.TutorialType.MAX_DEVIATION_TUTORIAL:
+				return LocalizationData.TranslationKey.MAX_DEVIATION_TUTORIAL;
+			default: // AdaptiveTutorialSystem.TutorialType.OBJECTIVE_TUTORIAL:
+				break;
+		}
+		return LocalizationData.TranslationKey.OBJECTIVE_TUTORIAL;
 	}
 }

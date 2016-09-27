@@ -3,9 +3,9 @@ using UnityEngine.UI;
 
 public class LocalizeableUIText : MonoBehaviour
 {
-	[SerializeField]	private	LocalizationData	_localizationData;
-	[SerializeField]	private	Text				_UITextToLocalize;
-	[SerializeField]	private	string				_stringKey;
+	[SerializeField]	private	LocalizationData				_localizationData;
+	[SerializeField]	private	Text							_UITextToLocalize;
+	[SerializeField]	private	LocalizationData.TranslationKey	_stringKey;
 
 	private void Start()
 	{

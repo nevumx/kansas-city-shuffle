@@ -586,7 +586,8 @@ public partial class MainGameModtroller : MonoBehaviour
 		Color playerSymbolColor = _players[_currentPlayer].PlayerSymbolText.color;
 		playerSymbolColor.a = 0.0f;
 		_gameEndSymbolText.color = playerSymbolColor;
-		_gameEndUIText.text = _localizationData.GetLocalizedStringForKey(_players[_currentPlayer].IsHuman ? "PLAYER_WINS" : "AI_WINS");
+		_gameEndUIText.text = _localizationData.GetLocalizedStringForKey(_players[_currentPlayer].IsHuman ? LocalizationData.TranslationKey.PLAYER_WINS
+																										  : LocalizationData.TranslationKey.AI_WINS);
 		_gameEndSymbol.AddAlphaTween(1.0f)
 					  .AddIncrementalScaleTween(Vector3.one)
 					  .AddLocalRotationTween(Vector3.up * 360.0f)
