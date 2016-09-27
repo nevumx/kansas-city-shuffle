@@ -1,9 +1,0 @@
-KansasCityShuffle Graphics Benchmark
-None						40ms / 25fps (base)
-Trails						66ms / 15fps (+26ms)
-Shadows						45ms / 22fps (+5ms)
-Quality						49ms / 20fps (+9ms)
-Quality, Shadows			55ms / 18fps (+15ms)
-Quality, Trails				73ms / 14fps (+33ms)
-Shadows, Trails				71ms / 14fps (+31ms)
-Quality, Shadows, Trails	80ms / 13fps (+40ms)
