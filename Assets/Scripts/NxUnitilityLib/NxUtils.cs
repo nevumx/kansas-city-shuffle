@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using System;
@@ -268,9 +269,18 @@ namespace Nx
 			}
 		}
 
-		public static string ToRichText(this string str, int size = 40, string color = "black")
+		public static void SetAlpha(this Graphic graphic, float newAlpha)
 		{
-			return "<size=" + size + "><color=" + color + ">" + str + "</color></size>";
+			Color newColor = graphic.color;
+			newColor.a = newAlpha;
+			graphic.color = newColor;
+		}
+
+		public static void SetAlpha(this TextMesh textMesh, float newAlpha)
+		{
+			Color newColor = textMesh.color;
+			newColor.a = newAlpha;
+			textMesh.color = newColor;
 		}
 
 		public static void Log(object message)

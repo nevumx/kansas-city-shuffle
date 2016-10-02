@@ -60,9 +60,7 @@ namespace Nx
 				}
 				_radialFillImages.Images.ForEach(i =>
 				{
-					Color imageAlpha = i.color;
-					imageAlpha.a = 1.0f;
-					i.color = imageAlpha;
+					i.SetAlpha(1.0f);
 					i.transform.localScale = Vector3.one;
 					if (i.fillAmount == 1.0f)
 					{

@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using Nx;
 
-public class IncrementalScaleTween : Tween
+public class IncrementalScaleTween : CachedTransformTween
 {
 	public	Vector3	ScaleTo	= Vector3.zero;
 
@@ -19,17 +19,16 @@ public class IncrementalScaleTween : Tween
 	{
 		if (Mathf.Approximately(TweenHolder.TimeRemaining, 0.0f))
 		{
-			TweenHolder.transform.localScale = ScaleTo;
+			_CachedTransform.localScale = ScaleTo;
 			return;
 		}
 
-		Vector3 destOffset = ScaleTo - TweenHolder.transform.localScale;
+		Vector3 destOffset = ScaleTo - _CachedTransform.localScale;
 		float speed = destOffset.magnitude / TweenHolder.TimeRemaining
 			* Mathf.Max(-6.0f * TweenHolder.PercentDone * (TweenHolder.PercentDone - 1.0f), TweenHolder.PercentDone > 0.5f ? 1.0f : 0.0f);
-		Vector3 nextDest = TweenHolder.transform.localScale + destOffset.normalized * speed * TweenHolder.DeltaTime;
+		Vector3 nextDest = _CachedTransform.localScale + destOffset.normalized * speed * TweenHolder.DeltaTime;
 
-		if (Vector3.Distance(TweenHolder.transform.localScale, nextDest)
-			> Vector3.Distance(TweenHolder.transform.localScale, ScaleTo))
+		if ((_CachedTransform.localScale - nextDest).sqrMagnitude > (_CachedTransform.localScale - ScaleTo).sqrMagnitude)
 		{
 			TweenHolder.transform.localScale = ScaleTo;
 		}

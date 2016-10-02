@@ -29,19 +29,13 @@ public abstract class AbstractPlayerModtroller : MonoBehaviour
 		{
 			if (value && !_eliminated)
 			{
-				Color playerSymbolColor = _playerSymbolText.color;
-				Color scoreTextColor = _scoreText.color;
-				playerSymbolColor.a = scoreTextColor.a = DIMMED_PLAYER_SYMBOL_ALPHA;
-				_playerSymbolText.color = playerSymbolColor;
-				_scoreText.color = scoreTextColor;
+				_playerSymbolText.SetAlpha(DIMMED_PLAYER_SYMBOL_ALPHA);
+				_scoreText.SetAlpha(DIMMED_PLAYER_SYMBOL_ALPHA);
 			}
 			else if (!value && _eliminated)
 			{
-				Color playerSymbolColor = _playerSymbolText.color;
-				Color scoreTextColor = _scoreText.color;
-				playerSymbolColor.a = scoreTextColor.a = 1.0f;
-				_playerSymbolText.color = playerSymbolColor;
-				_scoreText.color = scoreTextColor;
+				_playerSymbolText.SetAlpha(1.0f);
+				_scoreText.SetAlpha(1.0f);
 			}
 			_eliminated = value;
 		}

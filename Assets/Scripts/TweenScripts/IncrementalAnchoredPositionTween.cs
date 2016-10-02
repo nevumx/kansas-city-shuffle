@@ -29,8 +29,7 @@ public class IncrementalAnchoredPositionTween : Tween
 		float speed = destOffset.magnitude / TweenHolder.TimeRemaining;
 		Vector2 nextDest = _targetRectTransform.anchoredPosition + destOffset.normalized * speed * TweenHolder.DeltaTime;
 
-		if (Vector2.Distance(_targetRectTransform.anchoredPosition, nextDest)
-			> Vector2.Distance(_targetRectTransform.anchoredPosition, PositionTo))
+		if ((_targetRectTransform.anchoredPosition - nextDest).sqrMagnitude > (_targetRectTransform.anchoredPosition - PositionTo).sqrMagnitude)
 		{
 			_targetRectTransform.anchoredPosition = PositionTo;
 		}
@@ -44,6 +43,11 @@ public class IncrementalAnchoredPositionTween : Tween
 public static class IncrementalAnchorPositionTweenHelperFunctions
 {
 	public static TweenableGraphics AddIncrementalAnchoredPositionTween(this TweenableGraphics tweenableGraphics, Vector2 to)
+	{
+		tweenableGraphics.TweenHolder.AddTween(new IncrementalAnchoredPositionTween(tweenableGraphics.RootRectTransform, to)).Play();
+		return tweenableGraphics;
+	}
+	public static TweenableAlphaMultipliedGraphics AddIncrementalAnchoredPositionTween(this TweenableAlphaMultipliedGraphics tweenableGraphics, Vector2 to)
 	{
 		tweenableGraphics.TweenHolder.AddTween(new IncrementalAnchoredPositionTween(tweenableGraphics.RootRectTransform, to)).Play();
 		return tweenableGraphics;

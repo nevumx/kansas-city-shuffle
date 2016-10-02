@@ -15,74 +15,110 @@ public partial class MainGameModtroller : MonoBehaviour
 		DOWN,
 	}
 
-						private	static	readonly	int							NUMBER_OF_CARDS_TO_LEAVE_IN_DECK_REFILL_PILE	= 1;
-						public	static	readonly	float						MIN_TIMESCALE									= 0.5f;
-						public	static	readonly	float						MAX_TIMESCALE									= 8.0f;
+	[Serializable]
+	private struct HelpPageLocalizationKeys
+	{
+		[SerializeField]	private	LocalizationData.TranslationKey	_titleKey;
+							public	LocalizationData.TranslationKey	TitleKey	{ get { return _titleKey; } }
 
-	[SerializeField]	private						bool						_demoMode;
+		[SerializeField]	private	LocalizationData.TranslationKey	_contentKey;
+							public	LocalizationData.TranslationKey	ContentKey	{ get { return _contentKey; } }
+	}
 
-	[SerializeField]	private						HumanPlayerModtroller		_humanPlayerPrefab;
-	[SerializeField]	private						EasyAIPlayerModtroller		_easyAIPlayerPrefab;
-	[SerializeField]	private						HardAIPlayerModtroller		_hardAIPlayerPrefab;
+						private	static	readonly	int									NUMBER_OF_CARDS_TO_LEAVE_IN_DECK_REFILL_PILE	= 1;
+						public	static	readonly	float								MIN_TIMESCALE									= 0.5f;
+						public	static	readonly	float								MAX_TIMESCALE									= 6.0f;
+						public	static	readonly	float								HELP_SCREEN_TRANSITION_TIME						= 0.5f;
 
-	[SerializeField]	private						CardAnimationData			_cardAnimationData;
-	[SerializeField]	private						LocalizationData			_localizationData;
+	[SerializeField]	private						bool								_demoMode;
 
-	[SerializeField]	private						AudioSource					_cardFlipAudio;
-						public						AudioSource					CardFlipAudio			{ get { return _cardFlipAudio; } }
+	[SerializeField]	private						HumanPlayerModtroller				_humanPlayerPrefab;
+	[SerializeField]	private						EasyAIPlayerModtroller				_easyAIPlayerPrefab;
+	[SerializeField]	private						HardAIPlayerModtroller				_hardAIPlayerPrefab;
 
-	[SerializeField]	private						Deck						_deck;
-	[SerializeField]	private						CardPile					_discardPile;
-						public						int							DiscardPileLastValue	{ get { return _discardPile.ReadOnlyCards.Last().CardValue; } }
-	[SerializeField]	private						CardPile					_wildcardPile;
-						public						int							WildCardValue			{ get { return _wildcardPile.ReadOnlyCards.Last().CardValue; } }
+	[SerializeField]	private						CardAnimationData					_cardAnimationData;
+	[SerializeField]	private						LocalizationData					_localizationData;
 
-	[SerializeField]	private						TweenHolder					_mainCameraAnchor;
-	[SerializeField]	private						Camera						_mainCamera;
-						public						Camera						MainCamera				{ get { return _mainCamera; } }
-	[SerializeField]	private						Camera						_miniViewCamera;
-	[SerializeField]	private						RawImage					_miniViewUIImage;
-	[SerializeField]	private						RectTransform				_miniViewUIImageHolder;
-	[SerializeField]	private						TweenableGraphics			_miniViewUIGraphics;
-	[SerializeField]	private						NxSimpleButton				_playerReadyButton;
-	[SerializeField]	private						GameObject					_submitCardsButton;
-						public						GameObject					SubmitCardsButton		{ get { return _submitCardsButton; } }
-	[SerializeField]	private						GameObject					_undoButton;
-	[SerializeField]	private						GameObject					_redoButton;
-	[SerializeField]	private						TweenableGraphics			_gameEndSymbol;
-	[SerializeField]	private						TweenableGraphics			_gameEndText;
-	[SerializeField]	private						Text						_gameEndUIText;
-	[SerializeField]	private						Text						_gameEndSymbolText;
-	[SerializeField]	private						TweenableGraphics			_playAgainButton;
-	[SerializeField]	private						NxKnobSlider				_timeScaleKnobSlider;
-	[SerializeField]	private						Text						_timeScaleText;
-	[SerializeField]	private						AdaptiveTutorialSystem		_tutorialSystem;
-						public						AdaptiveTutorialSystem		TutorialSystem			{ get { return _tutorialSystem; } }
+	[SerializeField]	private						AudioSource							_cardFlipAudio;
+						public						AudioSource							CardFlipAudio			{ get { return _cardFlipAudio; } }
 
-	[SerializeField]	private						TextMesh					_directionText;
+	[SerializeField]	private						Deck								_deck;
+	[SerializeField]	private						CardPile							_discardPile;
+						public						int									DiscardPileLastValue	{ get { return _discardPile.ReadOnlyCards.Last().CardValue; } }
+	[SerializeField]	private						CardPile							_wildcardPile;
+						public						int									WildCardValue			{ get { return _wildcardPile.ReadOnlyCards.Last().CardValue; } }
 
-	[SerializeField]	private						string[]					_playerIconCharacters;
-	[SerializeField]	private						Transform[]					_playerRoots;
-						private						AbstractPlayerModtroller[]	_players				= new AbstractPlayerModtroller[4];
-						private						int							_currentPlayer;
-						private						int							_currentCameraPlayer;
-						private						int							_indexOfLastPlayerToPlayACard;
-						private						bool						_firstHumanHasPlayed	= false;
-						private						Vector3						_mainCameraLocalPosition;
+	[SerializeField]	private						TweenHolder							_mainCameraAnchor;
+	[SerializeField]	private						Camera								_mainCamera;
+						public						Camera								MainCamera				{ get { return _mainCamera; } }
+	[SerializeField]	private						Camera								_miniViewCamera;
+	[SerializeField]	private						RawImage							_miniViewUIImage;
+	[SerializeField]	private						RectTransform						_miniViewUIImageHolder;
+	[SerializeField]	private						TweenableGraphics					_miniViewUIGraphics;
+	[SerializeField]	private						NxSimpleButton						_playerReadyButton;
+	[SerializeField]	private						GameObject							_submitCardsButton;
+						public						GameObject							SubmitCardsButton		{ get { return _submitCardsButton; } }
+	[SerializeField]	private						GameObject							_undoButton;
+	[SerializeField]	private						GameObject							_redoButton;
+	[SerializeField]	private						TweenableGraphics					_gameEndSymbol;
+	[SerializeField]	private						TweenableGraphics					_gameEndText;
+	[SerializeField]	private						Text								_gameEndUIText;
+	[SerializeField]	private						Text								_gameEndSymbolText;
+	[SerializeField]	private						TweenableGraphics					_playAgainButton;
+	[SerializeField]	private						NxKnobSlider						_timeScaleKnobSlider;
+	[SerializeField]	private						Text								_timeScaleText;
+	[SerializeField]	private						AdaptiveTutorialSystem				_tutorialSystem;
+						public						AdaptiveTutorialSystem				TutorialSystem			{ get { return _tutorialSystem; } }
+	[SerializeField]	private						TweenableAlphaMultipliedGraphics	_mainHelpPanel;
+	[SerializeField]	private						Transform							_mainHelpPanelMirrorPoint;
+						private						Vector2								_mainHelpPanelOffscreenOffset;
+	[SerializeField]	private						TweenableGraphics					_mainHelpTitle;
+	[SerializeField]	private						Transform							_mainHelpTitleMirrorPoint;
+						private						Vector2								_mainHelpTitleOffscreenOffset;
+	[SerializeField]	private						TweenableGraphics					_submitCardsButtonTweenableGraphics;
+	[SerializeField]	private						Collider2D							_submitCardsButtonCollider;
+	[SerializeField]	private						TweenableGraphics					_helpPanelPrevButton;
+	[SerializeField]	private						Collider2D							_helpPrevButtonCollider;
+	[SerializeField]	private						Transform							_helpPanelPrevButtonMirrorPoint;
+						private						Vector2								_helpPanelPrevButtonOffscreenOffset;
+	[SerializeField]	private						TweenableGraphics					_helpPanelNextButton;
+	[SerializeField]	private						Collider2D							_helpNextButtonCollider;
+	[SerializeField]	private						Transform							_helpPanelNextButtonMirrorPoint;
+						private						Vector2								_helpPanelNextButtonOffscreenOffset;
+	[SerializeField]	private						Collider2D							_helpButtonCollider;
+	[SerializeField]	private						TweenableGraphics					_helpOpenIcon;
+	[SerializeField]	private						TweenableGraphics					_helpCloseIcon;
+	[SerializeField]	private						Text								_mainHelpTitleText;
+	[SerializeField]	private						Text								_mainHelpContentText;
+	[SerializeField]	private						HelpPageLocalizationKeys[]			_helpPageLocalizationKeys;
+						private						int									_currentHelpPageIndex;
+						private						bool								_isShowingHelpPage		= true;
+						public						bool								IsShowingHelpPage		{ get { return _isShowingHelpPage; } }
 
-						private						GameSettings				_gameSettings;
-						public						bool						SeeAICards				{ get { return _gameSettings.SeeAICards; } }
-						public						bool						WildcardRule			{ get { return _gameSettings.WildCardRule; } }
-						public						bool						OptionalPlayRule		{ get { return _gameSettings.OptionalPlayRule; } }
-						public						bool						MaxDeviationRule		{ get { return _gameSettings.MaxDeviationRule; } }
-						public						int							MaxDeviationThreshold	{ get { return _gameSettings.MaxDeviationThreshold; } }
+	[SerializeField]	private						TextMesh							_directionText;
 
-	[SerializeField]	private						MeshMaterialSwapInfo[]		_qualityLoweringSwapInfos;
-	[SerializeField]	private						GameObject					_shadowCamera;
+	[SerializeField]	private						string[]							_playerIconCharacters;
+	[SerializeField]	private						Transform[]							_playerRoots;
+						private						AbstractPlayerModtroller[]			_players				= new AbstractPlayerModtroller[4];
+						private						int									_currentPlayer;
+						private						int									_currentCameraPlayer;
+						private						int									_indexOfLastPlayerToPlayACard;
+						private						bool								_firstHumanHasPlayed	= false;
+						private						Vector3								_mainCameraLocalPosition;
 
-	[SerializeField]	private						EasterEggListener			_easterEggListener;
+						private						GameSettings						_gameSettings;
+						public						bool								SeeAICards				{ get { return _gameSettings.SeeAICards; } }
+						public						bool								WildcardRule			{ get { return _gameSettings.WildCardRule; } }
+						public						bool								OptionalPlayRule		{ get { return _gameSettings.OptionalPlayRule; } }
+						public						bool								MaxDeviationRule		{ get { return _gameSettings.MaxDeviationRule; } }
+						public						int									MaxDeviationThreshold	{ get { return _gameSettings.MaxDeviationThreshold; } }
 
-						private						Commander					_commander;
+	[SerializeField]	private						MeshMaterialSwapInfo[]				_qualityLoweringSwapInfos;
+	[SerializeField]	private						GameObject							_shadowCamera;
+
+	[SerializeField]	private						EasterEggListener					_easterEggListener;
+
+						private						Commander							_commander;
 
 	public AbstractPlayerModtroller[] Players { get { return _players; } }
 	private int _numValidPlayers
@@ -162,6 +198,38 @@ public partial class MainGameModtroller : MonoBehaviour
 		}
 	}
 
+	private int _currentHelpPage
+	{
+		get
+		{
+			return _currentHelpPageIndex;
+		}
+		set
+		{
+			HelpPageLocalizationKeys currentHelpPageLocalizationKeys = _helpPageLocalizationKeys[_currentHelpPageIndex = value];
+			_mainHelpTitleText.text = _localizationData.GetLocalizedStringForKey(currentHelpPageLocalizationKeys.TitleKey);
+			_mainHelpContentText.text = _localizationData.GetLocalizedStringForKey(currentHelpPageLocalizationKeys.ContentKey);
+
+			if (_currentHelpPageIndex <= 0)
+			{
+				_helpPanelPrevButton.gameObject.SetActive(false);
+			}
+			else
+			{
+				_helpPanelPrevButton.gameObject.SetActive(true);
+			}
+
+			if (_currentHelpPageIndex >= _helpPageLocalizationKeys.Length - 1)
+			{
+				_helpPanelNextButton.gameObject.SetActive(false);
+			}
+			else
+			{
+				_helpPanelNextButton.gameObject.SetActive(true);
+			}
+		}
+	}
+
 
 	// Startup functions
 	private void Start()
@@ -171,6 +239,16 @@ public partial class MainGameModtroller : MonoBehaviour
 		_cardWhenDirectionWasLastUpdated = null;
 		if (!_demoMode)
 		{
+			_mainHelpPanelOffscreenOffset		= Vector2.down	* Mathf.Abs(_helpPanelNextButton.RootRectTransform.localPosition.y
+																			- _mainHelpPanelMirrorPoint.localPosition.y) * 2.0f;
+			_mainHelpTitleOffscreenOffset		= Vector2.up	* Mathf.Abs(_mainHelpTitleMirrorPoint.localPosition.y
+																			- _helpPanelNextButton.RootRectTransform.localPosition.y) * 2.0f;
+			_helpPanelPrevButtonOffscreenOffset	= Vector2.left	* Mathf.Abs(_helpPanelPrevButton.RootRectTransform.localPosition.x
+																			- _helpPanelPrevButtonMirrorPoint.localPosition.x) * 2.0f;
+			_helpPanelNextButtonOffscreenOffset	= Vector2.right	* Mathf.Abs(_helpPanelNextButtonMirrorPoint.localPosition.x
+																			- _helpPanelNextButton.RootRectTransform.localPosition.x) * 2.0f;
+			OnHelpButtonClicked();
+			_helpButtonCollider.enabled = true;
 			_mainCameraLocalPosition = _mainCamera.transform.localPosition;
 		}
 
@@ -243,7 +321,11 @@ public partial class MainGameModtroller : MonoBehaviour
 	private void SetupAndStartGame(GameSettings gameSettings)
 	{
 		_gameSettings = gameSettings;
-		SetTimeScalePercentage(_gameSettings.TimeScalePercentage);
+		if (!_demoMode)
+		{
+			SetTimeScalePercentage(_gameSettings.TimeScalePercentage);
+			WriteGameSettingsToDisk();
+		}
 		if (_numHumanPlayers <= 0)
 		{
 			Screen.sleepTimeout = SleepTimeout.NeverSleep;
@@ -306,7 +388,7 @@ public partial class MainGameModtroller : MonoBehaviour
 				TweenHolder createCardTweenHolder;
 				for (int k = 0, kMax = suits.Length; k < kMax; ++k)
 				{
-					_deck.CreateCard(values[j], suits[k], _mainCamera, out createCardTweenHolder, fancyEntrance: true, angleOffsetForFancyEntrance:
+					_deck.CreateCard(values[j], suits[k], out createCardTweenHolder, fancyEntrance: true, angleOffsetForFancyEntrance:
 						((float) (j + i * jMax) / (iMax * jMax * kMax / 2.0f) + k / 4.0f) * Mathf.PI * 2.0f);
 					cardCreationTweenWaiter.AddFinishable(createCardTweenHolder);
 				}
@@ -386,6 +468,7 @@ public partial class MainGameModtroller : MonoBehaviour
 
 	private IEnumerator BeginPlayerTurn()
 	{
+		_tutorialSystem.IfIsNotNullThen(t => t.FinishTutorial());
 		if (_indexOfLastPlayerToPlayACard == _currentPlayer)
 		{
 			ResetDirection();
@@ -408,6 +491,11 @@ public partial class MainGameModtroller : MonoBehaviour
 			{
 				PlayerWin();
 				return false;
+			}
+
+			if (_tutorialSystem != null && _players[_currentPlayer].IsHuman)
+			{
+				_tutorialSystem.StartTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.WIN_ROUND_TUTORIAL);
 			}
 
 			bool playerHandRefillDone = false,
@@ -582,10 +670,15 @@ public partial class MainGameModtroller : MonoBehaviour
 
 	private void PlayerWin()
 	{
+		_helpButtonCollider.gameObject.SetActive(false);
+		if (_isShowingHelpPage)
+		{
+			OnHelpButtonClicked();
+		}
 		_gameEndSymbolText.text = _players[_currentPlayer].PlayerSymbolText.text;
-		Color playerSymbolColor = _players[_currentPlayer].PlayerSymbolText.color;
-		playerSymbolColor.a = 0.0f;
-		_gameEndSymbolText.color = playerSymbolColor;
+		_gameEndSymbolText.color = _players[_currentPlayer].PlayerSymbolText.color;
+		_gameEndSymbolText.SetAlpha(0.0f);
+
 		_gameEndUIText.text = _localizationData.GetLocalizedStringForKey(_players[_currentPlayer].IsHuman ? LocalizationData.TranslationKey.PLAYER_WINS
 																										  : LocalizationData.TranslationKey.AI_WINS);
 		_gameEndSymbol.AddAlphaTween(1.0f)
@@ -840,7 +933,7 @@ public partial class MainGameModtroller : MonoBehaviour
 	{
 		if (!_demoMode)
 		{
-			_tutorialSystem.HideTutorial();
+			_tutorialSystem.FinishTutorial();
 			_undoButton.SetActive(false);
 			_redoButton.SetActive(false);
 			_miniViewUIGraphics.AddAlphaTween(0.0f).TweenHolder
@@ -908,26 +1001,133 @@ public partial class MainGameModtroller : MonoBehaviour
 		((HumanPlayerModtroller)_players[_currentPlayer]).SubmitCards();
 	}
 
+	public void OnHelpButtonClicked()
+	{
+		if (_isShowingHelpPage)
+		{
+			_isShowingHelpPage = false;
+			_helpButtonCollider.enabled = false;
+
+			var helpPageTransitionWaiter = new FinishableGroupWaiter(() => _helpButtonCollider.enabled = true);
+			_helpPrevButtonCollider.enabled = false;
+			if (_helpPanelPrevButton.gameObject.activeSelf)
+			{
+				helpPageTransitionWaiter.AddFinishable(
+						_helpPanelPrevButton.AddIncrementalAnchoredPositionTween(_helpPanelPrevButtonOffscreenOffset)
+											.AddAlphaTween(0.0f)
+											.TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME));
+			}
+			else
+			{
+				_helpPanelPrevButton.RootRectTransform.anchoredPosition = _helpPanelPrevButtonOffscreenOffset;
+				_helpPanelPrevButton.Graphics.ForEach(g => g.SetAlpha(0.0f));
+			}
+
+			_helpNextButtonCollider.enabled = false;
+			if (_helpPanelNextButton.gameObject.activeSelf)
+			{
+				helpPageTransitionWaiter.AddFinishable(
+						_helpPanelNextButton.AddIncrementalAnchoredPositionTween(_helpPanelNextButtonOffscreenOffset)
+											.AddAlphaTween(0.0f)
+											.TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME));
+			}
+			else
+			{
+				_helpPanelNextButton.RootRectTransform.anchoredPosition = _helpPanelNextButtonOffscreenOffset;
+				_helpPanelPrevButton.Graphics.ForEach(g => g.SetAlpha(0.0f));
+			}
+
+			_submitCardsButtonCollider.enabled = true;
+			if (_submitCardsButtonTweenableGraphics.gameObject.activeSelf)
+			{
+				helpPageTransitionWaiter.AddFinishable(
+						_submitCardsButtonTweenableGraphics.AddIncrementalAnchoredPositionTween(Vector2.zero)
+														   .AddAlphaTween(1.0f)
+														   .TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME));
+			}
+			else
+			{
+				_submitCardsButtonTweenableGraphics.RootRectTransform.anchoredPosition = Vector2.zero;
+				_submitCardsButtonTweenableGraphics.Graphics.ForEach(g => g.SetAlpha(1.0f));
+			}
+
+			helpPageTransitionWaiter.AddFinishable(
+					_mainHelpPanel.AddIncrementalAnchoredPositionTween(_mainHelpPanelOffscreenOffset)
+								  .AddAlphaTween(0.0f)
+								  .TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME));
+
+			helpPageTransitionWaiter.AddFinishable(
+					_mainHelpTitle.AddIncrementalAnchoredPositionTween(_mainHelpTitleOffscreenOffset)
+								  .AddAlphaTween(0.0f)
+								  .TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME));
+
+			helpPageTransitionWaiter.AddFinishable(
+					_helpOpenIcon.AddAlphaTween(1.0f)
+								 .TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME));
+			helpPageTransitionWaiter.AddFinishable(
+					_helpCloseIcon.AddAlphaTween(0.0f)
+								  .TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME));
+			helpPageTransitionWaiter.Ready = true;
+
+			_tutorialSystem.ShowTutorialIfNecessary();
+		}
+		else
+		{
+			_tutorialSystem.HideTutorial();
+			_helpPrevButtonCollider.enabled = _helpNextButtonCollider.enabled = true;
+			_currentHelpPage = 0;
+			_helpPanelPrevButton.RootRectTransform.anchoredPosition = Vector2.zero;
+			_helpPanelPrevButton.Graphics.ForEach(g => g.SetAlpha(1.0f));
+			_helpPanelNextButton.AddIncrementalAnchoredPositionTween(Vector2.zero)
+								.AddAlphaTween(1.0f)
+								.TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME);
+			_submitCardsButtonCollider.enabled = false;
+			if (_submitCardsButtonTweenableGraphics.gameObject.activeSelf)
+			{
+				_submitCardsButtonTweenableGraphics.AddIncrementalAnchoredPositionTween(_mainHelpTitleOffscreenOffset)
+												   .AddAlphaTween(0.0f)
+												   .TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME);
+			}
+			else
+			{
+				_submitCardsButtonTweenableGraphics.RootRectTransform.anchoredPosition = _helpPanelNextButtonOffscreenOffset;
+				_submitCardsButtonTweenableGraphics.Graphics.ForEach(g => g.SetAlpha(0.0f));
+			}
+			_mainHelpTitle.AddIncrementalAnchoredPositionTween(Vector2.zero)
+						  .AddAlphaTween(1.0f)
+						  .TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME);
+			_mainHelpPanel.AddIncrementalAnchoredPositionTween(Vector2.zero)
+						  .AddAlphaTween(1.0f)
+						  .TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME);
+			_helpOpenIcon.AddAlphaTween(0.0f)
+						 .TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME);
+			_helpCloseIcon.AddAlphaTween(1.0f)
+						  .TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME);
+			_isShowingHelpPage = true;
+		}
+	}
+
+	public void OpenNextHelpPage()
+	{
+		++_currentHelpPage;
+	}
+
+	public void OpenPrevHelpPage()
+	{
+		--_currentHelpPage;
+	}
+
 	public void PlayAgain()
 	{
 		_gameEndSymbol.RootRectTransform.localScale = Vector3.one * 4.0f;
 		_gameEndText.TweenHolder.Finish();
 
-		Color tempAlphaColor = _gameEndUIText.color;
-		tempAlphaColor.a = 0.0f;
-		_gameEndUIText.color = tempAlphaColor;
+		_gameEndUIText.SetAlpha(0.0f);
 
-		tempAlphaColor = _gameEndSymbolText.color;
-		tempAlphaColor.a = 0.0f;
-		_gameEndSymbolText.color = tempAlphaColor;
+		_gameEndSymbolText.SetAlpha(0.0f);
 
 		_playAgainButton.TweenHolder.Finish();
-		_playAgainButton.Graphics.ForEach(g =>
-		{
-			tempAlphaColor = g.color;
-			tempAlphaColor.a = 0.0f;
-			g.color = tempAlphaColor;
-		});
+		_playAgainButton.Graphics.ForEach(g => g.SetAlpha(0.0f));
 		_playAgainButton.RootRectTransform.gameObject.SetActive(false);
 
 		_players.ForEach(o => o.IfIsNotNullThen(p => p.Points = 0));

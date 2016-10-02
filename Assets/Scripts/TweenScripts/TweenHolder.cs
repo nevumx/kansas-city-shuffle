@@ -145,6 +145,7 @@ public class TweenHolder : MonoBehaviour, IFinishable
 		RemoveDelegates(tweenToAdd); // Make sure it is only registered once
 		AddDelegates(tweenToAdd);
 		tweenToAdd.TweenHolder = this;
+		tweenToAdd.CacheNeededData();
 		for (LinkedListNode<Tween> node = _tweens.First; node != null; node = node.Next)
 		{
 			if (node.Value.GetType() == tweenToAdd.GetType())
@@ -296,4 +297,16 @@ public class Tween
 	public virtual Action GetUpdateDelegate() { return null; }
 
 	public virtual Action GetEndOfFrameDelegate() { return null; }
+
+	public virtual void CacheNeededData() {}
+}
+
+public class CachedTransformTween : Tween
+{
+	protected	Transform	_CachedTransform	{ get; private set; }
+
+	public override void CacheNeededData()
+	{
+		_CachedTransform = TweenHolder.transform;
+	}
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using Nx;
 
-public class FancyRotationTween : Tween
+public class FancyRotationTween : CachedTransformTween
 {
 	public	Vector3	EulerFrom	= Vector3.zero;
 	public	Vector3	EulerTo		= Vector3.zero;
@@ -23,7 +23,7 @@ public class FancyRotationTween : Tween
 		Quaternion VecXQ = Quaternion.Euler(new Vector3(newRot.x, 0.0f, 0.0f));
 		Quaternion VecYQ = Quaternion.Euler(new Vector3(0.0f, newRot.y, 0.0f));
 		Quaternion VecZQ = Quaternion.Euler(new Vector3(0.0f, 0.0f, newRot.z));
-		TweenHolder.transform.localRotation =
+		_CachedTransform.localRotation =
 				VecXQ
 				* (VecXQ * VecYQ)
 				* (VecXQ * VecYQ * VecZQ);

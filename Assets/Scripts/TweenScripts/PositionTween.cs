@@ -2,7 +2,7 @@
 using System;
 using Nx;
 
-public class PositionTween : Tween
+public class PositionTween : CachedTransformTween
 {
 	public	Vector3	PositionFrom	= Vector3.zero;
 	public	Vector3	PositionTo		= Vector3.zero;
@@ -20,7 +20,7 @@ public class PositionTween : Tween
 	private void OnUpdate()
 	{
 		float percentDone = TweenHolder.EaseInOutAnimationCurve(TweenHolder.PercentDone);
-		TweenHolder.transform.position = Vector3.Lerp(PositionFrom, PositionTo, percentDone);
+		_CachedTransform.position = Vector3.Lerp(PositionFrom, PositionTo, percentDone);
 	}
 }
 

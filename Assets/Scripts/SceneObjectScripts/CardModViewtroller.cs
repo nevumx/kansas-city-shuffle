@@ -32,9 +32,15 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 	[SerializeField]	private						TweenHolder				_tweenHolder;
 						public						TweenHolder				TweenHolder			{ get { return _tweenHolder; } }
 
-	public CardModViewtroller Init(Card.CardValue value, Card.CardSuit suit, Camera eventCamera)
+	public CardModViewtroller Init(Card.CardValue value, Card.CardSuit suit)
 	{
 		_card = new Card(value, suit);
+		RefreshFaceText();
+		return this;
+	}
+
+	public void RefreshFaceText()
+	{
 		if (_card.Value == Card.CardValue.ACE   || _card.Value == Card.CardValue.JACK
 		 || _card.Value == Card.CardValue.QUEEN || _card.Value == Card.CardValue.KING)
 		{
@@ -62,8 +68,7 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 			_cardValueText.text = _card.CardValueString;
 		}
 		_cardSuitText.text = _card.CardSuitString;
-		_cardValueText.color = _cardSuitText.color = suit == Card.CardSuit.SPADES || suit == Card.CardSuit.CLUBS ? Color.black : Color.red;
-		return this;
+		_cardValueText.color = _cardSuitText.color = _card.Suit == Card.CardSuit.SPADES || _card.Suit == Card.CardSuit.CLUBS ? Color.black : Color.red;
 	}
 
 	public void DestroyShadowObject()

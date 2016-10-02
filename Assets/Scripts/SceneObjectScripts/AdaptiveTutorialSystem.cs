@@ -18,19 +18,21 @@ public class AdaptiveTutorialSystem : MonoBehaviour
 		WILD_CARD_TUTORIAL,
 		OPTIONAL_PLAY_TUTORIAL,
 		MAX_DEVIATION_TUTORIAL,
+		WIN_ROUND_TUTORIAL,
 	}
 
-						private	static	readonly	string				SAVED_TUTORIAL_DATA_FILE_NAME		= "/KCSTutorialData.ntd";
-						private	static	readonly	int					NUMBER_OF_TIMES_TO_SHOW_TUTORIALS	= 2;
-						private	static	readonly	float				TUTORIAL_ALPHA_TRANSISTION_TIME		= 1.0f;
+						private	static	readonly	string								SAVED_TUTORIAL_DATA_FILE_NAME		= "/KCSTutorialData.ntd";
+						private	static	readonly	int									NUMBER_OF_TIMES_TO_SHOW_TUTORIALS	= 2;
+						private	static	readonly	float								TUTORIAL_ALPHA_TRANSISTION_TIME		= 0.75f;
 
+	[SerializeField]	private						MainGameModtroller					_mainGameModtroller;
+	[SerializeField]	private						TweenableAlphaMultipliedGraphics	_tutorialGraphics;
+	[SerializeField]	private						Text								_tutorialText;
+	[SerializeField]	private						LocalizationData					_localizationData;
+						private						bool								_isShowingTutorial	= false;
+						private						TutorialType?						_lastTutorialType	= null;
 
-	[SerializeField]	private						TweenableGraphics	_tutorialGraphics;
-	[SerializeField]	private						Text				_tutorialText;
-	[SerializeField]	private						LocalizationData	_localizationData;
-						private						bool				_isShowingTutorial					= false;
-
-						private						int[]				_numberOfTimesTutorialTypeShown;
+						private						int[]								_numberOfTimesTutorialTypeShown;
 
 	private void Awake()
 	{
@@ -70,20 +72,45 @@ public class AdaptiveTutorialSystem : MonoBehaviour
 		WriteToDisk();
 	}
 
-	public void ShowTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType tutorialType)
+	public void StartTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType tutorialType)
 	{
 		if (!_isShowingTutorial && _numberOfTimesTutorialTypeShown[(int)tutorialType] < NUMBER_OF_TIMES_TO_SHOW_TUTORIALS)
 		{
-			_tutorialText.text = _localizationData.GetLocalizedStringForKey(tutorialType.GetTranslationKeyEquivalent());
-			_tutorialGraphics.AddAlphaTween(1.0f).TweenHolder
-							 .SetDuration(TUTORIAL_ALPHA_TRANSISTION_TIME);
+			_tutorialText.text = _localizationData.GetLocalizedStringForKey(GetTranslationKeyEquivalent(tutorialType));
 			_isShowingTutorial = true;
-			++_numberOfTimesTutorialTypeShown[(int)tutorialType];
-			WriteToDisk();
+			_lastTutorialType = tutorialType;
+			if (!_mainGameModtroller.IsShowingHelpPage)
+			{
+				ShowTutorialIfNecessary();
+			}
 		}
 	}
 
 	public void HideTutorial()
+	{
+		if (_isShowingTutorial)
+		{
+			_tutorialGraphics.AddAlphaTween(0.0f).TweenHolder
+							 .SetDuration(MainGameModtroller.HELP_SCREEN_TRANSITION_TIME);
+		}
+	}
+
+	public void ShowTutorialIfNecessary()
+	{
+		if (_isShowingTutorial)
+		{
+			_tutorialGraphics.AddAlphaTween(1.0f).TweenHolder
+							 .SetDuration(MainGameModtroller.HELP_SCREEN_TRANSITION_TIME);
+			if (_lastTutorialType.HasValue)
+			{
+				++_numberOfTimesTutorialTypeShown[(int)_lastTutorialType];
+				WriteToDisk();
+				_lastTutorialType = null;
+			}
+		}
+	}
+
+	public void FinishTutorial()
 	{
 		if (_isShowingTutorial)
 		{
@@ -101,31 +128,30 @@ public class AdaptiveTutorialSystem : MonoBehaviour
 		formatter.Serialize(stream, _numberOfTimesTutorialTypeShown);
 		stream.Close();
 	}
-}
 
-public static class TutorialTypeEnumHelper
-{
-	public static LocalizationData.TranslationKey GetTranslationKeyEquivalent(this AdaptiveTutorialSystem.TutorialType tutorialType)
+	private static LocalizationData.TranslationKey GetTranslationKeyEquivalent(TutorialType tutorialType)
 	{
 		switch (tutorialType)
 		{
-			case AdaptiveTutorialSystem.TutorialType.ANY_CARD_TUTORIAL:
+			case TutorialType.ANY_CARD_TUTORIAL:
 				return LocalizationData.TranslationKey.ANY_CARD_TUTORIAL;
-			case AdaptiveTutorialSystem.TutorialType.UP_CARD_TUTORIAL:
+			case TutorialType.UP_CARD_TUTORIAL:
 				return LocalizationData.TranslationKey.UP_CARD_TUTORIAL;
-			case AdaptiveTutorialSystem.TutorialType.DOWN_CARD_TUTORIAL:
+			case TutorialType.DOWN_CARD_TUTORIAL:
 				return LocalizationData.TranslationKey.DOWN_CARD_TUTORIAL;
-			case AdaptiveTutorialSystem.TutorialType.NO_CARD_TUTORIAL:
+			case TutorialType.NO_CARD_TUTORIAL:
 				return LocalizationData.TranslationKey.NO_CARD_TUTORIAL;
-			case AdaptiveTutorialSystem.TutorialType.MULTIPLE_CARD_TUTORIAL:
+			case TutorialType.MULTIPLE_CARD_TUTORIAL:
 				return LocalizationData.TranslationKey.MULTIPLE_CARD_TUTORIAL;
-			case AdaptiveTutorialSystem.TutorialType.WILD_CARD_TUTORIAL:
+			case TutorialType.WILD_CARD_TUTORIAL:
 				return LocalizationData.TranslationKey.WILD_CARD_TUTORIAL;
-			case AdaptiveTutorialSystem.TutorialType.OPTIONAL_PLAY_TUTORIAL:
+			case TutorialType.OPTIONAL_PLAY_TUTORIAL:
 				return LocalizationData.TranslationKey.OPTIONAL_PLAY_TUTORIAL;
-			case AdaptiveTutorialSystem.TutorialType.MAX_DEVIATION_TUTORIAL:
+			case TutorialType.MAX_DEVIATION_TUTORIAL:
 				return LocalizationData.TranslationKey.MAX_DEVIATION_TUTORIAL;
-			default: // AdaptiveTutorialSystem.TutorialType.OBJECTIVE_TUTORIAL:
+			case TutorialType.WIN_ROUND_TUTORIAL:
+				return LocalizationData.TranslationKey.WIN_ROUND_TUTORIAL;
+			default: // TutorialType.OBJECTIVE_TUTORIAL:
 				break;
 		}
 		return LocalizationData.TranslationKey.OBJECTIVE_TUTORIAL;

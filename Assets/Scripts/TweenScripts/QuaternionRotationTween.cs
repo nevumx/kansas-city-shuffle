@@ -2,7 +2,7 @@
 using System;
 using Nx;
 
-public class QuaternionRotationTween : Tween
+public class QuaternionRotationTween : CachedTransformTween
 {
 	public	Quaternion	From	= Quaternion.identity;
 	public	Quaternion	To		= Quaternion.identity;
@@ -20,7 +20,7 @@ public class QuaternionRotationTween : Tween
 	private void OnUpdate()
 	{
 		float percentDone = TweenHolder.EaseInOutAnimationCurve(TweenHolder.PercentDone);
-		TweenHolder.transform.rotation = Quaternion.Slerp(From, To, percentDone);
+		_CachedTransform.rotation = Quaternion.Slerp(From, To, percentDone);
 	}
 }
 

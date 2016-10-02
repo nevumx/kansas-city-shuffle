@@ -94,11 +94,11 @@ public class CardHolder : MonoBehaviour
 		_cardsAnimState = newState;
 	}
 
-	public void CreateCard(Card.CardValue cardValue, Card.CardSuit cardSuit, Camera eventCamera, out TweenHolder outTween,
+	public void CreateCard(Card.CardValue cardValue, Card.CardSuit cardSuit, out TweenHolder outTween,
 						   bool fancyEntrance = false, float angleOffsetForFancyEntrance = 0.0f)
 	{
 		outTween = null;
-		var card = ((CardModViewtroller)Instantiate(_shouldCreateShadowlessNewCards ? ShadowlessCardPrefab : CardPrefab)).Init(cardValue, cardSuit, eventCamera);
+		var card = ((CardModViewtroller)Instantiate(_shouldCreateShadowlessNewCards ? ShadowlessCardPrefab : CardPrefab)).Init(cardValue, cardSuit);
 		if (_shouldReduceQualityOfNewCards)
 		{
 			card.ReduceQuality();

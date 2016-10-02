@@ -16,6 +16,7 @@ public class MainMenuModtroller : MonoBehaviour
 		HELP2_SCREEN,
 		HELP3_SCREEN,
 		HELP4_SCREEN,
+		HELP5_SCREEN,
 		ABOUT_SCREEN,
 	}
 
@@ -29,6 +30,7 @@ public class MainMenuModtroller : MonoBehaviour
 	[SerializeField]	private	GameObject				_help2ScreenCanvas;
 	[SerializeField]	private	GameObject				_help3ScreenCanvas;
 	[SerializeField]	private	GameObject				_help4ScreenCanvas;
+	[SerializeField]	private	GameObject				_help5ScreenCanvas;
 	[SerializeField]	private	GameObject				_aboutScreenCanvas;
 
 	[SerializeField]	private	GameObject				_classicRulesetButtonOutline;
@@ -112,6 +114,9 @@ public class MainMenuModtroller : MonoBehaviour
 			case Menu.HELP4_SCREEN:
 				_currentMenuCanvas = _help4ScreenCanvas;
 				break;
+			case Menu.HELP5_SCREEN:
+				_currentMenuCanvas = _help5ScreenCanvas;
+				break;
 			case Menu.ABOUT_SCREEN:
 				_currentMenuCanvas = _aboutScreenCanvas;
 				break;
@@ -147,11 +152,11 @@ public class MainMenuModtroller : MonoBehaviour
 
 		if (_logoImage.color.a < 1.0f)
 		{
-			_logoImage.color = new Color(1.0f, 1.0f, 1.0f, Mathf.Min(_logoImage.color.a + Time.deltaTime, 1.0f));
+			_logoImage.SetAlpha(Mathf.Min(_logoImage.color.a + Time.deltaTime, 1.0f));
 		}
 		else if (_blackFadeOutImage.color.a > 0.0f)
 		{
-			_blackFadeOutImage.color = new Color(0.0f, 0.0f, 0.0f, Mathf.Max(_blackFadeOutImage.color.a - Time.deltaTime / _fadeOutTime, 0.0f));
+			_blackFadeOutImage.SetAlpha(Mathf.Max(_blackFadeOutImage.color.a - Time.deltaTime / _fadeOutTime, 0.0f));
 		}
 	}
 
@@ -188,6 +193,11 @@ public class MainMenuModtroller : MonoBehaviour
 	public void OnHelp4Pressed()
 	{
 		CurrentMenu = Menu.HELP4_SCREEN;
+	}
+
+	public void OnHelp5Pressed()
+	{
+		CurrentMenu = Menu.HELP5_SCREEN;
 	}
 
 	public void OnAboutPressed()

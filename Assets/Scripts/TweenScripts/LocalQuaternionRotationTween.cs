@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using Nx;
 
-public class LocalQuaternionRotationTween : Tween
+public class LocalQuaternionRotationTween : CachedTransformTween
 {
 	public	Quaternion	From	= Quaternion.identity;
 	public	Quaternion	To		= Quaternion.identity;
@@ -20,7 +20,7 @@ public class LocalQuaternionRotationTween : Tween
 	private void OnUpdate()
 	{
 		float percentDone = TweenHolder.EaseInOutAnimationCurve(TweenHolder.PercentDone);
-		TweenHolder.transform.localRotation = Quaternion.Slerp(From, To, percentDone);
+		_CachedTransform.localRotation = Quaternion.Slerp(From, To, percentDone);
 	}
 }
 

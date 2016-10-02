@@ -72,6 +72,9 @@ public class LocalizationData : ScriptableObject
 		WILD_CARD_TUTORIAL,
 		OPTIONAL_PLAY_TUTORIAL,
 		MAX_DEVIATION_TUTORIAL,
+		HOW_TO_PLAY_PAGE_5_TITLE,
+		HOW_TO_PLAY_PAGE_5_CONTENT,
+		WIN_ROUND_TUTORIAL,
 	}
 
 	[Serializable]

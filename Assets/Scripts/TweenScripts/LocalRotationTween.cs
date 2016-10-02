@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using Nx;
 
-public class LocalRotationTween : Tween
+public class LocalRotationTween : CachedTransformTween
 {
 	public	Vector3	EulerFrom	= Vector3.zero;
 	public	Vector3	EulerTo		= Vector3.zero;
@@ -23,7 +23,7 @@ public class LocalRotationTween : Tween
 	{
 		float percentDone = PingPong ? TweenHolder.EaseInOutPingPongAnimationCurveFastOutro(TweenHolder.PercentDone)
 									 : TweenHolder.EaseInOutAnimationCurve(TweenHolder.PercentDone);
-		TweenHolder.transform.localEulerAngles = Vector3.Lerp(EulerFrom, EulerTo, percentDone);
+		_CachedTransform.localEulerAngles = Vector3.Lerp(EulerFrom, EulerTo, percentDone);
 	}
 }
 

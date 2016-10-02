@@ -2,7 +2,7 @@
 using System;
 using Nx;
 
-public class IncrementalPositionTween : Tween
+public class IncrementalPositionTween : CachedTransformTween
 {
 	public	Vector3	PositionTo	= Vector3.zero;
 	public	bool	BoostSpeed	= false;
@@ -21,11 +21,11 @@ public class IncrementalPositionTween : Tween
 	{
 		if (Mathf.Approximately(TweenHolder.TimeRemaining, 0.0f))
 		{
-			TweenHolder.transform.position = PositionTo;
+			_CachedTransform.position = PositionTo;
 			return;
 		}
 
-		Vector3 destOffset = PositionTo - TweenHolder.transform.position;
+		Vector3 destOffset = PositionTo - _CachedTransform.position;
 		float speed;
 		if (BoostSpeed)
 		{
@@ -37,16 +37,15 @@ public class IncrementalPositionTween : Tween
 			speed = destOffset.magnitude / TweenHolder.TimeRemaining
 				* Mathf.Max(-6.0f * TweenHolder.PercentDone * (TweenHolder.PercentDone - 1.0f), TweenHolder.PercentDone > 0.5f ? 1.0f : 0.0f);
 		}
-		Vector3 nextDest = TweenHolder.transform.position + destOffset.normalized * speed * TweenHolder.DeltaTime;
+		Vector3 nextDest = _CachedTransform.position + destOffset.normalized * speed * TweenHolder.DeltaTime;
 
-		if (Vector3.Distance(TweenHolder.transform.position, nextDest)
-			> Vector3.Distance(TweenHolder.transform.position, PositionTo))
+		if ((_CachedTransform.position - nextDest).sqrMagnitude > (_CachedTransform.position -  PositionTo).sqrMagnitude)
 		{
-			TweenHolder.transform.position = PositionTo;
+			_CachedTransform.position = PositionTo;
 		}
 		else
 		{
-			TweenHolder.transform.position = nextDest;
+			_CachedTransform.position = nextDest;
 		}
 	}
 }

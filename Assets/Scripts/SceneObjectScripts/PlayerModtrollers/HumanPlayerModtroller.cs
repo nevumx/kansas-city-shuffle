@@ -7,17 +7,20 @@ using Nx;
 
 public class HumanPlayerModtroller : AbstractPlayerModtroller
 {
-	private	static	readonly	float					CARD_DRAG_ACCELERATION	= 3.0f;
+	private	static	readonly	float					CARD_DRAG_ACCELERATION		= 3.0f;
+	public	static	readonly	int[]					EASTER_EGG_CODE				= { 4, 2, 3, 1, 3, 2, 4 };
 
 	public	event				Action					OnHumanTurnBegan;
 
-	private						List<int>				_selectedCardIndexes	= new List<int>();
-	private						List<int>				_allowedCardIndexes		= null;
+	private						List<int>				_selectedCardIndexes		= new List<int>();
+	private						List<int>				_allowedCardIndexes			= null;
 
 	private						GameObject				_submitCardsButton;
 	private						AdaptiveTutorialSystem	_tutorialSystem;
 
-	public	override			bool					IsHuman					{ get { return true; } }
+	private						Queue<int>				_easterEggNumbersEntered	= new Queue<int>();
+
+	public	override			bool					IsHuman						{ get { return true; } }
 
 	public override AbstractPlayerModtroller Init(MainGameModtroller mainGameModtroller)
 	{
@@ -50,40 +53,40 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 
 		if (_MainGameModtroller.Direction == MainGameModtroller.PlayDirection.UNDECIDED)
 		{
-			_tutorialSystem.ShowTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.ANY_CARD_TUTORIAL);
+			_tutorialSystem.StartTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.ANY_CARD_TUTORIAL);
 		}
 		if (_MainGameModtroller.Direction == MainGameModtroller.PlayDirection.UP && _allowedCardIndexes.Count > 0
 			&& _allowedCardIndexes.Exists(i => Hand.ReadOnlyCards[i].CardValue >= _MainGameModtroller.DiscardPileLastValue))
 		{
-			_tutorialSystem.ShowTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.UP_CARD_TUTORIAL);
+			_tutorialSystem.StartTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.UP_CARD_TUTORIAL);
 		}
 		if (_MainGameModtroller.Direction == MainGameModtroller.PlayDirection.DOWN && _allowedCardIndexes.Count > 0
 			&& _allowedCardIndexes.Exists(i => Hand.ReadOnlyCards[i].CardValue <= _MainGameModtroller.DiscardPileLastValue))
 		{
-			_tutorialSystem.ShowTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.DOWN_CARD_TUTORIAL);
+			_tutorialSystem.StartTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.DOWN_CARD_TUTORIAL);
 		}
 		if (_allowedCardIndexes.Count <= 0)
 		{
-			_tutorialSystem.ShowTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.NO_CARD_TUTORIAL);
+			_tutorialSystem.StartTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.NO_CARD_TUTORIAL);
 		}
 		if (_allowedCardIndexes.Exists(i => _allowedCardIndexes.Exists(j => Hand.ReadOnlyCards[i].CardValue == Hand.ReadOnlyCards[j].CardValue && i != j)))
 		{
-			_tutorialSystem.ShowTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.MULTIPLE_CARD_TUTORIAL);
+			_tutorialSystem.StartTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.MULTIPLE_CARD_TUTORIAL);
 		}
 		if (_MainGameModtroller.WildcardRule && _allowedCardIndexes.Exists(i => Hand.ReadOnlyCards[i].CardValue == _MainGameModtroller.WildCardValue))
 		{
-			_tutorialSystem.ShowTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.WILD_CARD_TUTORIAL);
+			_tutorialSystem.StartTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.WILD_CARD_TUTORIAL);
 		}
 		if (_MainGameModtroller.OptionalPlayRule && _allowedCardIndexes.Count > 0)
 		{
-			_tutorialSystem.ShowTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.OPTIONAL_PLAY_TUTORIAL);
+			_tutorialSystem.StartTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.OPTIONAL_PLAY_TUTORIAL);
 		}
 		if (_MainGameModtroller.MaxDeviationRule && (_MainGameModtroller.Direction == MainGameModtroller.PlayDirection.UP
 													  ||  _MainGameModtroller.Direction == MainGameModtroller.PlayDirection.DOWN))
 		{
-			_tutorialSystem.ShowTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.MAX_DEVIATION_TUTORIAL);
+			_tutorialSystem.StartTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.MAX_DEVIATION_TUTORIAL);
 		}
-		_tutorialSystem.ShowTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.OBJECTIVE_TUTORIAL);
+		_tutorialSystem.StartTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType.OBJECTIVE_TUTORIAL);
 
 		Hand.CardsTextVisibility = true;
 		SetCardStates();
@@ -97,6 +100,9 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 			c.Button.ClearAllDelegates();
 		});
 
+		_easterEggNumbersEntered.Clear();
+		Hand.ReadOnlyCards.ForEach(c => c.RefreshFaceText());
+
 		_submitCardsButton.SetActive(false);
 		_MainGameModtroller.EndPlayerTurn(_selectedCardIndexes.ToArray(), handCardsWereDragged);
 		_selectedCardIndexes.Clear();
@@ -109,6 +115,9 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 			c.Button.CancelDrag();
 			c.Button.ClearAllDelegates();
 		});
+
+		_easterEggNumbersEntered.Clear();
+		Hand.ReadOnlyCards.ForEach(c => c.RefreshFaceText());
 
 		_selectedCardIndexes.Clear();
 		_submitCardsButton.SetActive(false);
@@ -151,6 +160,7 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 				_selectedCardIndexes.Add(index);
 				_selectedCardIndexes.RemoveAll(i => Hand.ReadOnlyCards[i].CardValue != cards[index].CardValue);
 			}
+			AddNumberToEasterEggSequence(index);
 			SetCardStates();
 		});
 
@@ -208,8 +218,8 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 				if (!_selectedCardIndexes.Exists(i => cards[i].CardValue == cards[index].CardValue && i != index && !cards[i].Button.IsBeingDragged))
 				{
 					_selectedCardIndexes.Remove(index);
-					SetCardStates();
 				}
+				SetCardStates();
 				cards[index].AddIncrementalPositionTween(Hand.GetFinalPositionOfCardAtIndex(index))
 							.AddIncrementalScaleTween(cards[index].ViewFSM.GetAnimScale())
 							.SetDuration(cards[index].CardAnimationData.CardStateChangeDuration);
@@ -244,5 +254,30 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 		_submitCardsButton.SetActive(_allowedCardIndexes.Count <= 0 || (!Hand.ReadOnlyCards.Exists(c => c.Button.IsBeingDragged)
 									 && (_MainGameModtroller.OptionalPlayRule || !_selectedCardIndexes.IsEmpty())));
 		cardStateTransitionWaiter.IfIsNotNullThen(c => c.Ready = true);
+	}
+
+	private void AddNumberToEasterEggSequence(int index)
+	{
+		_easterEggNumbersEntered.Enqueue(index);
+		if (_easterEggNumbersEntered.Count > EASTER_EGG_CODE.Length)
+		{
+			_easterEggNumbersEntered.Dequeue();
+		}
+		if (_easterEggNumbersEntered.ToArray().StartsWith(EASTER_EGG_CODE) && Hand.ReadOnlyCards.Count == 6 && _allowedCardIndexes.Count == 6)
+		{
+			Hand.ReadOnlyCards.ForEach(c =>
+			{
+				c.CardSuitText.color = c.CardValueText.color = Color.red;
+				c.CardSuitText.text = "\n\u2665";
+			});
+			Hand.ReadOnlyCards[0].CardValueText.text = "M\n";
+			Hand.ReadOnlyCards[1].CardValueText.text = "A\n";
+			Hand.ReadOnlyCards[2].CardValueText.text = "G\n";
+			Hand.ReadOnlyCards[3].CardValueText.text = "G\n";
+			Hand.ReadOnlyCards[4].CardValueText.text = "I\n";
+			Hand.ReadOnlyCards[5].CardValueText.text = "E\n";
+			_selectedCardIndexes.Clear();
+			SetCardStates();
+		}
 	}
 }

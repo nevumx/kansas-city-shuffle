@@ -84,7 +84,7 @@ public class EasterEggListener : MonoBehaviour
 						}
 					});
 				}
-				else if (cardBackColorShaderVariableName .Equals(CHANGE_RED_CARD_VALUES))
+				else if (cardBackColorShaderVariableName.Equals(CHANGE_RED_CARD_VALUES))
 				{
 					GameObject.FindObjectsOfType<CardModViewtroller>().ForEach(c =>
 					{

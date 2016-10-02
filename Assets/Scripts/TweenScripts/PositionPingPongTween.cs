@@ -2,7 +2,7 @@
 using System;
 using Nx;
 
-public class PositionPingPongTween : Tween
+public class PositionPingPongTween : CachedTransformTween
 {
 	public	Vector3	PositionFrom	= Vector3.zero;
 	public	Vector3	PositionTo		= Vector3.zero;
@@ -24,11 +24,11 @@ public class PositionPingPongTween : Tween
 		float percentDone = TweenHolder.EaseInOutPingPongAnimationCurveFastOutro(TweenHolder.PercentDone);
 		if (percentDone < 0.5f)
 		{
-			TweenHolder.transform.position = Vector3.Lerp(PositionFrom, PositionTo, PingPongFunction(percentDone));
+			_CachedTransform.position = Vector3.Lerp(PositionFrom, PositionTo, PingPongFunction(percentDone));
 		}
 		else
 		{
-			TweenHolder.transform.position = Vector3.Lerp(PositionBackTo, PositionTo, PingPongFunction(percentDone));
+			_CachedTransform.position = Vector3.Lerp(PositionBackTo, PositionTo, PingPongFunction(percentDone));
 		}
 	}
 

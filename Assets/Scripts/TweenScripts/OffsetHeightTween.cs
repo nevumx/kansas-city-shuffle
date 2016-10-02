@@ -2,7 +2,7 @@
 using System;
 using Nx;
 
-public class OffsetHeightTween : Tween
+public class OffsetHeightTween : CachedTransformTween
 {
 	public	float	Height					= 0.0f;
 	private	Vector3	_previousHeightOffset	= Vector3.zero;
@@ -23,12 +23,12 @@ public class OffsetHeightTween : Tween
 	private void OnUpdate()
 	{
 		_previousHeightOffset = HeightFunction(TweenHolder.PercentDone, Height) * Vector3.up;
-		TweenHolder.transform.position += _previousHeightOffset;
+		_CachedTransform.position += _previousHeightOffset;
 	}
 
 	private void OnEndOfFrame()
 	{
-		TweenHolder.transform.position -= _previousHeightOffset;
+		_CachedTransform.position -= _previousHeightOffset;
 	}
 
 	private static float HeightFunction(float percentDone, float height)
