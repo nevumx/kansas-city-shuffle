@@ -239,10 +239,10 @@ public partial class MainGameModtroller : MonoBehaviour
 		_cardWhenDirectionWasLastUpdated = null;
 		if (!_demoMode)
 		{
-			_mainHelpPanelOffscreenOffset		= Vector2.down	* Mathf.Abs(_helpPanelNextButton.RootRectTransform.localPosition.y
+			_mainHelpPanelOffscreenOffset		= Vector2.down	* Mathf.Abs(_mainHelpPanel.RootRectTransform.localPosition.y
 																			- _mainHelpPanelMirrorPoint.localPosition.y) * 2.0f;
 			_mainHelpTitleOffscreenOffset		= Vector2.up	* Mathf.Abs(_mainHelpTitleMirrorPoint.localPosition.y
-																			- _helpPanelNextButton.RootRectTransform.localPosition.y) * 2.0f;
+																			- _mainHelpTitle.RootRectTransform.localPosition.y) * 2.0f;
 			_helpPanelPrevButtonOffscreenOffset	= Vector2.left	* Mathf.Abs(_helpPanelPrevButton.RootRectTransform.localPosition.x
 																			- _helpPanelPrevButtonMirrorPoint.localPosition.x) * 2.0f;
 			_helpPanelNextButtonOffscreenOffset	= Vector2.right	* Mathf.Abs(_helpPanelNextButtonMirrorPoint.localPosition.x
@@ -1034,7 +1034,7 @@ public partial class MainGameModtroller : MonoBehaviour
 			else
 			{
 				_helpPanelNextButton.RootRectTransform.anchoredPosition = _helpPanelNextButtonOffscreenOffset;
-				_helpPanelPrevButton.Graphics.ForEach(g => g.SetAlpha(0.0f));
+				_helpPanelNextButton.Graphics.ForEach(g => g.SetAlpha(0.0f));
 			}
 
 			_submitCardsButtonCollider.enabled = true;
@@ -1074,6 +1074,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		else
 		{
 			_tutorialSystem.HideTutorial();
+
 			_helpPrevButtonCollider.enabled = _helpNextButtonCollider.enabled = true;
 			_currentHelpPage = 0;
 			_helpPanelPrevButton.RootRectTransform.anchoredPosition = Vector2.zero;
@@ -1081,6 +1082,7 @@ public partial class MainGameModtroller : MonoBehaviour
 			_helpPanelNextButton.AddIncrementalAnchoredPositionTween(Vector2.zero)
 								.AddAlphaTween(1.0f)
 								.TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME);
+
 			_submitCardsButtonCollider.enabled = false;
 			if (_submitCardsButtonTweenableGraphics.gameObject.activeSelf)
 			{
@@ -1090,19 +1092,22 @@ public partial class MainGameModtroller : MonoBehaviour
 			}
 			else
 			{
-				_submitCardsButtonTweenableGraphics.RootRectTransform.anchoredPosition = _helpPanelNextButtonOffscreenOffset;
+				_submitCardsButtonTweenableGraphics.RootRectTransform.anchoredPosition = _mainHelpTitleOffscreenOffset;
 				_submitCardsButtonTweenableGraphics.Graphics.ForEach(g => g.SetAlpha(0.0f));
 			}
+
 			_mainHelpTitle.AddIncrementalAnchoredPositionTween(Vector2.zero)
 						  .AddAlphaTween(1.0f)
 						  .TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME);
 			_mainHelpPanel.AddIncrementalAnchoredPositionTween(Vector2.zero)
 						  .AddAlphaTween(1.0f)
 						  .TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME);
+
 			_helpOpenIcon.AddAlphaTween(0.0f)
 						 .TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME);
 			_helpCloseIcon.AddAlphaTween(1.0f)
 						  .TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME);
+
 			_isShowingHelpPage = true;
 		}
 	}

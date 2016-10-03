@@ -101,7 +101,7 @@ PlayerSettings:
   xboxOneDisableKinectGpuReservation: 0
   singlePassStereoRendering: 0
   protectGraphicsMemory: 0
-  AndroidBundleVersionCode: 22
+  AndroidBundleVersionCode: 23
   AndroidMinSdkVersion: 9
   AndroidPreferredInstallLocation: 1
   aotOptions: 
@@ -109,7 +109,7 @@ PlayerSettings:
   stripEngineCode: 1
   iPhoneStrippingLevel: 0
   iPhoneScriptCallOptimization: 0
-  iPhoneBuildNumber: 22
+  iPhoneBuildNumber: 23
   ForceInternetPermission: 0
   ForceSDCardPermission: 0
   CreateWallpaper: 0
