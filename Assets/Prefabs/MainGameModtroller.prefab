@@ -654,10 +654,14 @@ MonoBehaviour:
   _hardAIPlayerPrefab: {fileID: 11466938, guid: d8d47c4a5464a4d1aaf244b025596447,
     type: 2}
   _cardAnimationData: {fileID: 11400000, guid: dd461eca7ef8a4ec785591483437832b, type: 2}
+  _localizationData: {fileID: 0}
   _cardFlipAudio: {fileID: 0}
   _deck: {fileID: 0}
   _discardPile: {fileID: 0}
   _wildcardPile: {fileID: 0}
+  CardPrefab: {fileID: 11469220, guid: 3b4f017eab0464bb18c5d54aa6262952, type: 2}
+  ShadowlessCardPrefab: {fileID: 11415580, guid: 1ddb95a6115154b318d5488f69626fcf,
+    type: 2}
   _mainCameraAnchor: {fileID: 0}
   _mainCamera: {fileID: 0}
   _miniViewCamera: {fileID: 0}
@@ -679,9 +683,54 @@ MonoBehaviour:
     _tweenHolder: {fileID: 0}
     _graphics: []
     _rootRectTransform: {fileID: 0}
+  _gameEndUIText: {fileID: 0}
   _gameEndSymbolText: {fileID: 0}
+  _playAgainButton:
+    _tweenHolder: {fileID: 0}
+    _graphics: []
+    _rootRectTransform: {fileID: 0}
   _timeScaleKnobSlider: {fileID: 0}
   _timeScaleText: {fileID: 0}
+  _tutorialSystem: {fileID: 0}
+  _mainHelpPanel:
+    _tweenHolder: {fileID: 0}
+    _graphics: []
+    _rootRectTransform: {fileID: 0}
+  _mainHelpPanelMirrorPoint: {fileID: 0}
+  _mainHelpTitle:
+    _tweenHolder: {fileID: 0}
+    _graphics: []
+    _rootRectTransform: {fileID: 0}
+  _mainHelpTitleMirrorPoint: {fileID: 0}
+  _submitCardsButtonTweenableGraphics:
+    _tweenHolder: {fileID: 0}
+    _graphics: []
+    _rootRectTransform: {fileID: 0}
+  _submitCardsButtonCollider: {fileID: 0}
+  _helpPanelPrevButton:
+    _tweenHolder: {fileID: 0}
+    _graphics: []
+    _rootRectTransform: {fileID: 0}
+  _helpPrevButtonCollider: {fileID: 0}
+  _helpPanelPrevButtonMirrorPoint: {fileID: 0}
+  _helpPanelNextButton:
+    _tweenHolder: {fileID: 0}
+    _graphics: []
+    _rootRectTransform: {fileID: 0}
+  _helpNextButtonCollider: {fileID: 0}
+  _helpPanelNextButtonMirrorPoint: {fileID: 0}
+  _helpButtonCollider: {fileID: 0}
+  _helpOpenIcon:
+    _tweenHolder: {fileID: 0}
+    _graphics: []
+    _rootRectTransform: {fileID: 0}
+  _helpCloseIcon:
+    _tweenHolder: {fileID: 0}
+    _graphics: []
+    _rootRectTransform: {fileID: 0}
+  _mainHelpTitleText: {fileID: 0}
+  _mainHelpContentText: {fileID: 0}
+  _helpPageLocalizationKeys: []
   _directionText: {fileID: 0}
   _playerIconCharacters:
   - "\u2660"

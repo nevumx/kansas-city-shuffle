@@ -40,24 +40,29 @@ public partial class MainGameModtroller : MonoBehaviour
 	[SerializeField]	private						LocalizationData					_localizationData;
 
 	[SerializeField]	private						AudioSource							_cardFlipAudio;
-						public						AudioSource							CardFlipAudio			{ get { return _cardFlipAudio; } }
+						public						AudioSource							CardFlipAudio					{ get { return _cardFlipAudio; } }
 
 	[SerializeField]	private						Deck								_deck;
 	[SerializeField]	private						CardPile							_discardPile;
-						public						int									DiscardPileLastValue	{ get { return _discardPile.ReadOnlyCards.Last().CardValue; } }
+						public						int									DiscardPileLastValue			{ get { return _discardPile.ReadOnlyCards.Last().CardValue; } }
 	[SerializeField]	private						CardPile							_wildcardPile;
-						public						int									WildCardValue			{ get { return _wildcardPile.ReadOnlyCards.Last().CardValue; } }
+						public						int									WildCardValue					{ get { return _wildcardPile.ReadOnlyCards.Last().CardValue; } }
+
+	[SerializeField]	private						CardModViewtroller					CardPrefab;
+	[SerializeField]	private						CardModViewtroller					ShadowlessCardPrefab;
+						private						bool								_shouldCreateShadowlessNewCards	= false;
+						private						bool								_shouldReduceQualityOfNewCards	= false;
 
 	[SerializeField]	private						TweenHolder							_mainCameraAnchor;
 	[SerializeField]	private						Camera								_mainCamera;
-						public						Camera								MainCamera				{ get { return _mainCamera; } }
+						public						Camera								MainCamera						{ get { return _mainCamera; } }
 	[SerializeField]	private						Camera								_miniViewCamera;
 	[SerializeField]	private						RawImage							_miniViewUIImage;
 	[SerializeField]	private						RectTransform						_miniViewUIImageHolder;
 	[SerializeField]	private						TweenableGraphics					_miniViewUIGraphics;
 	[SerializeField]	private						NxSimpleButton						_playerReadyButton;
 	[SerializeField]	private						GameObject							_submitCardsButton;
-						public						GameObject							SubmitCardsButton		{ get { return _submitCardsButton; } }
+						public						GameObject							SubmitCardsButton				{ get { return _submitCardsButton; } }
 	[SerializeField]	private						GameObject							_undoButton;
 	[SerializeField]	private						GameObject							_redoButton;
 	[SerializeField]	private						TweenableGraphics					_gameEndSymbol;
@@ -68,7 +73,7 @@ public partial class MainGameModtroller : MonoBehaviour
 	[SerializeField]	private						NxKnobSlider						_timeScaleKnobSlider;
 	[SerializeField]	private						Text								_timeScaleText;
 	[SerializeField]	private						AdaptiveTutorialSystem				_tutorialSystem;
-						public						AdaptiveTutorialSystem				TutorialSystem			{ get { return _tutorialSystem; } }
+						public						AdaptiveTutorialSystem				TutorialSystem					{ get { return _tutorialSystem; } }
 	[SerializeField]	private						TweenableAlphaMultipliedGraphics	_mainHelpPanel;
 	[SerializeField]	private						Transform							_mainHelpPanelMirrorPoint;
 						private						Vector2								_mainHelpPanelOffscreenOffset;
@@ -92,14 +97,14 @@ public partial class MainGameModtroller : MonoBehaviour
 	[SerializeField]	private						Text								_mainHelpContentText;
 	[SerializeField]	private						HelpPageLocalizationKeys[]			_helpPageLocalizationKeys;
 						private						int									_currentHelpPageIndex;
-						private						bool								_isShowingHelpPage		= true;
-						public						bool								IsShowingHelpPage		{ get { return _isShowingHelpPage; } }
+						private						bool								_isShowingHelpPage				= true;
+						public						bool								IsShowingHelpPage				{ get { return _isShowingHelpPage; } }
 
 	[SerializeField]	private						TextMesh							_directionText;
 
 	[SerializeField]	private						string[]							_playerIconCharacters;
 	[SerializeField]	private						Transform[]							_playerRoots;
-						private						AbstractPlayerModtroller[]			_players				= new AbstractPlayerModtroller[4];
+						private						AbstractPlayerModtroller[]			_players						= new AbstractPlayerModtroller[4];
 						private						int									_currentPlayer;
 						private						int									_currentCameraPlayer;
 						private						int									_indexOfLastPlayerToPlayACard;
@@ -107,11 +112,11 @@ public partial class MainGameModtroller : MonoBehaviour
 						private						Vector3								_mainCameraLocalPosition;
 
 						private						GameSettings						_gameSettings;
-						public						bool								SeeAICards				{ get { return _gameSettings.SeeAICards; } }
-						public						bool								WildcardRule			{ get { return _gameSettings.WildCardRule; } }
-						public						bool								OptionalPlayRule		{ get { return _gameSettings.OptionalPlayRule; } }
-						public						bool								MaxDeviationRule		{ get { return _gameSettings.MaxDeviationRule; } }
-						public						int									MaxDeviationThreshold	{ get { return _gameSettings.MaxDeviationThreshold; } }
+						public						bool								SeeAICards						{ get { return _gameSettings.SeeAICards; } }
+						public						bool								WildcardRule					{ get { return _gameSettings.WildCardRule; } }
+						public						bool								OptionalPlayRule				{ get { return _gameSettings.OptionalPlayRule; } }
+						public						bool								MaxDeviationRule				{ get { return _gameSettings.MaxDeviationRule; } }
+						public						int									MaxDeviationThreshold			{ get { return _gameSettings.MaxDeviationThreshold; } }
 
 	[SerializeField]	private						MeshMaterialSwapInfo[]				_qualityLoweringSwapInfos;
 	[SerializeField]	private						GameObject							_shadowCamera;
@@ -372,14 +377,33 @@ public partial class MainGameModtroller : MonoBehaviour
 
 	private IEnumerator PopulateDeck()
 	{
+		var suits = (Card.CardSuit[])Enum.GetValues(typeof(Card.CardSuit));
+		var values = (Card.CardValue[])Enum.GetValues(typeof(Card.CardValue));
+		var allCards = new CardModViewtroller[_gameSettings.NumberOfDecks * values.Length * suits.Length];
+
+		for (int i = 0, iMax = _gameSettings.NumberOfDecks; i < iMax; ++i)
+		{
+			for (int j = 0, jMax = values.Length; j < jMax; ++j)
+			{
+				for (int k = 0, kMax = suits.Length; k < kMax; ++k)
+				{
+					int newCardIndex = i * jMax * kMax + j * kMax + k;
+					allCards[newCardIndex] = ((CardModViewtroller)Instantiate(_shouldCreateShadowlessNewCards ? ShadowlessCardPrefab : CardPrefab)).Init(values[j], suits[k]);
+					if (_shouldReduceQualityOfNewCards)
+					{
+						allCards[newCardIndex].ReduceQuality();
+					}
+					allCards[newCardIndex].transform.position = Vector3.down * 50.0f;
+				}
+			}
+		}
+
 		if (!_demoMode)
 		{
 			yield return new WaitForSeconds(_cardAnimationData.TimeToWaitBeforePopulatingDeck);
 		}
 		int[] unShuffleData;
 		var cardCreationTweenWaiter = new FinishableGroupWaiter(() => _deck.Shuffle(out unShuffleData, onFinished: () => StartCoroutine(DealCardsToPlayers())));
-		var suits = (Card.CardSuit[])Enum.GetValues(typeof(Card.CardSuit));
-		var values = (Card.CardValue[])Enum.GetValues(typeof(Card.CardValue));
 
 		for (int i = 0, iMax = _gameSettings.NumberOfDecks; i < iMax; ++i)
 		{
@@ -388,8 +412,8 @@ public partial class MainGameModtroller : MonoBehaviour
 				TweenHolder createCardTweenHolder;
 				for (int k = 0, kMax = suits.Length; k < kMax; ++k)
 				{
-					_deck.CreateCard(values[j], suits[k], out createCardTweenHolder, fancyEntrance: true, angleOffsetForFancyEntrance:
-						((float) (j + i * jMax) / (iMax * jMax * kMax / 2.0f) + k / 4.0f) * Mathf.PI * 2.0f);
+					_deck.IntroduceCard(allCards[i * jMax * kMax + j * kMax + k], out createCardTweenHolder, fancyEntrance: true,
+						angleOffsetForFancyEntrance: ((float) (j + i * jMax) / (iMax * jMax * kMax / 2.0f) + k / 4.0f) * Mathf.PI * 2.0f);
 					cardCreationTweenWaiter.AddFinishable(createCardTweenHolder);
 				}
 				yield return new WaitForSeconds(_cardAnimationData.CardCreationTotalDuration / (iMax * jMax));
@@ -951,7 +975,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		_wildcardPile.IfIsNotNullThen(w => w.ReadOnlyCards.ForEach(destroyCardShadowFunction));
 		_discardPile.ReadOnlyCards.ForEach(destroyCardShadowFunction);
 		_players.ForEach(o => o.IfIsNotNullThen(p => p.Hand.ReadOnlyCards.ForEach(destroyCardShadowFunction)));
-		_deck.ShouldCreateShadowlessNewCards = true;
+		_shouldCreateShadowlessNewCards = true;
 	}
 
 	public void ReduceCardQuality()
@@ -961,7 +985,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		_wildcardPile.IfIsNotNullThen(w => w.ReadOnlyCards.ForEach(reduceQualityFunction));
 		_discardPile.ReadOnlyCards.ForEach(reduceQualityFunction);
 		_players.ForEach(o => o.IfIsNotNullThen(p => p.Hand.ReadOnlyCards.ForEach(reduceQualityFunction)));
-		_deck.ShouldReduceQualityOfNewCards = true;
+		_shouldReduceQualityOfNewCards = true;
 	}
 
 

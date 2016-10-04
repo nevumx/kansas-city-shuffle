@@ -7,8 +7,6 @@ using Nx;
 
 public class CardHolder : MonoBehaviour
 {
-	[SerializeField]	private		CardModViewtroller							CardPrefab;
-	[SerializeField]	private		CardModViewtroller							ShadowlessCardPrefab;
 
 	[SerializeField]	private		CardAnimationData							_cardAnimationData;
 						protected	CardAnimationData							CardAnimationData				{ get { return _cardAnimationData; } }
@@ -28,11 +26,6 @@ public class CardHolder : MonoBehaviour
 						public		AudioSource									CardFlipAudio;
 	[SerializeField]	private		AudioClip									_cardShuffleClip;
 	[SerializeField]	private		AudioClip									_cardRuffleClip;
-
-						private		bool										_shouldCreateShadowlessNewCards	= false;
-						public		bool										ShouldCreateShadowlessNewCards	{ set { _shouldCreateShadowlessNewCards = value; } }
-						private		bool										_shouldReduceQualityOfNewCards	= false;
-						public		bool										ShouldReduceQualityOfNewCards	{ set { _shouldReduceQualityOfNewCards = value; } }
 
 	public ReadOnlyCollection<CardModViewtroller> ReadOnlyCards
 	{
@@ -94,17 +87,12 @@ public class CardHolder : MonoBehaviour
 		_cardsAnimState = newState;
 	}
 
-	public void CreateCard(Card.CardValue cardValue, Card.CardSuit cardSuit, out TweenHolder outTween,
+	public void IntroduceCard(CardModViewtroller cardToIntroduce, out TweenHolder outTween,
 						   bool fancyEntrance = false, float angleOffsetForFancyEntrance = 0.0f)
 	{
 		outTween = null;
-		var card = ((CardModViewtroller)Instantiate(_shouldCreateShadowlessNewCards ? ShadowlessCardPrefab : CardPrefab)).Init(cardValue, cardSuit);
-		if (_shouldReduceQualityOfNewCards)
-		{
-			card.ReduceQuality();
-		}
-		AddCard(card);
-		card.ViewFSM.SetAnimState(_cardsAnimState, performTweens: false);
+		AddCard(cardToIntroduce);
+		cardToIntroduce.ViewFSM.SetAnimState(_cardsAnimState, performTweens: false);
 
 		if (fancyEntrance)
 		{
@@ -112,22 +100,22 @@ public class CardHolder : MonoBehaviour
 			float rightDistance = cardCreationRadius * Mathf.Cos(angleOffsetForFancyEntrance);
 			float forwardDistance = cardCreationRadius * Mathf.Sin(angleOffsetForFancyEntrance);
 
-			card.transform.position = transform.position
+			cardToIntroduce.transform.position = transform.position
 					+ Vector3.right * rightDistance
 					+ Vector3.forward * forwardDistance;
 
-			outTween = card.AddIncrementalPositionTween(GetCardPositionAtIndex(_Cards.LastIndex()), true)
-						   .AddOffsetHeightTween(_cardAnimationData.DeckFillFancyIntroTweenHeight)
-						   .AddLocalRotationTween(360.0f * Vector3.one + card.ViewFSM.GetAnimRotationOffset())
-						   .SetDuration(_cardAnimationData.DeckFillDurationPerCard)
-						   .SetShouldChangeLayer(true)
-						   .AddToOnFinishedOnce(() => OnCardRecieveTweenFinished(card));
+			outTween = cardToIntroduce.AddIncrementalPositionTween(GetCardPositionAtIndex(_Cards.LastIndex()), true)
+									  .AddOffsetHeightTween(_cardAnimationData.DeckFillFancyIntroTweenHeight)
+									  .AddLocalRotationTween(360.0f * Vector3.one + cardToIntroduce.ViewFSM.GetAnimRotationOffset())
+									  .SetDuration(_cardAnimationData.DeckFillDurationPerCard)
+									  .SetShouldChangeLayer(true)
+									  .AddToOnFinishedOnce(() => OnCardRecieveTweenFinished(cardToIntroduce));
 
-			OnCardRecieveTweenBegan(card);
+			OnCardRecieveTweenBegan(cardToIntroduce);
 		}
 		else
 		{
-			card.transform.ResetLocal();
+			cardToIntroduce.transform.ResetLocal();
 		}
 
 		if (CardFlipAudio != null)
