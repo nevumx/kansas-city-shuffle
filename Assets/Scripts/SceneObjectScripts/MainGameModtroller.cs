@@ -29,6 +29,10 @@ public partial class MainGameModtroller : MonoBehaviour
 						public	static	readonly	float								MIN_TIMESCALE									= 0.5f;
 						public	static	readonly	float								MAX_TIMESCALE									= 6.0f;
 						public	static	readonly	float								HELP_SCREEN_TRANSITION_TIME						= 0.5f;
+						public	static	readonly	float								ASPECT_RATIO_5_4								= 5.0f / 4.0f;
+						public	static	readonly	float								ASPECT_RATIO_17_9								= 17.0f / 9.0f;
+						public	static	readonly	float								MIN_CAMERA_FOV									= 64.0f;
+						public	static	readonly	float								MAX_CAMERA_FOV									= 83.0f;
 
 	[SerializeField]	private						bool								_demoMode;
 
@@ -239,6 +243,11 @@ public partial class MainGameModtroller : MonoBehaviour
 	// Startup functions
 	private void Start()
 	{
+		if (_mainCamera != null)
+		{
+			_mainCamera.fieldOfView = Mathf.Lerp(MAX_CAMERA_FOV, MIN_CAMERA_FOV, (((float) Screen.width / Screen.height) - ASPECT_RATIO_5_4)
+																										/ (ASPECT_RATIO_17_9 - ASPECT_RATIO_5_4));
+		}
 		_commander = new Commander(_cardAnimationData);
 		Direction = PlayDirection.UNDECIDED;
 		_cardWhenDirectionWasLastUpdated = null;
