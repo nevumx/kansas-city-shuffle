@@ -14,6 +14,7 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 
 	private						List<int>				_selectedCardIndexes		= new List<int>();
 	private						List<int>				_allowedCardIndexes			= null;
+	private						bool					_isSelectingCards			= false;
 
 	private						GameObject				_submitCardsButton;
 	private						AdaptiveTutorialSystem	_tutorialSystem;
@@ -33,6 +34,8 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 	public override void BeginCardSelection()
 	{
 		_allowedCardIndexes = GetAllowedCardIndexes();
+
+		_isSelectingCards = true;
 
 		OnHumanTurnBegan.Raise();
 
@@ -100,6 +103,8 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 			c.Button.ClearAllDelegates();
 		});
 
+		_isSelectingCards = false;
+
 		_easterEggNumbersEntered.Clear();
 		Hand.ReadOnlyCards.ForEach(c => c.RefreshFaceText());
 
@@ -116,6 +121,8 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 			c.Button.ClearAllDelegates();
 		});
 
+		_isSelectingCards = false;
+
 		_easterEggNumbersEntered.Clear();
 		Hand.ReadOnlyCards.ForEach(c => c.RefreshFaceText());
 
@@ -130,12 +137,12 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 
 	private void OnApplicationPause(bool isPaused)
 	{
-		if (isPaused)
+		if (isPaused && _isSelectingCards)
 		{
 			Hand.ReadOnlyCards.ForEach(c => c.Button.CancelDrag());
 			_selectedCardIndexes.Clear();
+			SetCardStates();
 		}
-		SetCardStates();
 	}
 
 	private void SetupInteractionDelegatesForCardAtIndex(int index)

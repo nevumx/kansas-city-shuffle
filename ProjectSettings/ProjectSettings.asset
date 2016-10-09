@@ -95,13 +95,13 @@ PlayerSettings:
     16:9: 1
     Others: 1
   bundleIdentifier: com.nevumx.KansasCityShuffle
-  bundleVersion: 1.5
+  bundleVersion: 1.6
   preloadedAssets: []
   metroEnableIndependentInputSource: 0
   xboxOneDisableKinectGpuReservation: 0
   singlePassStereoRendering: 0
   protectGraphicsMemory: 0
-  AndroidBundleVersionCode: 26
+  AndroidBundleVersionCode: 27
   AndroidMinSdkVersion: 9
   AndroidPreferredInstallLocation: 1
   aotOptions: 
@@ -109,7 +109,7 @@ PlayerSettings:
   stripEngineCode: 1
   iPhoneStrippingLevel: 0
   iPhoneScriptCallOptimization: 0
-  iPhoneBuildNumber: 26
+  iPhoneBuildNumber: 27
   ForceInternetPermission: 0
   ForceSDCardPermission: 0
   CreateWallpaper: 0

@@ -335,9 +335,9 @@ public partial class MainGameModtroller : MonoBehaviour
 	private void SetupAndStartGame(GameSettings gameSettings)
 	{
 		_gameSettings = gameSettings;
+		SetTimeScalePercentage(_gameSettings.TimeScalePercentage);
 		if (!_demoMode)
 		{
-			SetTimeScalePercentage(_gameSettings.TimeScalePercentage);
 			WriteGameSettingsToDisk();
 		}
 		if (_numHumanPlayers <= 0)
