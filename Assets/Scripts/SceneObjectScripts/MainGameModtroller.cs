@@ -112,7 +112,7 @@ public partial class MainGameModtroller : MonoBehaviour
 						private						int									_currentPlayer;
 						private						int									_currentCameraPlayer;
 						private						int									_indexOfLastPlayerToPlayACard;
-						private						bool								_firstHumanHasPlayed	= false;
+						private						bool								_firstHumanHasPlayed			= false;
 						private						Vector3								_mainCameraLocalPosition;
 
 						private						GameSettings						_gameSettings;
@@ -349,15 +349,15 @@ public partial class MainGameModtroller : MonoBehaviour
 			switch (_gameSettings.Players[i])
 			{
 			case GameSettings.PlayerType.HUMAN:
-				_players[i] = ((HumanPlayerModtroller)Instantiate(_humanPlayerPrefab)).Init(this);
+				_players[i] = Instantiate(_humanPlayerPrefab).Init(this);
 				((HumanPlayerModtroller) _players[i]).OnHumanTurnBegan += ProcessCommandSystemOnHumanPlayerTurn;
 				Screen.sleepTimeout = SleepTimeout.SystemSetting;
 				break;
 			case GameSettings.PlayerType.AI_EASY:
-				_players[i] = ((EasyAIPlayerModtroller)Instantiate(_easyAIPlayerPrefab)).Init(this);
+				_players[i] = Instantiate(_easyAIPlayerPrefab).Init(this);
 				break;
 			case GameSettings.PlayerType.AI_HARD:
-				_players[i] = ((HardAIPlayerModtroller)Instantiate(_hardAIPlayerPrefab)).Init(this);
+				_players[i] = Instantiate(_hardAIPlayerPrefab).Init(this);
 				break;
 			case GameSettings.PlayerType.NONE:
 			default:
@@ -397,7 +397,7 @@ public partial class MainGameModtroller : MonoBehaviour
 				for (int k = 0, kMax = suits.Length; k < kMax; ++k)
 				{
 					int newCardIndex = i * jMax * kMax + j * kMax + k;
-					allCards[newCardIndex] = ((CardModViewtroller)Instantiate(_shouldCreateShadowlessNewCards ? ShadowlessCardPrefab : CardPrefab)).Init(values[j], suits[k]);
+					allCards[newCardIndex] = Instantiate(_shouldCreateShadowlessNewCards ? ShadowlessCardPrefab : CardPrefab).Init(values[j], suits[k]);
 					if (_shouldReduceQualityOfNewCards)
 					{
 						allCards[newCardIndex].ReduceQuality();
