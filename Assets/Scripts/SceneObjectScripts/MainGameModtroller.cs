@@ -773,10 +773,10 @@ public partial class MainGameModtroller : MonoBehaviour
 		{
 			UpdateCardVisibilityForPlayer(prevPlayerIndex, onFinished: () =>
 			{
-				_playerReadyButton.OnClicked.RemoveAllListeners();
 				_playerReadyButton.gameObject.SetActive(true);
 				_playerReadyButton.OnClicked.AddListener(() =>
 				{
+					_playerReadyButton.OnClicked.RemoveAllListeners();
 					_playerReadyButton.gameObject.SetActive(false);
 					UpdateCamera(onFinished);
 				});

@@ -39,18 +39,23 @@ public class AdaptiveTutorialSystem : MonoBehaviour
 		string settingsFilePath = Application.persistentDataPath + SAVED_TUTORIAL_DATA_FILE_NAME;
 		FileStream stream = null;
 		var formatter = new BinaryFormatter();
+		int numberOfTutorialTypes = Enum.GetValues(typeof(AdaptiveTutorialSystem.TutorialType)).Length;
 
 		try
 		{
 			stream = new FileStream(settingsFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
 			_numberOfTimesTutorialTypeShown = (int[])formatter.Deserialize(stream);
+			if (_numberOfTimesTutorialTypeShown.Length != numberOfTutorialTypes)
+			{
+				throw new IndexOutOfRangeException();
+			}
 			stream.Close();
 		}
 		catch
 		{
 			stream.IfIsNotNullThen(s => s.Close());
 			stream = new FileStream(settingsFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
-			_numberOfTimesTutorialTypeShown = new int[Enum.GetValues(typeof(AdaptiveTutorialSystem.TutorialType)).Length];
+			_numberOfTimesTutorialTypeShown = new int[numberOfTutorialTypes];
 			formatter.Serialize(stream, _numberOfTimesTutorialTypeShown);
 			stream.Close();
 		}
