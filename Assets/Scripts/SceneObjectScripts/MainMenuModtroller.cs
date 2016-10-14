@@ -17,6 +17,7 @@ public class MainMenuModtroller : MonoBehaviour
 		HELP3_SCREEN,
 		HELP4_SCREEN,
 		HELP5_SCREEN,
+		HELP6_SCREEN,
 		ABOUT_SCREEN,
 	}
 
@@ -31,6 +32,7 @@ public class MainMenuModtroller : MonoBehaviour
 	[SerializeField]	private	GameObject				_help3ScreenCanvas;
 	[SerializeField]	private	GameObject				_help4ScreenCanvas;
 	[SerializeField]	private	GameObject				_help5ScreenCanvas;
+	[SerializeField]	private	GameObject				_help6ScreenCanvas;
 	[SerializeField]	private	GameObject				_aboutScreenCanvas;
 
 	[SerializeField]	private	GameObject				_classicRulesetButtonOutline;
@@ -117,6 +119,9 @@ public class MainMenuModtroller : MonoBehaviour
 			case Menu.HELP5_SCREEN:
 				_currentMenuCanvas = _help5ScreenCanvas;
 				break;
+			case Menu.HELP6_SCREEN:
+				_currentMenuCanvas = _help6ScreenCanvas;
+				break;
 			case Menu.ABOUT_SCREEN:
 				_currentMenuCanvas = _aboutScreenCanvas;
 				break;
@@ -198,6 +203,11 @@ public class MainMenuModtroller : MonoBehaviour
 	public void OnHelp5Pressed()
 	{
 		CurrentMenu = Menu.HELP5_SCREEN;
+	}
+
+	public void OnHelp6Pressed()
+	{
+		CurrentMenu = Menu.HELP6_SCREEN;
 	}
 
 	public void OnAboutPressed()

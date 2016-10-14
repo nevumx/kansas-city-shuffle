@@ -75,6 +75,8 @@ public class LocalizationData : ScriptableObject
 		HOW_TO_PLAY_PAGE_5_TITLE,
 		HOW_TO_PLAY_PAGE_5_CONTENT,
 		WIN_ROUND_TUTORIAL,
+		HOW_TO_PLAY_PAGE_6_TITLE,
+		HOW_TO_PLAY_PAGE_6_CONTENT,
 	}
 
 	[Serializable]

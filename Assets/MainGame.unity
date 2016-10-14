@@ -1756,7 +1756,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11423022, guid: dc4e7beb3e04749539cef63af21cb996, type: 2}
       propertyPath: _helpPageLocalizationKeys.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 11423022, guid: dc4e7beb3e04749539cef63af21cb996, type: 2}
       propertyPath: _playAgainButton._graphics.Array.size
@@ -2199,6 +2199,14 @@ Prefab:
       propertyPath: _submitCardsButtonTweenableGraphics._graphics.Array.data[1]
       value: 
       objectReference: {fileID: 1496082732}
+    - target: {fileID: 11423022, guid: dc4e7beb3e04749539cef63af21cb996, type: 2}
+      propertyPath: _helpPageLocalizationKeys.Array.data[5]._titleKey
+      value: 67
+      objectReference: {fileID: 0}
+    - target: {fileID: 11423022, guid: dc4e7beb3e04749539cef63af21cb996, type: 2}
+      propertyPath: _helpPageLocalizationKeys.Array.data[5]._contentKey
+      value: 68
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dc4e7beb3e04749539cef63af21cb996, type: 2}
   m_IsPrefabParent: 0

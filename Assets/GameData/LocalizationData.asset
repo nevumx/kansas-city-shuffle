@@ -182,11 +182,15 @@ MonoBehaviour:
         with values within a certain distance of the current card on top of the Discard
         Pile. (Example: if the current card on the discard pile is a 5, and the direction
         of play is UP, (<color=#00ff00ff>\u25B2</color>) and the Max Deviation Threshold
-        is set to 3, a player can only play a 5, 6, or 7.)\n\u2022 <b>Lose Best Card
-        Rule:</b> If a player switches the direction of play by playing a same-valued
-        card as the current card on top of the Discard Pile, they will also lose their
-        most advantageous card after the switch. (Example: the card closest to King
-        after switching the direction to be UP. (<color=#00ff00ff>\u25B2</color>))"
+        is set to 3, a player can only play a 5, 6, or 7.)"
     - StringKey: 66
       TranslatedString: Your opponent(s) can't play a card, so you've won this round
         and have scored one or more points!
+    - StringKey: 67
+      TranslatedString: Optional Rules continued
+    - StringKey: 68
+      TranslatedString: "\u2022 <b>Lose Best Card Rule:</b> If a player switches the
+        direction of play by playing a same-valued card as the current card on top
+        of the Discard Pile, they will also lose their most advantageous card after
+        the switch. (Example: the card closest to King after switching the direction
+        to be UP. (<color=#00ff00ff>\u25B2</color>))"
