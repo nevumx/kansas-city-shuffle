@@ -65,14 +65,14 @@ MonoBehaviour:
       TranslatedString: "\u2022 The main goal of the game is to score points by being
         the last player to play a card in a round.\n\u2022 Cards can only be played
         on top of the last card played, based on the direction of play. If the direction
-        of play is UP, (<color=#00ff00ff>\u25B2</color>) only a card of higher or
-        equal value can be played, and vice-versa when the direction is DOWN. (<color=#00ff00ff>\u25BC</color>)"
+        of play is UP, (<color=#ff7f00ff>\u25B2</color>) only a card of higher or
+        equal value can be played, and vice-versa when the direction is DOWN. (<color=#ff7f00ff>\u25BC</color>)"
     - StringKey: 23
       TranslatedString: Basic Rules continued
     - StringKey: 24
       TranslatedString: "\u2022 Playing a card with the same value as the last card
         played will result in the direction of play being switched to its opposite.
-        (<color=#00ff00ff>\u25B2</color>/<color=#00ff00ff>\u25BC</color>)\n\u2022
+        (<color=#ff7f00ff>\u25B2</color>/<color=#ff7f00ff>\u25BC</color>)\n\u2022
         Players may also play two or more cards with the same value, as long as they
         follow the above rules."
     - StringKey: 25
@@ -81,7 +81,7 @@ MonoBehaviour:
       TranslatedString: "\u2022 <b>Wild Card Rule:</b> Adds a Wildcard Pile between
         the Deck and the Discard Pile. During a player's turn, they may play a card
         with the same value as the wildcard. This will result in the direction of
-        play changing, (<color=#00ff00ff>\u25B2</color>/<color=#00ff00ff>\u25BC</color>)
+        play changing, (<color=#ff7f00ff>\u25B2</color>/<color=#ff7f00ff>\u25BC</color>)
         and a new wildcard being selected.\n\u2022 <b>Elimination Rule:</b> If a player
         cannot play a card, they are out for the rest of the round, and will not be
         able to score points."
@@ -149,13 +149,13 @@ MonoBehaviour:
     - StringKey: 54
       TranslatedString: Select your own rules to make a new game mode.
     - StringKey: 55
-      TranslatedString: The direction of play is undecided. (See the <color=#00ff0000>?</color>
+      TranslatedString: The direction of play is undecided. (See the <color=#ff7f0000>?</color>
         symbol) Any card can be played.
     - StringKey: 56
-      TranslatedString: "The direction of play is UP. (See the <color=#00ff0000>\u25B2</color>
+      TranslatedString: "The direction of play is UP. (See the <color=#ff7f0000>\u25B2</color>
         symbol) You must play a higher- or equal-value card."
     - StringKey: 57
-      TranslatedString: "The direction of play is DOWN. (See the <color=#00ff0000>\u25BC</color>
+      TranslatedString: "The direction of play is DOWN. (See the <color=#ff7f0000>\u25BC</color>
         symbol) You must play a lower- or equal-value card."
     - StringKey: 58
       TranslatedString: Unfortunately, you can't play a card this turn, and may lose
@@ -168,7 +168,7 @@ MonoBehaviour:
         last player to play a card. (Default points to win is 5)
     - StringKey: 61
       TranslatedString: "You can play the card with the same value as the wildcard.
-        This will change the direction to its opposite. (<color=#00ff0000>\u25B2</color>/<color=#00ff0000>\u25BC</color>)"
+        This will change the direction to its opposite. (<color=#ff7f0000>\u25B2</color>/<color=#ff7f0000>\u25BC</color>)"
     - StringKey: 62
       TranslatedString: You can choose to not play a card this turn. But, you will
         forfeit your turn, and may lose this round.
@@ -181,7 +181,7 @@ MonoBehaviour:
       TranslatedString: "\u2022 <b>Max Deviation Rule:</b> Players may only play cards
         with values within a certain distance of the current card on top of the Discard
         Pile. (Example: if the current card on the discard pile is a 5, and the direction
-        of play is UP, (<color=#00ff00ff>\u25B2</color>) and the Max Deviation Threshold
+        of play is UP, (<color=#ff7f00ff>\u25B2</color>) and the Max Deviation Threshold
         is set to 3, a player can only play a 5, 6, or 7.)"
     - StringKey: 66
       TranslatedString: Your opponent(s) can't play a card, so you've won this round
@@ -193,4 +193,4 @@ MonoBehaviour:
         direction of play by playing a same-valued card as the current card on top
         of the Discard Pile, they will also lose their most advantageous card after
         the switch. (Example: the card closest to King after switching the direction
-        to be UP. (<color=#00ff00ff>\u25B2</color>))"
+        to be UP. (<color=#ff7f00ff>\u25B2</color>))"

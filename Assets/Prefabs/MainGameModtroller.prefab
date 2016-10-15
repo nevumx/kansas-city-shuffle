@@ -577,8 +577,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 7
   m_Type: 1
-  m_Color: {r: 0.25735295, g: 0.50831616, b: 1, a: 1}
-  m_Intensity: 0.25
+  m_Color: {r: 1, g: 0.49803922, b: 0, a: 1}
+  m_Intensity: 0.3
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -611,8 +611,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 7
   m_Type: 1
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 0.44
+  m_Color: {r: 1, g: 0.49803922, b: 0, a: 1}
+  m_Intensity: 0.3
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -654,7 +654,7 @@ MonoBehaviour:
   _hardAIPlayerPrefab: {fileID: 11466938, guid: d8d47c4a5464a4d1aaf244b025596447,
     type: 2}
   _cardAnimationData: {fileID: 11400000, guid: dd461eca7ef8a4ec785591483437832b, type: 2}
-  _localizationData: {fileID: 0}
+  _localizationData: {fileID: 11400000, guid: 79f31da989bcd4b5796c729a3b6056e2, type: 2}
   _cardFlipAudio: {fileID: 0}
   _deck: {fileID: 0}
   _discardPile: {fileID: 0}

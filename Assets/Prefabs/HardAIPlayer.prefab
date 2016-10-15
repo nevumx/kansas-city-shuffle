@@ -220,7 +220,7 @@ TextMesh:
   m_Font: {fileID: 12800000, guid: 504b5d2f4b719024c975f6ccd3dea844, type: 3}
   m_Color:
     serializedVersion: 2
-    rgba: 4278255615
+    rgba: 4278190080
 --- !u!114 &11466938
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -246,8 +246,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04de63b9cd9054a26ac639e22f15fe15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CardPrefab: {fileID: 0}
-  ShadowlessCardPrefab: {fileID: 0}
   _cardAnimationData: {fileID: 11400000, guid: dd461eca7ef8a4ec785591483437832b, type: 2}
   _cardsAnimState: 0
   _cardsTextVisibility: 0
