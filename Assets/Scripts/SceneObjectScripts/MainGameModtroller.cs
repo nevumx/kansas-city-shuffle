@@ -1176,6 +1176,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		_firstHumanHasPlayed = false;
 		ResetPlayerIndexes();
 		RotateCameraToFirstPlayer();
+		_helpButtonCollider.gameObject.SetActive(true);
 
 		_deck.ShuffleAnimationCamera.AddLocalPositionTween(_mainCameraLocalPosition)
 									.SetDuration(_cardAnimationData.GeneralCardMoveDuration)

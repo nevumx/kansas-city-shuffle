@@ -194,3 +194,195 @@ MonoBehaviour:
         of the Discard Pile, they will also lose their most advantageous card after
         the switch. (Example: the card closest to King after switching the direction
         to be UP. (<color=#ff7f00ff>\u25B2</color>))"
+  - Language: 14
+    Translations:
+    - StringKey: 0
+      TranslatedString: Quitter
+    - StringKey: 1
+      TranslatedString: "Pr\xEAt"
+    - StringKey: 2
+      TranslatedString: Tenir
+    - StringKey: 3
+      TranslatedString: Joueur Gagne
+    - StringKey: 4
+      TranslatedString: Ordinateur Gagne
+    - StringKey: 5
+      TranslatedString: Jouer Encore
+    - StringKey: 6
+      TranslatedString: "R\xE8gle du Joker"
+    - StringKey: 7
+      TranslatedString: "R\xE8gle de l'\xE9limination"
+    - StringKey: 8
+      TranslatedString: "R\xE8gle pour Passer son Tour"
+    - StringKey: 9
+      TranslatedString: "R\xE8gle du Rechargement"
+    - StringKey: 10
+      TranslatedString: "R\xE8gle Tout ou Rien"
+    - StringKey: 11
+      TranslatedString: "R\xE8gle Max Ecart"
+    - StringKey: 12
+      TranslatedString: "R\xE8gle Perdre Meilleur Carte"
+    - StringKey: 13
+      TranslatedString: Nombre de Paquets
+    - StringKey: 14
+      TranslatedString: Nombre de Points pour Gagner
+    - StringKey: 15
+      TranslatedString: "Seuil de l'\xC9cart Maximum"
+    - StringKey: 16
+      TranslatedString: Configuration du Joueur
+    - StringKey: 17
+      TranslatedString: "Ensemble de R\xE8gles"
+    - StringKey: 18
+      TranslatedString: A propos
+    - StringKey: 19
+      TranslatedString: "KansasCityShuffle\n\nCr\xE9ateur, Directeur, Programmeur,
+        Designer,\nProduceur, Compositeur et Animateur\nNicholaos Mouzourakis\n\nBranding
+        and Game Design\nMoe El-Kaaki\n\n3D Technical Artist\nBrice Vandemoortele\n\nOriginal
+        Concept\nCharles-Eric Kirihara-Sum\n\n\xA92016 Nicholaos Mouzourakis. Tous
+        les droits sont r\xE9serv\xE9s."
+    - StringKey: 20
+      TranslatedString: 'Photo: Jonathan K. Kim'
+    - StringKey: 21
+      TranslatedString: "R\xE8gles de Base partie 1"
+    - StringKey: 22
+      TranslatedString: "\u2022 Le but principal du jeu est de gagner des points en
+        \xE9tant le dernier joueur \xE0 jouer une carte dans une manche.\n\u2022 Les
+        cardes peuvent \xEAtre jouer uniquement sur la derni\xE8re carte tire, en
+        se basant sur la direction du jeu. Si la direction du jeu est vers le haut,
+        (<color=#ff7f00ff>\u25B2</color>) seulement une carte d\u2019une plus grande
+        valeur ou \xE9gal peut \xEAtre jouer, et vice-versa quand la direction du
+        jeu est vers le bas. (<color=#ff7f00ff>\u25BC</color>)"
+    - StringKey: 23
+      TranslatedString: "R\xE8gles de Base partie 2"
+    - StringKey: 24
+      TranslatedString: "\u2022 Jouer une carte d\u2019une m\xEAme valeur que celle
+        de la derni\xE8re, changera la direction du jeu vers le sens oppos\xE9. (<color=#ff7f00ff>\u25B2</color>/<color=#ff7f00ff>\u25BC</color>)\n\u2022
+        Les joueurs peuvent aussi jouer 2 cartes ou plus avec la m\xEAme valeur si
+        ils suivent les r\xE8gles ci-dessus."
+    - StringKey: 25
+      TranslatedString: "R\xE8gles Optionnelles partie 1"
+    - StringKey: 26
+      TranslatedString: "\u2022 <b>R\xE8gle du Joker:</b> Ajoute une pile de Joker
+        entre le paquet de cartes \xE0 jouer et celui \xE0 des cartes rejet\xE9es.
+        Lors du tour d\u2019un joueur, ce dernier peut jouer une carte de la m\xEAme
+        valeur que celui du joker. Ceci changera la direction du jeu(<color=#ff7f00ff>\u25B2</color>/<color=#ff7f00ff>\u25BC</color>)
+        et un nouveau joker doit \xEAtre s\xE9lectionn\xE9.\n\u2022 <b>R\xE8gle de
+        l\u2019\xE9limination:</b> Si un joueur ne peut pas jouer une carte, ils sont
+        hors du jeu jusqu\u2019\xE0 la fin du tour, et ne peuvent donc pas marquer
+        des points."
+    - StringKey: 27
+      TranslatedString: "R\xE8gles Optionnelles partie 2"
+    - StringKey: 28
+      TranslatedString: "\u2022 <b> R\xE8gle pour passer son tour:</b> Un joueur peut
+        choisir de passer son tour, m\xEAme s\u2019il est en droit de jouer celle-ci.\n\u2022
+        <b>R\xE8gle du rechargement:</b> \xC0 la fin du chaque tourn\xE9e, tous les
+        jeux des joueurs sont m\xE9lang\xE9s et places dans le paquet principal afin
+        d\u2019\xEAtre retir\xE9.\n\u2022 <b>R\xE8gle du tout ou rien:</b> Au lieu
+        de gagner un point par tourn\xE9e, le gagnant recevra un nombre de points
+        \xE9gal \xE0 au nombre de cartes rejet\xE9es."
+    - StringKey: 29
+      TranslatedString: A
+    - StringKey: 30
+      TranslatedString: V
+    - StringKey: 31
+      TranslatedString: D
+    - StringKey: 32
+      TranslatedString: R
+    - StringKey: 33
+      TranslatedString: Aucun
+    - StringKey: 34
+      TranslatedString: Ordinateur Facile
+    - StringKey: 35
+      TranslatedString: Ordinateur Difficile
+    - StringKey: 36
+      TranslatedString: Niveau humain
+    - StringKey: 37
+      TranslatedString: "R\xE9initialiser des Tutoriels"
+    - StringKey: 38
+      TranslatedString: Retirer les Tutoriels
+    - StringKey: 39
+      TranslatedString: Menu Principal
+    - StringKey: 40
+      TranslatedString: Jouer
+    - StringKey: 41
+      TranslatedString: "Ensemble de R\xE8gles"
+    - StringKey: 42
+      TranslatedString: Configuration du Joueur
+    - StringKey: 43
+      TranslatedString: Comment Jouer
+    - StringKey: 44
+      TranslatedString: A propos
+    - StringKey: 45
+      TranslatedString: "R\xE9initialiser"
+    - StringKey: 46
+      TranslatedString: Prochain
+    - StringKey: 47
+      TranslatedString: "Pr\xE9c\xE9dent"
+    - StringKey: 48
+      TranslatedString: Courriel
+    - StringKey: 49
+      TranslatedString: Classique
+    - StringKey: 50
+      TranslatedString: "Toutes r\xE8gles optionnelles ont \xE9t\xE9 \xE9teintes.
+        2 paquets et 5 points \xE0 gagner."
+    - StringKey: 51
+      TranslatedString: "Avanc\xE9"
+    - StringKey: 52
+      TranslatedString: "La r\xE8gle de l\u2019\xE9limination, la r\xE8gle du rechargement,
+        et la r\xE8gle du tout ou rien. Le premier \xE0 gagner 100 points avec deux
+        paquets, gagne le jeu."
+    - StringKey: 53
+      TranslatedString: "Personnalis\xE9"
+    - StringKey: 54
+      TranslatedString: "S\xE9lectionnez vos propres r\xE8gles afin d\u2019installer
+        un nouveau mode de jeu."
+    - StringKey: 55
+      TranslatedString: "La direction du jeu est ind\xE9termin\xE9e. (<color=#ff7f0000>?</color>)
+        Toute carte peut \xEAtre jou\xE9e."
+    - StringKey: 56
+      TranslatedString: "La direction du jeu est vers le HAUT. (<color=#ff7f0000>\u25B2</color>)
+        Vous devez jouer une carte de la m\xEAme valeur ou d\u2019une plus grande
+        valeur."
+    - StringKey: 57
+      TranslatedString: "La direction du jeu est vers le BAS. (<color=#ff7f0000>\u25BC</color>)
+        Vous devez jouer une carte de la m\xEAme valeur ou d\u2019une plus petite
+        valeur."
+    - StringKey: 58
+      TranslatedString: "Malheureusement, vous ne pouvez pas jouer \xE0 ce tour ou
+        vous pouvez perdre cette manche."
+    - StringKey: 59
+      TranslatedString: "Vous avez une carte ou plus de la m\xEAme valeur qui peuvent
+        se jouer ensemble."
+    - StringKey: 60
+      TranslatedString: "L\u2019objectif de chaque manche est de gagner des points
+        en \xE9tant le dernier joueur \xE0 jouer une carte."
+    - StringKey: 61
+      TranslatedString: "Vous pouvez joueur une carte de la m\xEAme valeur que celle
+        du joker. Ceci changera la direction du jeu au sens oppose. (<color=#ff7f0000>\u25B2</color>/<color=#ff7f0000>\u25BC</color>)"
+    - StringKey: 62
+      TranslatedString: "Vous pouvez choisir de ne pas jouer de carte \xE0 ce tour,
+        mais en ce faisant, vous renoncez votre tour et pouvez donc perdre cette manche."
+    - StringKey: 63
+      TranslatedString: "Vous pouvez uniquement jouer des cartes ayant une valeur
+        d\u2019une certaine distance de la carte d\xE9voil\xE9e. (Valeur par d\xE9faut
+        est 3)"
+    - StringKey: 64
+      TranslatedString: "R\xE8gles Optionnelles partie 3"
+    - StringKey: 65
+      TranslatedString: "\u2022 <b>R\xE8gle de la deviation maximale:</b> Les joueurs
+        peuvent uniquement joueur avec des cartes des cartes ayant une valeur d\u2019une
+        certaine distance de la derni\xE8re carte mise dans le paquets des cartes
+        rejet\xE9es. (exemple: si la valeur de la derni\xE8re carte mise dans les
+        rejets, la direction du jeu est vers le haut, (<color=#ff7f00ff>\u25B2</color>)
+        et le seuil de la deviation maximale est mis \xE0 3, un joueur peut jouer
+        qu\u2019un 5,6 ou 7.)"
+    - StringKey: 66
+      TranslatedString: Vos adversaire(s) ne peuvent joueur de cartes, vous avez donc
+        gagner cette manche et avez gagner un ou plusieurs points!
+    - StringKey: 67
+      TranslatedString: "R\xE8gles Optionnelles partie 4"
+    - StringKey: 68
+      TranslatedString: "\u2022 <b>Lose Best Card Rule:</b> Si un joueur change la
+        direction du jeu en jouant une carte de la m\xEAme valeur que celle de la
+        derni\xE8re carte plac\xE9e dans la pile de rejets, il va aussi perdent le
+        meilleur avantage apr\xE8s le changement."

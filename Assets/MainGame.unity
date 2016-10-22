@@ -3597,14 +3597,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 2351158, guid: d086bc14f12db4a74866df6c1b491778, type: 2}
-      propertyPath: m_UseLightProbes
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2351158, guid: d086bc14f12db4a74866df6c1b491778, type: 2}
-      propertyPath: m_ReflectionProbeUsage
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d086bc14f12db4a74866df6c1b491778, type: 2}
   m_IsPrefabParent: 0
@@ -5350,8 +5342,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 229985006}
   m_RootOrder: 17
-  m_AnchorMin: {x: 0.25, y: 0.8}
-  m_AnchorMax: {x: 0.75, y: 0.93}
+  m_AnchorMin: {x: 0.25, y: 0.81}
+  m_AnchorMax: {x: 0.75, y: 0.92}
   m_AnchoredPosition: {x: 0.0000019073486, y: -0.00000047683716}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
