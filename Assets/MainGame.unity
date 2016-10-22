@@ -2255,7 +2255,8 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 11466320, guid: 0656f9f70fbf6436fbeb531b53aa803a, type: 2}
+    - target: {fileID: 114000012651378674, guid: 0656f9f70fbf6436fbeb531b53aa803a,
+        type: 2}
       propertyPath: CardFlipAudio
       value: 
       objectReference: {fileID: 936044418}
@@ -2268,10 +2269,10 @@ Transform:
   m_PrefabInternal: {fileID: 687199728}
 --- !u!114 &687199730 stripped
 MonoBehaviour:
-  m_PrefabParentObject: {fileID: 11466320, guid: 0656f9f70fbf6436fbeb531b53aa803a,
+  m_PrefabParentObject: {fileID: 114000012651378674, guid: 0656f9f70fbf6436fbeb531b53aa803a,
     type: 2}
   m_PrefabInternal: {fileID: 687199728}
-  m_Script: {fileID: 11500000, guid: c84fc4d52fda34644825e2e2c356f292, type: 3}
+  m_Script: {fileID: 11500000, guid: b41e635b73cb64d10b77baaed2c796b0, type: 3}
 --- !u!1001 &700058730
 Prefab:
   m_ObjectHideFlags: 0

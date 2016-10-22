@@ -47,7 +47,7 @@ public partial class MainGameModtroller : MonoBehaviour
 						public						AudioSource							CardFlipAudio					{ get { return _cardFlipAudio; } }
 
 	[SerializeField]	private						Deck								_deck;
-	[SerializeField]	private						CardPile							_discardPile;
+	[SerializeField]	private						DiscardPile							_discardPile;
 						public						int									DiscardPileLastValue			{ get { return _discardPile.ReadOnlyCards.Last().CardValue; } }
 	[SerializeField]	private						CardPile							_wildcardPile;
 						public						int									WildCardValue					{ get { return _wildcardPile.ReadOnlyCards.Last().CardValue; } }
@@ -340,6 +340,8 @@ public partial class MainGameModtroller : MonoBehaviour
 		{
 			WriteGameSettingsToDisk();
 		}
+		_discardPile.PileSizeText.SetActive(_gameSettings.AllOrNothingRule);
+
 		if (_numHumanPlayers <= 0)
 		{
 			Screen.sleepTimeout = SleepTimeout.NeverSleep;

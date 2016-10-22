@@ -274,7 +274,7 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 		{
 			Hand.ReadOnlyCards.ForEach(c =>
 			{
-				c.CardSuitText.color = c.CardValueText.color = Color.red;
+				c.CardSuitText.color = c.CardValueText.color = new Color(1.0f, 0.5f, 0.0f);
 				c.CardSuitText.text = "\n\u2665";
 			});
 			Hand.ReadOnlyCards[0].CardValueText.text = "M\n";
