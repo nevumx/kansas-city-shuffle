@@ -201,7 +201,7 @@ MonoBehaviour:
     - StringKey: 1
       TranslatedString: "Pr\xEAt"
     - StringKey: 2
-      TranslatedString: Tenir
+      TranslatedString: Tenez
     - StringKey: 3
       TranslatedString: Joueur Gagne
     - StringKey: 4
@@ -263,9 +263,9 @@ MonoBehaviour:
       TranslatedString: "R\xE8gles Optionnelles partie 1"
     - StringKey: 26
       TranslatedString: "\u2022 <b>R\xE8gle du Joker:</b> Ajoute une pile de Joker
-        entre le paquet de cartes \xE0 jouer et celui \xE0 des cartes rejet\xE9es.
-        Lors du tour d\u2019un joueur, ce dernier peut jouer une carte de la m\xEAme
-        valeur que celui du joker. Ceci changera la direction du jeu(<color=#ff7f00ff>\u25B2</color>/<color=#ff7f00ff>\u25BC</color>)
+        entre le paquet de cartes \xE0 jouer et celui des cartes rejet\xE9es. Lors
+        du tour d\u2019un joueur, ce dernier peut jouer une carte de la m\xEAme valeur
+        que celui du joker. Ceci changera la direction du jeu(<color=#ff7f00ff>\u25B2</color>/<color=#ff7f00ff>\u25BC</color>)
         et un nouveau joker doit \xEAtre s\xE9lectionn\xE9.\n\u2022 <b>R\xE8gle de
         l'\xC9limination:</b> Si un joueur ne peut pas jouer une carte, ils sont hors
         du jeu jusqu\u2019\xE0 la fin du tour, et ne peuvent donc pas marquer des
@@ -274,7 +274,7 @@ MonoBehaviour:
       TranslatedString: "R\xE8gles Optionnelles partie 2"
     - StringKey: 28
       TranslatedString: "\u2022 <b>R\xE8gle pour Passer son Tour</b> Un joueur peut
-        choisir de passer son tour, m\xEAme s\u2019il est en droit de jouer celle-ci.\n\u2022
+        choisir de passer son tour, m\xEAme s\u2019il est en droit de jouer.\n\u2022
         <b>R\xE8gle du Rechargement:</b> \xC0 la fin du chaque tourn\xE9e, tous les
         jeux des joueurs sont m\xE9lang\xE9s et places dans le paquet principal afin
         d\u2019\xEAtre retir\xE9.\n\u2022 <b>R\xE8gle Tout ou Rien:</b> Au lieu de
@@ -329,8 +329,8 @@ MonoBehaviour:
       TranslatedString: "Avanc\xE9"
     - StringKey: 52
       TranslatedString: "La r\xE8gle de l\u2019\xE9limination, la r\xE8gle du rechargement,
-        et la r\xE8gle du tout ou rien. Le premier pour gagner 100 points avec 2
-        paquets, gagne le jeu."
+        et la r\xE8gle du tout ou rien. Le premier pour gagner 100 points avec 2 paquets,
+        gagne le jeu."
     - StringKey: 53
       TranslatedString: "Personnalis\xE9"
     - StringKey: 54
@@ -370,12 +370,12 @@ MonoBehaviour:
       TranslatedString: "R\xE8gles Optionnelles partie 3"
     - StringKey: 65
       TranslatedString: "\u2022 <b>R\xE8gle Max \xC9cart:</b> Les joueurs peuvent
-        uniquement jouer avec des cartes ayant une valeur d\u2019une certaine
-        distance de la derni\xE8re carte mise dans le paquet des cartes rejet\xE9es.
-        (exemple: si la valeur de la derni\xE8re carte mise dans les rejets, la direction
-        du jeu est vers le haut, (<color=#ff7f00ff>\u25B2</color>) et le seuil de
-        la deviation maximale est mis \xE0 3, un joueur peut jouer qu\u2019un 5,6
-        ou 7.)"
+        uniquement jouer avec des cartes ayant une valeur d\u2019une certaine distance
+        de la derni\xE8re carte mise dans le paquet des cartes rejet\xE9es. (exemple:
+        si la valeur de la derni\xE8re carte mise dans les rejets, la direction du
+        jeu est vers le haut, (<color=#ff7f00ff>\u25B2</color>) et le seuil de la
+        deviation maximale est mis \xE0 3, un joueur peut jouer qu\u2019un 5,6 ou
+        7.)"
     - StringKey: 66
       TranslatedString: Vos adversaire(s) ne peuvent joueur de cartes, vous avez donc
         gagner cette manche et avez gagner un ou plusieurs points!
