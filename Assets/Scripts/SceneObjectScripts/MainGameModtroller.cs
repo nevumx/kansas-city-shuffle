@@ -981,21 +981,13 @@ public partial class MainGameModtroller : MonoBehaviour
 		_qualityLoweringSwapInfos.ForEach(q => q.MeshRenderer.material = q.SwapMaterial);
 		Destroy(_shadowCamera);
 
-		Action<CardModViewtroller> destroyCardShadowFunction = c => c.DestroyShadowObject();
-		_deck.ReadOnlyCards.ForEach(destroyCardShadowFunction);
-		_wildcardPile.IfIsNotNullThen(w => w.ReadOnlyCards.ForEach(destroyCardShadowFunction));
-		_discardPile.ReadOnlyCards.ForEach(destroyCardShadowFunction);
-		_players.ForEach(o => o.IfIsNotNullThen(p => p.Hand.ReadOnlyCards.ForEach(destroyCardShadowFunction)));
+		FindObjectsOfType<CardModViewtroller>().ForEach(c => c.DestroyShadowObject());
 		_shouldCreateShadowlessNewCards = true;
 	}
 
 	public void ReduceCardQuality()
 	{
-		Action<CardModViewtroller> reduceQualityFunction = c => c.ReduceQuality();
-		_deck.ReadOnlyCards.ForEach(reduceQualityFunction);
-		_wildcardPile.IfIsNotNullThen(w => w.ReadOnlyCards.ForEach(reduceQualityFunction));
-		_discardPile.ReadOnlyCards.ForEach(reduceQualityFunction);
-		_players.ForEach(o => o.IfIsNotNullThen(p => p.Hand.ReadOnlyCards.ForEach(reduceQualityFunction)));
+		FindObjectsOfType<CardModViewtroller>().ForEach(c => c.ReduceQuality());
 		_shouldReduceQualityOfNewCards = true;
 	}
 
