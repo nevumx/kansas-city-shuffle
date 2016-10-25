@@ -371,7 +371,7 @@ public partial class MainGameModtroller : MonoBehaviour
 				_players[i].transform.parent = _playerRoots[i];
 				_players[i].transform.ResetLocal();
 				_players[i].PlayerSymbolText.text = _playerIconCharacters[i];
-				_players[i].PlayerSymbolText.color = i >= 2 ? new Color(1.0f, 0.5f, 0.0f) : Color.white;
+				_players[i].PlayerSymbolText.color = i >= 2 ? Color.red : Color.black;
 				_players[i].Points = 0;
 			}
 		}
@@ -711,6 +711,7 @@ public partial class MainGameModtroller : MonoBehaviour
 			OnHelpButtonClicked();
 		}
 		_gameEndSymbolText.text = _players[_currentPlayer].PlayerSymbolText.text;
+		_gameEndSymbolText.color = _players[_currentPlayer].PlayerSymbolText.color;
 		_gameEndSymbolText.SetAlpha(0.0f);
 
 		_gameEndUIText.text = _localizationData.GetLocalizedStringForKey(_players[_currentPlayer].IsHuman ? LocalizationData.TranslationKey.PLAYER_WINS
