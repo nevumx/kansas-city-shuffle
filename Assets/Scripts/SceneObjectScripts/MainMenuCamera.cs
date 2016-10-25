@@ -35,6 +35,7 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 						private						bool					_tooLateToReduceGraphicsQuality	= false;
 	[SerializeField]	private						MainGameModtroller		_mainGameModtroller;
 	[SerializeField]	private						MainMenuModtroller		_mainMenuModtroller;
+	[SerializeField]	private						Collider2D[]			_collidersToEnableAfterQualityCheck;
 
 	private void Awake()
 	{
@@ -102,6 +103,7 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 				_mainGameModtroller.ReduceCardQuality();
 				_mainMenuModtroller.ShouldReduceQualityOfNewCards = true; 
 			}
+			_collidersToEnableAfterQualityCheck.ForEach(c => c.enabled = true);
 			_tooLateToReduceGraphicsQuality = true;
 		}
 
