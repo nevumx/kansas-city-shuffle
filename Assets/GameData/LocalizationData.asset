@@ -257,15 +257,15 @@ MonoBehaviour:
     - StringKey: 24
       TranslatedString: "\u2022 Jouer une carte d\u2019une m\xEAme valeur que celle
         de la derni\xE8re changera la direction du jeu vers le sens oppos\xE9. (<color=#00ff00ff>\u25B2</color>/<color=#00ff00ff>\u25BC</color>)\n\u2022
-        Les joueurs peuvent aussi jouer 2 cartes ou plus avec la m\xEAme valeur si
-        ils suivent les r\xE8gles ci-dessus."
+        Les joueurs peuvent aussi jouer 2 cartes ou plus avec la m\xEAme valeur s\u2019ils
+        suivent les r\xE8gles ci-dessus."
     - StringKey: 25
       TranslatedString: "R\xE8gles Optionnelles partie 1"
     - StringKey: 26
       TranslatedString: "\u2022 <b>R\xE8gle du Joker:</b> Ajoute une pile de Joker
         entre le paquet de cartes \xE0 jouer et celui des cartes rejet\xE9es. Lors
         du tour d\u2019un joueur, ce dernier peut jouer une carte de la m\xEAme valeur
-        que celui du joker. Ceci changera la direction du jeu (<color=#00ff00ff>\u25B2</color>/<color=#00ff00ff>\u25BC</color>)
+        que celle du joker. Ceci changera la direction du jeu (<color=#00ff00ff>\u25B2</color>/<color=#00ff00ff>\u25BC</color>)
         et un nouveau joker devra \xEAtre s\xE9lectionn\xE9.\n\u2022 <b>R\xE8gle de
         l\u2019\xC9limination:</b> Si un joueur ne peut pas jouer une carte, ils sont
         hors du jeu jusqu\u2019\xE0 la fin du tour, et ne peuvent donc pas marquer
