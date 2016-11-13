@@ -95,13 +95,13 @@ PlayerSettings:
     16:9: 1
     Others: 1
   bundleIdentifier: com.nevumx.KansasCityShuffle
-  bundleVersion: 1.7
+  bundleVersion: 1.7.1
   preloadedAssets: []
   metroEnableIndependentInputSource: 0
   xboxOneDisableKinectGpuReservation: 0
   singlePassStereoRendering: 0
   protectGraphicsMemory: 0
-  AndroidBundleVersionCode: 42
+  AndroidBundleVersionCode: 44
   AndroidMinSdkVersion: 9
   AndroidPreferredInstallLocation: 1
   aotOptions: 
@@ -109,7 +109,7 @@ PlayerSettings:
   stripEngineCode: 1
   iPhoneStrippingLevel: 0
   iPhoneScriptCallOptimization: 0
-  iPhoneBuildNumber: 42
+  iPhoneBuildNumber: 44
   ForceInternetPermission: 0
   ForceSDCardPermission: 0
   CreateWallpaper: 0
@@ -130,33 +130,33 @@ PlayerSettings:
   uIStatusBarHidden: 1
   uIExitOnSuspend: 0
   uIStatusBarStyle: 0
-  iPhoneSplashScreen: {fileID: 2800000, guid: b761e2f36e47e4315a35455481f52cad, type: 3}
-  iPhoneHighResSplashScreen: {fileID: 2800000, guid: b761e2f36e47e4315a35455481f52cad,
+  iPhoneSplashScreen: {fileID: 2800000, guid: 14edd4e30adf94c94b86dd8eac6f890f, type: 3}
+  iPhoneHighResSplashScreen: {fileID: 2800000, guid: 14edd4e30adf94c94b86dd8eac6f890f,
     type: 3}
-  iPhoneTallHighResSplashScreen: {fileID: 2800000, guid: b761e2f36e47e4315a35455481f52cad,
+  iPhoneTallHighResSplashScreen: {fileID: 2800000, guid: 14edd4e30adf94c94b86dd8eac6f890f,
     type: 3}
-  iPhone47inSplashScreen: {fileID: 2800000, guid: b761e2f36e47e4315a35455481f52cad,
+  iPhone47inSplashScreen: {fileID: 2800000, guid: 14edd4e30adf94c94b86dd8eac6f890f,
     type: 3}
-  iPhone55inPortraitSplashScreen: {fileID: 2800000, guid: b761e2f36e47e4315a35455481f52cad,
+  iPhone55inPortraitSplashScreen: {fileID: 2800000, guid: 14edd4e30adf94c94b86dd8eac6f890f,
     type: 3}
-  iPhone55inLandscapeSplashScreen: {fileID: 2800000, guid: b761e2f36e47e4315a35455481f52cad,
+  iPhone55inLandscapeSplashScreen: {fileID: 2800000, guid: 14edd4e30adf94c94b86dd8eac6f890f,
     type: 3}
-  iPadPortraitSplashScreen: {fileID: 2800000, guid: b761e2f36e47e4315a35455481f52cad,
+  iPadPortraitSplashScreen: {fileID: 2800000, guid: 14edd4e30adf94c94b86dd8eac6f890f,
     type: 3}
-  iPadHighResPortraitSplashScreen: {fileID: 2800000, guid: b761e2f36e47e4315a35455481f52cad,
+  iPadHighResPortraitSplashScreen: {fileID: 2800000, guid: 14edd4e30adf94c94b86dd8eac6f890f,
     type: 3}
-  iPadLandscapeSplashScreen: {fileID: 2800000, guid: b761e2f36e47e4315a35455481f52cad,
+  iPadLandscapeSplashScreen: {fileID: 2800000, guid: 14edd4e30adf94c94b86dd8eac6f890f,
     type: 3}
-  iPadHighResLandscapeSplashScreen: {fileID: 2800000, guid: b761e2f36e47e4315a35455481f52cad,
+  iPadHighResLandscapeSplashScreen: {fileID: 2800000, guid: 14edd4e30adf94c94b86dd8eac6f890f,
     type: 3}
   appleTVSplashScreen: {fileID: 0}
   tvOSSmallIconLayers: []
   tvOSLargeIconLayers: []
   tvOSTopShelfImageLayers: []
   iOSLaunchScreenType: 1
-  iOSLaunchScreenPortrait: {fileID: 2800000, guid: b761e2f36e47e4315a35455481f52cad,
+  iOSLaunchScreenPortrait: {fileID: 2800000, guid: 14edd4e30adf94c94b86dd8eac6f890f,
     type: 3}
-  iOSLaunchScreenLandscape: {fileID: 2800000, guid: b761e2f36e47e4315a35455481f52cad,
+  iOSLaunchScreenLandscape: {fileID: 2800000, guid: 14edd4e30adf94c94b86dd8eac6f890f,
     type: 3}
   iOSLaunchScreenBackgroundColor:
     serializedVersion: 2
@@ -165,7 +165,7 @@ PlayerSettings:
   iOSLaunchScreenSize: 100
   iOSLaunchScreenCustomXibPath: 
   iOSLaunchScreeniPadType: 1
-  iOSLaunchScreeniPadImage: {fileID: 2800000, guid: b761e2f36e47e4315a35455481f52cad,
+  iOSLaunchScreeniPadImage: {fileID: 2800000, guid: 14edd4e30adf94c94b86dd8eac6f890f,
     type: 3}
   iOSLaunchScreeniPadBackgroundColor:
     serializedVersion: 2
@@ -194,7 +194,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 0b1ba7ad85e5a4957ba7c7ac7818bb65, type: 3}
+      m_Icon: {fileID: 2800000, guid: a9a3c93d84bbe4c6c8e2bb237abe6933, type: 3}
       m_Width: 128
       m_Height: 128
   m_BuildTargetBatching: []

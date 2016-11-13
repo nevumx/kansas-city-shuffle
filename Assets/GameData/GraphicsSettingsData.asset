@@ -17,7 +17,7 @@ MonoBehaviour:
       rgba: 4278190080
     key1:
       serializedVersion: 2
-      rgba: 4278190280
+      rgba: 4279308704
     key2:
       serializedVersion: 2
       rgba: 0
@@ -37,7 +37,7 @@ MonoBehaviour:
       serializedVersion: 2
       rgba: 0
     ctime0: 0
-    ctime1: 14264
+    ctime1: 13878
     ctime2: 36623
     ctime3: 65535
     ctime4: 65535
@@ -57,9 +57,9 @@ MonoBehaviour:
   ZenithColor: {r: 0.934, g: 0.934, b: 0.934, a: 1}
   FeltPatternColor: {r: 1, g: 0.9375254, b: 0.43382353, a: 1}
   FeltColor: {r: 0.044982698, g: 0.71323526, b: 0.23529412, a: 1}
-  BounceFeltColor: {r: 0.2509804, g: 0.12499809, b: 0, a: 1}
+  BounceFeltColor: {r: 0.236, g: 0.4082162, b: 0.472, a: 1}
   FeltPatternTexture: {fileID: 2800000, guid: ad2fd905ffb07b1458f4d37ebd7ae63f, type: 3}
-  CardBackColorBackground: {r: 0, g: 0, b: 0, a: 1}
-  CardBackColorPattern: {r: 1, g: 0.49803922, b: 0, a: 1}
-  CardBackPatternTexture: {fileID: 2800000, guid: af11eb6177e9d4631be467df9d0037d1,
+  CardBackColorBackground: {r: 1, g: 1, b: 1, a: 1}
+  CardBackColorPattern: {r: 0.87058824, g: 0, b: 0, a: 1}
+  CardBackPatternTexture: {fileID: 2800000, guid: 99125f27b3d18464bbe4d0954cc14bd1,
     type: 3}

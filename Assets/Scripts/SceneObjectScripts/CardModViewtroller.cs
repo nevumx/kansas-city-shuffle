@@ -68,7 +68,7 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 			_cardValueText.text = _card.CardValueString;
 		}
 		_cardSuitText.text = _card.CardSuitString;
-		_cardValueText.color = _cardSuitText.color = _card.Suit == Card.CardSuit.SPADES || _card.Suit == Card.CardSuit.CLUBS ? Color.white : new Color(1.0f, 0.5f, 0.0f);
+		_cardValueText.color = _cardSuitText.color = _card.Suit == Card.CardSuit.SPADES || _card.Suit == Card.CardSuit.CLUBS ? Color.black : Color.red;
 	}
 
 	public void DestroyShadowObject()
