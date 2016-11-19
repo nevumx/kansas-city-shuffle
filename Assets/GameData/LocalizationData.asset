@@ -149,13 +149,13 @@ MonoBehaviour:
     - StringKey: 54
       TranslatedString: Select your own rules to make a new game mode.
     - StringKey: 55
-      TranslatedString: The direction of play is undecided. (See the <color=#ff7f0000>?</color>
+      TranslatedString: The direction of play is undecided. (See the <color=#00ff0000>?</color>
         symbol) Any card can be played.
     - StringKey: 56
-      TranslatedString: "The direction of play is UP. (See the <color=#ff7f0000>\u25B2</color>
+      TranslatedString: "The direction of play is UP. (See the <color=#00ff0000>\u25B2</color>
         symbol) You must play a higher- or equal-value card."
     - StringKey: 57
-      TranslatedString: "The direction of play is DOWN. (See the <color=#ff7f0000>\u25BC</color>
+      TranslatedString: "The direction of play is DOWN. (See the <color=#00ff0000>\u25BC</color>
         symbol) You must play a lower- or equal-value card."
     - StringKey: 58
       TranslatedString: Unfortunately, you can't play a card this turn, and may lose
@@ -168,7 +168,7 @@ MonoBehaviour:
         last player to play a card. (Default points to win is 5)
     - StringKey: 61
       TranslatedString: "You can play the card with the same value as the wildcard.
-        This will change the direction to its opposite. (<color=#ff7f0000>\u25B2</color>/<color=#ff7f0000>\u25BC</color>)"
+        This will change the direction to its opposite. (<color=#00ff0000>\u25B2</color>/<color=#00ff0000>\u25BC</color>)"
     - StringKey: 62
       TranslatedString: You can choose to not play a card this turn. But, you will
         forfeit your turn, and may lose this round.
@@ -337,14 +337,14 @@ MonoBehaviour:
       TranslatedString: "S\xE9lectionnez vos propres r\xE8gles afin d\u2019installer
         un nouveau mode de jeu."
     - StringKey: 55
-      TranslatedString: "La direction du jeu est ind\xE9termin\xE9e. (<color=#ff7f0000>?</color>)
+      TranslatedString: "La direction du jeu est ind\xE9termin\xE9e. (<color=#00ff0000>?</color>)
         Toute carte peut \xEAtre jou\xE9e."
     - StringKey: 56
-      TranslatedString: "La direction du jeu est vers le HAUT. (<color=#ff7f0000>\u25B2</color>)
+      TranslatedString: "La direction du jeu est vers le HAUT. (<color=#00ff0000>\u25B2</color>)
         Vous devez jouer une carte de la m\xEAme valeur ou d\u2019une plus grande
         valeur."
     - StringKey: 57
-      TranslatedString: "La direction du jeu est vers le BAS. (<color=#ff7f0000>\u25BC</color>)
+      TranslatedString: "La direction du jeu est vers le BAS. (<color=#00ff0000>\u25BC</color>)
         Vous devez jouer une carte de la m\xEAme valeur ou d\u2019une plus petite
         valeur."
     - StringKey: 58
@@ -358,7 +358,7 @@ MonoBehaviour:
         en \xE9tant le dernier joueur \xE0 jouer une carte."
     - StringKey: 61
       TranslatedString: "Vous pouvez joueur une carte de la m\xEAme valeur que celle
-        du joker. Ceci changera la direction du jeu au sens oppos\xE9. (<color=#ff7f0000>\u25B2</color>/<color=#ff7f0000>\u25BC</color>)"
+        du joker. Ceci changera la direction du jeu au sens oppos\xE9. (<color=#00ff0000>\u25B2</color>/<color=#00ff0000>\u25BC</color>)"
     - StringKey: 62
       TranslatedString: "Vous pouvez choisir de ne pas jouer de carte \xE0 ce tour,
         mais en ce faisant, vous renoncez votre tour et pouvez donc perdre cette manche."
