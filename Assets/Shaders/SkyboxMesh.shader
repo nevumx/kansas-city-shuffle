@@ -26,7 +26,7 @@
 			v2f vert (appdata_base v)
 			{
 				v2f o;
-				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.uv = half2(v.texcoord.y, 0.5);
 				return o;
 			}

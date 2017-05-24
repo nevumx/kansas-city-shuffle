@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using System;
+using System.Linq;
 
 namespace Nx
 {
@@ -11,12 +12,13 @@ namespace Nx
 
 							private						Action						_onClicked;
 							private						Action						_onDoubleClicked;
+							private						Action						_onClickedHard;
 							private						Action						_onBeginDrag;
 							private						Action<PointerEventData>	_onDrag;
 							private						Action<PointerEventData>	_onDrop;
 		[SerializeField]	private						Collider					_collider;
 
-							private						PointerEventData			_cachedDragEventData;
+							private						PointerEventData			_cachedEventData;
 
 							private						float						_timeLastClickBegan			= 0.0f;
 							private						float						_timeLastClicked			= 0.0f;
@@ -44,6 +46,18 @@ namespace Nx
 			}
 #endif
 			_onDoubleClicked += toAdd;
+			_collider.enabled = true;
+		}
+
+		public void AddToOnClickedHard(Action toAdd)
+		{
+#if NX_DEBUG
+			if (_onClickedHard != null && _onClickedHard.GetInvocationList().Exists(d => d.Method == toAdd.Method && d.Target == toAdd.Target))
+			{
+				NxUtils.LogWarning("Warning: Adding two identical delegates to a NxButton");
+			}
+#endif
+			_onClickedHard += toAdd;
 			_collider.enabled = true;
 
 		}
@@ -86,47 +100,49 @@ namespace Nx
 
 		public void OnPointerDown(PointerEventData eventData)
 		{
-			_timeLastClickBegan = Time.unscaledTime;
+			if (!_isBeingDragged && _cachedEventData == null)
+			{
+				_timeLastClickBegan = Time.unscaledTime;
+				_cachedEventData = eventData;
+			}
 		}
 
 		public void OnPointerClick(PointerEventData eventData)
 		{
-			if (!_isBeingDragged && Time.unscaledTime - _timeLastClickBegan < CLICK_EXPIRE_THRESHOLD_TIME)
+			if (!_isBeingDragged && eventData.pointerId == _cachedEventData.pointerId)
 			{
-				if (_timeLastClicked == 0.0f || Time.unscaledTime - _timeLastClicked > DOUBLE_CLICK_THRESHOLD_TIME)
+				if (Time.unscaledTime - _timeLastClickBegan < CLICK_EXPIRE_THRESHOLD_TIME)
 				{
-					_onClicked.Raise();
-					_timeLastClicked = Time.unscaledTime;
+					if (_timeLastClicked == 0.0f || Time.unscaledTime - _timeLastClicked > DOUBLE_CLICK_THRESHOLD_TIME)
+					{
+						_onClicked.Raise();
+						_timeLastClicked = Time.unscaledTime;
+					}
+					else
+					{
+						_onDoubleClicked.Raise();
+						_timeLastClicked = 0.0f;
+					}
 				}
-				else
-				{
-					_onDoubleClicked.Raise();
-					_timeLastClicked = 0.0f;
-				}
-			}
-		}
-
-		public void OnButtonClick()
-		{
-			if (_timeLastClicked == 0.0f || Time.unscaledTime - _timeLastClicked > DOUBLE_CLICK_THRESHOLD_TIME)
-			{
-				_onClicked.Raise();
-				_timeLastClicked = Time.unscaledTime;
+				_cachedEventData = null;
 			}
 		}
 
 		public void OnBeginDrag(PointerEventData eventData)
 		{
-			_isBeingDragged = true;
-			_onBeginDrag.Raise();
-			_cachedDragEventData = eventData;
+			if (!_isBeingDragged && eventData.pointerId == _cachedEventData.pointerId)
+			{
+				_isBeingDragged = true;
+				_onBeginDrag.Raise();
+				_cachedEventData = eventData;
+			}
 		}
 
 		public void OnDrag(PointerEventData eventData)
 		{
-			if (_isBeingDragged)
+			if (_isBeingDragged && eventData.pointerId == _cachedEventData.pointerId)
 			{
-				_cachedDragEventData = eventData;
+				_cachedEventData = eventData;
 			}
 		}
 
@@ -134,22 +150,33 @@ namespace Nx
 		{
 			if (_isBeingDragged)
 			{
-				_onDrag.Raise(_cachedDragEventData);
+				_onDrag.Raise(_cachedEventData);
+			}
+
+			if (Input.touchPressureSupported && _cachedEventData != null)
+			{
+				Touch touch = Input.touches.First(t => t.fingerId == _cachedEventData.pointerId);
+				if (touch.pressure >= touch.maximumPossiblePressure * 0.75f)
+				{
+					_onClickedHard.Raise();
+				}
 			}
 		}
 
 		public void OnEndDrag(PointerEventData eventData)
 		{
-			if (_isBeingDragged)
+			if (_isBeingDragged && eventData.pointerId == _cachedEventData.pointerId)
 			{
 				_isBeingDragged = false;
 				_onDrop.Raise(eventData);
+				_cachedEventData = null;
 			}
 		}
 
 		public void ClearAllDelegates()
 		{
 			_onClicked = null;
+			_onClickedHard = null;
 			_onDoubleClicked = null;
 			_onBeginDrag = null;
 			_onDrag = null;
@@ -160,6 +187,7 @@ namespace Nx
 		public void CancelDrag()
 		{
 			_isBeingDragged = false;
+			_cachedEventData = null;
 		}
 	}
 }

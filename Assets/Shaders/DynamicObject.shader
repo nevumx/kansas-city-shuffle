@@ -32,7 +32,7 @@
 			v2f vert (appdata_base v)
 			{
 				v2f o;
-				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+				o.vertex = UnityObjectToClipPos(v.vertex);
 				half3 worldNormal = mul(unity_ObjectToWorld, half4(normalize(v.normal), 0));
 				half l = (worldNormal.y * 0.5 + 0.5);
 				o.vc = lerp(_NadirColor, _ZenithColor, l);

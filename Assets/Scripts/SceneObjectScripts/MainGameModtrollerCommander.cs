@@ -451,7 +451,7 @@ public partial class MainGameModtroller : MonoBehaviour
 			if (_undoStack.Count == 0)
 			{
 				NxUtils.LogError("Warning: Trying to undo empty undoStack. (Likely invalid Undo)");
-				return false;
+				yield break;
 			}
 #endif
 			TurnCommandBundle bundle = _undoStack.Pop();
@@ -496,7 +496,7 @@ public partial class MainGameModtroller : MonoBehaviour
 			if (_redoStack.Count == 0 )
 			{
 				NxUtils.LogError("Warning: Trying to redo empty redoStack. (Likely invalid Redo)");
-				return false;
+				yield break;
 			}
 #endif
 			TurnCommandBundle bundle = _redoStack.Pop();

@@ -525,7 +525,7 @@ public partial class MainGameModtroller : MonoBehaviour
 			if (_players[_currentPlayer].Points >= _gameSettings.NumberOfPointsToWin && !_demoMode)
 			{
 				PlayerWin();
-				return false;
+				yield break;
 			}
 
 			if (_tutorialSystem != null && _players[_currentPlayer].IsHuman)

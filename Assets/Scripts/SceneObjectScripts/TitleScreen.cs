@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Rendering;
 
 public class TitleScreen : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class TitleScreen : MonoBehaviour
 
 	private void Update()
 	{
-		if (Application.isShowingSplashScreen || _titleText.TweenHolder.enabled || _whiteFadeOut.TweenHolder.enabled)
+		if (!SplashScreen.isFinished || _titleText.TweenHolder.enabled || _whiteFadeOut.TweenHolder.enabled)
 		{
 			return;
 		}

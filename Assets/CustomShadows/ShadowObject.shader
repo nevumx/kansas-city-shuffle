@@ -30,7 +30,7 @@
 			v2f vert (appdata_base v)
 			{
 				v2f o;
-				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+				o.vertex = UnityObjectToClipPos(v.vertex);
 				o.vc = saturate(_Max + mul(unity_ObjectToWorld, v.vertex).y * _Fade);
 				return o;
 			}

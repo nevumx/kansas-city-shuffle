@@ -171,7 +171,7 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 			SetCardStates();
 		});
 
-		cards[index].Button.AddToOnDoubleClicked(() =>
+		Action selectCurrentAndSubmit = () =>
 		{
 			if (!_selectedCardIndexes.Contains(index))
 			{
@@ -179,7 +179,11 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 				_selectedCardIndexes.RemoveAll(i => cards[i].CardValue != cards[index].CardValue);
 			}
 			SubmitCards();
-		});
+		};
+
+		cards[index].Button.AddToOnDoubleClicked(selectCurrentAndSubmit);
+
+		cards[index].Button.AddToOnClickedHard(selectCurrentAndSubmit);
 
 		cards[index].Button.AddToOnBeginDrag(() =>
 		{
