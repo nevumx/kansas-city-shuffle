@@ -132,8 +132,8 @@ public class TweenHolder : MonoBehaviour, IFinishable
 	}
 	public TweenHolder AddToOnFinishedOnce(Action toAdd)
 	{
-			toAdd.IfIsNotNullThen(a => _onFinishedOnce += a);
-			return this;
+		toAdd.IfIsNotNullThen(a => _onFinishedOnce += a);
+		return this;
 	}
 	public TweenHolder ClearOnFinishedOnce()
 	{

@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using Nx;
 
-public class Hand : DynamicCardHolder
+public class Hand : CardHolder
 {
 	[SerializeField]	private	float	_handMaxSizeInUnits	= 8.2f;
 

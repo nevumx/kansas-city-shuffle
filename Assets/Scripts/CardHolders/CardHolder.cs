@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Nx;
 
-public class CardHolder : MonoBehaviour
+public abstract class CardHolder : MonoBehaviour
 {
 
 	[SerializeField]	private		CardAnimationData							_cardAnimationData;
@@ -22,6 +22,8 @@ public class CardHolder : MonoBehaviour
 	[SerializeField]	private		TweenHolder									_shuffleAnimationCamera;
 						public		TweenHolder									ShuffleAnimationCamera			{ get { return _shuffleAnimationCamera; } }
 	[SerializeField]	private		Transform									_shuffleAnimationOriginPoint;
+						private		LinkedList<CardModViewtroller>				_cardsInTransition				= new LinkedList<CardModViewtroller>();
+						protected	LinkedList<CardModViewtroller>				_CardsInTransition				{ get { return _cardsInTransition; } }
 
 						public		AudioSource									CardFlipAudio;
 	[SerializeField]	private		AudioClip									_cardShuffleClip;
@@ -322,14 +324,24 @@ public class CardHolder : MonoBehaviour
 		_Cards.Clear();
 	}
 
-	protected virtual void OnCardSent(CardModViewtroller sentCard) {}
+	protected virtual void OnCardSent(CardModViewtroller sentCard)
+	{
+		RepositionCards();
+	}
 
-	protected virtual void OnCardRecieveTweenBegan(CardModViewtroller incomingCard) {}
+	protected virtual void OnCardRecieveTweenBegan(CardModViewtroller incomingCard)
+	{
+		_cardsInTransition.AddLast(incomingCard);
+		RepositionCards();
+	}
 
 	protected virtual void OnCardRecieveTweenFinished(CardModViewtroller card)
 	{
 		card.ViewFSM.SetTextVisibility(_cardsTextVisibility);
+		_cardsInTransition.Remove(card);
 	}
+
+	protected abstract void RepositionCards();
 
 	public Vector3 GetFinalPositionOfCardAtIndex(int index)
 	{

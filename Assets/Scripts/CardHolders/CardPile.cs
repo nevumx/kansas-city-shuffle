@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Nx;
 
-public class CardPile : DynamicCardHolder
+public class CardPile : CardHolder
 {
 	[SerializeField]	private	float	_pileMaxHeightInUnits			= 0.4f;
 	[SerializeField]	private	float	_maxDistBetweenCardsInUnits		= 0.05f;
