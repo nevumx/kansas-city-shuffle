@@ -9,7 +9,7 @@ public abstract class CardHolder : MonoBehaviour
 {
 
 	[SerializeField]	private		CardAnimationData							_cardAnimationData;
-						protected	CardAnimationData							CardAnimationData				{ get { return _cardAnimationData; } }
+						protected	CardAnimationData							_CardAnimationData				{ get { return _cardAnimationData; } }
 
 						private		List<CardModViewtroller>					_cards							= new List<CardModViewtroller>();
 						public		int											CardCount						{ get { return _Cards.Count; } }

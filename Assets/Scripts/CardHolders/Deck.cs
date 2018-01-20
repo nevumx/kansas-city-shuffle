@@ -25,8 +25,8 @@ public class Deck : CardPile
 				TweenHolder refillTween;
 				otherHolder.MoveCard(0, this, out refillTween, true);
 				deckRefillTweenWaiter.AddFinishable(refillTween);
-				refillTween.SetDuration(CardAnimationData.DeckFillDurationPerCard);
-				yield return new WaitForSeconds(CardAnimationData.DeckRefillDelayPerCard);
+				refillTween.SetDuration(_CardAnimationData.DeckFillDurationPerCard);
+				yield return new WaitForSeconds(_CardAnimationData.DeckRefillDelayPerCard);
 			}
 			deckRefillTweenWaiter.Ready = true;
 		}
@@ -49,8 +49,8 @@ public class Deck : CardPile
 			TweenHolder refillTween;
 			MoveCard(ReadOnlyCards.LastIndex(), otherHolder, out refillTween, true, 0);
 			deckRefillTweenWaiter.AddFinishable(refillTween);
-			refillTween.SetDuration(CardAnimationData.DeckFillDurationPerCard);
-			yield return new WaitForSeconds(CardAnimationData.DeckRefillDelayPerCard);
+			refillTween.SetDuration(_CardAnimationData.DeckFillDurationPerCard);
+			yield return new WaitForSeconds(_CardAnimationData.DeckRefillDelayPerCard);
 		}
 		deckRefillTweenWaiter.Ready = true;
 	}

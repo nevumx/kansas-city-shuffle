@@ -45,7 +45,7 @@ public class Hand : CardHolder
 					}
 					else
 					{
-						ReadOnlyCards[i].TweenHolder.SetDuration(CardAnimationData.GeneralCardMoveDuration);
+						ReadOnlyCards[i].TweenHolder.SetDuration(_CardAnimationData.GeneralCardMoveDuration);
 					}
 				}
 			}
