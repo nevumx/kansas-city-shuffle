@@ -76,23 +76,11 @@ public class EasterEggListener : MonoBehaviour
 
 				if (cardBackColorShaderVariableName.Equals(CHANGE_BLACK_CARD_VALUES))
 				{
-					GameObject.FindObjectsOfType<CardModViewtroller>().ForEach(c =>
-					{
-						if (c.Card.Suit == Card.CardSuit.SPADES || c.Card.Suit == Card.CardSuit.CLUBS)
-						{
-							c.CardValueText.color = c.CardSuitText.color = translatedColor;
-						}
-					});
+					CardModViewtroller.BlackTextColor = translatedColor;
 				}
 				else if (cardBackColorShaderVariableName.Equals(CHANGE_RED_CARD_VALUES))
 				{
-					GameObject.FindObjectsOfType<CardModViewtroller>().ForEach(c =>
-					{
-						if (c.Card.Suit == Card.CardSuit.HEARTS || c.Card.Suit == Card.CardSuit.DIAMONDS)
-						{
-							c.CardValueText.color = c.CardSuitText.color = translatedColor;
-						}
-					});
+					CardModViewtroller.RedTextColor = translatedColor;
 				}
 				else
 				{

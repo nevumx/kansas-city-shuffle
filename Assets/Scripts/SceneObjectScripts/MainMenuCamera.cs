@@ -16,7 +16,7 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 
 						private	static	readonly	float					TARGET_FRAMERATE				= 24.0f;
 
-	[SerializeField]	private						TweenTransformPair[]	_tweenTransformPairs			= null;
+	[SerializeField]	private						TweenTransformPair[]	_tweenTransformPairs;
 	[SerializeField]	private						float					_durationForEachTween			= 6.0f;
 	[SerializeField]	private						TweenHolder				_tweenHolder;
 						public						TweenHolder				TweenHolder						{ get { return _tweenHolder; } }
@@ -32,7 +32,7 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 						private						int						_framesToClearCardBuffer;
 						private						float					_timeStarted;
 						private						bool					_renderCardTrails				= true;
-						private						bool					_tooLateToReduceGraphicsQuality	= false;
+	private				bool												_tooLateToReduceGraphicsQuality;
 	[SerializeField]	private						MainGameModtroller		_mainGameModtroller;
 	[SerializeField]	private						MainMenuModtroller		_mainMenuModtroller;
 	[SerializeField]	private						Collider2D[]			_collidersToEnableAfterQualityCheck;
@@ -61,7 +61,7 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 	private void TweenThroughNewTweenTransformPair()
 	{
 		int nextIndex;
-		while ((nextIndex = UnityEngine.Random.Range(0, _tweenTransformPairs.Length)) == _lastTransformPairIndex);
+		while ((nextIndex = UnityEngine.Random.Range(0, _tweenTransformPairs.Length)) == _lastTransformPairIndex) {}
 		_lastTransformPairIndex = nextIndex;
 		TweenTransformPair nextPair = _tweenTransformPairs[nextIndex];
 		this.AddPositionTween(nextPair.From.position, nextPair.To.position)

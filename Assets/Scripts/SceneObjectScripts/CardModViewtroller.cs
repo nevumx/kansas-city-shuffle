@@ -21,30 +21,56 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 	[NonSerialized]		public						CardHolder				ParentCardHolder	= null;
 
 	[SerializeField]	private						NxDynamicButton			_button;
-						private						CardViewFSM				_viewFSM;
+						public						CardViewFSM				ViewFSM				{ get; private set; }
 						public						NxDynamicButton			Button				{ get { return _button; } }
-						public						CardViewFSM				ViewFSM				{ get { return _viewFSM; } }
 
-						private						Card					_card;
-						public						Card					Card				{ get { return _card; } }
-						public						int 					CardValue			{ get { return (int) _card.Value; } }
+						public						Card					Card				{ get; private set; }
+						public						int 					CardValue			{ get { return (int) Card.Value; } }
 
 	[SerializeField]	private						TweenHolder				_tweenHolder;
 						public						TweenHolder				TweenHolder			{ get { return _tweenHolder; } }
 
+						private	static				Color					_blackTextcolor		= Color.black;
+						private	static				Color					_redTextcolor		= Color.red;
+
+	public static Color BlackTextColor
+	{
+		set
+		{
+			_blackTextcolor = value;
+			RefreshAllFaceTexts();
+		}
+		get { return _blackTextcolor; }
+	}
+
+	public static Color RedTextColor
+	{
+		set
+		{
+			_redTextcolor = value;
+			RefreshAllFaceTexts();
+		}
+		get { return _redTextcolor; }
+	}
+
+	private static void RefreshAllFaceTexts()
+	{
+		GameObject.FindObjectsOfType<CardModViewtroller>().ForEach(c => c.RefreshFaceText());
+	}
+
 	public CardModViewtroller Init(Card.CardValue value, Card.CardSuit suit)
 	{
-		_card = new Card(value, suit);
+		Card = new Card(value, suit);
 		RefreshFaceText();
 		return this;
 	}
 
 	public void RefreshFaceText()
 	{
-		if (_card.Value == Card.CardValue.ACE   || _card.Value == Card.CardValue.JACK
-		 || _card.Value == Card.CardValue.QUEEN || _card.Value == Card.CardValue.KING)
+		if (Card.Value == Card.CardValue.ACE   || Card.Value == Card.CardValue.JACK
+		 || Card.Value == Card.CardValue.QUEEN || Card.Value == Card.CardValue.KING)
 		{
-			switch (_card.Value)
+			switch (Card.Value)
 			{
 				case Card.CardValue.ACE:
 					_cardValueText.text = _localizationData.GetLocalizedStringForKey(LocalizationData.TranslationKey.ACE_ABBREVIATION_CHARACTER) + "\n";
@@ -59,16 +85,16 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 					_cardValueText.text = _localizationData.GetLocalizedStringForKey(LocalizationData.TranslationKey.KING_ABBREVIATION_CHARACTER) + "\n";
 					break;
 				default:
-					_cardValueText.text = _card.CardValueString;
+					_cardValueText.text = Card.CardValueString;
 					break;
 			}
 		}
 		else
 		{
-			_cardValueText.text = _card.CardValueString;
+			_cardValueText.text = Card.CardValueString;
 		}
-		_cardSuitText.text = _card.CardSuitString;
-		_cardValueText.color = _cardSuitText.color = _card.Suit == Card.CardSuit.SPADES || _card.Suit == Card.CardSuit.CLUBS ? Color.black : Color.red;
+		_cardSuitText.text = Card.CardSuitString;
+		_cardValueText.color = _cardSuitText.color = Card.Suit == Card.CardSuit.SPADES || Card.Suit == Card.CardSuit.CLUBS ? _blackTextcolor : _redTextcolor;
 	}
 
 	public void DestroyShadowObject()
@@ -84,7 +110,7 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 
 	private void Awake()
 	{
-		_viewFSM = new CardViewFSM(this, CardViewFSM.AnimState.VISIBLE);
+		ViewFSM = new CardViewFSM(this, CardViewFSM.AnimState.VISIBLE);
 	}
 
 	public class CardViewFSM

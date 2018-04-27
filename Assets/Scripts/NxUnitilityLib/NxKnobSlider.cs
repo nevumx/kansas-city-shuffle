@@ -2,7 +2,6 @@
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using System;
 
 namespace Nx
 {
@@ -15,10 +14,10 @@ namespace Nx
 		[SerializeField]		private						Graphic				_torqueBar;
 
 		[SerializeField]
-		[Range(0.0f, 360.0f)]	private						float				_knobStartAngle			= 0.0f;
+		[Range(0.0f, 360.0f)]	private						float				_knobStartAngle;
 		[SerializeField]
 		[Range(0.0f, 360.0f)]	private						float				_knobSpanAngle			= 360.0f;
-		[SerializeField]		private						bool				_clockwise				= false;
+		[SerializeField]		private						bool				_clockwise;
 
 								private						int					_currentPointerId		= NxSimpleButton.NO_BUTTON_ID;
 
@@ -86,8 +85,8 @@ namespace Nx
 				_torqueBar.rectTransform.localEulerAngles = Vector3.forward * pointerAngle * (_clockwise ? -1.0f : 1.0f);
 				_torqueBar.rectTransform.sizeDelta = new Vector2(Mathf.Max(Mathf.Min(_RectTransform.rect.width, _RectTransform.rect.height) * 0.75f,
 						relativePointerPosition.magnitude * Screen.height / 2.0f), 0.0f);
-				float percentfilled = _knobSpanAngle == 0.0f ? 0.0f : (pointerAngle - _knobStartAngle) / _knobSpanAngle;
-				_onSlid.Invoke(percentfilled);
+				float percentFilled = Mathf.Approximately(_knobSpanAngle, 0.0f) ? 0.0f : (pointerAngle - _knobStartAngle) / _knobSpanAngle;
+				_onSlid.Invoke(percentFilled);
 			}
 		}
 

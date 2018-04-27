@@ -239,8 +239,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		}
 	}
 
-
-	// Startup functions
+#region Startup functions
 	private void Start()
 	{
 		if (_mainCamera != null)
@@ -433,9 +432,9 @@ public partial class MainGameModtroller : MonoBehaviour
 		_easterEggListener.IfIsNotNullThen(e => e.enabled = true);
 		cardCreationTweenWaiter.Ready = true;
 	}
+#endregion
 
-
-	// Main game functions
+#region Main game functions
 	private IEnumerator DealCardsToPlayers()
 	{
 		for (int i = 0, iMax = _players.Length; i < iMax; ++i)
@@ -763,9 +762,9 @@ public partial class MainGameModtroller : MonoBehaviour
 							_discardPile.ReadOnlyCards.ForEach(animatePileCardFunction);
 						});
 	}
+#endregion
 
-
-	// Player/Camera perspective shift handling
+#region Player/Camera perspective shift handling
 	private void CycleCurrentPlayer(Action onFinished)
 	{
 		int prevPlayerIndex = _currentPlayer;
@@ -834,9 +833,9 @@ public partial class MainGameModtroller : MonoBehaviour
 			onFinished();
 		}
 	}
+#endregion
 
-
-	// Direction change handling
+#region Direction change handling
 	private void UpdateDirection()
 	{
 		bool unusedBool;
@@ -908,9 +907,9 @@ public partial class MainGameModtroller : MonoBehaviour
 		_commander.ExecuteAndAddToCurrentTurnBundle(new SetDirectionCommand(this, PlayDirection.UNDECIDED));
 		_commander.ExecuteAndAddToCurrentTurnBundle(new SetCardWhenDirectionWasLastUpdatedCommand(this, null));
 	}
+#endregion
 
-
-	// Misc. helper funcs.
+#region Miscellaneous helper functions
 	private void FillDeck(Action onFinished)
 	{
 		CardHolder cardHolderToRefillDeckWith = _gameSettings.WildCardRule && _wildcardPile.CardCount > _discardPile.CardCount ? _wildcardPile : _discardPile;
@@ -990,9 +989,9 @@ public partial class MainGameModtroller : MonoBehaviour
 		FindObjectsOfType<CardModViewtroller>().ForEach(c => c.ReduceQuality());
 		_shouldReduceQualityOfNewCards = true;
 	}
+#endregion
 
-
-	// Button-invoked functions
+#region Button-invoked functions
 	public void SetTimeScalePercentage(float percent)
 	{
 		Time.timeScale = Mathf.Lerp(MIN_TIMESCALE, MAX_TIMESCALE, _gameSettings.TimeScalePercentage = percent);
@@ -1194,6 +1193,9 @@ public partial class MainGameModtroller : MonoBehaviour
 
 	public void EndGame()
 	{
+		CardModViewtroller.BlackTextColor = Color.black;
+		CardModViewtroller.RedTextColor = Color.red;
 		SceneManager.LoadScene("MainMenu");
 	}
+#endregion
 }
