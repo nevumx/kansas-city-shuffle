@@ -275,25 +275,27 @@ public partial class MainGameModtroller : MonoBehaviour
 
 		if (_demoMode)
 		{
-			var demoData = new GameSettings();
-			demoData.WildCardRule = false;
-			demoData.EliminationRule = true;
-			demoData.OptionalPlayRule = false;
-			demoData.RefillHandRule = true;
-			demoData.AllOrNothingRule = true;
-			demoData.MaxDeviationRule = false;
-			demoData.LoseBestCardRule = false;
-			demoData.SeeAICards = true;
-			demoData.Players = new GameSettings.PlayerType[4]
+			var demoData = new GameSettings
 			{
-				GameSettings.PlayerType.AI_HARD,
-				GameSettings.PlayerType.AI_EASY,
-				GameSettings.PlayerType.AI_HARD,
-				GameSettings.PlayerType.AI_EASY,
+				WildCardRule = false,
+				EliminationRule = true,
+				OptionalPlayRule = false,
+				RefillHandRule = true,
+				AllOrNothingRule = true,
+				MaxDeviationRule = false,
+				LoseBestCardRule = false,
+				SeeAICards = true,
+				Players = new GameSettings.PlayerType[4]
+				{
+					GameSettings.PlayerType.AI_HARD,
+					GameSettings.PlayerType.AI_EASY,
+					GameSettings.PlayerType.AI_HARD,
+					GameSettings.PlayerType.AI_EASY,
+				},
+				NumberOfDecks = 2,
+				NumberOfPointsToWin = 1,
+				MaxDeviationThreshold = 3
 			};
-			demoData.NumberOfDecks = 2;
-			demoData.NumberOfPointsToWin = 1;
-			demoData.MaxDeviationThreshold = 3;
 
 			SetupAndStartGame(demoData);
 		}
@@ -1178,7 +1180,7 @@ public partial class MainGameModtroller : MonoBehaviour
 				TweenHolder outTween;
 				int[] unShuffleData;
 				var cardReverseTweenWaiter = new FinishableGroupWaiter(() => _deck.Shuffle(out unShuffleData, onFinished: () => StartCoroutine(DealCardsToPlayers())));
-				CardModViewtroller[] allCards = GameObject.FindObjectsOfType<CardModViewtroller>();
+				CardModViewtroller[] allCards = FindObjectsOfType<CardModViewtroller>();
 				allCards.ForEach(c =>
 				{
 					c.TweenHolder.RemoveAllTweens();

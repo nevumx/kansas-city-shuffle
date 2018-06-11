@@ -7,10 +7,13 @@ namespace Nx
 {
 	public class NxKnobSlider : NxCornerButton, IPointerDownHandler, IPointerUpHandler, IDragHandler
 	{
+								private	static	readonly	float				PULL_TEXT_FADE_DURATION	= 1.0f;
+
 		[SerializeField]		private						CircleCollider2D	_buttonCollider;
 		[SerializeField]		private						FloatEvent			_onSlid;
 		[SerializeField]		private						UnityEvent			_onReleased;
 		[SerializeField]		private						Image				_radialFillImage;
+		[SerializeField]		private						TweenableGraphics	_pullText;
 		[SerializeField]		private						Graphic				_torqueBar;
 
 		[SerializeField]
@@ -31,7 +34,7 @@ namespace Nx
 		{
 			if (isPaused && _currentPointerId != NxSimpleButton.NO_BUTTON_ID)
 			{
-				Release();
+				Release(null);
 			}
 		}
 
@@ -54,15 +57,27 @@ namespace Nx
 		{
 			if (eventData.pointerId == _currentPointerId)
 			{
-				Release();
+				Release(eventData);
 			}
 		}
 
-		private void Release()
+		private void Release(PointerEventData eventData)
 		{
 			_currentPointerId = NxSimpleButton.NO_BUTTON_ID;
 			ResetButtonCollider();
 			_torqueBar.rectTransform.sizeDelta = Vector2.zero;
+
+			float worldSpaceRadius = _buttonCollider.radius / Mathf.Min(Screen.width, Screen.height) * 2.0f;
+			if (eventData != null && Vector2.Distance(eventData.pointerCurrentRaycast.worldPosition,
+			 										  _RectTransform.position) <= worldSpaceRadius)
+			{
+				_pullText.AddAlphaTween(1.0f).TweenHolder
+							 .SetDuration(PULL_TEXT_FADE_DURATION)
+							 .AddToOnFinishedOnce(() =>
+									_pullText.AddAlphaTween(0.0f).TweenHolder
+											 .SetDuration(PULL_TEXT_FADE_DURATION));
+			}
+
 			_onReleased.Invoke();
 		}
 

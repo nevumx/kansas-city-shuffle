@@ -40,7 +40,7 @@ public class IncrementalAnchoredPositionTween : Tween
 	}
 }
 
-public static class IncrementalAnchorPositionTweenHelperFunctions
+public static class IncrementalAnchoredPositionTweenHelperFunctions
 {
 	public static TweenableGraphics AddIncrementalAnchoredPositionTween(this TweenableGraphics tweenableGraphics, Vector2 to)
 	{

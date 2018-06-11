@@ -194,6 +194,8 @@ MonoBehaviour:
         of the Discard Pile, they will also lose their most advantageous card after
         the switch. (Example: the card closest to King after switching the direction
         to be UP. (<color=#00ff00ff>\u25B2</color>))"
+    - StringKey: 69
+      TranslatedString: Pull
   - Language: 14
     Translations:
     - StringKey: 0
@@ -386,3 +388,5 @@ MonoBehaviour:
         change la direction du jeu en jouant une carte de la m\xEAme valeur que celle
         de la derni\xE8re carte plac\xE9e dans la pile de rejets, il va aussi perdre
         le meilleur avantage apr\xE8s le changement."
+    - StringKey: 69
+      TranslatedString: Tirez
