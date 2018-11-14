@@ -2,7 +2,6 @@
 using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using Nx;
 
 [Serializable]
 public class GameSettings
@@ -75,31 +74,29 @@ public class GameSettings
 	{
 		string settingsFilePath = Application.persistentDataPath + SAVED_SETTINGS_FILE_NAME;
 		var formatter = new BinaryFormatter();
-		var stream = new FileStream(settingsFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
-		formatter.Serialize(stream, this);
-		stream.Close();
+		using (var stream = new FileStream(settingsFilePath, FileMode.Create, FileAccess.Write, FileShare.None))
+		{
+			formatter.Serialize(stream, this);
+		}
 	}
 
 	public static GameSettings ReadFromDisk()
 	{
-		string settingsFilePath = Application.persistentDataPath + SAVED_SETTINGS_FILE_NAME;
-		FileStream stream = null;
-		var formatter = new BinaryFormatter();
 		GameSettings toReturn;
 
 		try
 		{
-			stream = new FileStream(settingsFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-			toReturn = (GameSettings)formatter.Deserialize(stream);
-			stream.Close();
+			string settingsFilePath = Application.persistentDataPath + SAVED_SETTINGS_FILE_NAME;
+			var formatter = new BinaryFormatter();
+			using (var stream = new FileStream(settingsFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+			{
+				toReturn = (GameSettings)formatter.Deserialize(stream);
+			}
 		}
 		catch
 		{
-			stream.IfIsNotNullThen(s => s.Close());
-			stream = new FileStream(settingsFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
 			toReturn = new GameSettings();
-			formatter.Serialize(stream, toReturn);
-			stream.Close();
+			toReturn.WriteToDisk();
 		}
 
 		return toReturn;
