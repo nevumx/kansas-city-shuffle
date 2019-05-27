@@ -2,7 +2,7 @@
 using System;
 using Nx;
 
-public class CardModViewtroller : MonoBehaviour, ITweenable
+public class CardViewtroller : MonoBehaviour, ITweenable
 {
 	[SerializeField]	private	static	readonly	float					QUALITY_REDUCTION_SHRINK_FACTOR		= 0.95f;
 
@@ -18,17 +18,17 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 	[SerializeField]	private						MeshMaterialSwapInfo[]	_qualityLoweringSwapInfos;
 	[SerializeField]	private						Transform[]				_transformsToShrinkForQualityReduction;
 
-	[NonSerialized]		public						CardHolder				ParentCardHolder	= null;
+	[NonSerialized]		public						CardHolder				ParentCardHolder;
 
 	[SerializeField]	private						NxDynamicButton			_button;
 						public						CardViewFSM				ViewFSM				{ get; private set; }
 						public						NxDynamicButton			Button				{ get { return _button; } }
 
-						public						Card					Card				{ get; private set; }
+						public						CardModel				Card				{ get; private set; }
 						public						int 					CardValue			{ get { return (int) Card.Value; } }
 
 	[SerializeField]	private						TweenHolder				_tweenHolder;
-						public						TweenHolder				TweenHolder			{ get { return _tweenHolder; } }
+						public						TweenHolder				Holder				{ get { return _tweenHolder; } }
 
 						private	static				Color					_blackTextcolor		= Color.black;
 						private	static				Color					_redTextcolor		= Color.red;
@@ -55,33 +55,33 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 
 	private static void RefreshAllFaceTexts()
 	{
-		GameObject.FindObjectsOfType<CardModViewtroller>().ForEach(c => c.RefreshFaceText());
+		FindObjectsOfType<CardViewtroller>().ForEach(c => c.RefreshFaceText());
 	}
 
-	public CardModViewtroller Init(Card.CardValue value, Card.CardSuit suit)
+	public CardViewtroller Init(CardModel.CardValue value, CardModel.CardSuit suit)
 	{
-		Card = new Card(value, suit);
+		Card = new CardModel(value, suit);
 		RefreshFaceText();
 		return this;
 	}
 
 	public void RefreshFaceText()
 	{
-		if (Card.Value == Card.CardValue.ACE   || Card.Value == Card.CardValue.JACK
-		 || Card.Value == Card.CardValue.QUEEN || Card.Value == Card.CardValue.KING)
+		if (Card.Value == CardModel.CardValue.ACE   || Card.Value == CardModel.CardValue.JACK
+		 || Card.Value == CardModel.CardValue.QUEEN || Card.Value == CardModel.CardValue.KING)
 		{
 			switch (Card.Value)
 			{
-				case Card.CardValue.ACE:
+				case CardModel.CardValue.ACE:
 					_cardValueText.text = _localizationData.GetLocalizedStringForKey(LocalizationData.TranslationKey.ACE_ABBREVIATION_CHARACTER) + "\n";
 					break;
-				case Card.CardValue.JACK:
+				case CardModel.CardValue.JACK:
 					_cardValueText.text = _localizationData.GetLocalizedStringForKey(LocalizationData.TranslationKey.JACK_ABBREVIATION_CHARACTER) + "\n";
 					break;
-				case Card.CardValue.QUEEN:
+				case CardModel.CardValue.QUEEN:
 					_cardValueText.text = _localizationData.GetLocalizedStringForKey(LocalizationData.TranslationKey.QUEEN_ABBREVIATION_CHARACTER) + "\n";
 					break;
-				case Card.CardValue.KING:
+				case CardModel.CardValue.KING:
 					_cardValueText.text = _localizationData.GetLocalizedStringForKey(LocalizationData.TranslationKey.KING_ABBREVIATION_CHARACTER) + "\n";
 					break;
 				default:
@@ -94,7 +94,7 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 			_cardValueText.text = Card.CardValueString;
 		}
 		_cardSuitText.text = Card.CardSuitString;
-		_cardValueText.color = _cardSuitText.color = Card.Suit == Card.CardSuit.SPADES || Card.Suit == Card.CardSuit.CLUBS ? _blackTextcolor : _redTextcolor;
+		_cardValueText.color = _cardSuitText.color = Card.Suit == CardModel.CardSuit.SPADES || Card.Suit == CardModel.CardSuit.CLUBS ? _blackTextcolor : _redTextcolor;
 	}
 
 	public void DestroyShadowObject()
@@ -123,16 +123,15 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 			SELECTED,
 		}
 
-		private CardModViewtroller _parentModViewtroller;
+		private CardViewtroller _parentModViewtroller;
 
-		private AnimState _state;
-		public AnimState State { get { return _state; } }
+		public AnimState State { get; private set; }
 
 		private static readonly Vector3 TURNED_OVER_ROTATION_OFFSET = new Vector3(0.0f, 0.0f, 180.0f);
 		private static readonly Vector3 SELECTED_SCALE = Vector3.one * 1.5f;
 
 		private CardViewFSM() {}
-		public CardViewFSM(CardModViewtroller parentModViewtroller, AnimState initialState)
+		public CardViewFSM(CardViewtroller parentModViewtroller, AnimState initialState)
 		{
 			_parentModViewtroller = parentModViewtroller;
 			SetAnimState(initialState, performTweens: false);
@@ -140,18 +139,18 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 
 		public Vector3 GetAnimPositionOffset()
 		{
-			return _state == AnimState.ABLE_TO_BE_SELECTED || _state == AnimState.SELECTED
+			return State == AnimState.ABLE_TO_BE_SELECTED || State == AnimState.SELECTED
 				? Vector3.up * _parentModViewtroller._cardAnimationData.CardFloatingHeight : Vector3.zero;
 		}
 
 		public Vector3 GetAnimRotationOffset()
 		{
-			return _state == AnimState.OBSCURED ? TURNED_OVER_ROTATION_OFFSET : Vector3.zero;
+			return State == AnimState.OBSCURED ? TURNED_OVER_ROTATION_OFFSET : Vector3.zero;
 		}
 
 		public Vector3 GetAnimScale()
 		{
-			return _state == AnimState.SELECTED ? SELECTED_SCALE : Vector3.one;
+			return State == AnimState.SELECTED ? SELECTED_SCALE : Vector3.one;
 		}
 
 		public void SetTextVisibility(bool visible)
@@ -162,14 +161,14 @@ public class CardModViewtroller : MonoBehaviour, ITweenable
 
 		public TweenHolder SetAnimState(AnimState newState, bool performTweens = true)
 		{
-			TweenHolder returnTween = _parentModViewtroller.TweenHolder;
-			if (_state != newState)
+			TweenHolder returnTween = _parentModViewtroller.Holder;
+			if (State != newState)
 			{
-				AnimState lastState = _state;
-				_state = newState;
+				AnimState lastState = State;
+				State = newState;
 				if (performTweens)
 				{
-					switch (_state)
+					switch (State)
 					{
 					case AnimState.OBSCURED:
 						ObscuredState(lastState, ref returnTween);

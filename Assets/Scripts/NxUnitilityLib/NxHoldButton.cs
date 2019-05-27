@@ -116,10 +116,10 @@ namespace Nx
 			_radialFillImages.AddIncrementalRadialFillTween(0.0f).TweenHolder
 							 .SetDuration(_holdDuration)
 							 .ClearOnFinishedOnce();
-			_holdText.AddAlphaTween(1.0f).TweenHolder
+			_holdText.AddAlphaTween(1.0f).Holder
 					 .SetDuration(HOLD_TEXT_FADE_DURATION)
 					 .AddToOnFinishedOnce(() =>
-							_holdText.AddAlphaTween(0.0f).TweenHolder
+							_holdText.AddAlphaTween(0.0f).Holder
 									 .SetDuration(HOLD_TEXT_FADE_DURATION));
 		}
 	}

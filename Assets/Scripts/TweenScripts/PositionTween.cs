@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System;
-using Nx;
 
 public class PositionTween : CachedTransformTween
 {
@@ -26,24 +25,14 @@ public class PositionTween : CachedTransformTween
 
 public static class PositionTweenHelperFunctions
 {
-	public static TweenHolder AddPositionTween(this TweenHolder tweenHolder, Vector3 to)
-	{
-		return AddPositionTweenInternal(tweenHolder, tweenHolder.transform.position, to);
-	}
-
-	public static TweenHolder AddPositionTween(this TweenHolder tweenHolder, Vector3 from, Vector3 to)
-	{
-		return AddPositionTweenInternal(tweenHolder, from, to);
-	}
-
 	public static TweenHolder AddPositionTween(this ITweenable tweenable, Vector3 to)
 	{
-		return AddPositionTweenInternal(tweenable.TweenHolder, tweenable.gameObject.transform.position, to);
+		return AddPositionTweenInternal(tweenable.Holder, tweenable.gameObject.transform.position, to);
 	}
 
 	public static TweenHolder AddPositionTween(this ITweenable tweenable, Vector3 from, Vector3 to)
 	{
-		return AddPositionTweenInternal(tweenable.TweenHolder, from, to);
+		return AddPositionTweenInternal(tweenable.Holder, from, to);
 	}
 
 	private static TweenHolder AddPositionTweenInternal(TweenHolder tweenHolder, Vector3 from, Vector3 to)

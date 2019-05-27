@@ -71,10 +71,10 @@ namespace Nx
 			if (eventData != null && Vector2.Distance(eventData.pointerCurrentRaycast.worldPosition,
 			 										  _RectTransform.position) <= worldSpaceRadius)
 			{
-				_pullText.AddAlphaTween(1.0f).TweenHolder
+				_pullText.AddAlphaTween(1.0f).Holder
 							 .SetDuration(PULL_TEXT_FADE_DURATION)
 							 .AddToOnFinishedOnce(() =>
-									_pullText.AddAlphaTween(0.0f).TweenHolder
+									_pullText.AddAlphaTween(0.0f).Holder
 											 .SetDuration(PULL_TEXT_FADE_DURATION));
 			}
 

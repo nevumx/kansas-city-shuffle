@@ -12,10 +12,10 @@ public class CardPile : CardHolder
 	{
 		int cardCount = ReadOnlyCards.Count;
 		float distBetweenCards = cardCount == 1 ? 0.0f : Mathf.Min(_maxDistBetweenCardsInUnits, _pileMaxHeightInUnits / (cardCount - 1));
-		CardModViewtroller bestCardToMimic = _CardsInTransition.Best((a, b) => a.TweenHolder.TimeRemaining < b.TweenHolder.TimeRemaining);
+		CardViewtroller bestCardToMimic = _CardsInTransition.Best((a, b) => a.Holder.TimeRemaining < b.Holder.TimeRemaining);
 		for (int i = 0; i < cardCount; ++i)
 		{
-			TweenHolder cardShiftTween = ReadOnlyCards[i].TweenHolder;
+			TweenHolder cardShiftTween = ReadOnlyCards[i].Holder;
 			Vector3 targetPosition = transform.position + Vector3.up * distBetweenCards * i;
 
 			IncrementalPositionTween posTweenToShift;
@@ -29,34 +29,34 @@ public class CardPile : CardHolder
 				posTweenToShift.PositionTo = targetPosition;
 			}
 
-			if (!ReadOnlyCards[i].TweenHolder.enabled)
+			if (!ReadOnlyCards[i].Holder.enabled)
 			{
 				if (bestCardToMimic != null)
 				{
-					if (Mathf.Approximately(ReadOnlyCards[i].TweenHolder.Duration, ReadOnlyCards[i].TweenHolder.TimeRemaining))
+					if (Mathf.Approximately(ReadOnlyCards[i].Holder.Duration, ReadOnlyCards[i].Holder.TimeRemaining))
 					{
-						ReadOnlyCards[i].TweenHolder.SetDuration(bestCardToMimic.TweenHolder.TimeRemaining);
+						ReadOnlyCards[i].Holder.SetDuration(bestCardToMimic.Holder.TimeRemaining);
 					}
 					else
 					{
-						ReadOnlyCards[i].TweenHolder.SetDuration(bestCardToMimic.TweenHolder.Duration);
+						ReadOnlyCards[i].Holder.SetDuration(bestCardToMimic.Holder.Duration);
 					}
 				}
 				else
 				{
-					ReadOnlyCards[i].TweenHolder.SetDuration(_CardAnimationData.GeneralCardMoveDuration);
+					ReadOnlyCards[i].Holder.SetDuration(_CardAnimationData.GeneralCardMoveDuration);
 				}
 			}
 		}
 	}
 
-	protected override void OnCardSent(CardModViewtroller sentCard)
+	protected override void OnCardSent(CardViewtroller sentCard)
 	{
 		base.OnCardSent(sentCard);
 		UpdateCardVisibilities();
 	}
 
-	protected override void OnCardRecieveTweenFinished(CardModViewtroller card)
+	protected override void OnCardRecieveTweenFinished(CardViewtroller card)
 	{
 		base.OnCardRecieveTweenFinished(card);
 		UpdateCardVisibilities();
@@ -66,7 +66,7 @@ public class CardPile : CardHolder
 	{
 		if (_keepAllButTopCardTextInvisible)
 		{
-			var pileCards = new List<CardModViewtroller>(ReadOnlyCards);
+			var pileCards = new List<CardViewtroller>(ReadOnlyCards);
 			pileCards.RemoveAll(c => _CardsInTransition.Contains(c));
 			pileCards.ForEach(c => c.ViewFSM.SetTextVisibility(false));
 			pileCards.Last().IfIsNotNullThen(c => c.ViewFSM.SetTextVisibility(true));

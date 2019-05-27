@@ -11,25 +11,25 @@ public abstract class CardHolder : MonoBehaviour
 	[SerializeField]	private		CardAnimationData							_cardAnimationData;
 						protected	CardAnimationData							_CardAnimationData				{ get { return _cardAnimationData; } }
 
-						private		List<CardModViewtroller>					_cards							= new List<CardModViewtroller>();
+						private		List<CardViewtroller>						_cards							= new List<CardViewtroller>();
 						public		int											CardCount						{ get { return _Cards.Count; } }
 
-						private		ReadOnlyCollection<CardModViewtroller>		_cachedReadOnlyCards;
-	[SerializeField]	private		CardModViewtroller.CardViewFSM.AnimState	_cardsAnimState;
-						public		CardModViewtroller.CardViewFSM.AnimState	CardsAnimState					{ get { return _cardsAnimState; } }
+						private		ReadOnlyCollection<CardViewtroller>			_cachedReadOnlyCards;
+	[SerializeField]	private		CardViewtroller.CardViewFSM.AnimState		_cardsAnimState;
+						public		CardViewtroller.CardViewFSM.AnimState		CardsAnimState					{ get { return _cardsAnimState; } }
 	[SerializeField]	private		bool										_cardsTextVisibility;
 						protected	bool										_CardsTextVisibility			{ get { return _cardsTextVisibility; } }
 	[SerializeField]	private		TweenHolder									_shuffleAnimationCamera;
 						public		TweenHolder									ShuffleAnimationCamera			{ get { return _shuffleAnimationCamera; } }
 	[SerializeField]	private		Transform									_shuffleAnimationOriginPoint;
-						private		LinkedList<CardModViewtroller>				_cardsInTransition				= new LinkedList<CardModViewtroller>();
-						protected	LinkedList<CardModViewtroller>				_CardsInTransition				{ get { return _cardsInTransition; } }
+						private		LinkedList<CardViewtroller>					_cardsInTransition				= new LinkedList<CardViewtroller>();
+						protected	LinkedList<CardViewtroller>					_CardsInTransition				{ get { return _cardsInTransition; } }
 
 						public		AudioSource									CardFlipAudio;
 	[SerializeField]	private		AudioClip									_cardShuffleClip;
 	[SerializeField]	private		AudioClip									_cardRuffleClip;
 
-	public ReadOnlyCollection<CardModViewtroller> ReadOnlyCards
+	public ReadOnlyCollection<CardViewtroller> ReadOnlyCards
 	{
 		get
 		{
@@ -41,7 +41,7 @@ public abstract class CardHolder : MonoBehaviour
 		}
 	}
 
-	private List<CardModViewtroller> _Cards
+	private List<CardViewtroller> _Cards
 	{
 		get
 		{
@@ -73,7 +73,7 @@ public abstract class CardHolder : MonoBehaviour
 		}
 	}
 
-	public void SetCardsAnimStates(CardModViewtroller.CardViewFSM.AnimState newState, Action onFinished)
+	public void SetCardsAnimStates(CardViewtroller.CardViewFSM.AnimState newState, Action onFinished)
 	{
 		_cardsAnimState = newState;
 		var animGroupWaiter = new FinishableGroupWaiter(onFinished);
@@ -84,12 +84,12 @@ public abstract class CardHolder : MonoBehaviour
 		animGroupWaiter.Ready = true;
 	}
 
-	public void SetIntendedIncomingCardAnimState(CardModViewtroller.CardViewFSM.AnimState newState)
+	public void SetIntendedIncomingCardAnimState(CardViewtroller.CardViewFSM.AnimState newState)
 	{
 		_cardsAnimState = newState;
 	}
 
-	public void IntroduceCard(CardModViewtroller cardToIntroduce, out TweenHolder outTween,
+	public void IntroduceCard(CardViewtroller cardToIntroduce, out TweenHolder outTween,
 						   bool fancyEntrance = false, float angleOffsetForFancyEntrance = 0.0f)
 	{
 		outTween = null;
@@ -128,7 +128,7 @@ public abstract class CardHolder : MonoBehaviour
 
 	public void MoveCard(int cardIndex, CardHolder other, out TweenHolder outTween, bool? visibleDuringTween, int indexToInsertAt = -1)
 	{
-		CardModViewtroller cardBeingMoved = _Cards[cardIndex];
+		CardViewtroller cardBeingMoved = _Cards[cardIndex];
 		_Cards.RemoveAt(cardIndex);
 		if (!other._Cards.InsertionIndexIsValid(indexToInsertAt))
 		{
@@ -156,7 +156,7 @@ public abstract class CardHolder : MonoBehaviour
 		}
 	}
 
-	private void AddCard(CardModViewtroller card, int indexToInsertAt = -1)
+	private void AddCard(CardViewtroller card, int indexToInsertAt = -1)
 	{
 		if (_Cards.InsertionIndexIsValid(indexToInsertAt))
 		{
@@ -178,8 +178,8 @@ public abstract class CardHolder : MonoBehaviour
 
 	public void Shuffle(out int[] unShuffleData, Action onFinished)
 	{
-		var cardsToShuffleFrom = new List<CardModViewtroller>(_Cards);
-		var cardsToShuffleTo = new List<CardModViewtroller>(_Cards.Count);
+		var cardsToShuffleFrom = new List<CardViewtroller>(_Cards);
+		var cardsToShuffleTo = new List<CardViewtroller>(_Cards.Count);
 		unShuffleData = new int[_Cards.Count];
 		var shuffleAnimationWaiter = new FinishableGroupWaiter(onFinished);
 		for (int i = 0; cardsToShuffleFrom.Count > 0; ++i)
@@ -189,13 +189,13 @@ public abstract class CardHolder : MonoBehaviour
 			cardsToShuffleFrom.RemoveAt(index);
 			unShuffleData[i] = _Cards.IndexOf(cardsToShuffleTo.Last());
 
-			CardModViewtroller lastCard = cardsToShuffleTo.Last();
+			CardViewtroller lastCard = cardsToShuffleTo.Last();
 
 			lastCard.ViewFSM.SetTextVisibility(true);
 
 			AnimateShuffle(lastCard, i);
 
-			shuffleAnimationWaiter.AddFinishable(lastCard.TweenHolder);
+			shuffleAnimationWaiter.AddFinishable(lastCard.Holder);
 		}
 
 		if (_shuffleAnimationCamera != null && _shuffleAnimationOriginPoint != null)
@@ -225,16 +225,16 @@ public abstract class CardHolder : MonoBehaviour
 		}
 #endif
 		var shuffleAnimationWaiter = new FinishableGroupWaiter(onFinished);
-		var unShuffledCards = new CardModViewtroller[unShuffleData.Length];
+		var unShuffledCards = new CardViewtroller[unShuffleData.Length];
 		for (int i = 0, iMax = unShuffleData.Length; i < iMax; ++i)
 		{
-			CardModViewtroller lastCard = unShuffledCards[unShuffleData[i]] = _Cards[i];
+			CardViewtroller lastCard = unShuffledCards[unShuffleData[i]] = _Cards[i];
 
 			lastCard.ViewFSM.SetTextVisibility(true);
 
 			AnimateShuffle(lastCard, i);
 
-			shuffleAnimationWaiter.AddFinishable(lastCard.TweenHolder);
+			shuffleAnimationWaiter.AddFinishable(lastCard.Holder);
 		}
 
 		if (_shuffleAnimationCamera != null && _shuffleAnimationOriginPoint != null)
@@ -245,7 +245,7 @@ public abstract class CardHolder : MonoBehaviour
 		}
 
 		_Cards.Clear();
-		_Cards = new List<CardModViewtroller>(unShuffledCards);
+		_Cards = new List<CardViewtroller>(unShuffledCards);
 		shuffleAnimationWaiter.Ready = true;
 
 		if (CardFlipAudio != null)
@@ -264,16 +264,16 @@ public abstract class CardHolder : MonoBehaviour
 		}
 #endif
 		var shuffleAnimationWaiter = new FinishableGroupWaiter(onFinished);
-		var reShuffledCards = new CardModViewtroller[unShuffleData.Length];
+		var reShuffledCards = new CardViewtroller[unShuffleData.Length];
 		for (int i = 0, iMax = unShuffleData.Length; i < iMax; ++i)
 		{
-			CardModViewtroller lastCard = reShuffledCards[i] = _Cards[unShuffleData[i]];
+			CardViewtroller lastCard = reShuffledCards[i] = _Cards[unShuffleData[i]];
 
 			lastCard.ViewFSM.SetTextVisibility(true);
 
 			AnimateShuffle(lastCard, i);
 
-			shuffleAnimationWaiter.AddFinishable(lastCard.TweenHolder);
+			shuffleAnimationWaiter.AddFinishable(lastCard.Holder);
 		}
 
 		if (_shuffleAnimationCamera != null && _shuffleAnimationOriginPoint != null)
@@ -284,7 +284,7 @@ public abstract class CardHolder : MonoBehaviour
 		}
 
 		_Cards.Clear();
-		_Cards = new List<CardModViewtroller>(reShuffledCards);
+		_Cards = new List<CardViewtroller>(reShuffledCards);
 		shuffleAnimationWaiter.Ready = true;
 
 		if (CardFlipAudio != null)
@@ -300,7 +300,7 @@ public abstract class CardHolder : MonoBehaviour
 		CardFlipAudio.PlayOneShot(_cardRuffleClip);
 	}
 
-	private void AnimateShuffle(CardModViewtroller card, int cardIndex)
+	private void AnimateShuffle(CardViewtroller card, int cardIndex)
 	{
 		float animationDuration = UnityEngine.Random.Range(2.0f, _cardAnimationData.DeckShuffleExplosionDuration / 2.0f);
 		Vector3 rotationVector = (Mathf.Round(UnityEngine.Random.Range(1.0f, _cardAnimationData.DeckShuffleExplosionMaxRotations / 2.0f)) * 2.0f + 1.0f) * 360.0f * Vector3.one;
@@ -324,18 +324,18 @@ public abstract class CardHolder : MonoBehaviour
 		_Cards.Clear();
 	}
 
-	protected virtual void OnCardSent(CardModViewtroller sentCard)
+	protected virtual void OnCardSent(CardViewtroller sentCard)
 	{
 		RepositionCards();
 	}
 
-	protected virtual void OnCardRecieveTweenBegan(CardModViewtroller incomingCard)
+	protected virtual void OnCardRecieveTweenBegan(CardViewtroller incomingCard)
 	{
 		_cardsInTransition.AddLast(incomingCard);
 		RepositionCards();
 	}
 
-	protected virtual void OnCardRecieveTweenFinished(CardModViewtroller card)
+	protected virtual void OnCardRecieveTweenFinished(CardViewtroller card)
 	{
 		card.ViewFSM.SetTextVisibility(_cardsTextVisibility);
 		_cardsInTransition.Remove(card);
@@ -348,7 +348,7 @@ public abstract class CardHolder : MonoBehaviour
 		return GetCardPositionAtIndex(index) + _Cards[index].ViewFSM.GetAnimPositionOffset();
 	}
 
-	public Vector3 GetFinalPositionOfCard(CardModViewtroller card)
+	public Vector3 GetFinalPositionOfCard(CardViewtroller card)
 	{
 		return GetFinalPositionOfCardAtIndex(_Cards.IndexOf(card));
 	}

@@ -9,15 +9,15 @@ public class TitleScreen : MonoBehaviour
 
 	private void Update()
 	{
-		if (!SplashScreen.isFinished || _titleText.TweenHolder.enabled || _whiteFadeOut.TweenHolder.enabled)
+		if (!SplashScreen.isFinished || _titleText.Holder.enabled || _whiteFadeOut.Holder.enabled)
 		{
 			return;
 		}
 
-		_whiteFadeOut.AddAlphaTween(0.0f).TweenHolder
+		_whiteFadeOut.AddAlphaTween(0.0f).Holder
 					 .SetDelay(0.5f)
 					 .SetDuration(1.0f)
-					 .AddToOnFinishedOnce(() => _titleText.AddAlphaTween(0.0f).TweenHolder
+					 .AddToOnFinishedOnce(() => _titleText.AddAlphaTween(0.0f).Holder
 														  .SetDelay(1.5f)
 														  .SetDuration(1.0f)
 														  .AddToOnFinishedOnce(LoadMainMenu));

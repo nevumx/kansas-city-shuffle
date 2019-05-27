@@ -30,7 +30,6 @@ public class EasterEggListener : MonoBehaviour
 			}
 
 			int[] numbersEnteredArray = _numbersEntered.ToArray();
-			string cardBackColorShaderVariableName = null;
 
 			if (numbersEnteredArray.Length == EASTER_EGG_CODE.Length + 12)
 			{
@@ -41,6 +40,7 @@ public class EasterEggListener : MonoBehaviour
 				Array.Reverse(easterEggCodeReversed);
 				Array.Reverse(easterEggCodeAltReversed);
 
+				string cardBackColorShaderVariableName;
 				if (numbersEnteredArray.StartsWith(EASTER_EGG_CODE))
 				{
 					cardBackColorShaderVariableName = "_CardBackColor1";
@@ -76,11 +76,11 @@ public class EasterEggListener : MonoBehaviour
 
 				if (cardBackColorShaderVariableName.Equals(CHANGE_BLACK_CARD_VALUES))
 				{
-					CardModViewtroller.BlackTextColor = translatedColor;
+					CardViewtroller.BlackTextColor = translatedColor;
 				}
 				else if (cardBackColorShaderVariableName.Equals(CHANGE_RED_CARD_VALUES))
 				{
-					CardModViewtroller.RedTextColor = translatedColor;
+					CardViewtroller.RedTextColor = translatedColor;
 				}
 				else
 				{

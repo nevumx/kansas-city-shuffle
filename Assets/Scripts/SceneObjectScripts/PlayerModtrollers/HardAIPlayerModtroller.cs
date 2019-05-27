@@ -1,7 +1,4 @@
-using UnityEngine;
-using System;
 using System.Collections.Generic;
-using Nx;
 
 public class HardAIPlayerModtroller : AIPlayerModtroller
 {
@@ -12,7 +9,7 @@ public class HardAIPlayerModtroller : AIPlayerModtroller
 
 		if (allowedCardIndexes.Count > 0)
 		{
-			var allOtherCards = new List<CardModViewtroller>();
+			var allOtherCards = new List<CardViewtroller>();
 			if (direction != MainGameModtroller.PlayDirection.UNDECIDED)
 			{
 				AbstractPlayerModtroller[] allPlayers = _MainGameModtroller.Players;

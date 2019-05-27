@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using System;
-using Nx;
 
 public class IncrementalPositionTween : CachedTransformTween
 {
 	public	Vector3	PositionTo	= Vector3.zero;
-	public	bool	BoostSpeed	= false;
+	public	bool	BoostSpeed;
 
 	public IncrementalPositionTween() {}
 
@@ -52,14 +51,9 @@ public class IncrementalPositionTween : CachedTransformTween
 
 public static class IncrementalPositionTweenHelperFunctions
 {
-	public static TweenHolder AddIncrementalPositionTween(this TweenHolder tweenHolder, Vector3 to, bool boostSpeed = false)
-	{
-		return AddIncrementalPositionTweenInternal(tweenHolder, to, boostSpeed);
-	}
-
 	public static TweenHolder AddIncrementalPositionTween(this ITweenable tweenable, Vector3 to, bool boostSpeed = false)
 	{
-		return AddIncrementalPositionTweenInternal(tweenable.TweenHolder, to, boostSpeed);
+		return AddIncrementalPositionTweenInternal(tweenable.Holder, to, boostSpeed);
 	}
 
 	private static TweenHolder AddIncrementalPositionTweenInternal(TweenHolder tweenHolder, Vector3 to, bool boostSpeed)

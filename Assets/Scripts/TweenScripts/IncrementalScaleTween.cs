@@ -1,6 +1,5 @@
 using UnityEngine;
 using System;
-using Nx;
 
 public class IncrementalScaleTween : CachedTransformTween
 {
@@ -41,14 +40,9 @@ public class IncrementalScaleTween : CachedTransformTween
 
 public static class IncrementalScaleTweenHelperFunctions
 {
-	public static TweenHolder AddIncrementalScaleTween(this TweenHolder tweenHolder, Vector3 to)
-	{
-		return AddIncrementalScaleTweenInternal(tweenHolder, to);
-	}
-
 	public static TweenHolder AddIncrementalScaleTween(this ITweenable tweenable, Vector3 to)
 	{
-		return AddIncrementalScaleTweenInternal(tweenable.TweenHolder, to);
+		return AddIncrementalScaleTweenInternal(tweenable.Holder, to);
 	}
 
 	private static TweenHolder AddIncrementalScaleTweenInternal(TweenHolder tweenHolder, Vector3 to)

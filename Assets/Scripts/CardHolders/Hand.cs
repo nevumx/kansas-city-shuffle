@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections.Generic;
 using Nx;
 
 public class Hand : CardHolder
@@ -10,13 +9,13 @@ public class Hand : CardHolder
 	{
 		Vector3 leftmostPosition = transform.position - transform.right * _handMaxSizeInUnits / 2.0f;
 		float distBetweenCards = _handMaxSizeInUnits / (Mathf.Max(1.0f, (float)CardCount) + 1.0f);
-		CardModViewtroller bestCardToMimic = _CardsInTransition.Best((a, b) => a.TweenHolder.TimeRemaining < b.TweenHolder.TimeRemaining);
+		CardViewtroller bestCardToMimic = _CardsInTransition.Best((a, b) => a.Holder.TimeRemaining < b.Holder.TimeRemaining);
 
 		for (int i = 0, iMax = ReadOnlyCards.Count; i < iMax; ++i)
 		{
-			if (ReadOnlyCards[i].ViewFSM.State != CardModViewtroller.CardViewFSM.AnimState.SELECTED)
+			if (ReadOnlyCards[i].ViewFSM.State != CardViewtroller.CardViewFSM.AnimState.SELECTED)
 			{
-				TweenHolder cardShiftTween = ReadOnlyCards[i].TweenHolder;
+				TweenHolder cardShiftTween = ReadOnlyCards[i].Holder;
 				Vector3 targetPosition = leftmostPosition + transform.right * distBetweenCards * (i + 1);
 
 				IncrementalPositionTween posTweenToShift;
@@ -34,18 +33,18 @@ public class Hand : CardHolder
 				{
 					if (bestCardToMimic != null)
 					{
-						if (Mathf.Approximately(ReadOnlyCards[i].TweenHolder.Duration, ReadOnlyCards[i].TweenHolder.TimeRemaining))
+						if (Mathf.Approximately(ReadOnlyCards[i].Holder.Duration, ReadOnlyCards[i].Holder.TimeRemaining))
 						{
-							ReadOnlyCards[i].TweenHolder.SetDuration(bestCardToMimic.TweenHolder.TimeRemaining);
+							ReadOnlyCards[i].Holder.SetDuration(bestCardToMimic.Holder.TimeRemaining);
 						}
 						else
 						{
-							ReadOnlyCards[i].TweenHolder.SetDuration(bestCardToMimic.TweenHolder.Duration);
+							ReadOnlyCards[i].Holder.SetDuration(bestCardToMimic.Holder.Duration);
 						}
 					}
 					else
 					{
-						ReadOnlyCards[i].TweenHolder.SetDuration(_CardAnimationData.GeneralCardMoveDuration);
+						ReadOnlyCards[i].Holder.SetDuration(_CardAnimationData.GeneralCardMoveDuration);
 					}
 				}
 			}

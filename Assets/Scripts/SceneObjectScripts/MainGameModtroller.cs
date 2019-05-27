@@ -52,10 +52,10 @@ public partial class MainGameModtroller : MonoBehaviour
 	[SerializeField]	private						CardPile							_wildcardPile;
 						public						int									WildCardValue					{ get { return _wildcardPile.ReadOnlyCards.Last().CardValue; } }
 
-	[SerializeField]	private						CardModViewtroller					CardPrefab;
-	[SerializeField]	private						CardModViewtroller					ShadowlessCardPrefab;
-						private						bool								_shouldCreateShadowlessNewCards	= false;
-						private						bool								_shouldReduceQualityOfNewCards	= false;
+	[SerializeField]	private						CardViewtroller						CardPrefab;
+	[SerializeField]	private						CardViewtroller						ShadowlessCardPrefab;
+						private						bool								_shouldCreateShadowlessNewCards;
+						private						bool								_shouldReduceQualityOfNewCards;
 
 	[SerializeField]	private						TweenHolder							_mainCameraAnchor;
 	[SerializeField]	private						Camera								_mainCamera;
@@ -112,7 +112,7 @@ public partial class MainGameModtroller : MonoBehaviour
 						private						int									_currentPlayer;
 						private						int									_currentCameraPlayer;
 						private						int									_indexOfLastPlayerToPlayACard;
-						private						bool								_firstHumanHasPlayed			= false;
+						private						bool								_firstHumanHasPlayed;
 						private						Vector3								_mainCameraLocalPosition;
 
 						private						GameSettings						_gameSettings;
@@ -179,7 +179,7 @@ public partial class MainGameModtroller : MonoBehaviour
 	}
 
 	private PlayDirection _direction;
-	private CardModViewtroller _cardWhenDirectionWasLastUpdated;
+	private CardViewtroller _cardWhenDirectionWasLastUpdated;
 	public PlayDirection Direction
 	{
 		get
@@ -322,17 +322,6 @@ public partial class MainGameModtroller : MonoBehaviour
 		}
 	}
 
-	private void OnDestroy()
-	{
-		for (int i = 0, iMax = _players.Length; i < iMax; ++i)
-		{
-			if (_players[i] != null && _players[i].IsHuman)
-			{
-				((HumanPlayerModtroller)_players[i]).OnHumanTurnBegan -= ProcessCommandSystemOnHumanPlayerTurn;
-			}
-		}
-	}
-
 	private void SetupAndStartGame(GameSettings gameSettings)
 	{
 		_gameSettings = gameSettings;
@@ -353,7 +342,6 @@ public partial class MainGameModtroller : MonoBehaviour
 			{
 			case GameSettings.PlayerType.HUMAN:
 				_players[i] = Instantiate(_humanPlayerPrefab).Init(this);
-				((HumanPlayerModtroller) _players[i]).OnHumanTurnBegan += ProcessCommandSystemOnHumanPlayerTurn;
 				Screen.sleepTimeout = SleepTimeout.SystemSetting;
 				break;
 			case GameSettings.PlayerType.AI_EASY:
@@ -362,7 +350,6 @@ public partial class MainGameModtroller : MonoBehaviour
 			case GameSettings.PlayerType.AI_HARD:
 				_players[i] = Instantiate(_hardAIPlayerPrefab).Init(this);
 				break;
-			case GameSettings.PlayerType.NONE:
 			default:
 				_players[i] = null;
 				break;
@@ -389,9 +376,9 @@ public partial class MainGameModtroller : MonoBehaviour
 
 	private IEnumerator PopulateDeck()
 	{
-		var suits = (Card.CardSuit[])Enum.GetValues(typeof(Card.CardSuit));
-		var values = (Card.CardValue[])Enum.GetValues(typeof(Card.CardValue));
-		var allCards = new CardModViewtroller[_gameSettings.NumberOfDecks * values.Length * suits.Length];
+		var suits = (CardModel.CardSuit[])Enum.GetValues(typeof(CardModel.CardSuit));
+		var values = (CardModel.CardValue[])Enum.GetValues(typeof(CardModel.CardValue));
+		var allCards = new CardViewtroller[_gameSettings.NumberOfDecks * values.Length * suits.Length];
 
 		for (int i = 0, iMax = _gameSettings.NumberOfDecks; i < iMax; ++i)
 		{
@@ -445,8 +432,8 @@ public partial class MainGameModtroller : MonoBehaviour
 			{
 				bool visible = _players[i].IsHuman ? i == _currentPlayer : _gameSettings.SeeAICards;
 				_players[i].Hand.CardsTextVisibility = visible;
-				_players[i].Hand.SetIntendedIncomingCardAnimState(visible ? CardModViewtroller.CardViewFSM.AnimState.VISIBLE
-																		  : CardModViewtroller.CardViewFSM.AnimState.OBSCURED);
+				_players[i].Hand.SetIntendedIncomingCardAnimState(visible ? CardViewtroller.CardViewFSM.AnimState.VISIBLE
+																		  : CardViewtroller.CardViewFSM.AnimState.OBSCURED);
 			}
 		}
 
@@ -562,7 +549,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		}
 	}
 
-	private void ProcessCommandSystemOnHumanPlayerTurn()
+	public void ProcessCommandSystemOnHumanPlayerTurn()
 	{
 		_commander.FinishTurnBundle();
 		_firstHumanHasPlayed = true;
@@ -723,11 +710,11 @@ public partial class MainGameModtroller : MonoBehaviour
 					  .SetDuration(3.0f)
 					  .AddToOnFinishedOnce(() => 
 						{
-							_gameEndText.AddAlphaTween(1.0f).TweenHolder
+							_gameEndText.AddAlphaTween(1.0f).Holder
 										.SetDuration(1.0f);
 
 							_playAgainButton.RootRectTransform.gameObject.SetActive(true);
-							_playAgainButton.AddAlphaTween(1.0f).TweenHolder
+							_playAgainButton.AddAlphaTween(1.0f).Holder
 											.SetDuration(2.0f);
 
 							_deck.ShuffleAnimationCamera.AddLocalPositionTween(_mainCameraLocalPosition + Vector3.up * 5.0f)
@@ -745,7 +732,7 @@ public partial class MainGameModtroller : MonoBehaviour
 								c.ViewFSM.SetTextVisibility(true);
 							})));
 
-							Action<CardModViewtroller> animatePileCardFunction = c =>
+							Action<CardViewtroller> animatePileCardFunction = c =>
 							{
 								float animationDuration = UnityEngine.Random.Range(2.0f, 6.0f);
 								Vector3 rotationVector = (Mathf.Round(UnityEngine.Random.Range(1.0f, 3.0f)) * 2.0f) * 360.0f * Vector3.one;
@@ -797,7 +784,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		{
 			if (_players[_currentPlayer].IsHuman)
 			{
-				_players[_currentPlayer].Hand.SetIntendedIncomingCardAnimState(CardModViewtroller.CardViewFSM.AnimState.VISIBLE);
+				_players[_currentPlayer].Hand.SetIntendedIncomingCardAnimState(CardViewtroller.CardViewFSM.AnimState.VISIBLE);
 			}
 			onFinished();
 		};
@@ -823,8 +810,8 @@ public partial class MainGameModtroller : MonoBehaviour
 		if (_players[playerIndex] != null && _players[playerIndex].IsHuman)
 		{
 			_players[playerIndex].Hand.SetCardsAnimStates((playerIndex == _currentPlayer)
-				? CardModViewtroller.CardViewFSM.AnimState.VISIBLE
-				: CardModViewtroller.CardViewFSM.AnimState.OBSCURED, onFinished: () =>
+				? CardViewtroller.CardViewFSM.AnimState.VISIBLE
+				: CardViewtroller.CardViewFSM.AnimState.OBSCURED, onFinished: () =>
 				{
 					_players[playerIndex].Hand.CardsTextVisibility = playerIndex == _currentPlayer;
 					onFinished();
@@ -848,7 +835,7 @@ public partial class MainGameModtroller : MonoBehaviour
 	{
 		directionDidHardChange = false;
 		
-		CardModViewtroller lastCard = _discardPile.ReadOnlyCards.Last();
+		CardViewtroller lastCard = _discardPile.ReadOnlyCards.Last();
 		
 		if (lastCard == null)
 		{
@@ -961,7 +948,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		_undoButton.SetActive(_commander.UndoIsPossible);
 		_redoButton.SetActive(_commander.RedoIsPossible);
 		_miniViewCamera.Render();
-		_miniViewUIGraphics.AddAlphaTween(1.0f).TweenHolder
+		_miniViewUIGraphics.AddAlphaTween(1.0f).Holder
 						   .SetDuration(1.0f);
 	}
 
@@ -972,7 +959,7 @@ public partial class MainGameModtroller : MonoBehaviour
 			_tutorialSystem.FinishTutorial();
 			_undoButton.SetActive(false);
 			_redoButton.SetActive(false);
-			_miniViewUIGraphics.AddAlphaTween(0.0f).TweenHolder
+			_miniViewUIGraphics.AddAlphaTween(0.0f).Holder
 							   .SetDuration(1.0f);
 		}
 	}
@@ -982,13 +969,13 @@ public partial class MainGameModtroller : MonoBehaviour
 		_qualityLoweringSwapInfos.ForEach(q => q.MeshRenderer.material = q.SwapMaterial);
 		Destroy(_shadowCamera);
 
-		FindObjectsOfType<CardModViewtroller>().ForEach(c => c.DestroyShadowObject());
+		FindObjectsOfType<CardViewtroller>().ForEach(c => c.DestroyShadowObject());
 		_shouldCreateShadowlessNewCards = true;
 	}
 
 	public void ReduceCardQuality()
 	{
-		FindObjectsOfType<CardModViewtroller>().ForEach(c => c.ReduceQuality());
+		FindObjectsOfType<CardViewtroller>().ForEach(c => c.ReduceQuality());
 		_shouldReduceQualityOfNewCards = true;
 	}
 #endregion
@@ -1043,7 +1030,7 @@ public partial class MainGameModtroller : MonoBehaviour
 				helpPageTransitionWaiter.AddFinishable(
 						_helpPanelPrevButton.AddIncrementalAnchoredPositionTween(_helpPanelPrevButtonOffscreenOffset)
 											.AddAlphaTween(0.0f)
-											.TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME));
+											.Holder.SetDuration(HELP_SCREEN_TRANSITION_TIME));
 			}
 			else
 			{
@@ -1057,7 +1044,7 @@ public partial class MainGameModtroller : MonoBehaviour
 				helpPageTransitionWaiter.AddFinishable(
 						_helpPanelNextButton.AddIncrementalAnchoredPositionTween(_helpPanelNextButtonOffscreenOffset)
 											.AddAlphaTween(0.0f)
-											.TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME));
+											.Holder.SetDuration(HELP_SCREEN_TRANSITION_TIME));
 			}
 			else
 			{
@@ -1071,7 +1058,7 @@ public partial class MainGameModtroller : MonoBehaviour
 				helpPageTransitionWaiter.AddFinishable(
 						_submitCardsButtonTweenableGraphics.AddIncrementalAnchoredPositionTween(Vector2.zero)
 														   .AddAlphaTween(1.0f)
-														   .TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME));
+														   .Holder.SetDuration(HELP_SCREEN_TRANSITION_TIME));
 			}
 			else
 			{
@@ -1082,19 +1069,19 @@ public partial class MainGameModtroller : MonoBehaviour
 			helpPageTransitionWaiter.AddFinishable(
 					_mainHelpPanel.AddIncrementalAnchoredPositionTween(_mainHelpPanelOffscreenOffset)
 								  .AddAlphaTween(0.0f)
-								  .TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME));
+								  .Holder.SetDuration(HELP_SCREEN_TRANSITION_TIME));
 
 			helpPageTransitionWaiter.AddFinishable(
 					_mainHelpTitle.AddIncrementalAnchoredPositionTween(_mainHelpTitleOffscreenOffset)
 								  .AddAlphaTween(0.0f)
-								  .TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME));
+								  .Holder.SetDuration(HELP_SCREEN_TRANSITION_TIME));
 
 			helpPageTransitionWaiter.AddFinishable(
 					_helpOpenIcon.AddAlphaTween(1.0f)
-								 .TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME));
+								 .Holder.SetDuration(HELP_SCREEN_TRANSITION_TIME));
 			helpPageTransitionWaiter.AddFinishable(
 					_helpCloseIcon.AddAlphaTween(0.0f)
-								  .TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME));
+								  .Holder.SetDuration(HELP_SCREEN_TRANSITION_TIME));
 			helpPageTransitionWaiter.Ready = true;
 
 			_tutorialSystem.ShowTutorialIfNecessary();
@@ -1109,14 +1096,14 @@ public partial class MainGameModtroller : MonoBehaviour
 			_helpPanelPrevButton.Graphics.ForEach(g => g.SetAlpha(1.0f));
 			_helpPanelNextButton.AddIncrementalAnchoredPositionTween(Vector2.zero)
 								.AddAlphaTween(1.0f)
-								.TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME);
+								.Holder.SetDuration(HELP_SCREEN_TRANSITION_TIME);
 
 			_submitCardsButtonCollider.enabled = false;
 			if (_submitCardsButtonTweenableGraphics.gameObject.activeSelf)
 			{
 				_submitCardsButtonTweenableGraphics.AddIncrementalAnchoredPositionTween(_mainHelpTitleOffscreenOffset)
 												   .AddAlphaTween(0.0f)
-												   .TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME);
+												   .Holder.SetDuration(HELP_SCREEN_TRANSITION_TIME);
 			}
 			else
 			{
@@ -1126,15 +1113,15 @@ public partial class MainGameModtroller : MonoBehaviour
 
 			_mainHelpTitle.AddIncrementalAnchoredPositionTween(Vector2.zero)
 						  .AddAlphaTween(1.0f)
-						  .TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME);
+						  .Holder.SetDuration(HELP_SCREEN_TRANSITION_TIME);
 			_mainHelpPanel.AddIncrementalAnchoredPositionTween(Vector2.zero)
 						  .AddAlphaTween(1.0f)
-						  .TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME);
+						  .Holder.SetDuration(HELP_SCREEN_TRANSITION_TIME);
 
 			_helpOpenIcon.AddAlphaTween(0.0f)
-						 .TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME);
+						 .Holder.SetDuration(HELP_SCREEN_TRANSITION_TIME);
 			_helpCloseIcon.AddAlphaTween(1.0f)
-						  .TweenHolder.SetDuration(HELP_SCREEN_TRANSITION_TIME);
+						  .Holder.SetDuration(HELP_SCREEN_TRANSITION_TIME);
 
 			_isShowingHelpPage = true;
 		}
@@ -1153,13 +1140,13 @@ public partial class MainGameModtroller : MonoBehaviour
 	public void PlayAgain()
 	{
 		_gameEndSymbol.RootRectTransform.localScale = Vector3.one * 4.0f;
-		_gameEndText.TweenHolder.Finish();
+		_gameEndText.Holder.Finish();
 
 		_gameEndUIText.SetAlpha(0.0f);
 
 		_gameEndSymbolText.SetAlpha(0.0f);
 
-		_playAgainButton.TweenHolder.Finish();
+		_playAgainButton.Holder.Finish();
 		_playAgainButton.Graphics.ForEach(g => g.SetAlpha(0.0f));
 		_playAgainButton.RootRectTransform.gameObject.SetActive(false);
 
@@ -1180,10 +1167,10 @@ public partial class MainGameModtroller : MonoBehaviour
 				TweenHolder outTween;
 				int[] unShuffleData;
 				var cardReverseTweenWaiter = new FinishableGroupWaiter(() => _deck.Shuffle(out unShuffleData, onFinished: () => StartCoroutine(DealCardsToPlayers())));
-				CardModViewtroller[] allCards = FindObjectsOfType<CardModViewtroller>();
+				CardViewtroller[] allCards = FindObjectsOfType<CardViewtroller>();
 				allCards.ForEach(c =>
 				{
-					c.TweenHolder.RemoveAllTweens();
+					c.Holder.RemoveAllTweens();
 					c.ParentCardHolder.MoveCard(c.ParentCardHolder.ReadOnlyCards.IndexOf(c), _deck, out outTween, true);
 					outTween.RemoveTweenOfType<OffsetHeightTween>()
 							.SetIgnoreTimeScale(false).Play();
@@ -1195,8 +1182,8 @@ public partial class MainGameModtroller : MonoBehaviour
 
 	public void EndGame()
 	{
-		CardModViewtroller.BlackTextColor = Color.black;
-		CardModViewtroller.RedTextColor = Color.red;
+		CardViewtroller.BlackTextColor = Color.black;
+		CardViewtroller.RedTextColor = Color.red;
 		SceneManager.LoadScene("MainMenu");
 	}
 #endregion

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System;
-using Nx;
 
 public class QuaternionRotationTween : CachedTransformTween
 {
@@ -26,24 +25,14 @@ public class QuaternionRotationTween : CachedTransformTween
 
 public static class QuaternionRotationTweenHelperFunctions
 {
-	public static TweenHolder AddQuaternionRotationTween(this TweenHolder tweenHolder, Quaternion to)
-	{
-		return AddQuaternionRotationTweenInternal(tweenHolder, tweenHolder.transform.rotation, to);
-	}
-
-	public static TweenHolder AddQuaternionRotationTween(this TweenHolder tweenHolder, Quaternion from, Quaternion to)
-	{
-		return AddQuaternionRotationTweenInternal(tweenHolder, from, to);
-	}
-
 	public static TweenHolder AddQuaternionRotationTween(this ITweenable tweenable, Quaternion to)
 	{
-		return AddQuaternionRotationTweenInternal(tweenable.TweenHolder, tweenable.gameObject.transform.rotation, to);
+		return AddQuaternionRotationTweenInternal(tweenable.Holder, tweenable.gameObject.transform.rotation, to);
 	}
 
 	public static TweenHolder AddQuaternionRotationTween(this ITweenable tweenable, Quaternion from, Quaternion to)
 	{
-		return AddQuaternionRotationTweenInternal(tweenable.TweenHolder, from, to);
+		return AddQuaternionRotationTweenInternal(tweenable.Holder, from, to);
 	}
 
 	private static TweenHolder AddQuaternionRotationTweenInternal(TweenHolder tweenHolder, Quaternion from, Quaternion to)

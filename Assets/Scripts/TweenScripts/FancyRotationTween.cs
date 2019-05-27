@@ -1,6 +1,5 @@
 using UnityEngine;
 using System;
-using Nx;
 
 public class FancyRotationTween : CachedTransformTween
 {
@@ -32,14 +31,9 @@ public class FancyRotationTween : CachedTransformTween
 
 public static class FancyRotationTweenHelperFunctions
 {
-	public static TweenHolder AddFancyRotationTween(this TweenHolder tweenHolder)
-	{
-		return AddFancyRotationTweenInternal(tweenHolder);
-	}
-
 	public static TweenHolder AddFancyRotationTween(this ITweenable tweenable)
 	{
-		return AddFancyRotationTweenInternal(tweenable.TweenHolder);
+		return AddFancyRotationTweenInternal(tweenable.Holder);
 	}
 
 	private static TweenHolder AddFancyRotationTweenInternal(TweenHolder tweenHolder)

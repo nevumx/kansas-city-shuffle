@@ -57,12 +57,12 @@ public partial class MainGameModtroller : MonoBehaviour
 
 	private class SetCardWhenDirectionWasLastUpdatedCommand : MGMCommand
 	{
-		private CardModViewtroller _oldCard;
-		private CardModViewtroller _newCard;
+		private CardViewtroller _oldCard;
+		private CardViewtroller _newCard;
 
 		private SetCardWhenDirectionWasLastUpdatedCommand() {}
 
-		public SetCardWhenDirectionWasLastUpdatedCommand(MainGameModtroller mgmUnderControl, CardModViewtroller newCard) : base(mgmUnderControl)
+		public SetCardWhenDirectionWasLastUpdatedCommand(MainGameModtroller mgmUnderControl, CardViewtroller newCard) : base(mgmUnderControl)
 		{
 			_newCard = newCard;
 		}
@@ -231,7 +231,7 @@ public partial class MainGameModtroller : MonoBehaviour
 			_visibleDuringTween = visibleDuringTween;
 		}
 
-		private MoveCardCommand(CardHolder fromHolder, CardModViewtroller fromCard, CardHolder toHolder, int toIndex = -1, bool? visibleDuringTween = null)
+		private MoveCardCommand(CardHolder fromHolder, CardViewtroller fromCard, CardHolder toHolder, int toIndex = -1, bool? visibleDuringTween = null)
 				: this(fromHolder, fromHolder.ReadOnlyCards.IndexOf(fromCard), toHolder, toIndex, visibleDuringTween) {}
 
 		public override void SetupUndoData()

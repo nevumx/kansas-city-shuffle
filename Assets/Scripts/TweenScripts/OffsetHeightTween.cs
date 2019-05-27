@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 using System;
-using Nx;
 
 public class OffsetHeightTween : CachedTransformTween
 {
-	public	float	Height					= 0.0f;
+	public	float	Height;
 	private	Vector3	_previousHeightOffset	= Vector3.zero;
 
 	public OffsetHeightTween() {}
@@ -39,14 +38,9 @@ public class OffsetHeightTween : CachedTransformTween
 
 public static class OffsetHeightTweenHelperFunctions
 {
-	public static TweenHolder AddOffsetHeightTween(this TweenHolder tweenHolder, float height)
-	{
-		return AddOffsetHeightTweenInternal(tweenHolder, height);
-	}
-
 	public static TweenHolder AddOffsetHeightTween(this ITweenable tweenable, float height)
 	{
-				return AddOffsetHeightTweenInternal(tweenable.TweenHolder, height);
+		return AddOffsetHeightTweenInternal(tweenable.Holder, height);
 	}
 
 	private static TweenHolder AddOffsetHeightTweenInternal(TweenHolder tweenHolder, float height)

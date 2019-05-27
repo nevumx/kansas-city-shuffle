@@ -1,12 +1,11 @@
 using UnityEngine;
 using System;
-using Nx;
 
 public class LocalRotationTween : CachedTransformTween
 {
 	public	Vector3	EulerFrom	= Vector3.zero;
 	public	Vector3	EulerTo		= Vector3.zero;
-	public	bool	PingPong	= false;
+	public	bool	PingPong;
 
 	public LocalRotationTween() {}
 
@@ -29,24 +28,14 @@ public class LocalRotationTween : CachedTransformTween
 
 public static class LocalRotationTweenHelperFunctions
 {
-	public static TweenHolder AddLocalRotationTween(this TweenHolder tweenHolder, Vector3 to, bool pingPong = false)
-	{
-		return AddLocalRotationTweenInternal(tweenHolder, tweenHolder.transform.localRotation.eulerAngles, to, pingPong);
-	}
-
-	public static TweenHolder AddLocalRotationTween(this TweenHolder tweenHolder, Vector3 from, Vector3 to, bool pingPong = false)
-	{
-		return AddLocalRotationTweenInternal(tweenHolder, from, to, pingPong);
-	}
-
 	public static TweenHolder AddLocalRotationTween(this ITweenable tweenable, Vector3 to, bool pingPong = false)
 	{
-		return AddLocalRotationTweenInternal(tweenable.TweenHolder, tweenable.gameObject.transform.localRotation.eulerAngles, to, pingPong);
+		return AddLocalRotationTweenInternal(tweenable.Holder, tweenable.gameObject.transform.localRotation.eulerAngles, to, pingPong);
 	}
 
 	public static TweenHolder AddLocalRotationTween(this ITweenable tweenable, Vector3 from, Vector3 to, bool pingPong = false)
 	{
-		return AddLocalRotationTweenInternal(tweenable.TweenHolder, from, to, pingPong);
+		return AddLocalRotationTweenInternal(tweenable.Holder, from, to, pingPong);
 	}
 
 	private static TweenHolder AddLocalRotationTweenInternal(TweenHolder tweenHolder, Vector3 from, Vector3 to, bool pingPong)

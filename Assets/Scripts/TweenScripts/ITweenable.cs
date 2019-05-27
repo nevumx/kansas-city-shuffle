@@ -2,6 +2,6 @@
 
 public interface ITweenable
 {
-	TweenHolder	TweenHolder	{ get; }
+	TweenHolder	Holder	{ get; }
 	GameObject	gameObject	{ get; }
 }

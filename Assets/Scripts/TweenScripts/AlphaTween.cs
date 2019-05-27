@@ -48,22 +48,22 @@ public static class AlphaTweenHelperFunctions
 {
 	public static TweenableGraphics AddAlphaTween(this TweenableGraphics tweenableGraphics, float to)
 	{
-		tweenableGraphics.TweenHolder.AddTween(new AlphaTween(tweenableGraphics.Graphics, tweenableGraphics.Graphics[0].color.a, to)).Play();
+		tweenableGraphics.Holder.AddTween(new AlphaTween(tweenableGraphics.Graphics, tweenableGraphics.Graphics[0].color.a, to)).Play();
 		return tweenableGraphics;
 	}
 	public static TweenableGraphics AddAlphaTween(this TweenableGraphics tweenableGraphics, float from, float to)
 	{
-		tweenableGraphics.TweenHolder.AddTween(new AlphaTween(tweenableGraphics.Graphics, from, to)).Play();
+		tweenableGraphics.Holder.AddTween(new AlphaTween(tweenableGraphics.Graphics, from, to)).Play();
 		return tweenableGraphics;
 	}
 	public static TweenableAlphaMultipliedGraphics AddAlphaTween(this TweenableAlphaMultipliedGraphics tweenableGraphics, float to)
 	{
-		tweenableGraphics.TweenHolder.AddTween(new AlphaTween(tweenableGraphics.Graphics, tweenableGraphics.Graphics[0].Graphic.color.a / tweenableGraphics.Graphics[0].AlphaMultiplier, to)).Play();
+		tweenableGraphics.Holder.AddTween(new AlphaTween(tweenableGraphics.Graphics, tweenableGraphics.Graphics[0].Graphic.color.a / tweenableGraphics.Graphics[0].AlphaMultiplier, to)).Play();
 		return tweenableGraphics;
 	}
 	public static TweenableAlphaMultipliedGraphics AddAlphaTween(this TweenableAlphaMultipliedGraphics tweenableGraphics, float from, float to)
 	{
-		tweenableGraphics.TweenHolder.AddTween(new AlphaTween(tweenableGraphics.Graphics, from, to)).Play();
+		tweenableGraphics.Holder.AddTween(new AlphaTween(tweenableGraphics.Graphics, from, to)).Play();
 		return tweenableGraphics;
 	}
 	public static TweenableImages AddAlphaTween(this TweenableImages tweenableGraphics, float to)

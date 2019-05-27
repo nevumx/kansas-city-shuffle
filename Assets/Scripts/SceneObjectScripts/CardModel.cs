@@ -1,8 +1,4 @@
-﻿using UnityEngine;
-using System;
-using System.Collections;
-
-public struct Card
+﻿public struct CardModel
 {
 	public enum CardValue : byte
 	{
@@ -38,31 +34,31 @@ public struct Card
 		{
 			switch (Value)
 			{
-				case Card.CardValue.ACE:
+				case CardValue.ACE:
 					return "A\n";
-				case Card.CardValue.TWO:
+				case CardValue.TWO:
 					return "2\n";
-				case Card.CardValue.THREE:
+				case CardValue.THREE:
 					return "3\n";
-				case Card.CardValue.FOUR:
+				case CardValue.FOUR:
 					return "4\n";
-				case Card.CardValue.FIVE:
+				case CardValue.FIVE:
 					return "5\n";
-				case Card.CardValue.SIX:
+				case CardValue.SIX:
 					return "6\n";
-				case Card.CardValue.SEVEN:
+				case CardValue.SEVEN:
 					return "7\n";
-				case Card.CardValue.EIGHT:
+				case CardValue.EIGHT:
 					return "8\n";
-				case Card.CardValue.NINE:
+				case CardValue.NINE:
 					return "9\n";
-				case Card.CardValue.TEN:
+				case CardValue.TEN:
 					return "10\n";
-				case Card.CardValue.JACK:
+				case CardValue.JACK:
 					return "J\n";
-				case Card.CardValue.QUEEN:
+				case CardValue.QUEEN:
 					return "Q\n";
-				case Card.CardValue.KING:
+				case CardValue.KING:
 					return "K\n";
 				default:
 					break;
@@ -77,13 +73,13 @@ public struct Card
 		{
 			switch (Suit)
 			{
-				case Card.CardSuit.SPADES:
+				case CardSuit.SPADES:
 					return "\n\u2660";
-				case Card.CardSuit.CLUBS:
+				case CardSuit.CLUBS:
 					return "\n\u2663";
-				case Card.CardSuit.HEARTS:
+				case CardSuit.HEARTS:
 					return "\n\u2665";
-				case Card.CardSuit.DIAMONDS:
+				case CardSuit.DIAMONDS:
 					return "\n\u2666";
 				default:
 					break;
@@ -92,7 +88,7 @@ public struct Card
 		}
 	}
 
-	public Card(CardValue value, CardSuit suit)
+	public CardModel(CardValue value, CardSuit suit)
 	{
 		Value = value;
 		Suit = suit;

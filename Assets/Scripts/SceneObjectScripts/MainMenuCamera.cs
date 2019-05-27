@@ -19,7 +19,7 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 	[SerializeField]	private						TweenTransformPair[]	_tweenTransformPairs;
 	[SerializeField]	private						float					_durationForEachTween			= 6.0f;
 	[SerializeField]	private						TweenHolder				_tweenHolder;
-						public						TweenHolder				TweenHolder						{ get { return _tweenHolder; } }
+						public						TweenHolder				Holder							{ get { return _tweenHolder; } }
 						private						int						_lastTransformPairIndex			= -1;
 
 	[SerializeField]	private						Camera					_mainCamera;

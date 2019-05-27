@@ -95,7 +95,7 @@ public class AdaptiveTutorialSystem : MonoBehaviour
 	{
 		if (_isShowingTutorial)
 		{
-			_tutorialGraphics.AddAlphaTween(0.0f).TweenHolder
+			_tutorialGraphics.AddAlphaTween(0.0f).Holder
 							 .SetDuration(MainGameModtroller.HELP_SCREEN_TRANSITION_TIME);
 		}
 	}
@@ -104,7 +104,7 @@ public class AdaptiveTutorialSystem : MonoBehaviour
 	{
 		if (_isShowingTutorial)
 		{
-			_tutorialGraphics.AddAlphaTween(1.0f).TweenHolder
+			_tutorialGraphics.AddAlphaTween(1.0f).Holder
 							 .SetDuration(MainGameModtroller.HELP_SCREEN_TRANSITION_TIME);
 			if (_lastTutorialType.HasValue)
 			{
@@ -119,7 +119,7 @@ public class AdaptiveTutorialSystem : MonoBehaviour
 	{
 		if (_isShowingTutorial)
 		{
-			_tutorialGraphics.AddAlphaTween(0.0f).TweenHolder
+			_tutorialGraphics.AddAlphaTween(0.0f).Holder
 							 .SetDuration(TUTORIAL_ALPHA_TRANSISTION_TIME);
 			_isShowingTutorial = false;
 		}

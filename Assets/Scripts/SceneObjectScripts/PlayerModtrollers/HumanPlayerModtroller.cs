@@ -1,6 +1,5 @@
 using UnityEngine;
 using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Nx;
@@ -10,11 +9,9 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 	private	static	readonly	float					CARD_DRAG_ACCELERATION		= 3.0f;
 	public	static	readonly	int[]					EASTER_EGG_CODE				= { 4, 2, 3, 1, 3, 2, 4 };
 
-	public	event				Action					OnHumanTurnBegan;
-
 	private						List<int>				_selectedCardIndexes		= new List<int>();
-	private						List<int>				_allowedCardIndexes			= null;
-	private						bool					_isSelectingCards			= false;
+	private						List<int>				_allowedCardIndexes;
+	private						bool					_isSelectingCards;
 
 	private						GameObject				_submitCardsButton;
 	private						AdaptiveTutorialSystem	_tutorialSystem;
@@ -37,9 +34,9 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 
 		_isSelectingCards = true;
 
-		OnHumanTurnBegan.Raise();
+		_MainGameModtroller.ProcessCommandSystemOnHumanPlayerTurn();
 
-		ReadOnlyCollection<CardModViewtroller> cards = Hand.ReadOnlyCards;
+		ReadOnlyCollection<CardViewtroller> cards = Hand.ReadOnlyCards;
 		cards.ForEach(c =>
 		{
 			c.Button.CancelDrag();
@@ -128,7 +125,7 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 
 		_selectedCardIndexes.Clear();
 		_submitCardsButton.SetActive(false);
-		Hand.SetCardsAnimStates(CardModViewtroller.CardViewFSM.AnimState.OBSCURED, onFinished: () =>
+		Hand.SetCardsAnimStates(CardViewtroller.CardViewFSM.AnimState.OBSCURED, onFinished: () =>
 		{
 			Hand.CardsTextVisibility = false;
 			onFinished();
@@ -147,7 +144,7 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 
 	private void SetupInteractionDelegatesForCardAtIndex(int index)
 	{
-		ReadOnlyCollection<CardModViewtroller> cards = Hand.ReadOnlyCards;
+		ReadOnlyCollection<CardViewtroller> cards = Hand.ReadOnlyCards;
 
 		cards[index].Button.AddToOnClicked(() =>
 		{
@@ -208,7 +205,7 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 			new Plane(cards[index].ParentCardHolder.transform.up, cards[index].ParentCardHolder.GetFinalPositionOfCard(cards[index])).Raycast(ray, out distance);
 			IncrementalPositionTween posTween = null;
 			Vector3 targetPosition = ray.GetPoint(distance);
-			if ((posTween = cards[index].TweenHolder.GetTweenOfType<IncrementalPositionTween>()) != null)
+			if ((posTween = cards[index].Holder.GetTweenOfType<IncrementalPositionTween>()) != null)
 			{
 				posTween.PositionTo = targetPosition;
 			}
@@ -250,15 +247,15 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 			TweenHolder transitionTweenHolder;
 			if (_selectedCardIndexes.Contains(i))
 			{
-				transitionTweenHolder = Hand.ReadOnlyCards[i].ViewFSM.SetAnimState(CardModViewtroller.CardViewFSM.AnimState.SELECTED);
+				transitionTweenHolder = Hand.ReadOnlyCards[i].ViewFSM.SetAnimState(CardViewtroller.CardViewFSM.AnimState.SELECTED);
 			}
 			else if (_allowedCardIndexes.Contains(i) && _selectedCardIndexes.IsEmpty())
 			{
-				transitionTweenHolder = Hand.ReadOnlyCards[i].ViewFSM.SetAnimState(CardModViewtroller.CardViewFSM.AnimState.ABLE_TO_BE_SELECTED);
+				transitionTweenHolder = Hand.ReadOnlyCards[i].ViewFSM.SetAnimState(CardViewtroller.CardViewFSM.AnimState.ABLE_TO_BE_SELECTED);
 			}
 			else
 			{
-				transitionTweenHolder = Hand.ReadOnlyCards[i].ViewFSM.SetAnimState(CardModViewtroller.CardViewFSM.AnimState.VISIBLE);
+				transitionTweenHolder = Hand.ReadOnlyCards[i].ViewFSM.SetAnimState(CardViewtroller.CardViewFSM.AnimState.VISIBLE);
 			}
 			cardStateTransitionWaiter.IfIsNotNullThen(c => c.AddFinishable(transitionTweenHolder));
 		}
@@ -278,7 +275,7 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 		{
 			Hand.ReadOnlyCards.ForEach(c =>
 			{
-				c.CardSuitText.color = c.CardValueText.color = CardModViewtroller.RedTextColor;
+				c.CardSuitText.color = c.CardValueText.color = CardViewtroller.RedTextColor;
 				c.CardSuitText.text = "\n\u2665";
 			});
 			Hand.ReadOnlyCards[0].CardValueText.text = "M\n";

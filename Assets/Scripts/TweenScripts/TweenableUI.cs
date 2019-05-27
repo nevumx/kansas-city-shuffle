@@ -6,7 +6,7 @@ using System;
 public struct TweenableGraphics : ITweenable
 {
 	[SerializeField]	private	TweenHolder		_tweenHolder;
-						public	TweenHolder		TweenHolder			{ get { return _tweenHolder; } }
+						public	TweenHolder		Holder				{ get { return _tweenHolder; } }
 
 	[SerializeField]	private	Graphic[]		_graphics;
 						public	Graphic[]		Graphics			{ get { return _graphics; } }
@@ -42,7 +42,7 @@ public struct AlphaMultipliedGraphic
 public struct TweenableAlphaMultipliedGraphics : ITweenable
 {
 	[SerializeField]	private	TweenHolder					_tweenHolder;
-						public	TweenHolder					TweenHolder			{ get { return _tweenHolder; } }
+						public	TweenHolder					Holder				{ get { return _tweenHolder; } }
 
 	[SerializeField]	private	AlphaMultipliedGraphic[]	_graphics;
 						public	AlphaMultipliedGraphic[]	Graphics			{ get { return _graphics; } }

@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System;
-using Nx;
 
 public class IncrementalAnchoredPositionTween : Tween
 {
@@ -44,12 +43,12 @@ public static class IncrementalAnchoredPositionTweenHelperFunctions
 {
 	public static TweenableGraphics AddIncrementalAnchoredPositionTween(this TweenableGraphics tweenableGraphics, Vector2 to)
 	{
-		tweenableGraphics.TweenHolder.AddTween(new IncrementalAnchoredPositionTween(tweenableGraphics.RootRectTransform, to)).Play();
+		tweenableGraphics.Holder.AddTween(new IncrementalAnchoredPositionTween(tweenableGraphics.RootRectTransform, to)).Play();
 		return tweenableGraphics;
 	}
 	public static TweenableAlphaMultipliedGraphics AddIncrementalAnchoredPositionTween(this TweenableAlphaMultipliedGraphics tweenableGraphics, Vector2 to)
 	{
-		tweenableGraphics.TweenHolder.AddTween(new IncrementalAnchoredPositionTween(tweenableGraphics.RootRectTransform, to)).Play();
+		tweenableGraphics.Holder.AddTween(new IncrementalAnchoredPositionTween(tweenableGraphics.RootRectTransform, to)).Play();
 		return tweenableGraphics;
 	}
 }

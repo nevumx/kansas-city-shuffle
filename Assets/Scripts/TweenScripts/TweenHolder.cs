@@ -5,12 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Nx;
 
-public class TweenHolder : MonoBehaviour, IFinishable
+public class TweenHolder : MonoBehaviour, ITweenable, IFinishable
 {
 						private	Action						_onFinishedOnce;
 	[NonSerialized]		public	float						Duration			= 1.0f;
-	[NonSerialized]		public	float						Delay				= 0.0f;
-						public	bool						IgnoreTimeScale		= false;
+	[NonSerialized]		public	float						Delay;
+						public	bool						IgnoreTimeScale;
 						private	LinkedList<Tween>			_tweens				= new LinkedList<Tween>();
 						private	NxSortedLinkedList<Action>	_updateDelegates	= new NxSortedLinkedList<Action>(sortBy: d => ((Tween)d.Target).GetExecutionOrder());
 						private	Action						_endOfFrameDelegates;
@@ -19,6 +19,8 @@ public class TweenHolder : MonoBehaviour, IFinishable
 	[SerializeField]	private	GameObject[]				_gameObjectsToChangeLayerOfDuringTween;
 	[SerializeField]	private	int							_inTweenLayer;
 	[SerializeField]	private	int							_outOfTweenLayer;
+
+						public	TweenHolder					Holder				{ get { return this; } }
 
 	private bool _shouldChangeLayer = true;
 	public bool ShouldChangeLayer

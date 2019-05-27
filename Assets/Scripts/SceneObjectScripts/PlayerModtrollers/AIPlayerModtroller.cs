@@ -24,7 +24,7 @@ public abstract class AIPlayerModtroller : AbstractPlayerModtroller
 			ExtremeLowCardsIndexes = new LinkedList<int[]>();
 			ExtremeHighCardIndexes = new LinkedList<int[]>();
 
-			ReadOnlyCollection<CardModViewtroller> handCards = _parentModtroller.Hand.ReadOnlyCards;
+			ReadOnlyCollection<CardViewtroller> handCards = _parentModtroller.Hand.ReadOnlyCards;
 			
 			for (int i = 0, iMax = cardIndexesToSplit.Count; i < iMax; ++i)
 			{
@@ -53,7 +53,7 @@ public abstract class AIPlayerModtroller : AbstractPlayerModtroller
 	{
 		List<int> allowedCardIndexes = GetAllowedCardIndexes();
 		MainGameModtroller.PlayDirection direction = _MainGameModtroller.Direction;
-		float cardValueMidpoint = Enum.GetValues(typeof(Card.CardValue)).Length / 2.0f;
+		float cardValueMidpoint = Enum.GetValues(typeof(CardModel.CardValue)).Length / 2.0f;
 		ExtremeAverageCardSplitter splitter = new ExtremeAverageCardSplitter(this, allowedCardIndexes);
 
 		if (splitter.AverageCardIndexes.Count > 0)
@@ -95,11 +95,11 @@ public abstract class AIPlayerModtroller : AbstractPlayerModtroller
 
 	protected bool CardIsLowExtreme(int cardValue)
 	{
-		return cardValue <= Mathf.RoundToInt(Enum.GetValues(typeof(Card.CardValue)).Length * 0.25f);
+		return cardValue <= Mathf.RoundToInt(Enum.GetValues(typeof(CardModel.CardValue)).Length * 0.25f);
 	}
 
 	protected bool CardIsHighExtreme(int cardValue)
 	{
-		return cardValue >= Mathf.RoundToInt(Enum.GetValues(typeof(Card.CardValue)).Length * 0.75f);
+		return cardValue >= Mathf.RoundToInt(Enum.GetValues(typeof(CardModel.CardValue)).Length * 0.75f);
 	}
 }

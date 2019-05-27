@@ -1,16 +1,14 @@
 ﻿using System;
 using Nx;
 
-public class FinishableGroupWaiter
+public class FinishableGroupWaiter : IFinishable
 {
-	private	int		_numFinishableToWaitFor	= 0;
-	public	int		NumFinishableToWaitFor	{ get { return _numFinishableToWaitFor; } }
-
 	private	Action	_onAllFinished;
 
+	public	int		NumFinishableToWaitFor	{ get; private set; }
 	public	bool	Done					{ get; private set; }
 
-	private	bool	_ready					= false;
+	private	bool	_ready;
 	public	bool	Ready
 	{
 		get
@@ -20,7 +18,7 @@ public class FinishableGroupWaiter
 		set
 		{
 			_ready = value;
-			if (_numFinishableToWaitFor <= 0 && !Done)
+			if (NumFinishableToWaitFor <= 0 && !Done)
 			{
 				Finish();
 			}
@@ -44,8 +42,13 @@ public class FinishableGroupWaiter
 		if (finishable != null)
 		{
 			finishable.AddToOnFinished(TweenDone);
-			++_numFinishableToWaitFor;
+			++NumFinishableToWaitFor;
 		}
+	}
+
+	public void AddToOnFinished(Action toAdd)
+	{
+		AddToOnAllFinished(toAdd);
 	}
 
 	public void AddToOnAllFinished(Action toAdd)
@@ -55,7 +58,7 @@ public class FinishableGroupWaiter
 
 	private void TweenDone()
 	{
-		if (--_numFinishableToWaitFor <= 0 && Ready)
+		if (--NumFinishableToWaitFor <= 0 && Ready)
 		{
 			Finish();
 		}

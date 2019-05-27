@@ -4,7 +4,7 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: CardFadeOutMaterial
   m_Shader: {fileID: 4800000, guid: e851698652e7e4b4990b854fd045eef0, type: 3}
@@ -59,7 +59,7 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _FadeAmt: 0.022072017
+    - _FadeAmt: 0.01679802
     - _Glossiness: 0.5
     - _Metallic: 0
     - _Mode: 0

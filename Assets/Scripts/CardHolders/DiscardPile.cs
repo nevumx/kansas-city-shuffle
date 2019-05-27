@@ -5,13 +5,13 @@ public class DiscardPile : CardPile
 	[SerializeField]	private	TextMesh	_pileSizeText;
 						public	GameObject	PileSizeText	{ get { return _pileSizeText.gameObject; } }
 
-	protected override void OnCardSent(CardModViewtroller sentCard)
+	protected override void OnCardSent(CardViewtroller sentCard)
 	{
 		base.OnCardSent(sentCard);
 		UpdatePileSizeText();
 	}
 
-	protected override void OnCardRecieveTweenFinished(CardModViewtroller card)
+	protected override void OnCardRecieveTweenFinished(CardViewtroller card)
 	{
 		base.OnCardRecieveTweenFinished(card);
 		UpdatePileSizeText();

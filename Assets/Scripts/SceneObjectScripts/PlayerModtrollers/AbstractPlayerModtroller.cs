@@ -15,10 +15,9 @@ public abstract class AbstractPlayerModtroller : MonoBehaviour
 						public						TextMesh			PlayerSymbolText			{ get { return _playerSymbolText; } }
 	[SerializeField]	private						TextMesh			_scoreText;
 
-						private						MainGameModtroller	_mainGameModtroller;
-						protected					MainGameModtroller	_MainGameModtroller			{ get { return _mainGameModtroller; } }
+						protected					MainGameModtroller	_MainGameModtroller			{ get; private set; }
 
-	[NonSerialized]		private						bool				_eliminated					= false;
+	[NonSerialized]		private						bool				_eliminated;
 	public bool Eliminated 
 	{
 		get
@@ -41,7 +40,7 @@ public abstract class AbstractPlayerModtroller : MonoBehaviour
 		}
 	}
 
-	private int _points = 0;
+	private int _points;
 	public int Points
 	{
 		get
@@ -57,8 +56,8 @@ public abstract class AbstractPlayerModtroller : MonoBehaviour
 
 	public virtual AbstractPlayerModtroller Init(MainGameModtroller mainGameModtroller)
 	{
-		_mainGameModtroller = mainGameModtroller;
-		Hand.CardFlipAudio = _mainGameModtroller.CardFlipAudio;
+		_MainGameModtroller = mainGameModtroller;
+		Hand.CardFlipAudio = _MainGameModtroller.CardFlipAudio;
 		return this;
 	}
 
@@ -70,7 +69,7 @@ public abstract class AbstractPlayerModtroller : MonoBehaviour
 	{
 		int lastCardValue = _MainGameModtroller.DiscardPileLastValue;
 		MainGameModtroller.PlayDirection direction = _MainGameModtroller.Direction;
-		ReadOnlyCollection<CardModViewtroller> handCards = Hand.ReadOnlyCards;
+		ReadOnlyCollection<CardViewtroller> handCards = Hand.ReadOnlyCards;
 		List<int> allowedCardIndexes = new List<int>();
 		if (_MainGameModtroller.MaxDeviationRule && direction != MainGameModtroller.PlayDirection.UNDECIDED)
 		{
