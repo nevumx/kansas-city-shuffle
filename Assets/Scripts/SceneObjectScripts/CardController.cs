@@ -2,7 +2,7 @@
 using System;
 using Nx;
 
-public class CardViewtroller : MonoBehaviour, ITweenable
+public class CardController : MonoBehaviour, ITweenable
 {
 	[SerializeField]	private	static	readonly	float					QUALITY_REDUCTION_SHRINK_FACTOR		= 0.95f;
 
@@ -55,10 +55,10 @@ public class CardViewtroller : MonoBehaviour, ITweenable
 
 	private static void RefreshAllFaceTexts()
 	{
-		FindObjectsOfType<CardViewtroller>().ForEach(c => c.RefreshFaceText());
+		FindObjectsOfType<CardController>().ForEach(c => c.RefreshFaceText());
 	}
 
-	public CardViewtroller Init(CardModel.CardValue value, CardModel.CardSuit suit)
+	public CardController Init(CardModel.CardValue value, CardModel.CardSuit suit)
 	{
 		Card = new CardModel(value, suit);
 		RefreshFaceText();
@@ -123,7 +123,7 @@ public class CardViewtroller : MonoBehaviour, ITweenable
 			SELECTED,
 		}
 
-		private CardViewtroller _parentModViewtroller;
+		private CardController _parentModViewtroller;
 
 		public AnimState State { get; private set; }
 
@@ -131,7 +131,7 @@ public class CardViewtroller : MonoBehaviour, ITweenable
 		private static readonly Vector3 SELECTED_SCALE = Vector3.one * 1.5f;
 
 		private CardViewFSM() {}
-		public CardViewFSM(CardViewtroller parentModViewtroller, AnimState initialState)
+		public CardViewFSM(CardController parentModViewtroller, AnimState initialState)
 		{
 			_parentModViewtroller = parentModViewtroller;
 			SetAnimState(initialState, performTweens: false);

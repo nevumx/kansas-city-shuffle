@@ -36,7 +36,7 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 
 		_MainGameModtroller.ProcessCommandSystemOnHumanPlayerTurn();
 
-		ReadOnlyCollection<CardViewtroller> cards = Hand.ReadOnlyCards;
+		ReadOnlyCollection<CardController> cards = Hand.ReadOnlyCards;
 		cards.ForEach(c =>
 		{
 			c.Button.CancelDrag();
@@ -125,7 +125,7 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 
 		_selectedCardIndexes.Clear();
 		_submitCardsButton.SetActive(false);
-		Hand.SetCardsAnimStates(CardViewtroller.CardViewFSM.AnimState.OBSCURED, onFinished: () =>
+		Hand.SetCardsAnimStates(CardController.CardViewFSM.AnimState.OBSCURED, onFinished: () =>
 		{
 			Hand.CardsTextVisibility = false;
 			onFinished();
@@ -144,7 +144,7 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 
 	private void SetupInteractionDelegatesForCardAtIndex(int index)
 	{
-		ReadOnlyCollection<CardViewtroller> cards = Hand.ReadOnlyCards;
+		ReadOnlyCollection<CardController> cards = Hand.ReadOnlyCards;
 
 		cards[index].Button.AddToOnClicked(() =>
 		{
@@ -247,15 +247,15 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 			TweenHolder transitionTweenHolder;
 			if (_selectedCardIndexes.Contains(i))
 			{
-				transitionTweenHolder = Hand.ReadOnlyCards[i].ViewFSM.SetAnimState(CardViewtroller.CardViewFSM.AnimState.SELECTED);
+				transitionTweenHolder = Hand.ReadOnlyCards[i].ViewFSM.SetAnimState(CardController.CardViewFSM.AnimState.SELECTED);
 			}
 			else if (_allowedCardIndexes.Contains(i) && _selectedCardIndexes.IsEmpty())
 			{
-				transitionTweenHolder = Hand.ReadOnlyCards[i].ViewFSM.SetAnimState(CardViewtroller.CardViewFSM.AnimState.ABLE_TO_BE_SELECTED);
+				transitionTweenHolder = Hand.ReadOnlyCards[i].ViewFSM.SetAnimState(CardController.CardViewFSM.AnimState.ABLE_TO_BE_SELECTED);
 			}
 			else
 			{
-				transitionTweenHolder = Hand.ReadOnlyCards[i].ViewFSM.SetAnimState(CardViewtroller.CardViewFSM.AnimState.VISIBLE);
+				transitionTweenHolder = Hand.ReadOnlyCards[i].ViewFSM.SetAnimState(CardController.CardViewFSM.AnimState.VISIBLE);
 			}
 			cardStateTransitionWaiter.IfIsNotNullThen(c => c.AddFinishable(transitionTweenHolder));
 		}
@@ -275,7 +275,7 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 		{
 			Hand.ReadOnlyCards.ForEach(c =>
 			{
-				c.CardSuitText.color = c.CardValueText.color = CardViewtroller.RedTextColor;
+				c.CardSuitText.color = c.CardValueText.color = CardController.RedTextColor;
 				c.CardSuitText.text = "\n\u2665";
 			});
 			Hand.ReadOnlyCards[0].CardValueText.text = "M\n";

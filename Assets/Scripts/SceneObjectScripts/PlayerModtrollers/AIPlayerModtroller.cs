@@ -24,7 +24,7 @@ public abstract class AIPlayerModtroller : AbstractPlayerModtroller
 			ExtremeLowCardsIndexes = new LinkedList<int[]>();
 			ExtremeHighCardIndexes = new LinkedList<int[]>();
 
-			ReadOnlyCollection<CardViewtroller> handCards = _parentModtroller.Hand.ReadOnlyCards;
+			ReadOnlyCollection<CardController> handCards = _parentModtroller.Hand.ReadOnlyCards;
 			
 			for (int i = 0, iMax = cardIndexesToSplit.Count; i < iMax; ++i)
 			{

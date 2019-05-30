@@ -52,8 +52,8 @@ public partial class MainGameModtroller : MonoBehaviour
 	[SerializeField]	private						CardPile							_wildcardPile;
 						public						int									WildCardValue					{ get { return _wildcardPile.ReadOnlyCards.Last().CardValue; } }
 
-	[SerializeField]	private						CardViewtroller						CardPrefab;
-	[SerializeField]	private						CardViewtroller						ShadowlessCardPrefab;
+	[SerializeField]	private						CardController						CardPrefab;
+	[SerializeField]	private						CardController						ShadowlessCardPrefab;
 						private						bool								_shouldCreateShadowlessNewCards;
 						private						bool								_shouldReduceQualityOfNewCards;
 
@@ -179,7 +179,7 @@ public partial class MainGameModtroller : MonoBehaviour
 	}
 
 	private PlayDirection _direction;
-	private CardViewtroller _cardWhenDirectionWasLastUpdated;
+	private CardController _cardWhenDirectionWasLastUpdated;
 	public PlayDirection Direction
 	{
 		get
@@ -378,7 +378,7 @@ public partial class MainGameModtroller : MonoBehaviour
 	{
 		var suits = (CardModel.CardSuit[])Enum.GetValues(typeof(CardModel.CardSuit));
 		var values = (CardModel.CardValue[])Enum.GetValues(typeof(CardModel.CardValue));
-		var allCards = new CardViewtroller[_gameSettings.NumberOfDecks * values.Length * suits.Length];
+		var allCards = new CardController[_gameSettings.NumberOfDecks * values.Length * suits.Length];
 
 		for (int i = 0, iMax = _gameSettings.NumberOfDecks; i < iMax; ++i)
 		{
@@ -432,8 +432,8 @@ public partial class MainGameModtroller : MonoBehaviour
 			{
 				bool visible = _players[i].IsHuman ? i == _currentPlayer : _gameSettings.SeeAICards;
 				_players[i].Hand.CardsTextVisibility = visible;
-				_players[i].Hand.SetIntendedIncomingCardAnimState(visible ? CardViewtroller.CardViewFSM.AnimState.VISIBLE
-																		  : CardViewtroller.CardViewFSM.AnimState.OBSCURED);
+				_players[i].Hand.SetIntendedIncomingCardAnimState(visible ? CardController.CardViewFSM.AnimState.VISIBLE
+																		  : CardController.CardViewFSM.AnimState.OBSCURED);
 			}
 		}
 
@@ -732,7 +732,7 @@ public partial class MainGameModtroller : MonoBehaviour
 								c.ViewFSM.SetTextVisibility(true);
 							})));
 
-							Action<CardViewtroller> animatePileCardFunction = c =>
+							Action<CardController> animatePileCardFunction = c =>
 							{
 								float animationDuration = UnityEngine.Random.Range(2.0f, 6.0f);
 								Vector3 rotationVector = (Mathf.Round(UnityEngine.Random.Range(1.0f, 3.0f)) * 2.0f) * 360.0f * Vector3.one;
@@ -784,7 +784,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		{
 			if (_players[_currentPlayer].IsHuman)
 			{
-				_players[_currentPlayer].Hand.SetIntendedIncomingCardAnimState(CardViewtroller.CardViewFSM.AnimState.VISIBLE);
+				_players[_currentPlayer].Hand.SetIntendedIncomingCardAnimState(CardController.CardViewFSM.AnimState.VISIBLE);
 			}
 			onFinished();
 		};
@@ -810,8 +810,8 @@ public partial class MainGameModtroller : MonoBehaviour
 		if (_players[playerIndex] != null && _players[playerIndex].IsHuman)
 		{
 			_players[playerIndex].Hand.SetCardsAnimStates((playerIndex == _currentPlayer)
-				? CardViewtroller.CardViewFSM.AnimState.VISIBLE
-				: CardViewtroller.CardViewFSM.AnimState.OBSCURED, onFinished: () =>
+				? CardController.CardViewFSM.AnimState.VISIBLE
+				: CardController.CardViewFSM.AnimState.OBSCURED, onFinished: () =>
 				{
 					_players[playerIndex].Hand.CardsTextVisibility = playerIndex == _currentPlayer;
 					onFinished();
@@ -835,7 +835,7 @@ public partial class MainGameModtroller : MonoBehaviour
 	{
 		directionDidHardChange = false;
 		
-		CardViewtroller lastCard = _discardPile.ReadOnlyCards.Last();
+		CardController lastCard = _discardPile.ReadOnlyCards.Last();
 		
 		if (lastCard == null)
 		{
@@ -969,13 +969,13 @@ public partial class MainGameModtroller : MonoBehaviour
 		_qualityLoweringSwapInfos.ForEach(q => q.MeshRenderer.material = q.SwapMaterial);
 		Destroy(_shadowCamera);
 
-		FindObjectsOfType<CardViewtroller>().ForEach(c => c.DestroyShadowObject());
+		FindObjectsOfType<CardController>().ForEach(c => c.DestroyShadowObject());
 		_shouldCreateShadowlessNewCards = true;
 	}
 
 	public void ReduceCardQuality()
 	{
-		FindObjectsOfType<CardViewtroller>().ForEach(c => c.ReduceQuality());
+		FindObjectsOfType<CardController>().ForEach(c => c.ReduceQuality());
 		_shouldReduceQualityOfNewCards = true;
 	}
 #endregion
@@ -1167,7 +1167,7 @@ public partial class MainGameModtroller : MonoBehaviour
 				TweenHolder outTween;
 				int[] unShuffleData;
 				var cardReverseTweenWaiter = new FinishableGroupWaiter(() => _deck.Shuffle(out unShuffleData, onFinished: () => StartCoroutine(DealCardsToPlayers())));
-				CardViewtroller[] allCards = FindObjectsOfType<CardViewtroller>();
+				CardController[] allCards = FindObjectsOfType<CardController>();
 				allCards.ForEach(c =>
 				{
 					c.Holder.RemoveAllTweens();
@@ -1182,8 +1182,8 @@ public partial class MainGameModtroller : MonoBehaviour
 
 	public void EndGame()
 	{
-		CardViewtroller.BlackTextColor = Color.black;
-		CardViewtroller.RedTextColor = Color.red;
+		CardController.BlackTextColor = Color.black;
+		CardController.RedTextColor = Color.red;
 		SceneManager.LoadScene("MainMenu");
 	}
 #endregion

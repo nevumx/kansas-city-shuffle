@@ -57,12 +57,12 @@ public partial class MainGameModtroller : MonoBehaviour
 
 	private class SetCardWhenDirectionWasLastUpdatedCommand : MGMCommand
 	{
-		private CardViewtroller _oldCard;
-		private CardViewtroller _newCard;
+		private CardController _oldCard;
+		private CardController _newCard;
 
 		private SetCardWhenDirectionWasLastUpdatedCommand() {}
 
-		public SetCardWhenDirectionWasLastUpdatedCommand(MainGameModtroller mgmUnderControl, CardViewtroller newCard) : base(mgmUnderControl)
+		public SetCardWhenDirectionWasLastUpdatedCommand(MainGameModtroller mgmUnderControl, CardController newCard) : base(mgmUnderControl)
 		{
 			_newCard = newCard;
 		}
@@ -231,7 +231,7 @@ public partial class MainGameModtroller : MonoBehaviour
 			_visibleDuringTween = visibleDuringTween;
 		}
 
-		private MoveCardCommand(CardHolder fromHolder, CardViewtroller fromCard, CardHolder toHolder, int toIndex = -1, bool? visibleDuringTween = null)
+		private MoveCardCommand(CardHolder fromHolder, CardController fromCard, CardHolder toHolder, int toIndex = -1, bool? visibleDuringTween = null)
 				: this(fromHolder, fromHolder.ReadOnlyCards.IndexOf(fromCard), toHolder, toIndex, visibleDuringTween) {}
 
 		public override void SetupUndoData()
@@ -297,33 +297,33 @@ public partial class MainGameModtroller : MonoBehaviour
 
 	private class ShuffleCommand : Command, IFinishable
 	{
-		private CardHolder _cardHolderToShuffle;
+		private Deck _DeckToShuffle;
 		private int[] _unShuffleData;
 		private Action _onFinished;
 
 		private ShuffleCommand() {}
 
-		public ShuffleCommand(CardHolder cardHolderToShuffle, Action onFinished)
+		public ShuffleCommand(Deck deckToShuffle, Action onFinished)
 		{
-			_cardHolderToShuffle = cardHolderToShuffle;
+			_DeckToShuffle = deckToShuffle;
 			_onFinished = onFinished;
 		}
 
 		public override void Do()
 		{
-			_cardHolderToShuffle.Shuffle(out _unShuffleData, _onFinished);
+			_DeckToShuffle.Shuffle(out _unShuffleData, _onFinished);
 			_onFinished = null;
 		}
 
 		public override void Undo()
 		{
-			_cardHolderToShuffle.UnShuffle(_unShuffleData, _onFinished);
+			_DeckToShuffle.UnShuffle(_unShuffleData, _onFinished);
 			_onFinished = null;
 		}
 
 		public override void Redo()
 		{
-			_cardHolderToShuffle.ReShuffle(_unShuffleData, _onFinished);
+			_DeckToShuffle.ReShuffle(_unShuffleData, _onFinished);
 			_onFinished = null;
 		}
 

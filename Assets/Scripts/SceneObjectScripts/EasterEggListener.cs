@@ -76,11 +76,11 @@ public class EasterEggListener : MonoBehaviour
 
 				if (cardBackColorShaderVariableName.Equals(CHANGE_BLACK_CARD_VALUES))
 				{
-					CardViewtroller.BlackTextColor = translatedColor;
+					CardController.BlackTextColor = translatedColor;
 				}
 				else if (cardBackColorShaderVariableName.Equals(CHANGE_RED_CARD_VALUES))
 				{
-					CardViewtroller.RedTextColor = translatedColor;
+					CardController.RedTextColor = translatedColor;
 				}
 				else
 				{

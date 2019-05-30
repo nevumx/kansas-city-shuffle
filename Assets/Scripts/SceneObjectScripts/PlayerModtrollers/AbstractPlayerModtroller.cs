@@ -69,7 +69,7 @@ public abstract class AbstractPlayerModtroller : MonoBehaviour
 	{
 		int lastCardValue = _MainGameModtroller.DiscardPileLastValue;
 		MainGameModtroller.PlayDirection direction = _MainGameModtroller.Direction;
-		ReadOnlyCollection<CardViewtroller> handCards = Hand.ReadOnlyCards;
+		ReadOnlyCollection<CardController> handCards = Hand.ReadOnlyCards;
 		List<int> allowedCardIndexes = new List<int>();
 		if (_MainGameModtroller.MaxDeviationRule && direction != MainGameModtroller.PlayDirection.UNDECIDED)
 		{

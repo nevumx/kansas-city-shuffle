@@ -9,7 +9,7 @@ public class HardAIPlayerModtroller : AIPlayerModtroller
 
 		if (allowedCardIndexes.Count > 0)
 		{
-			var allOtherCards = new List<CardViewtroller>();
+			var allOtherCards = new List<CardController>();
 			if (direction != MainGameModtroller.PlayDirection.UNDECIDED)
 			{
 				AbstractPlayerModtroller[] allPlayers = _MainGameModtroller.Players;

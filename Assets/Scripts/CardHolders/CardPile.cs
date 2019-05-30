@@ -12,7 +12,7 @@ public class CardPile : CardHolder
 	{
 		int cardCount = ReadOnlyCards.Count;
 		float distBetweenCards = cardCount == 1 ? 0.0f : Mathf.Min(_maxDistBetweenCardsInUnits, _pileMaxHeightInUnits / (cardCount - 1));
-		CardViewtroller bestCardToMimic = _CardsInTransition.Best((a, b) => a.Holder.TimeRemaining < b.Holder.TimeRemaining);
+		CardController bestCardToMimic = _CardsInTransition.Best((a, b) => a.Holder.TimeRemaining < b.Holder.TimeRemaining);
 		for (int i = 0; i < cardCount; ++i)
 		{
 			TweenHolder cardShiftTween = ReadOnlyCards[i].Holder;
@@ -50,13 +50,13 @@ public class CardPile : CardHolder
 		}
 	}
 
-	protected override void OnCardSent(CardViewtroller sentCard)
+	protected override void OnCardSent(CardController sentCard)
 	{
 		base.OnCardSent(sentCard);
 		UpdateCardVisibilities();
 	}
 
-	protected override void OnCardRecieveTweenFinished(CardViewtroller card)
+	protected override void OnCardRecieveTweenFinished(CardController card)
 	{
 		base.OnCardRecieveTweenFinished(card);
 		UpdateCardVisibilities();
@@ -66,7 +66,7 @@ public class CardPile : CardHolder
 	{
 		if (_keepAllButTopCardTextInvisible)
 		{
-			var pileCards = new List<CardViewtroller>(ReadOnlyCards);
+			var pileCards = new List<CardController>(ReadOnlyCards);
 			pileCards.RemoveAll(c => _CardsInTransition.Contains(c));
 			pileCards.ForEach(c => c.ViewFSM.SetTextVisibility(false));
 			pileCards.Last().IfIsNotNullThen(c => c.ViewFSM.SetTextVisibility(true));

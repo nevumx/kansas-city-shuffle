@@ -9,11 +9,11 @@ public class Hand : CardHolder
 	{
 		Vector3 leftmostPosition = transform.position - transform.right * _handMaxSizeInUnits / 2.0f;
 		float distBetweenCards = _handMaxSizeInUnits / (Mathf.Max(1.0f, (float)CardCount) + 1.0f);
-		CardViewtroller bestCardToMimic = _CardsInTransition.Best((a, b) => a.Holder.TimeRemaining < b.Holder.TimeRemaining);
+		CardController bestCardToMimic = _CardsInTransition.Best((a, b) => a.Holder.TimeRemaining < b.Holder.TimeRemaining);
 
 		for (int i = 0, iMax = ReadOnlyCards.Count; i < iMax; ++i)
 		{
-			if (ReadOnlyCards[i].ViewFSM.State != CardViewtroller.CardViewFSM.AnimState.SELECTED)
+			if (ReadOnlyCards[i].ViewFSM.State != CardController.CardViewFSM.AnimState.SELECTED)
 			{
 				TweenHolder cardShiftTween = ReadOnlyCards[i].Holder;
 				Vector3 targetPosition = leftmostPosition + transform.right * distBetweenCards * (i + 1);
