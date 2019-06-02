@@ -14,9 +14,7 @@ public class PositionTween : CachedTransformTween
 		PositionTo = to;
 	}
 
-	public override Action GetUpdateDelegate() { return OnUpdate; }
-
-	private void OnUpdate()
+	public override void OnUpdate()
 	{
 		float percentDone = TweenHolder.EaseInOutAnimationCurve(TweenHolder.PercentDone);
 		_CachedTransform.position = Vector3.Lerp(PositionFrom, PositionTo, percentDone);

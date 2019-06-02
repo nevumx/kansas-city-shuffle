@@ -16,9 +16,7 @@ public class LocalRotationTween : CachedTransformTween
 		PingPong = pingPong;
 	}
 
-	public override Action GetUpdateDelegate() { return OnUpdate; }
-
-	private void OnUpdate()
+	public override void OnUpdate()
 	{
 		float percentDone = PingPong ? TweenHolder.EaseInOutPingPongAnimationCurveFastOutro(TweenHolder.PercentDone)
 									 : TweenHolder.EaseInOutAnimationCurve(TweenHolder.PercentDone);

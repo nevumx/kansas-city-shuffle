@@ -14,9 +14,7 @@ public class IncrementalAnchoredPositionTween : Tween
 		PositionTo = to;
 	}
 
-	public override Action GetUpdateDelegate() { return OnUpdate; }
-
-	private void OnUpdate()
+	public override void OnUpdate()
 	{
 		if (Mathf.Approximately(TweenHolder.TimeRemaining, 0.0f))
 		{

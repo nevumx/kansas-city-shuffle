@@ -14,9 +14,7 @@ public class FancyRotationTween : CachedTransformTween
 		EulerTo = to;
 	}
 
-	public override Action GetUpdateDelegate() { return OnUpdate; }
-
-	private void OnUpdate()
+	public override void OnUpdate()
 	{
 		Vector3 newRot = Vector3.Lerp(new Vector3(0.0f, 0.0f, 0.0f), new Vector3(360.0f, 360.0f, 360.0f), TweenHolder.PercentDone);
 		Quaternion VecXQ = Quaternion.Euler(new Vector3(newRot.x, 0.0f, 0.0f));

@@ -16,8 +16,6 @@ public class IncrementalPositionTween : CachedTransformTween
 		BoostSpeed = boostSpeed;
 	}
 
-	public override Action GetUpdateDelegate() { return OnUpdate; }
-
 	public override void CacheNeededData()
 	{
 		base.CacheNeededData();
@@ -26,7 +24,7 @@ public class IncrementalPositionTween : CachedTransformTween
 
 	protected virtual float GetOffsetHeight() { return 0.0f; }
 
-	private void OnUpdate()
+	public override void OnUpdate()
 	{
 		if (Mathf.Approximately(TweenHolder.TimeRemaining, 0.0f))
 		{

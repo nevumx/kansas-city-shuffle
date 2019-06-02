@@ -14,9 +14,7 @@ public class LocalPositionTween : CachedTransformTween
 		LocalPositionTo = to;
 	}
 
-	public override Action GetUpdateDelegate() { return OnUpdate; }
-
-	private void OnUpdate()
+	public override void OnUpdate()
 	{
 		float percentDone = TweenHolder.EaseInOutAnimationCurve(TweenHolder.PercentDone);
 		_CachedTransform.localPosition = Vector3.Lerp(LocalPositionFrom, LocalPositionTo, percentDone);

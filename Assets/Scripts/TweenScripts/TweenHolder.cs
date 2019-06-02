@@ -12,8 +12,6 @@ public class TweenHolder : MonoBehaviour, ITweenable, IFinishable
 	[NonSerialized]		public	float						Delay;
 						public	bool						IgnoreTimeScale;
 						private	LinkedList<Tween>			_tweens				= new LinkedList<Tween>();
-						private	LinkedList<Action>			_updateDelegates	= new LinkedList<Action>();
-						private	Action						_endOfFrameDelegates;
 						private	float						_timeStarted;
 
 	[SerializeField]	private	GameObject[]				_gameObjectsToChangeLayerOfDuringTween;
@@ -144,8 +142,6 @@ public class TweenHolder : MonoBehaviour, ITweenable, IFinishable
 	}
 	public TweenHolder AddTween<T>(T tweenToAdd) where T : Tween, new()
 	{
-		RemoveDelegates(tweenToAdd); // Make sure it is only registered once
-		AddDelegates(tweenToAdd);
 		tweenToAdd.TweenHolder = this;
 		tweenToAdd.CacheNeededData();
 		for (LinkedListNode<Tween> node = _tweens.First; node != null; node = node.Next)
@@ -154,7 +150,6 @@ public class TweenHolder : MonoBehaviour, ITweenable, IFinishable
 			{
 				if (!ReferenceEquals(node.Value, tweenToAdd))
 				{
-					RemoveDelegates(node.Value);
 					node.Value = tweenToAdd;
 				}
 				return this;
@@ -169,7 +164,6 @@ public class TweenHolder : MonoBehaviour, ITweenable, IFinishable
 		{
 			if (node.Value is T)
 			{
-				RemoveDelegates(node.Value);
 				node.Value.TweenHolder = null;
 				_tweens.Remove(node);
 				return this;
@@ -186,8 +180,7 @@ public class TweenHolder : MonoBehaviour, ITweenable, IFinishable
 			return;
 		}
 
-		_updateDelegates.IfIsNotNullThen(o => o.ForEach(u => u()));
-		StartCoroutine(RaiseEndOfFrameCallbacks());
+		_tweens.ForEach(t => t.OnUpdate());
 
 		if (_timeElapsed >= Duration)
 		{
@@ -197,43 +190,7 @@ public class TweenHolder : MonoBehaviour, ITweenable, IFinishable
 			_gameObjectsToChangeLayerOfDuringTween.ForEach(g => g.layer = _outOfTweenLayer);
 			_tweens.ForEach(t => t.TweenHolder = null);
 			_tweens.Clear();
-			_updateDelegates.Clear();
-			_endOfFrameDelegates = null;
 			prevOnFinishedOnce.Raise();
-		}
-	}
-
-	private IEnumerator RaiseEndOfFrameCallbacks()
-	{
-		yield return new WaitForEndOfFrame();
-		_endOfFrameDelegates.IfIsNotNullThen(d => d());
-	}
-
-	private void AddDelegates(Tween tweenToAdd)
-	{
-		Action updateDelegate = tweenToAdd.GetUpdateDelegate();
-		Action endOfFrameDelegate = tweenToAdd.GetEndOfFrameDelegate();
-
-		if (updateDelegate != null && updateDelegate.GetInvocationList().Length == 1 && ReferenceEquals(updateDelegate.Target, tweenToAdd)
-			&& !_updateDelegates.Exists(d => ReferenceEquals(d.Target, tweenToAdd)))
-		{
-			_updateDelegates.AddLast(updateDelegate);
-		}
-
-		if (endOfFrameDelegate != null && endOfFrameDelegate.GetInvocationList().Length == 1 && ReferenceEquals(endOfFrameDelegate.Target, tweenToAdd)
-			&& (_endOfFrameDelegates == null || !_endOfFrameDelegates.GetInvocationList().Exists(d => ReferenceEquals(d.Target, tweenToAdd))))
-		{
-			_endOfFrameDelegates += endOfFrameDelegate;
-		}
-	}
-
-	private void RemoveDelegates(Tween tween)
-	{
-		_updateDelegates.FirstOrDefault(l => ReferenceEquals(l.Target, tween)).IfIsNotNullThen(d => _updateDelegates.Remove(d));
-		if (_endOfFrameDelegates != null)
-		{
-			Delegate[] delegateList = _endOfFrameDelegates.GetInvocationList();
-			delegateList.FirstOrDefault(l => ReferenceEquals(l.Target, tween)).IfIsNotNullThen(d => _endOfFrameDelegates -= (Action)d);
 		}
 	}
 
@@ -253,7 +210,6 @@ public class TweenHolder : MonoBehaviour, ITweenable, IFinishable
 	{
 		_tweens.ForEach(t =>
 		{
-			RemoveDelegates(t);
 			t.TweenHolder = null;
 		});
 		_tweens.Clear();
@@ -285,18 +241,16 @@ public class TweenHolder : MonoBehaviour, ITweenable, IFinishable
 	}
 }
 
-public class Tween
+public abstract class Tween
 {
 	public	TweenHolder	TweenHolder	{ protected get; set; }
 
-	public virtual Action GetUpdateDelegate() { return null; }
+	public abstract void OnUpdate();
 
-	public virtual Action GetEndOfFrameDelegate() { return null; }
-
-	public virtual void CacheNeededData() {}
+	public virtual void CacheNeededData() { }
 }
 
-public class CachedTransformTween : Tween
+public abstract class CachedTransformTween : Tween
 {
 	protected	Transform	_CachedTransform	{ get; private set; }
 

@@ -30,9 +30,7 @@ public class AlphaTween : Tween
 		AlphaTo = to;
 	}
 
-	public override Action GetUpdateDelegate() { return OnUpdate; }
-
-	private void OnUpdate()
+	public override void OnUpdate()
 	{
 		_targetGraphics.ForEach(t =>
 		{
