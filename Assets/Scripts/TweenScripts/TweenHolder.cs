@@ -7,18 +7,18 @@ using Nx;
 
 public class TweenHolder : MonoBehaviour, ITweenable, IFinishable
 {
-						private	Action						_onFinishedOnce;
-	[NonSerialized]		public	float						Duration			= 1.0f;
-	[NonSerialized]		public	float						Delay;
-						public	bool						IgnoreTimeScale;
-						private	LinkedList<Tween>			_tweens				= new LinkedList<Tween>();
-						private	float						_timeStarted;
+						private	Action				_onFinishedOnce;
+	[NonSerialized]		public	float				Duration	= 1.0f;
+	[NonSerialized]		public	float				Delay;
+						public	bool				IgnoreTimeScale;
+						private	LinkedList<Tween>	_tweens		= new LinkedList<Tween>();
+						private	float				_timeStarted;
 
-	[SerializeField]	private	GameObject[]				_gameObjectsToChangeLayerOfDuringTween;
-	[SerializeField]	private	int							_inTweenLayer;
-	[SerializeField]	private	int							_outOfTweenLayer;
+	[SerializeField]	private	GameObject[]		_gameObjectsToChangeLayerOfDuringTween;
+	[SerializeField]	private	int					_inTweenLayer;
+	[SerializeField]	private	int					_outOfTweenLayer;
 
-						public	TweenHolder					Holder				{ get { return this; } }
+						public	TweenHolder			Holder		{ get { return this; } }
 
 	private bool _shouldChangeLayer = true;
 	public bool ShouldChangeLayer
