@@ -62,7 +62,6 @@ public class Deck : CardPile
 		deckRefillTweenWaiter.Ready = true;
 	}
 
-
 	public void Shuffle(out int[] unShuffleData, Action onFinished)
 	{
 		var cardsToShuffleFrom = new List<CardController>(_Cards);

@@ -476,7 +476,8 @@ public partial class MainGameModtroller : MonoBehaviour
 			dealToCommand = new DealToCommand(_deck, _wildcardPile);
 			_commander.ExecuteAndAddToCurrentTurnBundle(dealToCommand);
 			dealToCommand.OutTween.AddLocalRotationTween(Vector3.one * 360.0f)
-								  .AddOffsetHeightTween(_cardAnimationData.GeneralCardMoveHeight / 2.0f);
+								  .GetTweenOfType<OffsetHeightTween>().Height
+								  = _cardAnimationData.GeneralCardMoveHeight / 2.0f;
 		}
 
 		dealToCommand = new DealToCommand(_deck, _discardPile);
@@ -584,8 +585,9 @@ public partial class MainGameModtroller : MonoBehaviour
 		{
 			var moveCardCommand = new MoveCardCommand(_wildcardPile, _wildcardPile.ReadOnlyCards.LastIndex(), _deck, visibleDuringTween: true);
 			_commander.ExecuteAndAddToCurrentTurnBundle(moveCardCommand);
-			moveCardCommand.OutTween.AddOffsetHeightTween(_cardAnimationData.GeneralCardMoveHeight / 2.0f)
-									.SetDuration(_cardAnimationData.DeckFillDurationPerCard);
+			moveCardCommand.OutTween.SetDuration(_cardAnimationData.DeckFillDurationPerCard)
+									.GetTweenOfType<OffsetHeightTween>().Height
+									= _cardAnimationData.GeneralCardMoveHeight / 2.0f;
 			deckRefillTweenWaiter.AddFinishable(moveCardCommand.OutTween);
 			yield return new WaitForSeconds(refillDelayPerCard);
 		}
@@ -684,7 +686,8 @@ public partial class MainGameModtroller : MonoBehaviour
 				}
 				var dealToCommand = new DealToCommand(_deck, _wildcardPile);
 				_commander.ExecuteAndAddToCurrentTurnBundle(dealToCommand);
-				dealToCommand.OutTween.AddOffsetHeightTween(_cardAnimationData.GeneralCardMoveHeight / 2.0f);
+				dealToCommand.OutTween.GetTweenOfType<OffsetHeightTween>().Height
+						= _cardAnimationData.GeneralCardMoveHeight / 2.0f;
 				cardMoveTweenWaiter.AddFinishable(dealToCommand.OutTween);
 			}
 			cardMoveTweenWaiter.Ready = true;

@@ -12,7 +12,7 @@ public class TweenHolder : MonoBehaviour, ITweenable, IFinishable
 	[NonSerialized]		public	float						Delay;
 						public	bool						IgnoreTimeScale;
 						private	LinkedList<Tween>			_tweens				= new LinkedList<Tween>();
-						private	NxSortedLinkedList<Action>	_updateDelegates	= new NxSortedLinkedList<Action>(sortBy: d => ((Tween)d.Target).GetExecutionOrder());
+						private	LinkedList<Action>			_updateDelegates	= new LinkedList<Action>();
 						private	Action						_endOfFrameDelegates;
 						private	float						_timeStarted;
 
@@ -142,7 +142,7 @@ public class TweenHolder : MonoBehaviour, ITweenable, IFinishable
 		_onFinishedOnce = null;
 		return this;
 	}
-	public TweenHolder AddTween(Tween tweenToAdd)
+	public TweenHolder AddTween<T>(T tweenToAdd) where T : Tween, new()
 	{
 		RemoveDelegates(tweenToAdd); // Make sure it is only registered once
 		AddDelegates(tweenToAdd);
@@ -150,9 +150,9 @@ public class TweenHolder : MonoBehaviour, ITweenable, IFinishable
 		tweenToAdd.CacheNeededData();
 		for (LinkedListNode<Tween> node = _tweens.First; node != null; node = node.Next)
 		{
-			if (node.Value.GetType() == tweenToAdd.GetType())
+			if (node.Value is T || tweenToAdd.GetType().IsSubclassOf(node.Value.GetType()))
 			{
-				if (!object.ReferenceEquals(node.Value, tweenToAdd))
+				if (!ReferenceEquals(node.Value, tweenToAdd))
 				{
 					RemoveDelegates(node.Value);
 					node.Value = tweenToAdd;
@@ -165,10 +165,9 @@ public class TweenHolder : MonoBehaviour, ITweenable, IFinishable
 	}
 	public TweenHolder RemoveTweenOfType<T>() where T : Tween, new()
 	{
-		Type cachedTweenType = typeof(T);
 		for (LinkedListNode<Tween> node = _tweens.First; node != null; node = node.Next)
 		{
-			if (node.Value.GetType() == cachedTweenType)
+			if (node.Value is T)
 			{
 				RemoveDelegates(node.Value);
 				node.Value.TweenHolder = null;
@@ -215,14 +214,14 @@ public class TweenHolder : MonoBehaviour, ITweenable, IFinishable
 		Action updateDelegate = tweenToAdd.GetUpdateDelegate();
 		Action endOfFrameDelegate = tweenToAdd.GetEndOfFrameDelegate();
 
-		if (updateDelegate != null && updateDelegate.GetInvocationList().Length == 1 && object.ReferenceEquals(updateDelegate.Target, tweenToAdd)
-			&& !_updateDelegates.Exists(d => object.ReferenceEquals(d.Target, tweenToAdd)))
+		if (updateDelegate != null && updateDelegate.GetInvocationList().Length == 1 && ReferenceEquals(updateDelegate.Target, tweenToAdd)
+			&& !_updateDelegates.Exists(d => ReferenceEquals(d.Target, tweenToAdd)))
 		{
-			_updateDelegates.AddSorted(updateDelegate);
+			_updateDelegates.AddLast(updateDelegate);
 		}
 
-		if (endOfFrameDelegate != null && endOfFrameDelegate.GetInvocationList().Length == 1 && object.ReferenceEquals(endOfFrameDelegate.Target, tweenToAdd)
-			&& (_endOfFrameDelegates == null || !_endOfFrameDelegates.GetInvocationList().Exists(d => object.ReferenceEquals(d.Target, tweenToAdd))))
+		if (endOfFrameDelegate != null && endOfFrameDelegate.GetInvocationList().Length == 1 && ReferenceEquals(endOfFrameDelegate.Target, tweenToAdd)
+			&& (_endOfFrameDelegates == null || !_endOfFrameDelegates.GetInvocationList().Exists(d => ReferenceEquals(d.Target, tweenToAdd))))
 		{
 			_endOfFrameDelegates += endOfFrameDelegate;
 		}
@@ -230,20 +229,19 @@ public class TweenHolder : MonoBehaviour, ITweenable, IFinishable
 
 	private void RemoveDelegates(Tween tween)
 	{
-		_updateDelegates.FirstOrDefault(l => object.ReferenceEquals(l.Target, tween)).IfIsNotNullThen(d => _updateDelegates.Remove(d));
+		_updateDelegates.FirstOrDefault(l => ReferenceEquals(l.Target, tween)).IfIsNotNullThen(d => _updateDelegates.Remove(d));
 		if (_endOfFrameDelegates != null)
 		{
 			Delegate[] delegateList = _endOfFrameDelegates.GetInvocationList();
-			delegateList.FirstOrDefault(l => object.ReferenceEquals(l.Target, tween)).IfIsNotNullThen(d => _endOfFrameDelegates -= (Action)d);
+			delegateList.FirstOrDefault(l => ReferenceEquals(l.Target, tween)).IfIsNotNullThen(d => _endOfFrameDelegates -= (Action)d);
 		}
 	}
 
 	public T GetTweenOfType<T>() where T : Tween, new()
 	{
-		Type cachedTweenType = typeof(T);
 		foreach (Tween tween in _tweens)
 		{
-			if (tween.GetType() == cachedTweenType)
+			if (tween is T)
 			{
 				return (T)tween;
 			}
@@ -290,11 +288,6 @@ public class TweenHolder : MonoBehaviour, ITweenable, IFinishable
 public class Tween
 {
 	public	TweenHolder	TweenHolder	{ protected get; set; }
-
-	public virtual int GetExecutionOrder() // For tweens which operate on the same property.
-	{
-		return 0;
-	}
 
 	public virtual Action GetUpdateDelegate() { return null; }
 

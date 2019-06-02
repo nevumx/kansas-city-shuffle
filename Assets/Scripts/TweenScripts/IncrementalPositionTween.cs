@@ -3,8 +3,10 @@ using System;
 
 public class IncrementalPositionTween : CachedTransformTween
 {
-	public	Vector3	PositionTo	= Vector3.zero;
+	public	Vector3	PositionTo		= Vector3.zero;
 	public	bool	BoostSpeed;
+
+	private	Vector3	_prevPosition	= Vector3.zero;
 
 	public IncrementalPositionTween() {}
 
@@ -16,6 +18,14 @@ public class IncrementalPositionTween : CachedTransformTween
 
 	public override Action GetUpdateDelegate() { return OnUpdate; }
 
+	public override void CacheNeededData()
+	{
+		base.CacheNeededData();
+		_prevPosition = _CachedTransform.position;
+	}
+
+	protected virtual float GetOffsetHeight() { return 0.0f; }
+
 	private void OnUpdate()
 	{
 		if (Mathf.Approximately(TweenHolder.TimeRemaining, 0.0f))
@@ -24,7 +34,7 @@ public class IncrementalPositionTween : CachedTransformTween
 			return;
 		}
 
-		Vector3 destOffset = PositionTo - _CachedTransform.position;
+		Vector3 destOffset = PositionTo - _prevPosition;
 		float speed;
 		if (BoostSpeed)
 		{
@@ -36,15 +46,16 @@ public class IncrementalPositionTween : CachedTransformTween
 			speed = destOffset.magnitude / TweenHolder.TimeRemaining
 				* Mathf.Max(-6.0f * TweenHolder.PercentDone * (TweenHolder.PercentDone - 1.0f), TweenHolder.PercentDone > 0.5f ? 1.0f : 0.0f);
 		}
-		Vector3 nextDest = _CachedTransform.position + destOffset.normalized * speed * TweenHolder.DeltaTime;
+		Vector3 prevPrevPosition = _prevPosition;
+		_prevPosition += destOffset.normalized * speed * TweenHolder.DeltaTime;
 
-		if ((_CachedTransform.position - nextDest).sqrMagnitude > (_CachedTransform.position -  PositionTo).sqrMagnitude)
+		if ((prevPrevPosition - _prevPosition).sqrMagnitude > (prevPrevPosition - PositionTo).sqrMagnitude)
 		{
-			_CachedTransform.position = PositionTo;
+			_CachedTransform.position = PositionTo + GetOffsetHeight() * Vector3.up;
 		}
 		else
 		{
-			_CachedTransform.position = nextDest;
+			_CachedTransform.position = _prevPosition + GetOffsetHeight() * Vector3.up;
 		}
 	}
 }
@@ -53,11 +64,6 @@ public static class IncrementalPositionTweenHelperFunctions
 {
 	public static TweenHolder AddIncrementalPositionTween(this ITweenable tweenable, Vector3 to, bool boostSpeed = false)
 	{
-		return AddIncrementalPositionTweenInternal(tweenable.Holder, to, boostSpeed);
-	}
-
-	private static TweenHolder AddIncrementalPositionTweenInternal(TweenHolder tweenHolder, Vector3 to, bool boostSpeed)
-	{
-		return tweenHolder.AddTween(new IncrementalPositionTween(to, boostSpeed)).Play();
+		return tweenable.Holder.AddTween(new IncrementalPositionTween(to, boostSpeed)).Play();
 	}
 }

@@ -10,7 +10,7 @@ public class AlphaTween : Tween
 	public	float						AlphaFrom		= 1.0f;
 	public	float						AlphaTo			= 1.0f;
 
-	private AlphaTween() {}
+	public AlphaTween() {}
 
 	public AlphaTween(AlphaMultipliedGraphic[] targetGraphics, float from, float to)
 	{

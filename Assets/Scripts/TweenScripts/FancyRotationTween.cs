@@ -33,11 +33,6 @@ public static class FancyRotationTweenHelperFunctions
 {
 	public static TweenHolder AddFancyRotationTween(this ITweenable tweenable)
 	{
-		return AddFancyRotationTweenInternal(tweenable.Holder);
-	}
-
-	private static TweenHolder AddFancyRotationTweenInternal(TweenHolder tweenHolder)
-	{
-		return tweenHolder.AddTween(new FancyRotationTween()).Play();
+		return tweenable.Holder.AddTween(new FancyRotationTween()).Play();
 	}
 }

@@ -1,50 +1,27 @@
 ﻿using UnityEngine;
-using System;
 
-public class OffsetHeightTween : CachedTransformTween
+public class OffsetHeightTween : IncrementalPositionTween
 {
 	public	float	Height;
-	private	Vector3	_previousHeightOffset	= Vector3.zero;
 
 	public OffsetHeightTween() {}
 
-	public OffsetHeightTween(float height)
+	public OffsetHeightTween(float height, Vector3 to, bool boostSpeed)
+		: base(to, boostSpeed)
 	{
 		Height = height;
 	}
 
-	public override Action GetUpdateDelegate() { return OnUpdate; }
-
-	public override Action GetEndOfFrameDelegate() { return OnEndOfFrame; }
-
-	public override int GetExecutionOrder() { return 1; }
-
-	private void OnUpdate()
+	protected override float GetOffsetHeight()
 	{
-		_previousHeightOffset = HeightFunction(TweenHolder.PercentDone, Height) * Vector3.up;
-		_CachedTransform.position += _previousHeightOffset;
-	}
-
-	private void OnEndOfFrame()
-	{
-		_CachedTransform.position -= _previousHeightOffset;
-	}
-
-	private static float HeightFunction(float percentDone, float height)
-	{
-		return -4.0f * height * percentDone * (percentDone - 1.0f);
+		return -4.0f * Height * TweenHolder.PercentDone * (TweenHolder.PercentDone - 1.0f);
 	}
 }
 
 public static class OffsetHeightTweenHelperFunctions
 {
-	public static TweenHolder AddOffsetHeightTween(this ITweenable tweenable, float height)
+	public static TweenHolder AddOffsetHeightTween(this ITweenable tweenable, float height, Vector3 to, bool boostSpeed = false)
 	{
-		return AddOffsetHeightTweenInternal(tweenable.Holder, height);
-	}
-
-	private static TweenHolder AddOffsetHeightTweenInternal(TweenHolder tweenHolder, float height)
-	{
-		return tweenHolder.AddTween(new OffsetHeightTween(height)).Play();
+		return tweenable.Holder.AddTween(new OffsetHeightTween(height, to, boostSpeed)).Play();
 	}
 }

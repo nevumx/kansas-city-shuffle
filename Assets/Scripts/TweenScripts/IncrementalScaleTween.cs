@@ -42,11 +42,6 @@ public static class IncrementalScaleTweenHelperFunctions
 {
 	public static TweenHolder AddIncrementalScaleTween(this ITweenable tweenable, Vector3 to)
 	{
-		return AddIncrementalScaleTweenInternal(tweenable.Holder, to);
-	}
-
-	private static TweenHolder AddIncrementalScaleTweenInternal(TweenHolder tweenHolder, Vector3 to)
-	{
-		return tweenHolder.AddTween(new IncrementalScaleTween(to)).Play();
+		return tweenable.Holder.AddTween(new IncrementalScaleTween(to)).Play();
 	}
 }

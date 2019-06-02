@@ -100,8 +100,8 @@ public abstract class CardHolder : MonoBehaviour
 					+ Vector3.right * rightDistance
 					+ Vector3.forward * forwardDistance;
 
-			outTween = cardToIntroduce.AddIncrementalPositionTween(GetCardPositionAtIndex(_Cards.LastIndex()), true)
-									  .AddOffsetHeightTween(_cardAnimationData.DeckFillFancyIntroTweenHeight)
+			outTween = cardToIntroduce.AddOffsetHeightTween(_cardAnimationData.DeckFillFancyIntroTweenHeight,
+											GetCardPositionAtIndex(_Cards.LastIndex()), true)
 									  .AddLocalRotationTween(360.0f * Vector3.one + cardToIntroduce.ViewFSM.GetAnimRotationOffset())
 									  .SetDuration(_cardAnimationData.DeckFillDurationPerCard)
 									  .SetShouldChangeLayer(true)
@@ -133,8 +133,8 @@ public abstract class CardHolder : MonoBehaviour
 		cardBeingMoved.ViewFSM.SetAnimState(other._cardsAnimState, performTweens: false);
 		cardBeingMoved.ViewFSM.SetTextVisibility(visibleDuringTween.HasValue ? visibleDuringTween.Value : other._cardsTextVisibility);
 
-		outTween = cardBeingMoved.AddIncrementalPositionTween(other.GetFinalPositionOfCardAtIndex(indexToInsertAt), boostSpeed: true)
-								 .AddOffsetHeightTween(_cardAnimationData.GeneralCardMoveHeight)
+		outTween = cardBeingMoved.AddOffsetHeightTween(_cardAnimationData.GeneralCardMoveHeight,
+										other.GetFinalPositionOfCardAtIndex(indexToInsertAt), true)
 								 .AddLocalRotationTween(Vector3.one * 360.0f + cardBeingMoved.ViewFSM.GetAnimRotationOffset())
 								 .AddIncrementalScaleTween(cardBeingMoved.ViewFSM.GetAnimScale())
 								 .SetDuration(_cardAnimationData.GeneralCardMoveDuration)

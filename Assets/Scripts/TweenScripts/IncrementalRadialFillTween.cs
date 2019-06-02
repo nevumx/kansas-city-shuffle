@@ -8,7 +8,7 @@ public class IncrementalRadialFillTween : Tween
 	private	Image[]		_targetImages;
 	public	float		FillTo			= 1.0f;
 
-	private IncrementalRadialFillTween() {}
+	public IncrementalRadialFillTween() {}
 
 	public IncrementalRadialFillTween(Image[] targetImages, float to)
 	{
