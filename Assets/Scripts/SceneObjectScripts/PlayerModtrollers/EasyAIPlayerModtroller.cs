@@ -1,7 +1,4 @@
-﻿using UnityEngine;
-using System;
-using System.Collections.Generic;
-using Nx;
+﻿using System.Collections.Generic;
 
 public class EasyAIPlayerModtroller : AIPlayerModtroller
 {

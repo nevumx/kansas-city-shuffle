@@ -3,8 +3,10 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
 using System.Collections;
-using System.Collections.ObjectModel;
 using Nx;
+
+#pragma warning disable IDE1006 // Naming Styles
+#pragma warning disable IDE0044 // Add readonly modifier
 
 public partial class MainGameModtroller : MonoBehaviour
 {
@@ -1191,3 +1193,6 @@ public partial class MainGameModtroller : MonoBehaviour
 	}
 #endregion
 }
+
+#pragma warning restore IDE0044 // Add readonly modifier
+#pragma warning restore IDE1006 // Naming Styles
