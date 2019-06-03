@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Nx;
 
 public class TweenHolder : MonoBehaviour, ITweenable, IFinishable
