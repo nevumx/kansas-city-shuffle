@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Nx;
 
+#pragma warning disable IDE0044 // Add readonly modifier
+#pragma warning disable RECS0018 // Comparison of floating point numbers with equality operator
+
 public class HumanPlayerModtroller : AbstractPlayerModtroller
 {
 	private	static	readonly	float					CARD_DRAG_ACCELERATION		= 3.0f;
@@ -289,3 +292,6 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 		}
 	}
 }
+
+#pragma warning restore IDE0044 // Add readonly modifier
+#pragma warning restore RECS0018 // Comparison of floating point numbers with equality operator

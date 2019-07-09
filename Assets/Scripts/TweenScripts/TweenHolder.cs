@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using Nx;
 
+#pragma warning disable IDE1006 // Naming Styles
+#pragma warning disable IDE0044 // Add readonly modifier
+
 public class TweenHolder : MonoBehaviour, ITweenable, IFinishable
 {
 						private	Action				_onFinishedOnce;
@@ -257,3 +260,6 @@ public abstract class CachedTransformTween : Tween
 		_CachedTransform = TweenHolder.transform;
 	}
 }
+
+#pragma warning restore IDE0044 // Add readonly modifier
+#pragma warning restore IDE1006 // Naming Styles

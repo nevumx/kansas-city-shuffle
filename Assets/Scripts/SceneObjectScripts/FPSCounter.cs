@@ -4,25 +4,33 @@ using Nx;
 
 public class FPSCounter : MonoBehaviour
 {
-	private	const	int				DELTA_TIMES_BUFFER_SIZE				= 60;
+	private	const		int				DELTA_TIMES_BUFFER_SIZE	= 60;
 
+	private	readonly	Queue<float>	_deltaTimes				= new Queue<float>();
+	private				float			_cachedAverageDeltaTime	= 1.0f;
+	private				int				_numDeltaTimesToIgnore	= 3;
 
-	private			Queue<float>	_deltaTimes							= new Queue<float>();
-	private			float			_cachedAverageDeltaTime				= 1.0f;
-	private			int				_numDeltaTimesToIgnore				= 3;
-
-#if NX_DEBUG
-	private			bool			_drawFPS							= false;
-#endif
+	private				bool			_drawFPS;
 
 	private void Awake()
 	{
-		DontDestroyOnLoad(gameObject);
+		if (Debug.isDebugBuild)
+		{
+			DontDestroyOnLoad(gameObject);
+		}
+		else
+		{
+			Destroy(gameObject);
+		}
 	}
 
 	private void Update()
 	{
-#if NX_DEBUG
+		if (!Debug.isDebugBuild)
+		{
+			return;
+		}
+
 #if UNITY_ANDROID && !UNITY_EDITOR
 		if (Input.GetKeyDown(KeyCode.Menu))
 #elif UNITY_IOS && !UNITY_EDITOR
@@ -33,7 +41,7 @@ public class FPSCounter : MonoBehaviour
 		{
 			_drawFPS = !_drawFPS;
 		}
-#endif
+
 		if (_numDeltaTimesToIgnore > 0)
 		{
 			--_numDeltaTimesToIgnore;
@@ -52,7 +60,6 @@ public class FPSCounter : MonoBehaviour
 		_cachedAverageDeltaTime =  sumDeltaTimes / _deltaTimes.Count;
 	}
 
-#if NX_DEBUG
 	private void OnGUI()
 	{
 		if (!_drawFPS)
@@ -76,7 +83,6 @@ public class FPSCounter : MonoBehaviour
 		GUI.Label(new Rect(0, 0, Screen.width, Screen.height), "FPS: " + Mathf.RoundToInt(1.0f / _cachedAverageDeltaTime)
 						   + " = " + Mathf.RoundToInt(_cachedAverageDeltaTime * 1000.0f) + "ms");
 	}
-#endif
 
 	public bool IsUnderFramerate(float framerate)
 	{

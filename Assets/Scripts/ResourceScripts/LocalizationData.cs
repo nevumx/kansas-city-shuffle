@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
-using Nx;
+
+#pragma warning disable IDE0044 // Add readonly modifier
 
 [Serializable]
 public class LocalizationData : ScriptableObject
@@ -90,8 +91,10 @@ public class LocalizationData : ScriptableObject
 			[TextArea]	public	string			TranslatedString;
 		}
 
-		public	SystemLanguage	Language		= SystemLanguage.English;
-		public	Translation[]	Translations	= null;
+		[SerializeField]	private	SystemLanguage	_language		= SystemLanguage.English;
+							public	SystemLanguage	Language		{ get { return _language; } }
+		[SerializeField]	private	Translation[]	_translations;
+							public	Translation[]	Translations	{ get { return _translations; } }
 	}
 
 	[SerializeField]	private	Localization[]	_localizations;
@@ -103,3 +106,5 @@ public class LocalizationData : ScriptableObject
 															 : currentLocalization).Translations.First(t => t.StringKey == stringKey).TranslatedString;
 	}
 }
+
+#pragma warning restore IDE0044 // Add readonly modifier

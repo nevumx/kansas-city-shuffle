@@ -6,9 +6,9 @@ using Nx;
 
 public class AlphaTween : Tween
 {
-	private	AlphaMultipliedGraphic[]	_targetGraphics;
-	public	float						AlphaFrom		= 1.0f;
-	public	float						AlphaTo			= 1.0f;
+	private	readonly	AlphaMultipliedGraphic[]	_targetGraphics;
+	public				float						AlphaFrom		= 1.0f;
+	public				float						AlphaTo			= 1.0f;
 
 	public AlphaTween() {}
 

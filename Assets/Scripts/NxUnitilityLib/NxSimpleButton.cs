@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using System;
+
+#pragma warning disable IDE1006 // Naming Styles
+#pragma warning disable IDE0044 // Add readonly modifier
 
 namespace Nx
 {
@@ -18,8 +20,8 @@ namespace Nx
 
 							private						int					_currentPointerId		= NO_BUTTON_ID;
 							protected					int					_CurrentPointerId		{ get { return _currentPointerId; } }
-							private						bool				_currentPointerIsInside	= false;
-							protected					bool				_CurrentPointerIsInside	{ get { return _currentPointerIsInside; } }
+
+							protected					bool				_CurrentPointerIsInside	{ get; private set; }
 
 		protected virtual void Start()
 		{
@@ -45,7 +47,7 @@ namespace Nx
 			if (_currentPointerId == NO_BUTTON_ID)
 			{
 				_currentPointerId = eventData.pointerId;
-				_currentPointerIsInside = true;
+				_CurrentPointerIsInside = true;
 			}
 		}
 
@@ -53,7 +55,7 @@ namespace Nx
 		{
 			if (eventData.pointerId == _currentPointerId)
 			{
-				if (_currentPointerIsInside)
+				if (_CurrentPointerIsInside)
 				{
 					_onClicked.Invoke();
 				}
@@ -64,24 +66,21 @@ namespace Nx
 
 		public void OnPointerEnter(PointerEventData eventData)
 		{
-			if (eventData.pointerId == _currentPointerId)
-			{
-				_currentPointerIsInside = true;
-			}
+			_CurrentPointerIsInside |= eventData.pointerId == _currentPointerId;
 		}
 
 		public void OnPointerExit(PointerEventData eventData)
 		{
-			if (eventData.pointerId == _currentPointerId)
-			{
-				_currentPointerIsInside = false;
-			}
+			_CurrentPointerIsInside &= eventData.pointerId != _currentPointerId;
 		}
 
 		protected void ResetCurrentPointerVariables()
 		{
 			_currentPointerId = NO_BUTTON_ID;
-			_currentPointerIsInside = false;
+			_CurrentPointerIsInside = false;
 		}
 	}
 }
+
+#pragma warning restore IDE0044 // Add readonly modifier
+#pragma warning restore IDE1006 // Naming Styles

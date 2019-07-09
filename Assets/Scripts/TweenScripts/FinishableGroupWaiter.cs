@@ -36,7 +36,6 @@ public class FinishableGroupWaiter : IFinishable
 	{
 		if (Done)
 		{
-			NxUtils.LogWarning("Trying to add a tween to a TweenGroupWaiter that has already expired.");
 			return;
 		}
 		if (finishable != null)

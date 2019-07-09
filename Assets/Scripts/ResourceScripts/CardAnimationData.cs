@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 
+#pragma warning disable IDE0044 // Add readonly modifier
+
 [Serializable]
 public class CardAnimationData : ScriptableObject
 {
@@ -47,3 +49,5 @@ public class CardAnimationData : ScriptableObject
 	public float CameraShuffleTweenUpAmount				{ get { return _cameraShuffleTweenUpAmount; } }
 	public float UndoTurnDelay							{ get { return _undoTurnDelay; } }
 }
+
+#pragma warning restore IDE0044 // Add readonly modifier

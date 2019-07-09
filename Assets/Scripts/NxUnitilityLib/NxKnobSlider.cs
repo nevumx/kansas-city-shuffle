@@ -3,6 +3,8 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
+#pragma warning disable IDE0044 // Add readonly modifier
+
 namespace Nx
 {
 	public class NxKnobSlider : NxCornerButton, IPointerDownHandler, IPointerUpHandler, IDragHandler
@@ -116,3 +118,5 @@ namespace Nx
 		}
 	}
 }
+
+#pragma warning restore IDE0044 // Add readonly modifier

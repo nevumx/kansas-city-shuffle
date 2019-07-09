@@ -7,6 +7,7 @@ using Nx;
 
 #pragma warning disable IDE1006 // Naming Styles
 #pragma warning disable IDE0044 // Add readonly modifier
+#pragma warning disable IDE0052 // Remove unread private members
 
 public partial class MainGameModtroller : MonoBehaviour
 {
@@ -287,7 +288,7 @@ public partial class MainGameModtroller : MonoBehaviour
 				MaxDeviationRule = false,
 				LoseBestCardRule = false,
 				SeeAICards = true,
-				Players = new GameSettings.PlayerType[4]
+				Players = new GameSettings.PlayerType[]
 				{
 					GameSettings.PlayerType.AI_HARD,
 					GameSettings.PlayerType.AI_EASY,
@@ -303,19 +304,17 @@ public partial class MainGameModtroller : MonoBehaviour
 		}
 		else
 		{
-			var mainMenuData = FindObjectOfType<MainMenuModtroller>();
-			if (mainMenuData != null)
+			if (MainMenuModtroller.GameSettings != null)
 			{
-				if (mainMenuData.ShouldDestroyShadowsOfNewCards)
+				if (MainMenuModtroller.ShouldDestroyShadowsOfNewCards)
 				{
 					RemoveCardShadows();
 				}
-				if (mainMenuData.ShouldReduceQualityOfNewCards)
+				if (MainMenuModtroller.ShouldReduceQualityOfNewCards)
 				{
 					ReduceCardQuality();
 				}
-				SetupAndStartGame(mainMenuData.GameSettings);
-				Destroy(mainMenuData.gameObject);
+				SetupAndStartGame(MainMenuModtroller.GameSettings);
 			}
 			else
 			{
@@ -1194,5 +1193,6 @@ public partial class MainGameModtroller : MonoBehaviour
 #endregion
 }
 
+#pragma warning restore IDE0052 // Remove unread private members
 #pragma warning restore IDE0044 // Add readonly modifier
 #pragma warning restore IDE1006 // Naming Styles

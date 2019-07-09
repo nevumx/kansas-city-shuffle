@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System;
 using Nx;
 
 public class IncrementalRadialFillTween : Tween
 {
-	private	Image[]		_targetImages;
-	public	float		FillTo			= 1.0f;
+	private	readonly	Image[]	_targetImages;
+	public				float	FillTo	= 1.0f;
 
 	public IncrementalRadialFillTween() {}
 

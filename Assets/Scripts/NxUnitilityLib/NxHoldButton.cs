@@ -2,6 +2,10 @@
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
+#pragma warning disable IDE1006 // Naming Styles
+#pragma warning disable IDE0044 // Add readonly modifier
+#pragma warning disable RECS0018 // Comparison of floating point numbers with equality operator
+
 namespace Nx
 {
 	public class NxHoldButton : NxCornerButton, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
@@ -124,3 +128,7 @@ namespace Nx
 		}
 	}
 }
+
+#pragma warning restore RECS0018 // Comparison of floating point numbers with equality operator
+#pragma warning restore IDE0044 // Add readonly modifier
+#pragma warning restore IDE1006 // Naming Styles

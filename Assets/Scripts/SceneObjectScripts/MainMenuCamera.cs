@@ -2,6 +2,8 @@
 using Nx;
 using System;
 
+#pragma warning disable IDE0044 // Add readonly modifier
+
 public class MainMenuCamera : MonoBehaviour, ITweenable
 {
 	[Serializable]
@@ -99,9 +101,9 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 			{
 				CancelCardTrails();
 				_mainGameModtroller.RemoveCardShadows();
-				_mainMenuModtroller.ShouldDestroyShadowsOfNewCards = true;
+				MainMenuModtroller.ShouldDestroyShadowsOfNewCards = true;
 				_mainGameModtroller.ReduceCardQuality();
-				_mainMenuModtroller.ShouldReduceQualityOfNewCards = true; 
+				MainMenuModtroller.ShouldReduceQualityOfNewCards = true; 
 			}
 			_collidersToEnableAfterQualityCheck.ForEach(c => c.enabled = true);
 			_tooLateToReduceGraphicsQuality = true;
@@ -143,3 +145,5 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 		_renderCardTrails = false;
 	}
 }
+
+#pragma warning restore IDE0044 // Add readonly modifier

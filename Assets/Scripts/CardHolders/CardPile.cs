@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using Nx;
 
+#pragma warning disable IDE0044 // Add readonly modifier
+
 public class CardPile : CardHolder
 {
 	[SerializeField]	private	float	_pileMaxHeightInUnits			= 0.4f;
 	[SerializeField]	private	float	_maxDistBetweenCardsInUnits		= 0.05f;
-	[SerializeField]	private	bool	_keepAllButTopCardTextInvisible	= false;
+	[SerializeField]	private	bool	_keepAllButTopCardTextInvisible;
 
 	protected override void RepositionCards()
 	{
@@ -80,3 +82,5 @@ public class CardPile : CardHolder
 		return transform.position + transform.up * distBetweenCards * index;
 	}
 }
+
+#pragma warning restore IDE0044 // Add readonly modifier

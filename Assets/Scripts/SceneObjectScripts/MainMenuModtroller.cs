@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 using System;
 using Nx;
 
+#pragma warning disable IDE0044 // Add readonly modifier
+
 public class MainMenuModtroller : MonoBehaviour
 {
 	public enum Menu : byte
@@ -21,62 +23,62 @@ public class MainMenuModtroller : MonoBehaviour
 		ABOUT_SCREEN,
 	}
 
-						private	GameObject				_currentMenuCanvas				= null;
+						private			GameObject				_currentMenuCanvas;
 
-	[SerializeField]	private	GameObject				_mainMenuCanvas;
-	[SerializeField]	private	GameObject				_rulesetsCanvas;
-	[SerializeField]	private	GameObject				_customRulesetCanvas;
-	[SerializeField]	private	GameObject				_playerSetupCanvas;
-	[SerializeField]	private	GameObject				_help1ScreenCanvas;
-	[SerializeField]	private	GameObject				_help2ScreenCanvas;
-	[SerializeField]	private	GameObject				_help3ScreenCanvas;
-	[SerializeField]	private	GameObject				_help4ScreenCanvas;
-	[SerializeField]	private	GameObject				_help5ScreenCanvas;
-	[SerializeField]	private	GameObject				_help6ScreenCanvas;
-	[SerializeField]	private	GameObject				_aboutScreenCanvas;
+	[SerializeField]	private			GameObject				_mainMenuCanvas;
+	[SerializeField]	private			GameObject				_rulesetsCanvas;
+	[SerializeField]	private			GameObject				_customRulesetCanvas;
+	[SerializeField]	private			GameObject				_playerSetupCanvas;
+	[SerializeField]	private			GameObject				_help1ScreenCanvas;
+	[SerializeField]	private			GameObject				_help2ScreenCanvas;
+	[SerializeField]	private			GameObject				_help3ScreenCanvas;
+	[SerializeField]	private			GameObject				_help4ScreenCanvas;
+	[SerializeField]	private			GameObject				_help5ScreenCanvas;
+	[SerializeField]	private			GameObject				_help6ScreenCanvas;
+	[SerializeField]	private			GameObject				_aboutScreenCanvas;
 
-	[SerializeField]	private	GameObject				_classicRulesetButtonOutline;
-	[SerializeField]	private	GameObject				_advancedRulesetButtonOutline;
-	[SerializeField]	private	GameObject				_customRulesetButtonOutline;
-						private	GameSettings			_gameSettings;
-						public	GameSettings			GameSettings					{ get { return _gameSettings; } }
-	[SerializeField]	private	GameSettings			_classicGameSettings;
-	[SerializeField]	private	GameSettings			_advancedGameSettings;
+	[SerializeField]	private			GameObject				_classicRulesetButtonOutline;
+	[SerializeField]	private			GameObject				_advancedRulesetButtonOutline;
+	[SerializeField]	private			GameObject				_customRulesetButtonOutline;
 
-	[SerializeField]	private	LocalizationData		_localizationData;
+						public	static	GameSettings			GameSettings					{ get; private set; }
+	[SerializeField]	private			GameSettings			_classicGameSettings;
+	[SerializeField]	private			GameSettings			_advancedGameSettings;
 
-	[SerializeField]	private	AdaptiveTutorialSystem	_tutorialSystem;
+	[SerializeField]	private			LocalizationData		_localizationData;
 
-	[SerializeField]	private	NxSimpleButton			_customPlayButton;
+	[SerializeField]	private			AdaptiveTutorialSystem	_tutorialSystem;
 
-	[SerializeField]	private	Toggle					_wildCardRuleToggle;
-	[SerializeField]	private	Toggle					_eliminationRuleToggle;
-	[SerializeField]	private	Toggle					_optionalPlayToggle;
-	[SerializeField]	private	Toggle					_refillHandRuleToggle;
-	[SerializeField]	private	Toggle					_allOrNothingRuleToggle;
-	[SerializeField]	private	Toggle					_maxDeviationRuleToggle;
-	[SerializeField]	private	Toggle					_loseBestCardRuleToggle;
+	[SerializeField]	private			NxSimpleButton			_customPlayButton;
 
-	[SerializeField]	private	Slider					_numberOfDecksSlider;
-	[SerializeField]	private	Slider					_numberOfPointsToWinSlider;
-	[SerializeField]	private	Slider					_maxDeviationThresholdSlider;
+	[SerializeField]	private			Toggle					_wildCardRuleToggle;
+	[SerializeField]	private			Toggle					_eliminationRuleToggle;
+	[SerializeField]	private			Toggle					_optionalPlayToggle;
+	[SerializeField]	private			Toggle					_refillHandRuleToggle;
+	[SerializeField]	private			Toggle					_allOrNothingRuleToggle;
+	[SerializeField]	private			Toggle					_maxDeviationRuleToggle;
+	[SerializeField]	private			Toggle					_loseBestCardRuleToggle;
 
-	[SerializeField]	private	Text					_numberOfDecksText;
-	[SerializeField]	private	Text					_numberOfPointsToWinText;
-	[SerializeField]	private	Text					_maxDeviationThresholdText;
+	[SerializeField]	private			Slider					_numberOfDecksSlider;
+	[SerializeField]	private			Slider					_numberOfPointsToWinSlider;
+	[SerializeField]	private			Slider					_maxDeviationThresholdSlider;
 
-	[SerializeField]	private	Text[]					_customPlayerToggleButtonTexts;
+	[SerializeField]	private			Text					_numberOfDecksText;
+	[SerializeField]	private			Text					_numberOfPointsToWinText;
+	[SerializeField]	private			Text					_maxDeviationThresholdText;
 
-	[SerializeField]	private	Text					_rulesetDescriptionText;
+	[SerializeField]	private			Text[]					_customPlayerToggleButtonTexts;
 
-	[SerializeField]	private	Image					_logoImage;
-	[SerializeField]	private	Image					_blackFadeOutImage;
-	[SerializeField]	private	float					_fadeOutTime					= 2.0f;
-	[SerializeField]	private	Image					_authorPortrait;
-	[SerializeField]	private	Sprite					_authorIOSSprite;
+	[SerializeField]	private			Text					_rulesetDescriptionText;
 
-	[NonSerialized]		public	bool					ShouldDestroyShadowsOfNewCards	= false;
-	[NonSerialized]		public	bool					ShouldReduceQualityOfNewCards	= false;
+	[SerializeField]	private			Image					_logoImage;
+	[SerializeField]	private			Image					_blackFadeOutImage;
+	[SerializeField]	private			float					_fadeOutTime					= 2.0f;
+	[SerializeField]	private			Image					_authorPortrait;
+	[SerializeField]	private			Sprite					_authorIOSSprite;
+
+						public	static	bool					ShouldDestroyShadowsOfNewCards;
+						public	static	bool					ShouldReduceQualityOfNewCards;
 
 	private Menu _currentMenu = Menu.MAIN_MENU;
 	public Menu CurrentMenu
@@ -125,8 +127,6 @@ public class MainMenuModtroller : MonoBehaviour
 			case Menu.ABOUT_SCREEN:
 				_currentMenuCanvas = _aboutScreenCanvas;
 				break;
-			default:
-				break;
 			}
 			_currentMenuCanvas.IfIsNotNullThen(c => c.SetActive(true));
 			_currentMenu = value;
@@ -135,7 +135,6 @@ public class MainMenuModtroller : MonoBehaviour
 
 	private void Start()
 	{
-		DontDestroyOnLoad(this.gameObject);
 		_currentMenuCanvas = _mainMenuCanvas;
 		ReadSettings();
 		Screen.sleepTimeout = SleepTimeout.SystemSetting;
@@ -222,66 +221,66 @@ public class MainMenuModtroller : MonoBehaviour
 
 	public void OnWildCardRuleChanged(bool newRule)
 	{
-		_gameSettings.WildCardRule = newRule;
+		GameSettings.WildCardRule = newRule;
 	}
 
 	public void OnEliminationRuleChanged(bool newRule)
 	{
-		_gameSettings.EliminationRule = newRule;
+		GameSettings.EliminationRule = newRule;
 	}
 
 	public void OnOptionalPlayRuleChanged(bool newRule)
 	{
-		_gameSettings.OptionalPlayRule = newRule;
+		GameSettings.OptionalPlayRule = newRule;
 	}
 
 	public void OnRefillHandRuleChanged(bool newRule)
 	{
-		_gameSettings.RefillHandRule = newRule;
+		GameSettings.RefillHandRule = newRule;
 	}
 
 	public void OnAllOrNothingRuleChanged(bool newRule)
 	{
-		_gameSettings.AllOrNothingRule = newRule;
+		GameSettings.AllOrNothingRule = newRule;
 	}
 
 	public void OnMaxDeviationRuleChanged(bool newRule)
 	{
-		_gameSettings.MaxDeviationRule = newRule;
+		GameSettings.MaxDeviationRule = newRule;
 	}
 
 	public void OnLoseBestCardRuleChanged(bool newRule)
 	{
-		_gameSettings.LoseBestCardRule = newRule;
+		GameSettings.LoseBestCardRule = newRule;
 	}
 
 	public void OnNumberOfDecksSliderChanged(float newValue)
 	{
-		_gameSettings.NumberOfDecks = Mathf.RoundToInt(newValue);
+		GameSettings.NumberOfDecks = Mathf.RoundToInt(newValue);
 		_numberOfDecksText.text = newValue.ToString();
 	}
 
 	public void OnNumberOfPointsToWinSliderChanged(float newValue)
 	{
-		_gameSettings.NumberOfPointsToWin = Mathf.RoundToInt(newValue);
+		GameSettings.NumberOfPointsToWin = Mathf.RoundToInt(newValue);
 		_numberOfPointsToWinText.text = newValue.ToString();
 	}
 
 	public void OnMaxDeviationThresholdSliderChanged(float newValue)
 	{
-		_gameSettings.MaxDeviationThreshold = Mathf.RoundToInt(newValue);
+		GameSettings.MaxDeviationThreshold = Mathf.RoundToInt(newValue);
 		_maxDeviationThresholdText.text = newValue.ToString();
 	}
 
 	public void OnCustomPlayerCycled(int playerIndex)
 	{
-		if (_gameSettings.Players.IndexIsValid(playerIndex))
+		if (GameSettings.Players.IndexIsValid(playerIndex))
 		{
 			do
 			{
-				_gameSettings.Players[playerIndex] = (GameSettings.PlayerType)(((byte)_gameSettings.Players[playerIndex] + 1)
+				GameSettings.Players[playerIndex] = (GameSettings.PlayerType)(((byte)GameSettings.Players[playerIndex] + 1)
 																				% Enum.GetValues(typeof(GameSettings.PlayerType)).Length);
-			} while (_gameSettings.NumValidPlayers <= 1);
+			} while (GameSettings.NumValidPlayers <= 1);
 		}
 		DetermineCustomPlayerButtonTexts();
 		WriteSettingsToDisk();
@@ -289,24 +288,24 @@ public class MainMenuModtroller : MonoBehaviour
 
 	public void OnResetCustomPlayersPressed()
 	{
-		_gameSettings.Players[0] = GameSettings.PlayerType.HUMAN;
-		_gameSettings.Players[1] = GameSettings.PlayerType.NONE;
-		_gameSettings.Players[2] = GameSettings.PlayerType.AI_EASY;
-		_gameSettings.Players[3] = GameSettings.PlayerType.NONE;
+		GameSettings.Players[0] = GameSettings.PlayerType.HUMAN;
+		GameSettings.Players[1] = GameSettings.PlayerType.NONE;
+		GameSettings.Players[2] = GameSettings.PlayerType.AI_EASY;
+		GameSettings.Players[3] = GameSettings.PlayerType.NONE;
 		DetermineCustomPlayerButtonTexts();
 		WriteSettingsToDisk();
 	}
 
 	public void OnClassicRulesetPressed()
 	{
-		_gameSettings.SetRulesFromOtherGameSettings(_classicGameSettings);
+		GameSettings.SetRulesFromOtherGameSettings(_classicGameSettings);
 		WriteSettingsToDisk();
 		ReadSettings();
 	}
 
 	public void OnAdvancedRulesetPressed()
 	{
-		_gameSettings.SetRulesFromOtherGameSettings(_advancedGameSettings);
+		GameSettings.SetRulesFromOtherGameSettings(_advancedGameSettings);
 		WriteSettingsToDisk();
 		ReadSettings();
 	}
@@ -315,7 +314,7 @@ public class MainMenuModtroller : MonoBehaviour
 	{
 		for (int i = 0, iMax = _customPlayerToggleButtonTexts.Length; i < iMax; ++i)
 		{
-			switch (_gameSettings.Players[i])
+			switch (GameSettings.Players[i])
 			{
 			case GameSettings.PlayerType.HUMAN:
 				_customPlayerToggleButtonTexts[i].text = _localizationData.GetLocalizedStringForKey(LocalizationData.TranslationKey.HUMAN);
@@ -326,8 +325,7 @@ public class MainMenuModtroller : MonoBehaviour
 			case GameSettings.PlayerType.AI_HARD:
 				_customPlayerToggleButtonTexts[i].text = _localizationData.GetLocalizedStringForKey(LocalizationData.TranslationKey.AI_HARD);
 				break;
-			case GameSettings.PlayerType.NONE:
-			default:
+			default: // case GameSettings.PlayerType.NONE:
 				_customPlayerToggleButtonTexts[i].text = _localizationData.GetLocalizedStringForKey(LocalizationData.TranslationKey.NONE);
 				break;
 			}
@@ -339,12 +337,12 @@ public class MainMenuModtroller : MonoBehaviour
 		_classicRulesetButtonOutline.SetActive(false);
 		_advancedRulesetButtonOutline.SetActive(false);
 		_customRulesetButtonOutline.SetActive(false);
-		if (_gameSettings.OtherGameSettingsRulesAreEqual(_classicGameSettings))
+		if (GameSettings.OtherGameSettingsRulesAreEqual(_classicGameSettings))
 		{
 			_classicRulesetButtonOutline.SetActive(true);
 			_rulesetDescriptionText.text = _localizationData.GetLocalizedStringForKey(LocalizationData.TranslationKey.CLASSIC_BUTTON_CONTENT);
 		}
-		else if (_gameSettings.OtherGameSettingsRulesAreEqual(_advancedGameSettings))
+		else if (GameSettings.OtherGameSettingsRulesAreEqual(_advancedGameSettings))
 		{
 			_advancedRulesetButtonOutline.SetActive(true);
 			_rulesetDescriptionText.text = _localizationData.GetLocalizedStringForKey(LocalizationData.TranslationKey.ADVANCED_BUTTON_CONTENT);
@@ -354,34 +352,29 @@ public class MainMenuModtroller : MonoBehaviour
 			_customRulesetButtonOutline.SetActive(true);
 			_rulesetDescriptionText.text = _localizationData.GetLocalizedStringForKey(LocalizationData.TranslationKey.CUSTOM_BUTTON_CONTENT);
 		}
-		_gameSettings.WriteToDisk();
+		GameSettings.WriteToDisk();
 	}
 
 	private void ReadSettings()
 	{
-		_gameSettings = GameSettings.ReadFromDisk();
-		ValidateSettings();
+		GameSettings = GameSettings.ReadFromDisk();
+		if (GameSettings.NumValidPlayers <= 1)
+		{
+			GameSettings = new GameSettings();
+		}
 		WriteSettingsToDisk();
 
-		_wildCardRuleToggle.isOn			= _gameSettings.WildCardRule;
-		_eliminationRuleToggle.isOn			= _gameSettings.EliminationRule;
-		_optionalPlayToggle.isOn			= _gameSettings.OptionalPlayRule;
-		_refillHandRuleToggle.isOn			= _gameSettings.RefillHandRule;
-		_allOrNothingRuleToggle.isOn		= _gameSettings.AllOrNothingRule;
-		_maxDeviationRuleToggle.isOn		= _gameSettings.MaxDeviationRule;
-		_loseBestCardRuleToggle.isOn		= _gameSettings.LoseBestCardRule;
-		_numberOfDecksSlider.value			= _gameSettings.NumberOfDecks;
-		_numberOfPointsToWinSlider.value	= _gameSettings.NumberOfPointsToWin;
-		_maxDeviationThresholdSlider.value	= _gameSettings.MaxDeviationThreshold;
+		_wildCardRuleToggle.isOn			= GameSettings.WildCardRule;
+		_eliminationRuleToggle.isOn			= GameSettings.EliminationRule;
+		_optionalPlayToggle.isOn			= GameSettings.OptionalPlayRule;
+		_refillHandRuleToggle.isOn			= GameSettings.RefillHandRule;
+		_allOrNothingRuleToggle.isOn		= GameSettings.AllOrNothingRule;
+		_maxDeviationRuleToggle.isOn		= GameSettings.MaxDeviationRule;
+		_loseBestCardRuleToggle.isOn		= GameSettings.LoseBestCardRule;
+		_numberOfDecksSlider.value			= GameSettings.NumberOfDecks;
+		_numberOfPointsToWinSlider.value	= GameSettings.NumberOfPointsToWin;
+		_maxDeviationThresholdSlider.value	= GameSettings.MaxDeviationThreshold;
 		DetermineCustomPlayerButtonTexts();
-	}
-
-	public void ValidateSettings()
-	{
-		if (_gameSettings.NumValidPlayers <= 1)
-		{
-			_gameSettings = new GameSettings();
-		}
 	}
 
 	public void PlayGame()
@@ -404,3 +397,5 @@ public class MainMenuModtroller : MonoBehaviour
 		_tutorialSystem.FinishAllTutorials();
 	}
 }
+
+#pragma warning restore IDE0044 // Add readonly modifier

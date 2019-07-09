@@ -5,6 +5,8 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Nx;
 
+#pragma warning disable IDE0044 // Add readonly modifier
+
 public class AdaptiveTutorialSystem : MonoBehaviour
 {
 	public enum TutorialType : byte
@@ -29,8 +31,8 @@ public class AdaptiveTutorialSystem : MonoBehaviour
 	[SerializeField]	private						TweenableAlphaMultipliedGraphics	_tutorialGraphics;
 	[SerializeField]	private						Text								_tutorialText;
 	[SerializeField]	private						LocalizationData					_localizationData;
-						private						bool								_isShowingTutorial	= false;
-						private						TutorialType?						_lastTutorialType	= null;
+						private						bool								_isShowingTutorial;
+						private						TutorialType?						_lastTutorialType;
 
 						private						int[]								_numberOfTimesTutorialTypeShown;
 
@@ -39,7 +41,7 @@ public class AdaptiveTutorialSystem : MonoBehaviour
 		string settingsFilePath = Application.persistentDataPath + SAVED_TUTORIAL_DATA_FILE_NAME;
 		FileStream stream = null;
 		var formatter = new BinaryFormatter();
-		int numberOfTutorialTypes = Enum.GetValues(typeof(AdaptiveTutorialSystem.TutorialType)).Length;
+		int numberOfTutorialTypes = Enum.GetValues(typeof(TutorialType)).Length;
 
 		try
 		{
@@ -63,13 +65,13 @@ public class AdaptiveTutorialSystem : MonoBehaviour
 
 	public void ResetAllTutorials()
 	{
-		_numberOfTimesTutorialTypeShown = new int[Enum.GetValues(typeof(AdaptiveTutorialSystem.TutorialType)).Length];
+		_numberOfTimesTutorialTypeShown = new int[Enum.GetValues(typeof(TutorialType)).Length];
 		WriteToDisk();
 	}
 
 	public void FinishAllTutorials()
 	{
-		_numberOfTimesTutorialTypeShown = new int[Enum.GetValues(typeof(AdaptiveTutorialSystem.TutorialType)).Length];
+		_numberOfTimesTutorialTypeShown = new int[Enum.GetValues(typeof(TutorialType)).Length];
 		for (int i = 0, iMax = _numberOfTimesTutorialTypeShown.Length; i < iMax; ++i)
 		{
 			_numberOfTimesTutorialTypeShown[i] = int.MaxValue;
@@ -77,7 +79,7 @@ public class AdaptiveTutorialSystem : MonoBehaviour
 		WriteToDisk();
 	}
 
-	public void StartTutorialIfNecessary(AdaptiveTutorialSystem.TutorialType tutorialType)
+	public void StartTutorialIfNecessary(TutorialType tutorialType)
 	{
 		if (!_isShowingTutorial && _numberOfTimesTutorialTypeShown[(int)tutorialType] < NUMBER_OF_TIMES_TO_SHOW_TUTORIALS)
 		{
@@ -156,9 +158,9 @@ public class AdaptiveTutorialSystem : MonoBehaviour
 				return LocalizationData.TranslationKey.MAX_DEVIATION_TUTORIAL;
 			case TutorialType.WIN_ROUND_TUTORIAL:
 				return LocalizationData.TranslationKey.WIN_ROUND_TUTORIAL;
-			default: // TutorialType.OBJECTIVE_TUTORIAL:
-				break;
 		}
 		return LocalizationData.TranslationKey.OBJECTIVE_TUTORIAL;
 	}
 }
+
+#pragma warning restore IDE0044 // Add readonly modifier

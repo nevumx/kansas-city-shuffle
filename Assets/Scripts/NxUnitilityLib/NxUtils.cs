@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
-using UnityEngine.EventSystems;
 using System;
 using System.Linq;
 using System.Collections.ObjectModel;
@@ -154,7 +153,7 @@ namespace Nx
 			return best.ToArray();
 		}
 
-		public static void IfIsNotNullThen(this System.Object obj, Action action)
+		public static void IfIsNotNullThen(this object obj, Action action)
 		{
 			if (obj != null)
 			{
@@ -162,7 +161,7 @@ namespace Nx
 			}
 		}
 
-		public static void IfIsNullThen(this System.Object obj, Action action)
+		public static void IfIsNullThen(this object obj, Action action)
 		{
 			if (obj == null)
 			{
@@ -170,7 +169,7 @@ namespace Nx
 			}
 		}
 
-		public static void IfIsNotNullThen<T>(this T obj, Action<T> action)
+		public static void IfIsNotNullThen<T>(this T obj, Action<T> action) where T : class
 		{
 			if (obj != null)
 			{
@@ -183,7 +182,7 @@ namespace Nx
 			return collection.Count <= 0;
 		}
 
-		public static bool IsEmpty<T>(this List<T> list)
+		public static bool IsEmpty<T>(this IList<T> list)
 		{
 			return list.Count <= 0;
 		}
@@ -208,7 +207,7 @@ namespace Nx
 			action.IfIsNotNullThen(a => a(arg));
 		}
 
-		public static T Last<T>(this List<T> list)
+		public static T Last<T>(this IList<T> list)
 		{
 			int lastIndex = list.LastIndex();
 			return lastIndex < 0 ? default(T) : list[lastIndex];
@@ -220,7 +219,7 @@ namespace Nx
 			return lastIndex < 0 ? default(T) : collection[lastIndex];
 		}
 
-		public static int LastIndex<T>(this List<T> list)
+		public static int LastIndex<T>(this IList<T> list)
 		{
 			return list.Count - 1;
 		}
@@ -281,27 +280,6 @@ namespace Nx
 			Color newColor = textMesh.color;
 			newColor.a = newAlpha;
 			textMesh.color = newColor;
-		}
-
-		public static void Log(object message)
-		{
-#if NX_DEBUG
-			Debug.Log(message);
-#endif
-		}
-
-		public static void LogWarning(object message)
-		{
-#if NX_DEBUG
-			Debug.LogWarning(message);
-#endif
-		}
-
-		public static void LogError(object message)
-		{
-#if NX_DEBUG
-			Debug.LogError(message);
-#endif
 		}
 	}
 

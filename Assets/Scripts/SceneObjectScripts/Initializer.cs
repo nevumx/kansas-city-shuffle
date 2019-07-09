@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using System;
+
+#pragma warning disable RECS0022 // A catch clause that catches System.Exception and has an empty body
 
 public class Initializer : MonoBehaviour
 {
@@ -63,3 +64,5 @@ public class Initializer : MonoBehaviour
 	}
 #endif
 }
+
+#pragma warning restore RECS0022 // A catch clause that catches System.Exception and has an empty body

@@ -2,6 +2,8 @@
 using System;
 using Nx;
 
+#pragma warning disable IDE0044 // Add readonly modifier
+
 public class CardController : MonoBehaviour, ITweenable
 {
 	[SerializeField]	private	static	readonly	float					QUALITY_REDUCTION_SHRINK_FACTOR		= 0.95f;
@@ -182,9 +184,6 @@ public class CardController : MonoBehaviour, ITweenable
 					case AnimState.SELECTED:
 						SelectedState(lastState, ref returnTween);
 						break;
-					default:
-						NxUtils.LogWarning("Invalid or Unimplemented CardViewState");
-						break;
 					}
 					return returnTween;
 				}
@@ -205,8 +204,7 @@ public class CardController : MonoBehaviour, ITweenable
 				case AnimState.ABLE_TO_BE_SELECTED:
 					returnTween.RemoveTweenOfType<PositionPingPongTween>().AddIncrementalPositionTween(finalPosition);
 					break;
-				case AnimState.VISIBLE:
-				default:
+				default: // case AnimState.VISIBLE:
 					if (returnTween.GetTweenOfType<PositionPingPongTween>() != null)
 					{
 						goto case AnimState.ABLE_TO_BE_SELECTED;
@@ -228,8 +226,7 @@ public class CardController : MonoBehaviour, ITweenable
 				case AnimState.ABLE_TO_BE_SELECTED:
 					returnTween.RemoveTweenOfType<PositionPingPongTween>().AddIncrementalPositionTween(finalPosition);
 					break;
-				case AnimState.OBSCURED:
-				default:
+				default: // case AnimState.OBSCURED:
 					if (returnTween.GetTweenOfType<PositionPingPongTween>() != null)
 					{
 						goto case AnimState.ABLE_TO_BE_SELECTED;
@@ -248,12 +245,11 @@ public class CardController : MonoBehaviour, ITweenable
 			{
 				case AnimState.SELECTED:
 					returnTween.AddIncrementalScaleTween(Vector3.one);
-					goto case AnimState.VISIBLE;
+					goto default;
 				case AnimState.OBSCURED:
 					returnTween.AddLocalRotationTween(Vector3.zero);
-					goto case AnimState.VISIBLE;
-				case AnimState.VISIBLE:
-				default:
+					goto default;
+				default: // case AnimState.VISIBLE:
 					returnTween.AddIncrementalPositionTween(_parentModViewtroller.ParentCardHolder.GetFinalPositionOfCard(_parentModViewtroller));
 					break;
 			}
@@ -269,9 +265,8 @@ public class CardController : MonoBehaviour, ITweenable
 					goto case AnimState.VISIBLE;
 				case AnimState.VISIBLE:
 					returnTween.AddIncrementalPositionTween(_parentModViewtroller.ParentCardHolder.GetFinalPositionOfCard(_parentModViewtroller));
-					goto case AnimState.ABLE_TO_BE_SELECTED;
-				case AnimState.ABLE_TO_BE_SELECTED:
-				default:
+					goto default;
+				default: // case AnimState.ABLE_TO_BE_SELECTED:
 					returnTween.AddIncrementalScaleTween(SELECTED_SCALE)
 						.SetDuration(_parentModViewtroller._cardAnimationData.CardStateChangeDuration);
 				break;
@@ -279,3 +274,5 @@ public class CardController : MonoBehaviour, ITweenable
 		}
 	}
 }
+
+#pragma warning restore IDE0044 // Add readonly modifier

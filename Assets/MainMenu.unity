@@ -20264,7 +20264,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 573546976}
-        m_MethodName: OnHelp2Pressed
+        m_MethodName: OnHelp1Pressed
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -6,8 +6,7 @@ public class OffsetHeightTween : IncrementalPositionTween
 
 	public OffsetHeightTween() {}
 
-	public OffsetHeightTween(float height, Vector3 to, bool boostSpeed)
-		: base(to, boostSpeed)
+	public OffsetHeightTween(float height, Vector3 to, bool boostSpeed) : base(to, boostSpeed)
 	{
 		Height = height;
 	}

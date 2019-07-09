@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Nx;
 
+#pragma warning disable IDE1006 // Naming Styles
+#pragma warning disable IDE0044 // Add readonly modifier
+
 public abstract class AbstractPlayerModtroller : MonoBehaviour
 {
 						private	static	readonly	float				DIMMED_PLAYER_SYMBOL_ALPHA	= 0.25f;
@@ -109,3 +112,6 @@ public abstract class AbstractPlayerModtroller : MonoBehaviour
 													   a.CardValue < b.CardValue : a.CardValue > b.CardValue);
 	}
 }
+
+#pragma warning restore IDE1006 // Naming Styles
+#pragma warning restore IDE0044 // Add readonly modifier

@@ -13,7 +13,7 @@ public abstract class AIPlayerModtroller : AbstractPlayerModtroller
 		public	readonly	LinkedList<int[]>	ExtremeLowCardsIndexes;
 		public	readonly	LinkedList<int[]>	ExtremeHighCardIndexes;
 
-		private				AIPlayerModtroller	_parentModtroller;
+		private	readonly	AIPlayerModtroller	_parentModtroller;
 
 		private ExtremeAverageCardSplitter() {}
 
@@ -30,11 +30,11 @@ public abstract class AIPlayerModtroller : AbstractPlayerModtroller
 			{
 				if (_parentModtroller.CardIsLowExtreme(handCards[cardIndexesToSplit[i]].CardValue))
 				{
-					ExtremeLowCardsIndexes.AddLast(new int[1] { cardIndexesToSplit[i] });
+					ExtremeLowCardsIndexes.AddLast(new int[] { cardIndexesToSplit[i] });
 				}
 				else if (_parentModtroller.CardIsHighExtreme(handCards[cardIndexesToSplit[i]].CardValue))
 				{
-					ExtremeHighCardIndexes.AddLast(new int[1] { cardIndexesToSplit[i] });
+					ExtremeHighCardIndexes.AddLast(new int[] { cardIndexesToSplit[i] });
 				}
 				else // NOTE! Average cards are grouped because they suck and should be replaced by as many other cards as posssible
 				{

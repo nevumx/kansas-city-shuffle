@@ -1,5 +1,6 @@
-using System;
 using UnityEngine;
+
+#pragma warning disable IDE1006 // Naming Styles
 
 namespace UnityStandardAssets.ImageEffects
 {
@@ -24,16 +25,15 @@ namespace UnityStandardAssets.ImageEffects
 		// By applying it repeatedly and spreading out sample locations
 		// we get a Gaussian blur approximation.
 
-		public Shader blurShader = null;
+		public Shader blurShader;
 
-		static Material m_Material = null;
-		protected Material material {
+		static Material m_Material;
+		protected Material _Material {
 			get
 			{
 				if (m_Material == null)
 				{
-					m_Material = new Material(blurShader);
-					m_Material.hideFlags = HideFlags.DontSave;
+					m_Material = new Material(blurShader) { hideFlags = HideFlags.DontSave };
 				}
 				return m_Material;
 			}
@@ -55,7 +55,7 @@ namespace UnityStandardAssets.ImageEffects
 				return;
 			}
 			// Disable if the shader can't run on the users graphics card
-			if (!blurShader || !material.shader.isSupported) {
+			if (!blurShader || !_Material.shader.isSupported) {
 				enabled = false;
 				return;
 			}
@@ -65,7 +65,7 @@ namespace UnityStandardAssets.ImageEffects
 		public void FourTapCone (RenderTexture source, RenderTexture dest, int iteration)
 		{
 			float off = 0.5f + iteration*blurSpread;
-			Graphics.BlitMultiTap (source, dest, material,
+			Graphics.BlitMultiTap (source, dest, _Material,
 								   new Vector2(-off, -off),
 								   new Vector2(-off,  off),
 								   new Vector2( off,  off),
@@ -77,7 +77,7 @@ namespace UnityStandardAssets.ImageEffects
 		private void DownSample4x (RenderTexture source, RenderTexture dest)
 		{
 			float off = 1.0f;
-			Graphics.BlitMultiTap (source, dest, material,
+			Graphics.BlitMultiTap (source, dest, _Material,
 								   new Vector2(-off, -off),
 								   new Vector2(-off,  off),
 								   new Vector2( off,  off),
@@ -108,3 +108,5 @@ namespace UnityStandardAssets.ImageEffects
 		}
 	}
 }
+
+#pragma warning restore IDE1006 // Naming Styles

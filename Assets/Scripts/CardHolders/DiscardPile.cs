@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+#pragma warning disable IDE0044 // Add readonly modifier
+
 public class DiscardPile : CardPile
 {
 	[SerializeField]	private	TextMesh	_pileSizeText;
@@ -30,3 +32,5 @@ public class DiscardPile : CardPile
 		}
 	}
 }
+
+#pragma warning restore IDE0044 // Add readonly modifier

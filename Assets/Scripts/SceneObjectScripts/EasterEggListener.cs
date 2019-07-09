@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Nx;
 
+#pragma warning disable IDE0044 // Add readonly modifier
 
 public class EasterEggListener : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class EasterEggListener : MonoBehaviour
 	private	static	readonly	string		CHANGE_BLACK_CARD_VALUES	= "ChangeBlackCardValues";
 	private	static	readonly	string		CHANGE_RED_CARD_VALUES		= "ChangeRedCardValues";
 	private						Queue<int>	_numbersEntered				= new Queue<int>();
-	private						int			_previousTouchCount			= 0;
+	private						int			_previousTouchCount;
 	private						int			_maxTouchCount				= 1;
 
 	private void Update()
@@ -95,3 +96,5 @@ public class EasterEggListener : MonoBehaviour
 		_previousTouchCount = Input.touchCount;
 	}
 }
+
+#pragma warning restore IDE0044 // Add readonly modifier

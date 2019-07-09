@@ -1,6 +1,8 @@
 using UnityEngine;
 using Nx;
 
+#pragma warning disable IDE0044 // Add readonly modifier
+
 public class Hand : CardHolder
 {
 	[SerializeField]	private	float	_handMaxSizeInUnits	= 8.2f;
@@ -8,7 +10,7 @@ public class Hand : CardHolder
 	protected override void RepositionCards()
 	{
 		Vector3 leftmostPosition = transform.position - transform.right * _handMaxSizeInUnits / 2.0f;
-		float distBetweenCards = _handMaxSizeInUnits / (Mathf.Max(1.0f, (float)CardCount) + 1.0f);
+		float distBetweenCards = _handMaxSizeInUnits / (Mathf.Max(1.0f, CardCount) + 1.0f);
 		CardController bestCardToMimic = _CardsInTransition.Best((a, b) => a.Holder.TimeRemaining < b.Holder.TimeRemaining);
 
 		for (int i = 0, iMax = ReadOnlyCards.Count; i < iMax; ++i)
@@ -54,7 +56,9 @@ public class Hand : CardHolder
 	protected override Vector3 GetCardPositionAtIndex(int index)
 	{
 		Vector3 firstCardPosition = transform.position - transform.right * _handMaxSizeInUnits / 2.0f;
-		firstCardPosition += (index + 1.0f) * transform.right * _handMaxSizeInUnits / (Mathf.Max(1.0f, (float)CardCount) + 1.0f);
+		firstCardPosition += (index + 1.0f) * transform.right * _handMaxSizeInUnits / (Mathf.Max(1.0f, CardCount) + 1.0f);
 		return firstCardPosition;
 	}
 }
+
+#pragma warning restore IDE0044 // Add readonly modifier

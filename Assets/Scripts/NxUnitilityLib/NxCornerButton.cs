@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+#pragma warning disable IDE1006 // Naming Styles
+#pragma warning disable IDE0044 // Add readonly modifier
+
 namespace Nx
 {
 	public class NxCornerButton : MonoBehaviour
@@ -34,8 +37,7 @@ namespace Nx
 				case ScreenCorner.LOWER_RIGHT:
 					cornerOffset.Scale(new Vector2(0.5f, -0.5f));
 					break;
-				case ScreenCorner.CENTER:
-				default:
+				default: // case ScreenCorner.CENTER:
 					cornerOffset = Vector2.zero;
 					break;
 			}
@@ -43,3 +45,6 @@ namespace Nx
 		}
 	}
 }
+
+#pragma warning restore IDE0044 // Add readonly modifier
+#pragma warning restore IDE1006 // Naming Styles

@@ -4,13 +4,15 @@ using System.Collections;
 using System.Collections.Generic;
 using Nx;
 
+#pragma warning disable IDE0044 // Add readonly modifier
+
 public class Deck : CardPile
 {
-	[SerializeField]	private	TweenHolder _shuffleAnimationCamera;
-						public	TweenHolder ShuffleAnimationCamera { get { return _shuffleAnimationCamera; } }
-	[SerializeField]	private	Transform _shuffleAnimationOriginPoint;
-	[SerializeField]	private	AudioClip _cardShuffleClip;
-	[SerializeField]	private	AudioClip _cardRuffleClip;
+	[SerializeField]	private	TweenHolder	_shuffleAnimationCamera;
+						public	TweenHolder	ShuffleAnimationCamera { get { return _shuffleAnimationCamera; } }
+	[SerializeField]	private	Transform	_shuffleAnimationOriginPoint;
+	[SerializeField]	private	AudioClip	_cardShuffleClip;
+	[SerializeField]	private	AudioClip	_cardRuffleClip;
 
 	public void DealTo(CardHolder holder, out TweenHolder outTween, bool? visibleDuringTween)
 	{
@@ -104,12 +106,6 @@ public class Deck : CardPile
 
 	public void UnShuffle(int[] unShuffleData, Action onFinished)
 	{
-#if NX_DEBUG
-		if (unShuffleData.Length != _Cards.Count)
-		{
-			NxUtils.LogError("Trying to UnShuffle with invalid unSuffleData length");
-		}
-#endif
 		var shuffleAnimationWaiter = new FinishableGroupWaiter(onFinished);
 		var unShuffledCards = new CardController[unShuffleData.Length];
 		for (int i = 0, iMax = unShuffleData.Length; i < iMax; ++i)
@@ -143,12 +139,6 @@ public class Deck : CardPile
 
 	public void ReShuffle(int[] unShuffleData, Action onFinished)
 	{
-#if NX_DEBUG
-		if (unShuffleData.Length != _Cards.Count)
-		{
-			NxUtils.LogError("Trying to ReShuffle with invalid unSuffleData length");
-		}
-#endif
 		var shuffleAnimationWaiter = new FinishableGroupWaiter(onFinished);
 		var reShuffledCards = new CardController[unShuffleData.Length];
 		for (int i = 0, iMax = unShuffleData.Length; i < iMax; ++i)
@@ -201,3 +191,5 @@ public class Deck : CardPile
 			.AddToOnFinishedOnce(() => OnCardRecieveTweenFinished(card));
 	}
 }
+
+#pragma warning restore IDE0044 // Add readonly modifier

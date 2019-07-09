@@ -31,7 +31,7 @@ public class HardAIPlayerModtroller : AIPlayerModtroller
 						|| (direction == MainGameModtroller.PlayDirection.DOWN
 						&& !allOtherCards.Exists(c => c.CardValue <= Hand.ReadOnlyCards[allowedCardIndexes[i]].CardValue)))
 					{
-						_MainGameModtroller.EndPlayerTurn(new int[1] { allowedCardIndexes[i] });
+						_MainGameModtroller.EndPlayerTurn(new int[] { allowedCardIndexes[i] });
 						return;
 					}
 				}

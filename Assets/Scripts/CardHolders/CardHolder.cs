@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Nx;
 
+#pragma warning disable IDE1006 // Naming Styles
+#pragma warning disable IDE0044 // Add readonly modifier
+
 public abstract class CardHolder : MonoBehaviour
 {
 
@@ -131,7 +134,7 @@ public abstract class CardHolder : MonoBehaviour
 		other.AddCard(cardBeingMoved, indexToInsertAt);
 
 		cardBeingMoved.ViewFSM.SetAnimState(other._cardsAnimState, performTweens: false);
-		cardBeingMoved.ViewFSM.SetTextVisibility(visibleDuringTween.HasValue ? visibleDuringTween.Value : other._cardsTextVisibility);
+		cardBeingMoved.ViewFSM.SetTextVisibility(visibleDuringTween ?? other._cardsTextVisibility);
 
 		outTween = cardBeingMoved.AddOffsetHeightTween(_cardAnimationData.GeneralCardMoveHeight,
 										other.GetFinalPositionOfCardAtIndex(indexToInsertAt), true)
@@ -208,3 +211,6 @@ public abstract class CardHolder : MonoBehaviour
 		return GetFinalPositionOfCardAtIndex(_Cards.IndexOf(card));
 	}
 }
+
+#pragma warning restore IDE0044 // Add readonly modifier
+#pragma warning restore IDE1006 // Naming Styles

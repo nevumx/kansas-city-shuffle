@@ -30,7 +30,7 @@ public partial class MainGameModtroller : MonoBehaviour
 	private class SetDirectionCommand : MGMCommand
 	{
 		private PlayDirection _oldDirection;
-		private PlayDirection _newDirection;
+		private readonly PlayDirection _newDirection;
 
 		private SetDirectionCommand() {}
 
@@ -58,7 +58,7 @@ public partial class MainGameModtroller : MonoBehaviour
 	private class SetCardWhenDirectionWasLastUpdatedCommand : MGMCommand
 	{
 		private CardController _oldCard;
-		private CardController _newCard;
+		private readonly CardController _newCard;
 
 		private SetCardWhenDirectionWasLastUpdatedCommand() {}
 
@@ -86,7 +86,7 @@ public partial class MainGameModtroller : MonoBehaviour
 	private class SetCurrentPlayerCommand : MGMCommand
 	{
 		private int _oldPlayer;
-		private int _newPlayer;
+		private readonly int _newPlayer;
 
 		private SetCurrentPlayerCommand() {}
 
@@ -114,7 +114,7 @@ public partial class MainGameModtroller : MonoBehaviour
 	private class SetIndexOfLastPlayerToPlayACardCommand : MGMCommand
 	{
 		private int _oldIndex;
-		private int _newIndex;
+		private readonly int _newIndex;
 
 		private SetIndexOfLastPlayerToPlayACardCommand() {}
 
@@ -141,9 +141,9 @@ public partial class MainGameModtroller : MonoBehaviour
 
 	private class SetPlayerScoreCommand : MGMCommand
 	{
-		private int _playerIndex;
+		private readonly int _playerIndex;
 		private int _oldScore;
-		private int _newScore;
+		private readonly int _newScore;
 
 		private SetPlayerScoreCommand() {}
 
@@ -171,8 +171,8 @@ public partial class MainGameModtroller : MonoBehaviour
 
 	private class SetPlayerEliminatedCommand : MGMCommand
 	{
-		private int _playerIndex;
-		private bool _newEliminated;
+		private readonly int _playerIndex;
+		private readonly bool _newEliminated;
 		private bool _oldEliminated;
 
 		private SetPlayerEliminatedCommand() {}
@@ -210,11 +210,11 @@ public partial class MainGameModtroller : MonoBehaviour
 
 	private class MoveCardCommand : TweenedCommand
 	{
-		private CardHolder _fromHolder;
-		private CardHolder _toHolder;
-		private int _fromIndex;
+		private readonly CardHolder _fromHolder;
+		private readonly CardHolder _toHolder;
+		private readonly int _fromIndex;
 		private int _toIndex;
-		private bool? _visibleDuringTween;
+		private readonly bool? _visibleDuringTween;
 		private TweenHolder _outTween;
 
 		public override TweenHolder OutTween { get { return _outTween; } }
@@ -260,9 +260,9 @@ public partial class MainGameModtroller : MonoBehaviour
 
 	private class DealToCommand : TweenedCommand
 	{
-		private Deck _deckToDealFrom;
-		private CardHolder _cardHolderToDealTo;
-		private bool? _visibleDuringTween;
+		private readonly Deck _deckToDealFrom;
+		private readonly CardHolder _cardHolderToDealTo;
+		private readonly bool? _visibleDuringTween;
 		private TweenHolder _outTween;
 
 		public override TweenHolder OutTween { get { return _outTween; } }
@@ -297,7 +297,7 @@ public partial class MainGameModtroller : MonoBehaviour
 
 	private class ShuffleCommand : Command, IFinishable
 	{
-		private Deck _DeckToShuffle;
+		private readonly Deck _DeckToShuffle;
 		private int[] _unShuffleData;
 		private Action _onFinished;
 
@@ -335,9 +335,9 @@ public partial class MainGameModtroller : MonoBehaviour
 
 	private class RefillDeckCommand : Command, IFinishable
 	{
-		private Deck _deckToRefill;
-		private CardHolder _cardHolderToRefillFrom;
-		private int _numberOfCardsToLeave;
+		private readonly Deck _deckToRefill;
+		private readonly CardHolder _cardHolderToRefillFrom;
+		private readonly int _numberOfCardsToLeave;
 		private int _deckRefillerCardCount;
 		private Action _onFinished;
 
@@ -376,8 +376,6 @@ public partial class MainGameModtroller : MonoBehaviour
 
 	private class TurnCommandBundle : LinkedList<Command>
 	{
-		private bool _finished = false;
-
 		private TurnCommandBundle() {}
 
 		public TurnCommandBundle(Command firstCommand)
@@ -385,11 +383,11 @@ public partial class MainGameModtroller : MonoBehaviour
 			AddLast(firstCommand);
 		}
 
-		public bool Finished { get { return _finished; } }
+		public bool Finished { get; private set; }
 
 		public void Finish()
 		{
-			_finished = true;
+			Finished = true;
 		}
 	}
 
@@ -398,7 +396,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		private Stack<TurnCommandBundle> _undoStack;
 		private Stack<TurnCommandBundle> _redoStack;
 		private bool _startCommandTracking;
-		private CardAnimationData _cardAnimationData;
+		private readonly CardAnimationData _cardAnimationData;
 
 		public bool UndoIsPossible { get { return !_undoStack.IsEmpty(); } }
 		public bool RedoIsPossible { get { return !_redoStack.IsEmpty(); } }
@@ -447,13 +445,6 @@ public partial class MainGameModtroller : MonoBehaviour
 
 		public IEnumerator UndoPlayerTurn(Action onFinished)
 		{
-#if NX_DEBUG
-			if (_undoStack.Count == 0)
-			{
-				NxUtils.LogError("Warning: Trying to undo empty undoStack. (Likely invalid Undo)");
-				yield break;
-			}
-#endif
 			TurnCommandBundle bundle = _undoStack.Pop();
 			var animationWaiter = new FinishableGroupWaiter(onFinished);
 			for (LinkedListNode<Command> node = bundle.Last; node != null; node = node.Previous)
@@ -492,13 +483,6 @@ public partial class MainGameModtroller : MonoBehaviour
 
 		public IEnumerator RedoPlayerTurn(Action onFinished)
 		{
-#if NX_DEBUG
-			if (_redoStack.Count == 0 )
-			{
-				NxUtils.LogError("Warning: Trying to redo empty redoStack. (Likely invalid Redo)");
-				yield break;
-			}
-#endif
 			TurnCommandBundle bundle = _redoStack.Pop();
 			var animationWaiter = new FinishableGroupWaiter(onFinished);
 			for (LinkedListNode<Command> node = bundle.First; node != null; node = node.Next)

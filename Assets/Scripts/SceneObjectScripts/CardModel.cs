@@ -60,8 +60,6 @@
 					return "Q\n";
 				case CardValue.KING:
 					return "K\n";
-				default:
-					break;
 			}
 			return "?";
 		}
@@ -81,8 +79,6 @@
 					return "\n\u2665";
 				case CardSuit.DIAMONDS:
 					return "\n\u2666";
-				default:
-					break;
 			}
 			return "\n?";
 		}

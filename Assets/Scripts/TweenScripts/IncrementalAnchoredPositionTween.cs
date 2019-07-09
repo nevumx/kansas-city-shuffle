@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
-using System;
 
 public class IncrementalAnchoredPositionTween : Tween
 {
-	private	RectTransform	_targetRectTransform;
-	public	Vector2			PositionTo	= Vector2.zero;
+	private	readonly	RectTransform	_targetRectTransform;
+	public				Vector2			PositionTo	= Vector2.zero;
 
 	public IncrementalAnchoredPositionTween() {}
 

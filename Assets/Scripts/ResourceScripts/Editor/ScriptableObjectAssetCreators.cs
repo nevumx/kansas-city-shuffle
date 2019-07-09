@@ -2,7 +2,7 @@
 using UnityEditor;
 using System.IO;
 
-public class ScriptableObjectAssetCreators
+public static class ScriptableObjectAssetCreators
 {
 	[MenuItem("Assets/Create/Add New Graphics Setup Asset...")]
 	public static void CreateGraphicsSetupAsset()

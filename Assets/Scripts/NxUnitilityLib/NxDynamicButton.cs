@@ -3,6 +3,9 @@ using UnityEngine.EventSystems;
 using System;
 using System.Linq;
 
+#pragma warning disable IDE0044 // Add readonly modifier
+#pragma warning disable RECS0018 // Comparison of floating point numbers with equality operator
+
 namespace Nx
 {
 	public class NxDynamicButton : MonoBehaviour, IPointerDownHandler, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
@@ -20,43 +23,25 @@ namespace Nx
 
 							private						PointerEventData			_cachedEventData;
 
-							private						float						_timeLastClickBegan			= 0.0f;
-							private						float						_timeLastClicked			= 0.0f;
-							private						bool						_isBeingDragged				= false;
-							public						bool						IsBeingDragged				{ get { return _isBeingDragged; } }
+							private						float						_timeLastClickBegan;
+							private						float						_timeLastClicked;
+
+							public						bool						IsBeingDragged				{ get; private set; }
 
 		public void AddToOnClicked(Action toAdd)
 		{
-#if NX_DEBUG
-			if (_onClicked != null && _onClicked.GetInvocationList().Exists(d => d.Method == toAdd.Method && d.Target == toAdd.Target))
-			{
-				NxUtils.LogWarning("Warning: Adding two identical delegates to a NxButton");
-			}
-#endif
 			_onClicked += toAdd;
 			_collider.enabled = true;
 		}
 
 		public void AddToOnDoubleClicked(Action toAdd)
 		{
-#if NX_DEBUG
-			if (_onDoubleClicked != null && _onDoubleClicked.GetInvocationList().Exists(d => d.Method == toAdd.Method && d.Target == toAdd.Target))
-			{
-				NxUtils.LogWarning("Warning: Adding two identical delegates to a NxButton");
-			}
-#endif
 			_onDoubleClicked += toAdd;
 			_collider.enabled = true;
 		}
 
 		public void AddToOnClickedHard(Action toAdd)
 		{
-#if NX_DEBUG
-			if (_onClickedHard != null && _onClickedHard.GetInvocationList().Exists(d => d.Method == toAdd.Method && d.Target == toAdd.Target))
-			{
-				NxUtils.LogWarning("Warning: Adding two identical delegates to a NxButton");
-			}
-#endif
 			_onClickedHard += toAdd;
 			_collider.enabled = true;
 
@@ -64,43 +49,25 @@ namespace Nx
 
 		public void AddToOnBeginDrag(Action toAdd)
 		{
-#if NX_DEBUG
-			if (_onBeginDrag != null && _onBeginDrag.GetInvocationList().Exists(d => d.Method == toAdd.Method && d.Target == toAdd.Target))
-			{
-				NxUtils.LogWarning("Warning: Adding two identical delegates to a NxButton");
-			}
-#endif
 			_onBeginDrag += toAdd;
 			_collider.enabled = true;
 		}
 
 		public void AddToOnDrag(Action<PointerEventData> toAdd)
 		{
-#if NX_DEBUG
-			if (_onDrag != null && _onDrag.GetInvocationList().Exists(d => d.Method == toAdd.Method && d.Target == toAdd.Target))
-			{
-				NxUtils.LogWarning("Warning: Adding two identical delegates to a NxButton");
-			}
-#endif
 			_onDrag += toAdd;
 			_collider.enabled = true;
 		}
 
 		public void AddToOnDrop(Action<PointerEventData> toAdd)
 		{
-#if NX_DEBUG
-			if (_onDrop != null && _onDrop.GetInvocationList().Exists(d => d.Method == toAdd.Method && d.Target == toAdd.Target))
-			{
-				NxUtils.LogWarning("Warning: Adding two identical delegates to a NxButton");
-			}
-#endif
 			_onDrop += toAdd;
 			_collider.enabled = true;
 		}
 
 		public void OnPointerDown(PointerEventData eventData)
 		{
-			if (!_isBeingDragged && _cachedEventData == null)
+			if (!IsBeingDragged && _cachedEventData == null)
 			{
 				_timeLastClickBegan = Time.unscaledTime;
 				_cachedEventData = eventData;
@@ -109,7 +76,7 @@ namespace Nx
 
 		public void OnPointerClick(PointerEventData eventData)
 		{
-			if (!_isBeingDragged && eventData.pointerId == _cachedEventData.pointerId)
+			if (!IsBeingDragged && eventData.pointerId == _cachedEventData.pointerId)
 			{
 				if (Time.unscaledTime - _timeLastClickBegan < CLICK_EXPIRE_THRESHOLD_TIME)
 				{
@@ -130,9 +97,9 @@ namespace Nx
 
 		public void OnBeginDrag(PointerEventData eventData)
 		{
-			if (!_isBeingDragged && eventData.pointerId == _cachedEventData.pointerId)
+			if (!IsBeingDragged && eventData.pointerId == _cachedEventData.pointerId)
 			{
-				_isBeingDragged = true;
+				IsBeingDragged = true;
 				_onBeginDrag.Raise();
 				_cachedEventData = eventData;
 			}
@@ -140,7 +107,7 @@ namespace Nx
 
 		public void OnDrag(PointerEventData eventData)
 		{
-			if (_isBeingDragged && eventData.pointerId == _cachedEventData.pointerId)
+			if (IsBeingDragged && eventData.pointerId == _cachedEventData.pointerId)
 			{
 				_cachedEventData = eventData;
 			}
@@ -148,7 +115,7 @@ namespace Nx
 
 		private void Update()
 		{
-			if (_isBeingDragged)
+			if (IsBeingDragged)
 			{
 				_onDrag.Raise(_cachedEventData);
 			}
@@ -165,9 +132,9 @@ namespace Nx
 
 		public void OnEndDrag(PointerEventData eventData)
 		{
-			if (_isBeingDragged && eventData.pointerId == _cachedEventData.pointerId)
+			if (IsBeingDragged && eventData.pointerId == _cachedEventData.pointerId)
 			{
-				_isBeingDragged = false;
+				IsBeingDragged = false;
 				_onDrop.Raise(eventData);
 				_cachedEventData = null;
 			}
@@ -186,8 +153,11 @@ namespace Nx
 
 		public void CancelDrag()
 		{
-			_isBeingDragged = false;
+			IsBeingDragged = false;
 			_cachedEventData = null;
 		}
 	}
 }
+
+#pragma warning restore RECS0018 // Comparison of floating point numbers with equality operator
+#pragma warning restore IDE0044 // Add readonly modifier

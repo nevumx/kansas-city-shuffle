@@ -37,7 +37,7 @@ public class GameSettings
 			int numValidPlayers = 0;
 			for (int i = 0, iMax = Players.Length; i < iMax; ++i)
 			{
-				if (Players[i] != GameSettings.PlayerType.NONE)
+				if (Players[i] != PlayerType.NONE)
 				{
 					++numValidPlayers;
 				}
@@ -56,7 +56,7 @@ public class GameSettings
 		MaxDeviationRule		= false;
 		LoseBestCardRule		= false;
 		SeeAICards				= false;
-		Players					= new PlayerType[4]
+		Players					= new PlayerType[]
 									{
 										PlayerType.HUMAN,
 										PlayerType.NONE,
@@ -83,7 +83,6 @@ public class GameSettings
 	public static GameSettings ReadFromDisk()
 	{
 		GameSettings toReturn;
-
 		try
 		{
 			string settingsFilePath = Application.persistentDataPath + SAVED_SETTINGS_FILE_NAME;
@@ -98,7 +97,6 @@ public class GameSettings
 			toReturn = new GameSettings();
 			toReturn.WriteToDisk();
 		}
-
 		return toReturn;
 	}
 

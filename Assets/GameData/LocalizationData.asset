@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Name: LocalizationData
   m_EditorClassIdentifier: 
   _localizations:
-  - Language: 10
-    Translations:
+  - _language: 10
+    _translations:
     - StringKey: 0
       TranslatedString: Quit
     - StringKey: 1
@@ -196,8 +196,8 @@ MonoBehaviour:
         to be UP. (<color=#00ff00ff>\u25B2</color>))"
     - StringKey: 69
       TranslatedString: Pull
-  - Language: 14
-    Translations:
+  - _language: 14
+    _translations:
     - StringKey: 0
       TranslatedString: Quitter
     - StringKey: 1

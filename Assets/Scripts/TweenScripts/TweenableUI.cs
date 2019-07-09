@@ -2,6 +2,8 @@
 using UnityEngine.UI;
 using System;
 
+#pragma warning disable IDE0044 // Add readonly modifier
+
 [Serializable]
 public struct TweenableGraphics : ITweenable
 {
@@ -61,3 +63,5 @@ public struct TweenableImages
 	[SerializeField]	private	Image[]		_images;
 						public	Image[]		Images		{ get { return _images; } }
 }
+
+#pragma warning restore IDE0044 // Add readonly modifier

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Assertions;
 using Nx;
 
 [ExecuteInEditMode]
@@ -31,8 +30,7 @@ public class GraphicsManager : MonoBehaviour {
 
 	void CreateRamp()
 	{
-		rampTexture = new Texture2D(rampWidth, 2, TextureFormat.ARGB32, false);
-		rampTexture.wrapMode = TextureWrapMode.Clamp;
+		rampTexture = new Texture2D(rampWidth, 2, TextureFormat.ARGB32, false) { wrapMode = TextureWrapMode.Clamp };
 
 		Shader.SetGlobalTexture("_SkyRamp", rampTexture);
 
@@ -40,7 +38,7 @@ public class GraphicsManager : MonoBehaviour {
 		{
 			for (int x = 0; x < rampTexture.width; x++)
 			{
-				rampTexture.SetPixel(x, y, GraphicsSetup.NadirZenithGradient.Evaluate((float)x / (float)rampWidth));
+				rampTexture.SetPixel(x, y, GraphicsSetup.NadirZenithGradient.Evaluate((float) x / rampWidth));
 			}
 		}
 
@@ -57,6 +55,6 @@ public class GraphicsManager : MonoBehaviour {
 		Shader.SetGlobalColor("_CardBackColor0",	GraphicsSetup.CardBackColorBackground);
 		Shader.SetGlobalColor("_CardBackColor1",	GraphicsSetup.CardBackColorPattern);
 
-		CardBackMaterials.ForEach(c => c.SetTexture("_MainTex",		GraphicsSetup.CardBackPatternTexture));
+		CardBackMaterials.ForEach(c => c.SetTexture("_MainTex", GraphicsSetup.CardBackPatternTexture));
 	}
 }
