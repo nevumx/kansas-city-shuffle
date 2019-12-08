@@ -10,4 +10,4 @@ Download Unity 2018.2.21 from [here](https://unity3d.com/get-unity/download/arch
 
 ### NOTICE: LICENSE
 
-This project exists to anyone except Nicholaos Mouzourakis as a demonstration _*ONLY*_. One may not distribute it, in whole or in part, compiled or built, or left uncompiled or unbuilt, in any way, to any third party without the express written permission of Nicholaos Mouzourakis. Only personal, non-commercial use by parties that Nicholaos Mouzourakis has shared the source code with is permitted.
+This project exists to anyone except Nicholaos Mouzourakis as a demonstration _*ONLY*_. One may not distribute it, in whole or in part, compiled or built, or left uncompiled or unbuilt, in any way, to any third party without the express written permission of Nicholaos Mouzourakis. Only personal, non-commercial use by parties other than Nicholaos Mouzourakis is permitted.
