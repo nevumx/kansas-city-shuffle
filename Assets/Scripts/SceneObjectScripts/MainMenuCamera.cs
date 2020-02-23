@@ -121,8 +121,6 @@ public class MainMenuCamera : MonoBehaviour, ITweenable
 				--_framesToClearCardBuffer;
 			}
 
-			_blitFadeAwayMaterial.SetFloat("_FadeAmt", Time.deltaTime);
-
 			_cardFadeSwapTexture.DiscardContents();
 			Graphics.Blit(_cardFadeTexture, _cardFadeSwapTexture);
 			_cardFadeTexture.DiscardContents();

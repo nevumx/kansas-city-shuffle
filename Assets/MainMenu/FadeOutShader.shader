@@ -3,7 +3,6 @@
 	Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
-		_FadeAmt ("Fade Amount", Range(0.5, 0.0001)) = 0.02
 	}
 
 	SubShader
@@ -32,7 +31,6 @@
 
 				sampler2D _MainTex;
 				float4 _MainTex_ST;
-				half _FadeAmt;
 
 				v2f vert (appdata_t v)
 				{
@@ -45,7 +43,7 @@
 				fixed4 frag (v2f i) : SV_Target
 				{
 					fixed4 col = tex2D(_MainTex, i.texcoord);
-					col.a -= _FadeAmt;
+					col.a -= unity_DeltaTime[0];
 					return col;
 				}
 			ENDCG
