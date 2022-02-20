@@ -14,4 +14,5 @@ Download Unity 2018.2.21 from [here](https://unity3d.com/get-unity/download/arch
 
 This project exists to anyone except Nicholaos Mouzourakis as a demonstration _*ONLY*_. One may not distribute it, in whole or in part, compiled or built, or left uncompiled or unbuilt, in any way, to any third party without the express written permission of Nicholaos Mouzourakis. Only personal, non-commercial use by parties other than Nicholaos Mouzourakis is permitted.
 
-Trailer: https://www.youtube.com/watch?v=1svobeTMMMc
+Trailer:
+[![Trailer](http://img.youtube.com/vi/1svobeTMMMc/0.jpg)](http://www.youtube.com/watch?v=1svobeTMMMc "Trailer")
