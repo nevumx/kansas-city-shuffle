@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Nx;
@@ -76,13 +77,13 @@ public abstract class AbstractPlayerModtroller : MonoBehaviour
 		List<int> allowedCardIndexes = new List<int>();
 		if (_MainGameModtroller.MaxDeviationRule && direction != MainGameModtroller.PlayDirection.UNDECIDED)
 		{
-			allowedCardIndexes.AddRange(handCards.AllIndexesSuchThat(
-										c => Mathf.Abs(c.CardValue - lastCardValue) <= _MainGameModtroller.MaxDeviationThreshold));
+			allowedCardIndexes.AddRange(handCards.Select((_, i) => i).Where(
+				i => Mathf.Abs(handCards[i].CardValue - lastCardValue) <= _MainGameModtroller.MaxDeviationThreshold));
 
 			if (_MainGameModtroller.WildcardRule)
 			{
-				allowedCardIndexes.AddRange(handCards.AllIndexesSuchThat(
-					(c, i) => c.CardValue == _MainGameModtroller.WildCardValue && !allowedCardIndexes.Contains(i)));
+				allowedCardIndexes.AddRange(handCards.Select((_, i) => i).Where(
+					i => handCards[i].CardValue == _MainGameModtroller.WildCardValue && !allowedCardIndexes.Contains(i)));
 			}
 		}
 		else

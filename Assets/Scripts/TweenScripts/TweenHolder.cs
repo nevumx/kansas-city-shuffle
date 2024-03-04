@@ -199,12 +199,12 @@ public class TweenHolder : MonoBehaviour, ITweenable, IFinishable
 	{
 		foreach (Tween tween in _tweens)
 		{
-			if (tween is T)
+			if (tween is T t)
 			{
-				return (T)tween;
+				return t;
 			}
 		}
-		return default(T);
+		return default;
 	}
 
 	public void RemoveAllTweens()

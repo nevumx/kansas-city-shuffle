@@ -14,7 +14,7 @@ public class GameSettings
 		NONE,
 	}
 
-	private	static	readonly	string			SAVED_SETTINGS_FILE_NAME	= "/KCSGameSettings.nxs";
+	public	static	readonly	string			SAVED_SETTINGS_FILE_NAME	= "/KCSGameSettings.nxs";
 
 	public						bool			WildCardRule;
 	public						bool			EliminationRule;
@@ -70,34 +70,20 @@ public class GameSettings
 								/ (MainGameModtroller.MAX_TIMESCALE - MainGameModtroller.MIN_TIMESCALE);
 	}
 
-	public void WriteToDisk()
+	public static GameSettings ReadOldFileFromDisk()
 	{
-		string settingsFilePath = Application.persistentDataPath + SAVED_SETTINGS_FILE_NAME;
-		var formatter = new BinaryFormatter();
-		using (var stream = new FileStream(settingsFilePath, FileMode.Create, FileAccess.Write, FileShare.None))
-		{
-			formatter.Serialize(stream, this);
-		}
-	}
-
-	public static GameSettings ReadFromDisk()
-	{
-		GameSettings toReturn;
 		try
 		{
 			string settingsFilePath = Application.persistentDataPath + SAVED_SETTINGS_FILE_NAME;
-			var formatter = new BinaryFormatter();
 			using (var stream = new FileStream(settingsFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
 			{
-				toReturn = (GameSettings)formatter.Deserialize(stream);
+				return (GameSettings)new BinaryFormatter().Deserialize(stream);
 			}
 		}
 		catch
 		{
-			toReturn = new GameSettings();
-			toReturn.WriteToDisk();
+			return null;
 		}
-		return toReturn;
 	}
 
 	public void SetRulesFromOtherGameSettings(GameSettings other)

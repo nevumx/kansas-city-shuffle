@@ -18,7 +18,7 @@ public class CardPile : CardHolder
 		for (int i = 0; i < cardCount; ++i)
 		{
 			TweenHolder cardShiftTween = ReadOnlyCards[i].Holder;
-			Vector3 targetPosition = transform.position + Vector3.up * distBetweenCards * i;
+			Vector3 targetPosition = transform.position + distBetweenCards * i * Vector3.up;
 
 			IncrementalPositionTween posTweenToShift;
 			if ((posTweenToShift = cardShiftTween.GetTweenOfType<IncrementalPositionTween>()) == null) // Careful (=)
@@ -79,7 +79,7 @@ public class CardPile : CardHolder
 	{
 		int cardCount = ReadOnlyCards.Count;
 		float distBetweenCards = cardCount == 1 ? 0.0f : Mathf.Min(_maxDistBetweenCardsInUnits, _pileMaxHeightInUnits / (cardCount - 1));
-		return transform.position + transform.up * distBetweenCards * index;
+		return transform.position + distBetweenCards * index * transform.up;
 	}
 }
 

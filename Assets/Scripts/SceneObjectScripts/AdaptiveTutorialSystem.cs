@@ -2,8 +2,8 @@
 using UnityEngine.UI;
 using System;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using Nx;
 
 #pragma warning disable IDE0044 // Add readonly modifier
 
@@ -23,7 +23,8 @@ public class AdaptiveTutorialSystem : MonoBehaviour
 		WIN_ROUND_TUTORIAL,
 	}
 
-						private	static	readonly	string								SAVED_TUTORIAL_DATA_FILE_NAME		= "/KCSTutorialData.ntd";
+						private	static	readonly	string								OLD_TUTORIAL_FILE_NAME				= "/KCSTutorialData.ntd";
+						private	static	readonly	string								NEW_TUTORIAL_FILE_NAME				= "/KCSTutorials.ntd";
 						private	static	readonly	int									NUMBER_OF_TIMES_TO_SHOW_TUTORIALS	= 2;
 						private	static	readonly	float								TUTORIAL_ALPHA_TRANSISTION_TIME		= 0.75f;
 
@@ -38,28 +39,46 @@ public class AdaptiveTutorialSystem : MonoBehaviour
 
 	private void Awake()
 	{
-		string settingsFilePath = Application.persistentDataPath + SAVED_TUTORIAL_DATA_FILE_NAME;
-		FileStream stream = null;
-		var formatter = new BinaryFormatter();
 		int numberOfTutorialTypes = Enum.GetValues(typeof(TutorialType)).Length;
+		string oldTutorialFilePath = Application.persistentDataPath + OLD_TUTORIAL_FILE_NAME;
+		string newTutorialFilePath = Application.persistentDataPath + NEW_TUTORIAL_FILE_NAME;
+		if (File.Exists(oldTutorialFilePath))
+		{
+			if (!File.Exists(newTutorialFilePath))
+			{
+				try
+				{
+					using (var stream = new FileStream(oldTutorialFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+					{
+						_numberOfTimesTutorialTypeShown = (int[]) new BinaryFormatter().Deserialize(stream);
+						if (_numberOfTimesTutorialTypeShown.Length == numberOfTutorialTypes)
+						{
+							WriteToDisk();
+							File.Delete(oldTutorialFilePath);
+							return;
+						}
+					}
+				}
+				catch {}
+			}
+			File.Delete(oldTutorialFilePath);
+		}
 
 		try
 		{
-			stream = new FileStream(settingsFilePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-			_numberOfTimesTutorialTypeShown = (int[])formatter.Deserialize(stream);
-			if (_numberOfTimesTutorialTypeShown.Length != numberOfTutorialTypes)
+			var deserializer = new DataContractSerializer(typeof(int[]));
+			using (var stream = new FileStream(newTutorialFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
 			{
-				throw new IndexOutOfRangeException();
+				_numberOfTimesTutorialTypeShown = (int[]) deserializer.ReadObject(stream);
+				if (_numberOfTimesTutorialTypeShown.Length != numberOfTutorialTypes)
+				{
+					throw new IndexOutOfRangeException();
+				}
 			}
-			stream.Close();
 		}
 		catch
 		{
-			stream.IfIsNotNullThen(s => s.Close());
-			stream = new FileStream(settingsFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
-			_numberOfTimesTutorialTypeShown = new int[numberOfTutorialTypes];
-			formatter.Serialize(stream, _numberOfTimesTutorialTypeShown);
-			stream.Close();
+			ResetAllTutorials();
 		}
 	}
 
@@ -129,11 +148,12 @@ public class AdaptiveTutorialSystem : MonoBehaviour
 
 	private void WriteToDisk()
 	{
-		string settingsFilePath = Application.persistentDataPath + SAVED_TUTORIAL_DATA_FILE_NAME;
-		var formatter = new BinaryFormatter();
-		var stream = new FileStream(settingsFilePath, FileMode.Create, FileAccess.Write, FileShare.None);
-		formatter.Serialize(stream, _numberOfTimesTutorialTypeShown);
-		stream.Close();
+		string tutorialDataFilePath = Application.persistentDataPath + NEW_TUTORIAL_FILE_NAME;
+		var serializer = new DataContractSerializer(typeof(int[]));
+		using (var stream = new FileStream(tutorialDataFilePath, FileMode.Create, FileAccess.Write, FileShare.None))
+		{
+			serializer.WriteObject(stream, _numberOfTimesTutorialTypeShown);
+		}
 	}
 
 	private static LocalizationData.TranslationKey GetTranslationKeyEquivalent(TutorialType tutorialType)

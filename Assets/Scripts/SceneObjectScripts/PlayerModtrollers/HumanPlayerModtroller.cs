@@ -1,11 +1,11 @@
 using UnityEngine;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Nx;
 
 #pragma warning disable IDE0044 // Add readonly modifier
-#pragma warning disable RECS0018 // Comparison of floating point numbers with equality operator
 
 public class HumanPlayerModtroller : AbstractPlayerModtroller
 {
@@ -171,7 +171,7 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 			SetCardStates();
 		});
 
-		Action selectCurrentAndSubmit = () =>
+		void selectCurrentAndSubmit()
 		{
 			if (!_selectedCardIndexes.Contains(index))
 			{
@@ -179,7 +179,7 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 				_selectedCardIndexes.RemoveAll(i => cards[i].CardValue != cards[index].CardValue);
 			}
 			SubmitCards();
-		};
+		}
 
 		cards[index].Button.AddToOnDoubleClicked(selectCurrentAndSubmit);
 
@@ -204,8 +204,8 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 
 		cards[index].Button.AddToOnDrag(p =>
 		{
-			Ray ray = _MainGameModtroller.MainCamera.ScreenPointToRay(p.position); float distance;
-			new Plane(cards[index].ParentCardHolder.transform.up, cards[index].ParentCardHolder.GetFinalPositionOfCard(cards[index])).Raycast(ray, out distance);
+			Ray ray = _MainGameModtroller.MainCamera.ScreenPointToRay(p.position);
+			new Plane(cards[index].ParentCardHolder.transform.up, cards[index].ParentCardHolder.GetFinalPositionOfCard(cards[index])).Raycast(ray, out float distance);
 			IncrementalPositionTween posTween = null;
 			Vector3 targetPosition = ray.GetPoint(distance);
 			if ((posTween = cards[index].Holder.GetTweenOfType<IncrementalPositionTween>()) != null)
@@ -214,7 +214,7 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 			}
 			else
 			{
-				cards[index].transform.position += (targetPosition - cards[index].transform.position) * CARD_DRAG_ACCELERATION * Time.deltaTime;
+				cards[index].transform.position += CARD_DRAG_ACCELERATION * Time.deltaTime * (targetPosition - cards[index].transform.position);
 			}
 		});
 
@@ -262,7 +262,7 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 			}
 			cardStateTransitionWaiter.IfIsNotNullThen(c => c.AddFinishable(transitionTweenHolder));
 		}
-		_submitCardsButton.SetActive(_allowedCardIndexes.Count <= 0 || (!Hand.ReadOnlyCards.Exists(c => c.Button.IsBeingDragged)
+		_submitCardsButton.SetActive(_allowedCardIndexes.Count <= 0 || (!Hand.ReadOnlyCards.Any(c => c.Button.IsBeingDragged)
 									 && (_MainGameModtroller.OptionalPlayRule || !_selectedCardIndexes.IsEmpty())));
 		cardStateTransitionWaiter.IfIsNotNullThen(c => c.Ready = true);
 	}
@@ -294,4 +294,3 @@ public class HumanPlayerModtroller : AbstractPlayerModtroller
 }
 
 #pragma warning restore IDE0044 // Add readonly modifier
-#pragma warning restore RECS0018 // Comparison of floating point numbers with equality operator

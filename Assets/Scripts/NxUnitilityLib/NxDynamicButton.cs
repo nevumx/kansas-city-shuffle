@@ -4,7 +4,6 @@ using System;
 using System.Linq;
 
 #pragma warning disable IDE0044 // Add readonly modifier
-#pragma warning disable RECS0018 // Comparison of floating point numbers with equality operator
 
 namespace Nx
 {
@@ -159,5 +158,4 @@ namespace Nx
 	}
 }
 
-#pragma warning restore RECS0018 // Comparison of floating point numbers with equality operator
 #pragma warning restore IDE0044 // Add readonly modifier

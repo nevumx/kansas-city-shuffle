@@ -44,7 +44,7 @@ public class IncrementalPositionTween : CachedTransformTween
 				* Mathf.Max(-6.0f * TweenHolder.PercentDone * (TweenHolder.PercentDone - 1.0f), TweenHolder.PercentDone > 0.5f ? 1.0f : 0.0f);
 		}
 		Vector3 prevPrevPosition = _prevPosition;
-		_prevPosition += destOffset.normalized * speed * TweenHolder.DeltaTime;
+		_prevPosition += speed * TweenHolder.DeltaTime * destOffset.normalized;
 
 		if ((prevPrevPosition - _prevPosition).sqrMagnitude > (prevPrevPosition - PositionTo).sqrMagnitude)
 		{

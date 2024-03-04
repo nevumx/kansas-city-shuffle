@@ -31,8 +31,7 @@ public class Deck : CardPile
 			var deckRefillTweenWaiter = new FinishableGroupWaiter(onFinished);
 			while (otherHolder.ReadOnlyCards.Count > numCardsToLeave)
 			{
-				TweenHolder refillTween;
-				otherHolder.MoveCard(0, this, out refillTween, true);
+				otherHolder.MoveCard(0, this, out TweenHolder refillTween, true);
 				deckRefillTweenWaiter.AddFinishable(refillTween);
 				refillTween.SetDuration(_CardAnimationData.DeckFillDurationPerCard);
 				yield return new WaitForSeconds(_CardAnimationData.DeckRefillDelayPerCard);
@@ -55,8 +54,7 @@ public class Deck : CardPile
 		var deckRefillTweenWaiter = new FinishableGroupWaiter(onFinished);
 		for (int i = 0; i < numCardsToFill; ++i)
 		{
-			TweenHolder refillTween;
-			MoveCard(ReadOnlyCards.LastIndex(), otherHolder, out refillTween, true, 0);
+			MoveCard(ReadOnlyCards.LastIndex(), otherHolder, out TweenHolder refillTween, true, 0);
 			deckRefillTweenWaiter.AddFinishable(refillTween);
 			refillTween.SetDuration(_CardAnimationData.DeckFillDurationPerCard);
 			yield return new WaitForSeconds(_CardAnimationData.DeckRefillDelayPerCard);

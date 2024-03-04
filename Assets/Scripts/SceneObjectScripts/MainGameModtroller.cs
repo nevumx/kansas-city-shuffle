@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
+using System.Linq;
 using System.Collections;
 using Nx;
 
@@ -118,7 +119,7 @@ public partial class MainGameModtroller : MonoBehaviour
 						private						bool								_firstHumanHasPlayed;
 						private						Vector3								_mainCameraLocalPosition;
 
-						private						GameSettings						_gameSettings;
+						private						KCSSettings							_gameSettings;
 						public						bool								SeeAICards						{ get { return _gameSettings.SeeAICards; } }
 						public						bool								WildcardRule					{ get { return _gameSettings.WildCardRule; } }
 						public						bool								OptionalPlayRule				{ get { return _gameSettings.OptionalPlayRule; } }
@@ -255,14 +256,14 @@ public partial class MainGameModtroller : MonoBehaviour
 		_cardWhenDirectionWasLastUpdated = null;
 		if (!_demoMode)
 		{
-			_mainHelpPanelOffscreenOffset		= Vector2.down	* Mathf.Abs(_mainHelpPanel.RootRectTransform.localPosition.y
-																			- _mainHelpPanelMirrorPoint.localPosition.y) * 2.0f;
-			_mainHelpTitleOffscreenOffset		= Vector2.up	* Mathf.Abs(_mainHelpTitleMirrorPoint.localPosition.y
-																			- _mainHelpTitle.RootRectTransform.localPosition.y) * 2.0f;
-			_helpPanelPrevButtonOffscreenOffset	= Vector2.left	* Mathf.Abs(_helpPanelPrevButton.RootRectTransform.localPosition.x
-																			- _helpPanelPrevButtonMirrorPoint.localPosition.x) * 2.0f;
-			_helpPanelNextButtonOffscreenOffset	= Vector2.right	* Mathf.Abs(_helpPanelNextButtonMirrorPoint.localPosition.x
-																			- _helpPanelNextButton.RootRectTransform.localPosition.x) * 2.0f;
+			_mainHelpPanelOffscreenOffset		= 2.0f * Mathf.Abs(_mainHelpPanel.RootRectTransform.localPosition.y
+																 - _mainHelpPanelMirrorPoint.localPosition.y) * Vector2.down;
+			_mainHelpTitleOffscreenOffset		= 2.0f * Mathf.Abs(_mainHelpTitleMirrorPoint.localPosition.y
+																 - _mainHelpTitle.RootRectTransform.localPosition.y) * Vector2.up;
+			_helpPanelPrevButtonOffscreenOffset	= 2.0f * Mathf.Abs(_helpPanelPrevButton.RootRectTransform.localPosition.x
+																 - _helpPanelPrevButtonMirrorPoint.localPosition.x) * Vector2.left;
+			_helpPanelNextButtonOffscreenOffset	= 2.0f * Mathf.Abs(_helpPanelNextButtonMirrorPoint.localPosition.x
+																 - _helpPanelNextButton.RootRectTransform.localPosition.x) * Vector2.right;
 			OnHelpButtonClicked();
 			_helpButtonCollider.enabled = true;
 			_mainCameraLocalPosition = _mainCamera.transform.localPosition;
@@ -278,7 +279,7 @@ public partial class MainGameModtroller : MonoBehaviour
 
 		if (_demoMode)
 		{
-			var demoData = new GameSettings
+			var demoData = new KCSSettings
 			{
 				WildCardRule = false,
 				EliminationRule = true,
@@ -288,12 +289,12 @@ public partial class MainGameModtroller : MonoBehaviour
 				MaxDeviationRule = false,
 				LoseBestCardRule = false,
 				SeeAICards = true,
-				Players = new GameSettings.PlayerType[]
+				Players = new KCSSettings.PlayerType[]
 				{
-					GameSettings.PlayerType.AI_HARD,
-					GameSettings.PlayerType.AI_EASY,
-					GameSettings.PlayerType.AI_HARD,
-					GameSettings.PlayerType.AI_EASY,
+					KCSSettings.PlayerType.AI_HARD,
+					KCSSettings.PlayerType.AI_EASY,
+					KCSSettings.PlayerType.AI_HARD,
+					KCSSettings.PlayerType.AI_EASY,
 				},
 				NumberOfDecks = 2,
 				NumberOfPointsToWin = 1,
@@ -318,12 +319,12 @@ public partial class MainGameModtroller : MonoBehaviour
 			}
 			else
 			{
-				SetupAndStartGame(new GameSettings());
+				SetupAndStartGame(new KCSSettings());
 			}
 		}
 	}
 
-	private void SetupAndStartGame(GameSettings gameSettings)
+	private void SetupAndStartGame(KCSSettings gameSettings)
 	{
 		_gameSettings = gameSettings;
 		SetTimeScalePercentage(_gameSettings.TimeScalePercentage);
@@ -341,14 +342,14 @@ public partial class MainGameModtroller : MonoBehaviour
 		{
 			switch (_gameSettings.Players[i])
 			{
-			case GameSettings.PlayerType.HUMAN:
+			case KCSSettings.PlayerType.HUMAN:
 				_players[i] = Instantiate(_humanPlayerPrefab).Init(this);
 				Screen.sleepTimeout = SleepTimeout.SystemSetting;
 				break;
-			case GameSettings.PlayerType.AI_EASY:
+			case KCSSettings.PlayerType.AI_EASY:
 				_players[i] = Instantiate(_easyAIPlayerPrefab).Init(this);
 				break;
-			case GameSettings.PlayerType.AI_HARD:
+			case KCSSettings.PlayerType.AI_HARD:
 				_players[i] = Instantiate(_hardAIPlayerPrefab).Init(this);
 				break;
 			default:
@@ -402,18 +403,16 @@ public partial class MainGameModtroller : MonoBehaviour
 		{
 			yield return new WaitForSeconds(_cardAnimationData.TimeToWaitBeforePopulatingDeck);
 		}
-		int[] unShuffleData;
-		var cardCreationTweenWaiter = new FinishableGroupWaiter(() => _deck.Shuffle(out unShuffleData, onFinished: () => StartCoroutine(DealCardsToPlayers())));
+		var cardCreationTweenWaiter = new FinishableGroupWaiter(() => _deck.Shuffle(out int[] unShuffleData, onFinished: () => StartCoroutine(DealCardsToPlayers())));
 
 		for (int i = 0, iMax = _gameSettings.NumberOfDecks; i < iMax; ++i)
 		{
 			for (int j = 0, jMax = values.Length; j < jMax; ++j)
 			{
-				TweenHolder createCardTweenHolder;
 				for (int k = 0, kMax = suits.Length; k < kMax; ++k)
 				{
-					_deck.IntroduceCard(allCards[i * jMax * kMax + j * kMax + k], out createCardTweenHolder, fancyEntrance: true,
-						angleOffsetForFancyEntrance: ((float) (j + i * jMax) / (iMax * jMax * kMax / 2.0f) + k / 4.0f) * Mathf.PI * 2.0f);
+					_deck.IntroduceCard(allCards[i * jMax * kMax + j * kMax + k], out TweenHolder createCardTweenHolder, fancyEntrance: true,
+						angleOffsetForFancyEntrance: ((j + i * jMax) / (iMax * jMax * kMax / 2.0f) + k / 4.0f) * Mathf.PI * 2.0f);
 					cardCreationTweenWaiter.AddFinishable(createCardTweenHolder);
 				}
 				yield return new WaitForSeconds(_cardAnimationData.CardCreationTotalDuration / (iMax * jMax));
@@ -561,7 +560,7 @@ public partial class MainGameModtroller : MonoBehaviour
 	private IEnumerator RefillDeckWithPlayerHands(float refillDelayPerCard, Action onFinished)
 	{
 		var deckRefillTweenWaiter = new FinishableGroupWaiter(onFinished);
-		while (_gameSettings.RefillHandRule && _players.Exists(p => p != null && p.Hand.CardCount > 0))
+		while (_gameSettings.RefillHandRule && _players.Any(p => p != null && p.Hand.CardCount > 0))
 		{
 			for (int i = 0, iMax = _players.Length; i < iMax; ++i)
 			{
@@ -630,8 +629,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		{
 			_commander.ExecuteAndAddToCurrentTurnBundle(new SetIndexOfLastPlayerToPlayACardCommand(this, _currentPlayer));
 			var cardMoveTweenWaiter = new FinishableGroupWaiter(() => CycleCurrentPlayer(onFinished: () => StartCoroutine(BeginPlayerTurn())));
-
-			// Sort the indexes, then reverse iterate, cuz otherwise MoveCard() will shift the hand card indexes to the left like an asshole.
+			 
 			Array.Sort(cardIndexes);
 			for (int i = cardIndexes.Length - 1; i >= 0; --i)
 			{
@@ -654,8 +652,7 @@ public partial class MainGameModtroller : MonoBehaviour
 				yield return new WaitForSeconds(_cardAnimationData.ConsecutiveCardSubmitDelay);
 			}
 
-			bool directionDidHardChange;
-			UpdateDirection(out directionDidHardChange);
+			UpdateDirection(out bool directionDidHardChange);
 			if (_gameSettings.LoseBestCardRule && directionDidHardChange)
 			{
 				int mostAdvantageousCardIndex = _players[_currentPlayer].GetMostAdvantageousCardIndex();
@@ -728,7 +725,7 @@ public partial class MainGameModtroller : MonoBehaviour
 							_players.ForEach(o => o.IfIsNotNullThen(p => p.Hand.ReadOnlyCards.ForEach(c =>
 							{
 								float animationDuration = UnityEngine.Random.Range(2.0f, 6.0f);
-								Vector3 rotationVector = (Mathf.Round(UnityEngine.Random.Range(1.0f, 3.0f)) * 2.0f) * 360.0f * Vector3.one;
+								Vector3 rotationVector = Mathf.Round(UnityEngine.Random.Range(1.0f, 3.0f)) * 720.0f * Vector3.one;
 								c.AddPositionTween(c.gameObject.transform.position + Vector3.up * 13.0f)
 								 .AddLocalRotationTween(rotationVector, true)
 								 .SetDuration(animationDuration)
@@ -736,10 +733,10 @@ public partial class MainGameModtroller : MonoBehaviour
 								c.ViewFSM.SetTextVisibility(true);
 							})));
 
-							Action<CardController> animatePileCardFunction = c =>
+							void animatePileCardFunction(CardController c)
 							{
 								float animationDuration = UnityEngine.Random.Range(2.0f, 6.0f);
-								Vector3 rotationVector = (Mathf.Round(UnityEngine.Random.Range(1.0f, 3.0f)) * 2.0f) * 360.0f * Vector3.one;
+								Vector3 rotationVector = Mathf.Round(UnityEngine.Random.Range(1.0f, 3.0f)) * 720.0f * Vector3.one;
 								Vector3 destinationField = UnityEngine.Random.insideUnitCircle * 12.0f;
 								destinationField.z = destinationField.y;
 								destinationField.y = c.gameObject.transform.position.y + 13.0f;
@@ -748,7 +745,7 @@ public partial class MainGameModtroller : MonoBehaviour
 								 .SetDuration(animationDuration)
 								 .SetIgnoreTimeScale(true).Play();
 								c.ViewFSM.SetTextVisibility(true);
-							};
+							}
 
 							_deck.ReadOnlyCards.ForEach(animatePileCardFunction);
 							_wildcardPile.ReadOnlyCards.ForEach(animatePileCardFunction);
@@ -784,14 +781,14 @@ public partial class MainGameModtroller : MonoBehaviour
 
 	private void UpdateCamera(Action onFinished)
 	{
-		Action onFinishedWithAnimCheck = () =>
+		void onFinishedWithAnimCheck()
 		{
 			if (_players[_currentPlayer].IsHuman)
 			{
 				_players[_currentPlayer].Hand.SetIntendedIncomingCardAnimState(CardController.CardViewFSM.AnimState.VISIBLE);
 			}
 			onFinished();
-		};
+		}
 
 		if (_demoMode || !_players[_currentPlayer].IsHuman)
 		{
@@ -804,7 +801,7 @@ public partial class MainGameModtroller : MonoBehaviour
 		else
 		{
 			_mainCameraAnchor.AddLocalQuaternionRotationTween(Quaternion.Euler(
-								Vector3.up * (float) (_currentCameraPlayer = _currentPlayer) / _players.Length * 360.0f))
+								(float) (_currentCameraPlayer = _currentPlayer) / _players.Length * 360.0f * Vector3.up))
 							 .AddToOnFinishedOnce(onFinishedWithAnimCheck);
 		}
 	}
@@ -831,8 +828,7 @@ public partial class MainGameModtroller : MonoBehaviour
 #region Direction change handling
 	private void UpdateDirection()
 	{
-		bool unusedBool;
-		UpdateDirection(out unusedBool);
+		UpdateDirection(out _);
 	}
 
 	private void UpdateDirection(out bool directionDidHardChange)
@@ -938,12 +934,12 @@ public partial class MainGameModtroller : MonoBehaviour
 				++firstHumanPlayer;
 			}
 			_mainCameraAnchor.AddLocalQuaternionRotationTween(Quaternion.Euler(
-				Vector3.up * (float) (_currentCameraPlayer = firstHumanPlayer) / _players.Length * 360.0f));
+				(float) (_currentCameraPlayer = firstHumanPlayer) / _players.Length * 360.0f * Vector3.up));
 		}
 		else
 		{
 			_mainCameraAnchor.AddLocalQuaternionRotationTween(Quaternion.Euler(
-				Vector3.up * (float) (_currentCameraPlayer = _currentPlayer) / _players.Length * 360.0f));
+				(float) (_currentCameraPlayer = _currentPlayer) / _players.Length * 360.0f * Vector3.up));
 		}
 	}
 
@@ -1168,14 +1164,12 @@ public partial class MainGameModtroller : MonoBehaviour
 									.SetIgnoreTimeScale(false).Play()
 									.AddToOnFinishedOnce(() =>
 			{
-				TweenHolder outTween;
-				int[] unShuffleData;
-				var cardReverseTweenWaiter = new FinishableGroupWaiter(() => _deck.Shuffle(out unShuffleData, onFinished: () => StartCoroutine(DealCardsToPlayers())));
+				var cardReverseTweenWaiter = new FinishableGroupWaiter(() => _deck.Shuffle(out int[] unShuffleData, onFinished: () => StartCoroutine(DealCardsToPlayers())));
 				CardController[] allCards = FindObjectsOfType<CardController>();
 				allCards.ForEach(c =>
 				{
 					c.Holder.RemoveAllTweens();
-					c.ParentCardHolder.MoveCard(c.ParentCardHolder.ReadOnlyCards.IndexOf(c), _deck, out outTween, true);
+					c.ParentCardHolder.MoveCard(c.ParentCardHolder.ReadOnlyCards.IndexOf(c), _deck, out TweenHolder outTween, true);
 					outTween.RemoveTweenOfType<OffsetHeightTween>()
 							.SetIgnoreTimeScale(false).Play();
 					cardReverseTweenWaiter.AddFinishable(outTween);

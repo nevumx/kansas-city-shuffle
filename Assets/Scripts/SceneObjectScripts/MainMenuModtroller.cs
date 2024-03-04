@@ -41,9 +41,9 @@ public class MainMenuModtroller : MonoBehaviour
 	[SerializeField]	private			GameObject				_advancedRulesetButtonOutline;
 	[SerializeField]	private			GameObject				_customRulesetButtonOutline;
 
-						public	static	GameSettings			GameSettings					{ get; private set; }
-	[SerializeField]	private			GameSettings			_classicGameSettings;
-	[SerializeField]	private			GameSettings			_advancedGameSettings;
+						public	static	KCSSettings				GameSettings					{ get; private set; }
+	[SerializeField]	private			KCSSettings				_classicGameSettings;
+	[SerializeField]	private			KCSSettings				_advancedGameSettings;
 
 	[SerializeField]	private			LocalizationData		_localizationData;
 
@@ -278,8 +278,8 @@ public class MainMenuModtroller : MonoBehaviour
 		{
 			do
 			{
-				GameSettings.Players[playerIndex] = (GameSettings.PlayerType)(((byte)GameSettings.Players[playerIndex] + 1)
-																				% Enum.GetValues(typeof(GameSettings.PlayerType)).Length);
+				GameSettings.Players[playerIndex] = (KCSSettings.PlayerType)(((byte)GameSettings.Players[playerIndex] + 1)
+																				% Enum.GetValues(typeof(KCSSettings.PlayerType)).Length);
 			} while (GameSettings.NumValidPlayers <= 1);
 		}
 		DetermineCustomPlayerButtonTexts();
@@ -288,10 +288,10 @@ public class MainMenuModtroller : MonoBehaviour
 
 	public void OnResetCustomPlayersPressed()
 	{
-		GameSettings.Players[0] = GameSettings.PlayerType.HUMAN;
-		GameSettings.Players[1] = GameSettings.PlayerType.NONE;
-		GameSettings.Players[2] = GameSettings.PlayerType.AI_EASY;
-		GameSettings.Players[3] = GameSettings.PlayerType.NONE;
+		GameSettings.Players[0] = KCSSettings.PlayerType.HUMAN;
+		GameSettings.Players[1] = KCSSettings.PlayerType.NONE;
+		GameSettings.Players[2] = KCSSettings.PlayerType.AI_EASY;
+		GameSettings.Players[3] = KCSSettings.PlayerType.NONE;
 		DetermineCustomPlayerButtonTexts();
 		WriteSettingsToDisk();
 	}
@@ -316,16 +316,16 @@ public class MainMenuModtroller : MonoBehaviour
 		{
 			switch (GameSettings.Players[i])
 			{
-			case GameSettings.PlayerType.HUMAN:
+			case KCSSettings.PlayerType.HUMAN:
 				_customPlayerToggleButtonTexts[i].text = _localizationData.GetLocalizedStringForKey(LocalizationData.TranslationKey.HUMAN);
 				break;
-			case GameSettings.PlayerType.AI_EASY:
+			case KCSSettings.PlayerType.AI_EASY:
 				_customPlayerToggleButtonTexts[i].text = _localizationData.GetLocalizedStringForKey(LocalizationData.TranslationKey.AI_EASY);
 				break;
-			case GameSettings.PlayerType.AI_HARD:
+			case KCSSettings.PlayerType.AI_HARD:
 				_customPlayerToggleButtonTexts[i].text = _localizationData.GetLocalizedStringForKey(LocalizationData.TranslationKey.AI_HARD);
 				break;
-			default: // case GameSettings.PlayerType.NONE:
+			default: // case KCSSettings.PlayerType.NONE:
 				_customPlayerToggleButtonTexts[i].text = _localizationData.GetLocalizedStringForKey(LocalizationData.TranslationKey.NONE);
 				break;
 			}
@@ -357,10 +357,10 @@ public class MainMenuModtroller : MonoBehaviour
 
 	private void ReadSettings()
 	{
-		GameSettings = GameSettings.ReadFromDisk();
+		GameSettings = KCSSettings.ReadFromDisk();
 		if (GameSettings.NumValidPlayers <= 1)
 		{
-			GameSettings = new GameSettings();
+			GameSettings = new KCSSettings();
 		}
 		WriteSettingsToDisk();
 

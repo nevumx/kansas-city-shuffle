@@ -18,7 +18,7 @@ public class Hand : CardHolder
 			if (ReadOnlyCards[i].ViewFSM.State != CardController.CardViewFSM.AnimState.SELECTED)
 			{
 				TweenHolder cardShiftTween = ReadOnlyCards[i].Holder;
-				Vector3 targetPosition = leftmostPosition + transform.right * distBetweenCards * (i + 1);
+				Vector3 targetPosition = leftmostPosition + (i + 1) * distBetweenCards * transform.right;
 
 				IncrementalPositionTween posTweenToShift;
 				if ((posTweenToShift = cardShiftTween.GetTweenOfType<IncrementalPositionTween>()) == null) // Careful (=)
@@ -56,7 +56,7 @@ public class Hand : CardHolder
 	protected override Vector3 GetCardPositionAtIndex(int index)
 	{
 		Vector3 firstCardPosition = transform.position - transform.right * _handMaxSizeInUnits / 2.0f;
-		firstCardPosition += (index + 1.0f) * transform.right * _handMaxSizeInUnits / (Mathf.Max(1.0f, CardCount) + 1.0f);
+		firstCardPosition += (index + 1.0f) * _handMaxSizeInUnits * transform.right / (Mathf.Max(1.0f, CardCount) + 1.0f);
 		return firstCardPosition;
 	}
 }

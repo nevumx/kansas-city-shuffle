@@ -23,7 +23,7 @@ public class IncrementalAnchoredPositionTween : Tween
 
 		Vector2 destOffset = PositionTo - _targetRectTransform.anchoredPosition;
 		float speed = destOffset.magnitude / TweenHolder.TimeRemaining;
-		Vector2 nextDest = _targetRectTransform.anchoredPosition + destOffset.normalized * speed * TweenHolder.DeltaTime;
+		Vector2 nextDest = _targetRectTransform.anchoredPosition + speed * TweenHolder.DeltaTime * destOffset.normalized;
 
 		if ((_targetRectTransform.anchoredPosition - nextDest).sqrMagnitude > (_targetRectTransform.anchoredPosition - PositionTo).sqrMagnitude)
 		{

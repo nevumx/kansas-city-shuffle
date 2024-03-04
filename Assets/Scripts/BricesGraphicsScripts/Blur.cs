@@ -2,110 +2,85 @@ using UnityEngine;
 
 #pragma warning disable IDE1006 // Naming Styles
 
-namespace UnityStandardAssets.ImageEffects
+[ExecuteInEditMode]
+[AddComponentMenu("Image Effects/Blur/Blur")]
+public class Blur : MonoBehaviour
 {
-	[ExecuteInEditMode]
-	[AddComponentMenu("Image Effects/Blur/Blur")]
-	public class Blur : MonoBehaviour
-	{
-		/// Blur iterations - larger number means more blur.
-		[Range(0,10)]
-		public int iterations = 3;
+	[Range(0, 10)]
+	[SerializeField]
+	private			int			iterations	= 3;
 
-		/// Blur spread for each iteration. Lower values
-		/// give better looking blur, but require more iterations to
-		/// get large blurs. Value is usually between 0.5 and 1.0.
-		[Range(0.0f,1.0f)]
-		public float blurSpread = 0.6f;
+	[SerializeField]
+	[Range(0.0f, 1.0f)]
+	private			float		blurSpread	= 0.6f;
 
+	[SerializeField]
+	private			Shader		blurShader;
 
-		// --------------------------------------------------------
-		// The blur iteration shader.
-		// Basically it just takes 4 texture samples and averages them.
-		// By applying it repeatedly and spreading out sample locations
-		// we get a Gaussian blur approximation.
-
-		public Shader blurShader;
-
-		static Material m_Material;
-		protected Material _Material {
-			get
+	private	static	Material	_staticMaterial;
+	private Material _material {
+		get
+		{
+			if (_staticMaterial == null)
 			{
-				if (m_Material == null)
+				_staticMaterial = new Material(blurShader)
 				{
-					m_Material = new Material(blurShader) { hideFlags = HideFlags.DontSave };
-				}
-				return m_Material;
+					hideFlags = HideFlags.DontSave
+				};
 			}
+			return _staticMaterial;
 		}
+	}
 
-		protected void OnDisable() {
-			if ( m_Material ) {
-				DestroyImmediate( m_Material );
-			}
-		}
-
-		// --------------------------------------------------------
-
-		protected void Start()
+	private void OnDisable()
+	{
+		if (_staticMaterial)
 		{
-			// Disable if we don't support image effects
-			if (!SystemInfo.supportsImageEffects) {
-				enabled = false;
-				return;
-			}
-			// Disable if the shader can't run on the users graphics card
-			if (!blurShader || !_Material.shader.isSupported) {
-				enabled = false;
-				return;
-			}
+			DestroyImmediate(_staticMaterial);
 		}
+	}
 
-		// Performs one blur iteration.
-		public void FourTapCone (RenderTexture source, RenderTexture dest, int iteration)
+	private void Start()
+	{
+		if (!blurShader || !_material.shader.isSupported)
 		{
-			float off = 0.5f + iteration*blurSpread;
-			Graphics.BlitMultiTap (source, dest, _Material,
-								   new Vector2(-off, -off),
-								   new Vector2(-off,  off),
-								   new Vector2( off,  off),
-								   new Vector2( off, -off)
-				);
+			enabled = false;
 		}
+	}
 
-		// Downsamples the texture to a quarter resolution.
-		private void DownSample4x (RenderTexture source, RenderTexture dest)
+	private void FourTapCone(RenderTexture source, RenderTexture dest, int iteration)
+	{
+		float off = 0.5f + iteration * blurSpread;
+		Graphics.BlitMultiTap (source, dest, _material,
+			new Vector2(-off, -off), new Vector2(-off, off),
+			new Vector2( off, off), new Vector2( off, -off));
+	}
+
+	private void DownSample4x(RenderTexture source, RenderTexture dest)
+	{
+		Graphics.BlitMultiTap(source, dest, _material,
+			-Vector2.one, new Vector2(-1.0f, 1.0f),
+			Vector2.one, new Vector2( 1.0f, -1.0f));
+	}
+
+	private void OnRenderImage(RenderTexture source, RenderTexture destination)
+	{
+		int rtW = source.width / 4;
+		int rtH = source.height / 4;
+		RenderTexture buffer = RenderTexture.GetTemporary(rtW, rtH, 0);
+
+		DownSample4x(source, buffer);
+
+		for (int i = 0; i < iterations; ++i)
 		{
-			float off = 1.0f;
-			Graphics.BlitMultiTap (source, dest, _Material,
-								   new Vector2(-off, -off),
-								   new Vector2(-off,  off),
-								   new Vector2( off,  off),
-								   new Vector2( off, -off)
-				);
-		}
-
-		// Called by the camera to apply the image effect
-		void OnRenderImage (RenderTexture source, RenderTexture destination) {
-			int rtW = source.width/4;
-			int rtH = source.height/4;
-			RenderTexture buffer = RenderTexture.GetTemporary(rtW, rtH, 0);
-
-			// Copy source to the 4x4 smaller texture.
-			DownSample4x(source, buffer);
-
-			// Blur the small texture
-			for(int i = 0; i < iterations; i++)
-			{
-				RenderTexture buffer2 = RenderTexture.GetTemporary(rtW, rtH, 0);
-				FourTapCone (buffer, buffer2, i);
-				RenderTexture.ReleaseTemporary(buffer);
-				buffer = buffer2;
-			}
-			Graphics.Blit(buffer, destination);
-
+			RenderTexture buffer2 = RenderTexture.GetTemporary(rtW, rtH, 0);
+			FourTapCone (buffer, buffer2, i);
 			RenderTexture.ReleaseTemporary(buffer);
+			buffer = buffer2;
 		}
+		Graphics.Blit(buffer, destination);
+
+		RenderTexture.ReleaseTemporary(buffer);
 	}
 }
 

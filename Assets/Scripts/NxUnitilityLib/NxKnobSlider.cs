@@ -99,7 +99,7 @@ namespace Nx
 					pointerAngle += 360.0f;
 				}
 				pointerAngle = Mathf.Clamp(pointerAngle, _knobStartAngle, maxAngle);
-				_torqueBar.rectTransform.localEulerAngles = Vector3.forward * pointerAngle * (_clockwise ? -1.0f : 1.0f);
+				_torqueBar.rectTransform.localEulerAngles = (_clockwise ? -1.0f : 1.0f) * pointerAngle * Vector3.forward;
 				_torqueBar.rectTransform.sizeDelta = new Vector2(Mathf.Max(Mathf.Min(_RectTransform.rect.width, _RectTransform.rect.height) * 0.75f,
 						relativePointerPosition.magnitude * Screen.height / 2.0f), 0.0f);
 				float percentFilled = Mathf.Approximately(_knobSpanAngle, 0.0f) ? 0.0f : (pointerAngle - _knobStartAngle) / _knobSpanAngle;

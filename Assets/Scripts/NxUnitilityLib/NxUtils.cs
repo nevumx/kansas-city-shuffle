@@ -10,16 +10,11 @@ namespace Nx
 {
 	public static class NxUtils
 	{
-		public static void ForEach<T>(this T[] array, Action<T> action)
-		{
-			array.IfIsNotNullThen(a => Array.ForEach(a, action));
-		}
-
 		public static void ForEach<T>(this IEnumerable<T> list, Action<T> action)
 		{
-			for (IEnumerator<T> i = list.GetEnumerator(); i.MoveNext();)
+			foreach (T item in list)
 			{
-				action(i.Current);
+				action(item);
 			}
 		}
 
@@ -40,57 +35,6 @@ namespace Nx
 			return true;
 		}
 
-		public static bool Exists<T>(this IEnumerable<T> container, Predicate<T> predicate)
-		{
-			for (IEnumerator<T> enumerator = container.GetEnumerator(); enumerator.MoveNext();)
-			{
-				if (predicate(enumerator.Current))
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-
-		public static T[] AllSuchThat<T>(this IEnumerable<T> container, Predicate<T> predicate)
-		{
-			var matchingList = new LinkedList<T>();
-			for (IEnumerator<T> enumerator = container.GetEnumerator(); enumerator.MoveNext();)
-			{
-				if (predicate(enumerator.Current))
-				{
-					matchingList.AddLast(enumerator.Current);
-				}
-			}
-			return matchingList.ToArray();
-		}
-
-		public static int[] AllIndexesSuchThat<T>(this ReadOnlyCollection<T> list, Predicate<T> predicate)
-		{
-			var matchingList = new LinkedList<int>();
-			for (int i = 0, iMax = list.Count; i <iMax; ++i)
-			{
-				if (predicate(list[i]))
-				{
-					matchingList.AddLast(i);
-				}
-			}
-			return matchingList.ToArray();
-		}
-
-		public static int[] AllIndexesSuchThat<T>(this ReadOnlyCollection<T> list, Func<T, int, bool> itemAndIndexIsValid)
-		{
-			var matchingList = new LinkedList<int>();
-			for (int i = 0, iMax = list.Count; i <iMax; ++i)
-			{
-				if (itemAndIndexIsValid(list[i], i))
-				{
-					matchingList.AddLast(i);
-				}
-			}
-			return matchingList.ToArray();
-		}
-
 		public static T Best<T>(this IEnumerable<T> container, Func<T,T,bool> AIsBetterThanB)
 		{
 			IEnumerator<T> enumerator = container.GetEnumerator();
@@ -101,7 +45,7 @@ namespace Nx
 			}
 			else
 			{
-				return default(T);
+				return default;
 			}
 			for (; enumerator.MoveNext();)
 			{
@@ -113,7 +57,7 @@ namespace Nx
 			return best;
 		}
 
-		public static int BestIndex<T>(this ReadOnlyCollection<T> container, Func<T,T,bool> AIsBetterThanB)
+		public static int BestIndex<T>(this ReadOnlyCollection<T> container, Func<T, T, bool> AIsBetterThanB)
 		{
 			int bestIndex = 0;
 			for (int i = 1, iMax = container.Count; i < iMax; ++i)
@@ -126,7 +70,7 @@ namespace Nx
 			return bestIndex;
 		}
 
-		public static T[] AllBest<T>(this IEnumerable<T> container, Func<T,T,bool> AIsBetterThanB, Func<T,T,bool> AIsSameAsB)
+		public static T[] AllBest<T>(this IEnumerable<T> container, Func<T, T, bool> AIsBetterThanB, Func<T, T, bool> AIsSameAsB)
 		{
 			IEnumerator<T> enumerator = container.GetEnumerator();
 			var best = new LinkedList<T>();
@@ -210,13 +154,13 @@ namespace Nx
 		public static T Last<T>(this IList<T> list)
 		{
 			int lastIndex = list.LastIndex();
-			return lastIndex < 0 ? default(T) : list[lastIndex];
+			return lastIndex < 0 ? default : list[lastIndex];
 		}
 
 		public static T Last<T>(this ReadOnlyCollection<T> collection)
 		{
 			int lastIndex = collection.LastIndex();
-			return lastIndex < 0 ? default(T) : collection[lastIndex];
+			return lastIndex < 0 ? default : collection[lastIndex];
 		}
 
 		public static int LastIndex<T>(this IList<T> list)

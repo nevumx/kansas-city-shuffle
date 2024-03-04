@@ -22,7 +22,7 @@ public class IncrementalScaleTween : CachedTransformTween
 		Vector3 destOffset = ScaleTo - _CachedTransform.localScale;
 		float speed = destOffset.magnitude / TweenHolder.TimeRemaining
 			* Mathf.Max(-6.0f * TweenHolder.PercentDone * (TweenHolder.PercentDone - 1.0f), TweenHolder.PercentDone > 0.5f ? 1.0f : 0.0f);
-		Vector3 nextDest = _CachedTransform.localScale + destOffset.normalized * speed * TweenHolder.DeltaTime;
+		Vector3 nextDest = _CachedTransform.localScale + speed * TweenHolder.DeltaTime * destOffset.normalized;
 
 		if ((_CachedTransform.localScale - nextDest).sqrMagnitude > (_CachedTransform.localScale - ScaleTo).sqrMagnitude)
 		{

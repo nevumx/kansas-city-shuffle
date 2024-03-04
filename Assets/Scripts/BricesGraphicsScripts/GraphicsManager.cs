@@ -30,7 +30,10 @@ public class GraphicsManager : MonoBehaviour {
 
 	void CreateRamp()
 	{
-		rampTexture = new Texture2D(rampWidth, 2, TextureFormat.ARGB32, false) { wrapMode = TextureWrapMode.Clamp };
+		rampTexture = new Texture2D(rampWidth, 2, TextureFormat.ARGB32, false)
+		{
+			wrapMode = TextureWrapMode.Clamp
+		};
 
 		Shader.SetGlobalTexture("_SkyRamp", rampTexture);
 

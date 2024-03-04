@@ -36,12 +36,9 @@ public abstract class AIPlayerModtroller : AbstractPlayerModtroller
 				{
 					ExtremeHighCardIndexes.AddLast(new int[] { cardIndexesToSplit[i] });
 				}
-				else // NOTE! Average cards are grouped because they suck and should be replaced by as many other cards as posssible
+				else if (!AverageCardIndexes.Any(idxs => handCards[idxs[0]].CardValue == handCards[cardIndexesToSplit[i]].CardValue))
 				{
-					if (!AverageCardIndexes.Exists(idxs => handCards[idxs[0]].CardValue == handCards[cardIndexesToSplit[i]].CardValue))
-					{
-						AverageCardIndexes.AddLast(cardIndexesToSplit.AllSuchThat(idx => handCards[idx].CardValue == handCards[cardIndexesToSplit[i]].CardValue));
-					}
+					AverageCardIndexes.AddLast(cardIndexesToSplit.Where(idx => handCards[idx].CardValue == handCards[cardIndexesToSplit[i]].CardValue).ToArray());
 				}
 			}
 		}
